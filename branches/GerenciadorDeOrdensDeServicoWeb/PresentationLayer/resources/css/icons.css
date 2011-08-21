@@ -1,0 +1,28 @@
+﻿
+.location-thumb { background-image: url("../images/location-thumb.png") !important; }
+.fav { background-image: url("../images/favicon.png") !important; }
+.user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
+.btn-add {background-image: url("../images/btn-add.png") !important;}
+.btn-del {background-image: url("../images/btn-del.png") !important;}
+.btn-del {background-image: url("../images/btn-del.png") !important;}
+.btn-logout {background-image: url("../images/btn-logout.png") !important;}
+.btn-settings {background-image: url("../images/btn-settings.png") !important;}
+.btn-limpar {background-image: url("../images/btn-limpar.png") !important;}
+.btn-detalhes {background-image: url("../images/btn-detalhes.gif") !important;}
+.save {background-image: url("../images/save.png") !important;}
+.save-add {background-image: url("../images/save-add.png") !important;}
+.save-edit {background-image: url("../images/save-edit.png") !important;}
+.talk {background-image: url("../images/talk.png") !important;}
+.tapete {background-image: url("../images/tapete.png") !important;}
+.tapete-thumb {background-image: url("../images/tapete-thumb.png") !important;}
+.clientes-thumb {background-image: url("../images/clientes-thumb.png") !important;}
+.clientes-add {background-image: url("../images/clientes-add.png") !important;}
+.clientes-add-thumb {background-image: url("../images/clientes-add-thumb.png") !important;}
+.clientes-del-thumb {background-image: url("../images/clientes-del-thumb.png") !important;}
+.clientes-edit {background-image: url("../images/clientes-edit.png") !important;}
+.clientes-edit-thumb {background-image: url("../images/clientes-edit-thumb.png") !important;}
+.clientes-search {background-image: url("../images/clientes-search.png") !important;}
+.clientes-search-thumb {background-image: url("../images/clientes-search-thumb.png") !important;}
+.clientes-dados {background-image: url("../images/clientes-dados.png") !important;}
+.filtro {background-image: url("../images/filtro.png") !important;}
+.search {background-image: url("../images/search.png") !important;}
