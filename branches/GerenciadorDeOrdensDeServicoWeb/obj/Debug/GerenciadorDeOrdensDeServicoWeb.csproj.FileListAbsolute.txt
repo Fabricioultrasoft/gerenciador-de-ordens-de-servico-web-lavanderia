@@ -1,0 +1,5 @@
+c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoWeb\GerenciadorDeOrdensDeServicoWeb\bin\GerenciadorDeOrdensDeServicoWeb.dll
+c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoWeb\GerenciadorDeOrdensDeServicoWeb\bin\GerenciadorDeOrdensDeServicoWeb.pdb
+c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoWeb\GerenciadorDeOrdensDeServicoWeb\obj\Debug\ResolveAssemblyReference.cache
+c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoWeb\GerenciadorDeOrdensDeServicoWeb\obj\Debug\GerenciadorDeOrdensDeServicoWeb.dll
+c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoWeb\GerenciadorDeOrdensDeServicoWeb\obj\Debug\GerenciadorDeOrdensDeServicoWeb.pdb
