@@ -93,6 +93,7 @@
     <Content Include="PresentationLayer\app\view\enderecos\LogradourosView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
+    <Content Include="PresentationLayer\app\view\servicos\ServicosSearchView.js" />
     <Content Include="PresentationLayer\app\view\tapetes\TapetesView.js" />
     <Content Include="PresentationLayer\app\webDesktop\AppWebDesktop.js" />
     <Content Include="PresentationLayer\app\webDesktop\Desktop.js" />
