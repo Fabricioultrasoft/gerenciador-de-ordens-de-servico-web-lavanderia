@@ -17,7 +17,8 @@ Ext.application({
         'tapetes.TapetesController',
         'clientes.ClientesAddController',
         'clientes.ClientesEditController',
-        'clientes.ClientesSearchController'
+        'clientes.ClientesSearchController',
+        'servicos.ServicosSearchController'
     ],
     launch: function () {
         Ext.create('App.webDesktop.MyAppWebDesktop', {});

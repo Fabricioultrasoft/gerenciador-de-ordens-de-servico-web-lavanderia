@@ -14,7 +14,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.clientes.ClientesView',
         'App.view.clientes.ClientesAddView',
         'App.view.clientes.ClientesEditView',
-        'App.view.clientes.ClientesSearchView'
+        'App.view.clientes.ClientesSearchView',
+        'App.view.servicos.ServicosSearchView'
     ],
 
     init: function () {
@@ -32,6 +33,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
             new App.view.clientes.ClientesAddView(),
             new App.view.clientes.ClientesEditView(),
             new App.view.clientes.ClientesSearchView(),
+            new App.view.servicos.ServicosSearchView(),
             new App.view.enderecos.LogradourosView(),
             new App.view.enderecos.EnderecosView()
         ];
@@ -51,7 +53,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
                 model: 'App.webDesktop.ShortcutModel',
                 data: [
                     { name: 'Tapetes', iconCls: 'tapete', module: 'win-tapetes' },
-                    { name: 'Clientes', iconCls: 'clientes-search', module: 'module-clientes-search' }
+                    { name: 'Clientes', iconCls: 'clientes-search', module: 'module-clientes-search' },
+                    { name: 'Servi&ccedil;os', iconCls: 'servicos-search', module: 'module-servicos-search' }
                 ]
             }),
 

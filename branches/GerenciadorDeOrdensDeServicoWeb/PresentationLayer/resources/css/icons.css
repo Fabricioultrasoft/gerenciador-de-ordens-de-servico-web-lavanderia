@@ -4,7 +4,6 @@
 .user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
 .btn-add {background-image: url("../images/btn-add.png") !important;}
 .btn-del {background-image: url("../images/btn-del.png") !important;}
-.btn-del {background-image: url("../images/btn-del.png") !important;}
 .btn-logout {background-image: url("../images/btn-logout.png") !important;}
 .btn-settings {background-image: url("../images/btn-settings.png") !important;}
 .btn-limpar {background-image: url("../images/btn-limpar.png") !important;}
@@ -26,3 +25,7 @@
 .clientes-dados {background-image: url("../images/clientes-dados.png") !important;}
 .filtro {background-image: url("../images/filtro.png") !important;}
 .search {background-image: url("../images/search.png") !important;}
+.link-add {background-image: url("../images/link-add.png") !important;}
+.edit {background-image: url("../images/edit.png") !important;}
+.servicos-search {background-image: url("../images/servicos-search.png") !important;}
+.servicos-search-thumb {background-image: url("../images/servicos-search-thumb.png") !important;}
