@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes" ?>
 <DBMODEL Version="4.0">
 <SETTINGS>
-<GLOBALSETTINGS ModelName="gabbeh-db" IDModel="0" IDVersion="0" VersionStr="1.0.0.0" Comments="" UseVersionHistroy="1" AutoIncVersion="1" DatabaseType="MySQL" ZoomFac="88.89" XPos="0" YPos="1291" DefaultDataType="5" DefaultTablePrefix="0" DefSaveDBConn="" DefSyncDBConn="localhost" DefQueryDBConn="" Printer="" HPageCount="4.0" PageAspectRatio="1.440892512336408" PageOrientation="1" PageFormat="A4 (210x297 mm, 8.26x11.7 inches)" SelectedPages="" UsePositionGrid="0" PositionGridX="20" PositionGridY="20" TableNameInRefs="0" DefaultTableType="1" ActivateRefDefForNewRelations="1" FKPrefix="" FKPostfix="" CreateFKRefDefIndex="1" DBQuoteCharacter="`" CreateSQLforLinkedObjects="0" DefModelFont="Tahoma" CanvasWidth="4096" CanvasHeight="2842" />
+<GLOBALSETTINGS ModelName="gabbeh-db" IDModel="0" IDVersion="0" VersionStr="1.0.0.0" Comments="" UseVersionHistroy="1" AutoIncVersion="1" DatabaseType="MySQL" ZoomFac="88.89" XPos="0" YPos="1267" DefaultDataType="5" DefaultTablePrefix="0" DefSaveDBConn="" DefSyncDBConn="localhost" DefQueryDBConn="" Printer="" HPageCount="4.0" PageAspectRatio="1.440892512336408" PageOrientation="1" PageFormat="A4 (210x297 mm, 8.26x11.7 inches)" SelectedPages="" UsePositionGrid="0" PositionGridX="20" PositionGridY="20" TableNameInRefs="0" DefaultTableType="1" ActivateRefDefForNewRelations="1" FKPrefix="" FKPostfix="" CreateFKRefDefIndex="1" DBQuoteCharacter="`" CreateSQLforLinkedObjects="0" DefModelFont="Tahoma" CanvasWidth="4096" CanvasHeight="2842" />
 <DATATYPEGROUPS>
 <DATATYPEGROUP Name="Numeric Types" Icon="1" />
 <DATATYPEGROUP Name="Date and Time Types" Icon="2" />
@@ -536,7 +536,7 @@
 </COLUMNS>
 <RELATIONS_START>
 <RELATION_START ID="1892" />
-<RELATION_START ID="2127" />
+<RELATION_START ID="2169" />
 </RELATIONS_START>
 <INDICES>
 <INDEX ID="1812" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
@@ -840,9 +840,15 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="2082" Tablename="tb_valores_servicos" PrevTableName="Table_16" XPos="524" YPos="2042" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="28" >
+<TABLE ID="2082" Tablename="tb_valores_servicos" PrevTableName="Table_16" XPos="178" YPos="1983" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="28" >
 <COLUMNS>
 <COLUMN ID="2084" ColName="cod_valor_servico" PrevColName="cod_servico_tapete" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2167" ColName="cod_valor_servico_pai" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
 <OPTIONSELECTED>
 <OPTIONSELECT Value="1" />
 <OPTIONSELECT Value="0" />
@@ -860,23 +866,31 @@
 <OPTIONSELECT Value="0" />
 </OPTIONSELECTED>
 </COLUMN>
-<COLUMN ID="2087" ColName="val_servico_tapete" PrevColName="" Pos="1" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<COLUMN ID="2170" ColName="cod_tipo_cliente" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="0" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2087" ColName="val_inicial" PrevColName="val_servico_tapete" Pos="1" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="0" Comments="">
 <OPTIONSELECTED>
 <OPTIONSELECT Value="0" />
 </OPTIONSELECTED>
 </COLUMN>
-<COLUMN ID="2099" ColName="val_servico_tapete_acima_10m2" PrevColName="" Pos="4" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="0" Comments="">
+<COLUMN ID="2099" ColName="val_acima_10m2" PrevColName="val_servico_tapete_acima_10m2" Pos="4" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="0" Comments="">
 <OPTIONSELECTED>
 <OPTIONSELECT Value="0" />
 </OPTIONSELECTED>
 </COLUMN>
 </COLUMNS>
 <RELATIONS_START>
-<RELATION_START ID="2130" />
+<RELATION_START ID="2163" />
 </RELATIONS_START>
 <RELATIONS_END>
 <RELATION_END ID="2088" />
 <RELATION_END ID="2091" />
+<RELATION_END ID="2163" />
+<RELATION_END ID="2169" />
 </RELATIONS_END>
 <INDICES>
 <INDEX ID="2085" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
@@ -894,57 +908,14 @@
 <INDEXCOLUMN idColumn="2092" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
-</INDICES>
-</TABLE>
-<TABLE ID="2120" Tablename="tb_valores_especiais" PrevTableName="Table_17" XPos="115" YPos="2041" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" >
-<COLUMNS>
-<COLUMN ID="2122" ColName="cod_valor_especial" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
-<OPTIONSELECTED>
-<OPTIONSELECT Value="1" />
-<OPTIONSELECT Value="0" />
-</OPTIONSELECTED>
-</COLUMN>
-<COLUMN ID="2131" ColName="cod_valor_servico" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
-<OPTIONSELECTED>
-<OPTIONSELECT Value="1" />
-<OPTIONSELECT Value="0" />
-</OPTIONSELECTED>
-</COLUMN>
-<COLUMN ID="2128" ColName="cod_tipo_cliente" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
-<OPTIONSELECTED>
-<OPTIONSELECT Value="1" />
-<OPTIONSELECT Value="0" />
-</OPTIONSELECTED>
-</COLUMN>
-<COLUMN ID="2124" ColName="val_especial" PrevColName="" Pos="1" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
-<OPTIONSELECTED>
-<OPTIONSELECT Value="0" />
-</OPTIONSELECTED>
-</COLUMN>
-<COLUMN ID="2125" ColName="val_especial_acima_10m2" PrevColName="" Pos="2" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
-<OPTIONSELECTED>
-<OPTIONSELECT Value="0" />
-</OPTIONSELECTED>
-</COLUMN>
-</COLUMNS>
-<RELATIONS_END>
-<RELATION_END ID="2127" />
-<RELATION_END ID="2130" />
-</RELATIONS_END>
-<INDICES>
-<INDEX ID="2123" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
+<INDEX ID="2165" IndexName="ix_valor_servico_pai" IndexKind="1" FKRefDef_Obj_id="2163">
 <INDEXCOLUMNS>
-<INDEXCOLUMN idColumn="2122" LengthParam="0" />
+<INDEXCOLUMN idColumn="2167" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
-<INDEX ID="2129" IndexName="ix_tipo_cliente" IndexKind="1" FKRefDef_Obj_id="2127">
+<INDEX ID="2171" IndexName="ix_tipo_cliente" IndexKind="1" FKRefDef_Obj_id="2169">
 <INDEXCOLUMNS>
-<INDEXCOLUMN idColumn="2128" LengthParam="0" />
-</INDEXCOLUMNS>
-</INDEX>
-<INDEX ID="2132" IndexName="ix_valor_servico" IndexKind="1" FKRefDef_Obj_id="2130">
-<INDEXCOLUMNS>
-<INDEXCOLUMN idColumn="2131" LengthParam="0" />
+<INDEXCOLUMN idColumn="2170" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
 </INDICES>
@@ -961,10 +932,10 @@
 <RELATION ID="1924" RelationName="Rel_09" Kind="2" SrcTable="1870" DestTable="1907" FKFields="cod_cliente=cod_cliente\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1926" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="22" />
 <RELATION ID="1936" RelationName="Rel_10" Kind="2" SrcTable="1781" DestTable="1928" FKFields="cod_logradouro=cod_logradouro\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1938" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="24" />
 <RELATION ID="1940" RelationName="Rel_11" Kind="2" SrcTable="1870" DestTable="1928" FKFields="cod_cliente=cod_cliente\n" FKFieldsComments="\n" relDirection="1" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1942" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="25" />
-<RELATION ID="2088" RelationName="Rel_12" Kind="2" SrcTable="1802" DestTable="2082" FKFields="cod_tapete=cod_tapete\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2090" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="29" />
-<RELATION ID="2091" RelationName="Rel_13" Kind="2" SrcTable="1943" DestTable="2082" FKFields="cod_servico=cod_servico\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2093" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
-<RELATION ID="2127" RelationName="Rel_15" Kind="2" SrcTable="1809" DestTable="2120" FKFields="cod_tipo_cliente=cod_tipo_cliente\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2129" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
-<RELATION ID="2130" RelationName="Rel_16" Kind="2" SrcTable="2082" DestTable="2120" FKFields="cod_valor_servico=cod_valor_servico\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2132" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="31" />
+<RELATION ID="2088" RelationName="Rel_12" Kind="2" SrcTable="1802" DestTable="2082" FKFields="cod_tapete=cod_tapete\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2090" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="29" />
+<RELATION ID="2091" RelationName="Rel_13" Kind="2" SrcTable="1943" DestTable="2082" FKFields="cod_servico=cod_servico\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2093" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
+<RELATION ID="2163" RelationName="Rel_15" Kind="2" SrcTable="2082" DestTable="2082" FKFields="cod_valor_servico=cod_valor_servico_pai\n" FKFieldsComments="\n" relDirection="2" MidOffset="23" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2165" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="29" />
+<RELATION ID="2169" RelationName="Rel_16" Kind="2" SrcTable="1809" DestTable="2082" FKFields="cod_tipo_cliente=cod_tipo_cliente\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2171" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
 </RELATIONS>
 <NOTES>
 </NOTES>

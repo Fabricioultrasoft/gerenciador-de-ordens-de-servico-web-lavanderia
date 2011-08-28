@@ -56,7 +56,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
         
         var gridValoresServico =  Ext.create('Ext.tree.Panel', {
             title: 'Valores do servi&ccedil;o',
-            iconCls: 'dinheiro-thumb',
+            iconCls: 'cifrao-thumb',
             region: 'center',
             rootVisible: false,
             useArrows: true,
@@ -65,7 +65,35 @@ Ext.define('App.view.servicos.ServicosAddView', {
                 { xtype: 'treecolumn', dataIndex: 'nomeTapete', text: 'Tapete', flex: 2, sortable: true },
                 { dataIndex: 'nomeTipoDeCliente', text: 'Tipo de cliente', flex: 1, align: 'center', sortable: true },
                 { xtype: 'numbercolumn', dataIndex: 'valor', text: 'Valor', align: 'center', width: 70, sortable: true },
-                { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: true }
+                { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: true },
+                {
+                    xtype: 'actioncolumn',
+                    text: 'Açao',
+                    sortable: false,
+                    align: 'center',
+                    width: 50,
+                    items: [{
+                        iconCls: 'act-edit',  // Use a URL in the icon config
+                        tooltip: 'Editar valores do servi&ccedil;o para este tapete',
+                        handler: function(view, rowIndex, colIndex, item, event ) {
+                            var rec = store.getAt(rowIndex);
+                            alert("Sell " + rec.get('company'));
+                        }
+                    }, {
+                        getClass: function(v, meta, rec) {          // Or return a class from a function
+                            if (rec.get('codigoTipoDeCliente') > 0) {
+                                this.items[1].tooltip = 'Remover condi&ccedil;&atilde;o de valor especial';
+                                return 'act-dinheiro-del';
+                            } else {
+                                this.items[1].tooltip = 'Adicionar uma condi&ccedil;&atilde;o de valor especial para um tipo de cliente';
+                                return 'act-dinheiro-add';
+                            }
+                        },
+                        handler: function(grid, rowIndex, colIndex) {
+                            var rec = store.getAt(rowIndex);
+                            alert((rec.get('change') < 0 ? "Hold " : "Buy ") + rec.get('company'));
+                        }
+                    }]}
             ]
         });
 

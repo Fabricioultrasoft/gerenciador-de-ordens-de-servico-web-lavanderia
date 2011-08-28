@@ -1780,7 +1780,9 @@
     <Content Include="PresentationLayer\resources\images\clientes-add.png" />
     <Content Include="PresentationLayer\resources\images\clientes-edit.png" />
     <Content Include="PresentationLayer\resources\images\clientes-search.png" />
-    <Content Include="PresentationLayer\resources\images\dinheiro-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\dinheiro-add.png" />
+    <Content Include="PresentationLayer\resources\images\dinheiro-del.png" />
+    <Content Include="PresentationLayer\resources\images\cifrao-thumb.png" />
     <Content Include="PresentationLayer\resources\images\edit.png" />
     <Content Include="PresentationLayer\resources\images\favicon.png" />
     <Content Include="PresentationLayer\resources\images\filtro.png" />
@@ -1846,7 +1848,6 @@
     <Compile Include="DataTransferObjects\Erro.cs" />
     <Compile Include="DataTransferObjects\servicos\Servico.cs" />
     <Compile Include="DataTransferObjects\servicos\ValorDeServico.cs" />
-    <Compile Include="DataTransferObjects\servicos\ValorEspecial.cs" />
     <Compile Include="DataTransferObjects\sql\Filter.cs" />
     <Compile Include="DataTransferObjects\sql\Sorter.cs" />
     <Compile Include="DataTransferObjects\tapetes\Tapete.cs" />

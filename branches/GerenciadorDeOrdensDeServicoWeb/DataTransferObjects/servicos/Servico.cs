@@ -71,8 +71,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.servicos {
 		}
 
 		public List<ValorDeServico> valores {
+			//get { return new List<ValorDeServico>( _valores ); } // para garantir que os valores originais nao serao alterados
 			get { return _valores; }
-			set { _valores = value; }
+		}
+
+		public void addValor(ValorDeServico valor) {
+			List<ValorDeServico> servAux = new List<ValorDeServico>();
+			Dictionary<UInt32, ValorDeServico> dic = new Dictionary<UInt32, ValorDeServico>();
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿
 .location-thumb { background-image: url("../images/location-thumb.png") !important; }
 .fav { background-image: url("../images/favicon.png") !important; }
-.dinheiro-thumb {background-image: url("../images/dinheiro-thumb.png") !important;}
+.cifrao-thumb {background-image: url("../images/cifrao-thumb.png") !important;}
 .user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
 .btn-add {background-image: url("../images/btn-add.png") !important;}
 .btn-del {background-image: url("../images/btn-del.png") !important;}
@@ -35,3 +35,14 @@
 .servicos-search-thumb {background-image: url("../images/servicos-search-thumb.png") !important;}
 .servicos-add {background-image: url("../images/servicos-add.png") !important;}
 .servicos-add-thumb {background-image: url("../images/servicos-add-thumb.png") !important;}
+
+
+
+.x-action-col-cell img.act-dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
+.x-action-col-cell img.act-dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}
+.x-action-col-cell img.act-edit {background-image: url("../images/edit.png") !important;}
+
+.x-ie6 .x-action-col-cell img.act-dinheiro-add { background-image: url("../images/dinheiro-add.png") !important; }
+.x-ie6.x-action-col-cell img.act-dinheiro-del { background-image: url("../images/dinheiro-del.png") !important; }
+.x-ie6.x-action-col-cell img.act-edit { background-image: url("../images/edit.png") !important; }
+
