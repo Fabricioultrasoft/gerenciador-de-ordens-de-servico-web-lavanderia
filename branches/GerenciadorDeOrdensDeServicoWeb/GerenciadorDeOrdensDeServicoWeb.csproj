@@ -59,6 +59,7 @@
     <Content Include="PresentationLayer\app\controller\enderecos\LogradourosController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\PaisesController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\TiposDeLogradourosController.js" />
+    <Content Include="PresentationLayer\app\controller\servicos\ServicosAddController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosSearchController.js" />
     <Content Include="PresentationLayer\app\controller\tapetes\TapetesController.js" />
     <Content Include="PresentationLayer\app\model\clientes\ClienteModel.js" />
@@ -84,6 +85,7 @@
     <Content Include="PresentationLayer\app\store\enderecos\PaisesStore.js" />
     <Content Include="PresentationLayer\app\store\enderecos\TiposDeLogradourosStore.js" />
     <Content Include="PresentationLayer\app\store\servicos\ServicosStore.js" />
+    <Content Include="PresentationLayer\app\store\servicos\ValoresServicosStore.js" />
     <Content Include="PresentationLayer\app\store\tapetes\TapetesStore.js" />
     <Content Include="PresentationLayer\app\ux\PreviewPlugin.js" />
     <Content Include="PresentationLayer\app\view\clientes\ClientesAddView.js" />
@@ -97,7 +99,9 @@
     <Content Include="PresentationLayer\app\view\enderecos\LogradourosView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
+    <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosSearchView.js" />
+    <Content Include="PresentationLayer\app\view\servicos\ServicosView.js" />
     <Content Include="PresentationLayer\app\view\tapetes\TapetesView.js" />
     <Content Include="PresentationLayer\app\webDesktop\AppWebDesktop.js" />
     <Content Include="PresentationLayer\app\webDesktop\Desktop.js" />
@@ -1776,6 +1780,7 @@
     <Content Include="PresentationLayer\resources\images\clientes-add.png" />
     <Content Include="PresentationLayer\resources\images\clientes-edit.png" />
     <Content Include="PresentationLayer\resources\images\clientes-search.png" />
+    <Content Include="PresentationLayer\resources\images\dinheiro-thumb.png" />
     <Content Include="PresentationLayer\resources\images\edit.png" />
     <Content Include="PresentationLayer\resources\images\favicon.png" />
     <Content Include="PresentationLayer\resources\images\filtro.png" />
@@ -1787,11 +1792,16 @@
     <Content Include="PresentationLayer\resources\images\search.png" />
     <Content Include="PresentationLayer\resources\images\servicos-search-thumb.png" />
     <Content Include="PresentationLayer\resources\images\servicos-search.png" />
+    <Content Include="PresentationLayer\resources\images\servicos-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\servicos.png" />
     <Content Include="PresentationLayer\resources\images\talk.png" />
+    <Content Include="PresentationLayer\resources\images\tapete-estrela-thumb.png" />
     <Content Include="PresentationLayer\resources\images\tapete-thumb.png" />
     <Content Include="PresentationLayer\resources\images\tapete.png" />
     <Content Include="PresentationLayer\resources\images\user-silhouette.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
+    <Content Include="PresentationLayer\resources\images\servicos-add-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\servicos-add.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1808,6 +1818,7 @@
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeLogradouros.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDePaises.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeTiposDeLogradouros.cs" />
+    <Compile Include="BusinessLogicLayer\servicos\GerenciadorDeServicos.cs" />
     <Compile Include="BusinessLogicLayer\tapetes\GerenciadorDeTapetes.cs" />
     <Compile Include="BusinessLogicLayer\Util.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\clientes\MySqlClientesDao.cs" />
@@ -1819,6 +1830,7 @@
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\enderecos\MySqlPaisesDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\enderecos\MySqlTiposDeLogradourosDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\MySqlFilter.cs" />
+    <Compile Include="DataAccessLayer\DataAccessObjects\MySql\servicos\MySqlServicosDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\tapetes\MySqlTapetesDao.cs" />
     <Compile Include="DataAccessLayer\DatabaseConnections\MySqlConnectionWizard.cs" />
     <Compile Include="DataTransferObjects\clientes\Cliente.cs" />
@@ -1832,6 +1844,9 @@
     <Compile Include="DataTransferObjects\enderecos\Pais.cs" />
     <Compile Include="DataTransferObjects\enderecos\TipoDeLogradouro.cs" />
     <Compile Include="DataTransferObjects\Erro.cs" />
+    <Compile Include="DataTransferObjects\servicos\Servico.cs" />
+    <Compile Include="DataTransferObjects\servicos\ValorDeServico.cs" />
+    <Compile Include="DataTransferObjects\servicos\ValorEspecial.cs" />
     <Compile Include="DataTransferObjects\sql\Filter.cs" />
     <Compile Include="DataTransferObjects\sql\Sorter.cs" />
     <Compile Include="DataTransferObjects\tapetes\Tapete.cs" />

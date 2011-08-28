@@ -66,6 +66,6 @@ Ext.define('App.controller.servicos.ServicosSearchController', {
     },
 
     onShowDescricaoServicoClick: function (btn, event, options) {
-        btn.scope.gridServicos.getComponent('view').getPlugin('preview').toggleExpanded(btn.pressed);
+        btn.scope.gridServicos.getComponent('viewServicos').getPlugin('previewServicos').toggleExpanded(btn.pressed);
     }
 });

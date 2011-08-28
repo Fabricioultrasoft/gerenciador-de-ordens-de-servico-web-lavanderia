@@ -81,11 +81,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 			jsonResposta.AppendLine( "    \"data\": [" );
 			foreach( Cliente cliente in clientes ) {
-				jsonResposta.Append( "\t\t{" );
+				jsonResposta.Append( "{" );
 				construirParteDoJsonDadosPrimarios( ref jsonResposta, cliente );
 				construirParteDoJsonMeiosDeContato( ref jsonResposta, cliente.meiosDeContato ); jsonResposta.Append( ", " );
 				construirParteDoJsonEnderecos( ref jsonResposta, cliente.enderecos );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( clientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -136,11 +136,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 			jsonResposta.AppendLine( "    \"data\": [" );
 			foreach( Cliente cliente in clientes ) {
-				jsonResposta.Append( "\t\t{" );
+				jsonResposta.Append( "{" );
 				construirParteDoJsonDadosPrimarios( ref jsonResposta, cliente );
 				construirParteDoJsonMeiosDeContato( ref jsonResposta, cliente.meiosDeContato ); jsonResposta.Append( ", " );
 				construirParteDoJsonEnderecos( ref jsonResposta, cliente.enderecos );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( clientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -172,11 +172,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 			jsonResposta.AppendLine( "    \"data\": [" );
 			foreach( Cliente cliente in clientes ) {
-				jsonResposta.Append( "\t\t{" );
+				jsonResposta.Append( "{" );
 				construirParteDoJsonDadosPrimarios( ref jsonResposta, cliente );
 				construirParteDoJsonMeiosDeContato( ref jsonResposta, cliente.meiosDeContato ); jsonResposta.Append( ", " );
 				construirParteDoJsonEnderecos( ref jsonResposta, cliente.enderecos );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( clientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );

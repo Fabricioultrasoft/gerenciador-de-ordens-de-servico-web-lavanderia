@@ -1,8 +1,8 @@
 ﻿
-Ext.define('App.store.servicos.ServicosStore', {
-    extend: 'Ext.data.Store',
+Ext.define('App.store.servicos.ValoresServicosStore', {
+    extend: 'Ext.data.TreeStore',
     autoDestroy: false,
-    model: 'App.model.servicos.ServicoModel',
+    model: 'App.model.servicos.ValorServicoModel',
     storeId: 'servicosStore',
     listeners: {
         write: function(proxy, operation){
@@ -18,14 +18,11 @@ Ext.define('App.store.servicos.ServicosStore', {
     proxy: {
         type: 'ajax',
         api: {
-            create: 'app/handlers/servicos/ServicosHandler.ashx?action=create',
-            read: 'app/handlers/servicos/ServicosHandler.ashx?action=read',
-            update: 'app/handlers/servicos/ServicosHandler.ashx?action=update',
-            destroy: 'app/handlers/servicos/ServicosHandler.ashx?action=destroy'
+            read: 'app/handlers/servicos/ServicosHandler.ashx?action=readServico'
         },
         reader: {
             type: 'json',
-            root: 'data',
+            root: 'valores',
             successProperty: 'success',
             messageProperty: 'message',
             totalProperty: 'total'

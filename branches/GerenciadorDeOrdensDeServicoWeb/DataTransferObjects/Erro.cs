@@ -12,14 +12,35 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects {
 
 		public Erro(){
 			numeroDoErro =  0;
-			_mensagem = "Não definido";
-			_solucao = "Não definido";
+			_mensagem = String.Empty;
+			_solucao = String.Empty;
 		}
 
 		public Erro(int number, String message, String solution){
 			numeroDoErro = number;
 			_mensagem = message;
 			_solucao = solution;
+		}
+
+		public Erro( int number ) {
+			numeroDoErro = number;
+
+			switch( number ) {
+				case 1042:
+					_mensagem = "Não foi possivel estabelecer uma conexão com o banco de dados";
+					_solucao = "Verifique se o banco de dados encontra-se em execução" ;
+					break;
+
+				case 0:
+					_mensagem = String.Empty;
+					_solucao = "Contate o Fornecedor";
+					break;
+
+				default:
+					_mensagem = "Não definido";
+					_solucao = "Não definido";
+					break;
+			}
 		}
 
 		public int numeroDoErro {

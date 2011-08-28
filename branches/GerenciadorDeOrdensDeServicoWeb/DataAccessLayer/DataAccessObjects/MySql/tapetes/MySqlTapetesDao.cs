@@ -54,7 +54,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			MySqlDataReader reader = cmd.ExecuteReader();
 
 			while( reader.Read() ) {
-				tapetes.Add( new Tapete( reader.GetUInt32( 0 ), reader.GetString( 1 ),reader.GetString(2),reader.GetBoolean(3) ) );
+				Tapete tapete = new Tapete();
+				tapete.codigo = reader.GetUInt32( 0 );
+				tapete.nome = reader.GetString( 1 );
+				try { tapete.descricao = reader.GetString( 2 ); } catch { }
+				tapete.ativo = reader.GetBoolean( 3 );
+				tapetes.Add( tapete );
 			}
 
 			reader.Close(); reader.Dispose();

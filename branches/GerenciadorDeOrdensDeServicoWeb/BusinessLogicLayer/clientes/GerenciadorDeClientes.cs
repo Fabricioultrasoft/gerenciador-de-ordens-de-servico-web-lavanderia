@@ -28,9 +28,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 				tiposDeClientes = new List<TipoDeCliente>();
 
 				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042, "Não foi possivel estabelecer uma conexão com o banco de dados", "Verifique se o banco de dados encontra-se em execução" ) );
+					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
-					listaDeErros.Add( new Erro( 0, ex.Message, "Contate o Fornecedor" ) );
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
 				}
 			}
 			return listaDeErros;
@@ -59,9 +61,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042, "Não foi possivel estabelecer uma conexão com o banco de dados", "Verifique se o banco de dados encontra-se em execução" ) );
+					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
-					listaDeErros.Add( new Erro( 0, ex.Message, "Contate o Fornecedor" ) );
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
 				}
 			}
 			return listaDeErros;
@@ -76,9 +80,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 				clientes = new List<Cliente>();
 
 				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042, "Não foi possivel estabelecer uma conexão com o banco de dados", "Verifique se o banco de dados encontra-se em execução" ) );
+					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
-					listaDeErros.Add( new Erro( 0, ex.Message, "Contate o Fornecedor" ) );
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
 				}
 			}
 			return listaDeErros;
@@ -91,9 +97,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042, "Não foi possivel estabelecer uma conexão com o banco de dados", "Verifique se o banco de dados encontra-se em execução" ) );
+					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
-					listaDeErros.Add( new Erro( 0, ex.Message, "Contate o Fornecedor" ) );
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
 				}
 			}
 			return listaDeErros;
@@ -106,9 +114,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042, "Não foi possivel estabelecer uma conexão com o banco de dados", "Verifique se o banco de dados encontra-se em execução" ) );
+					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
-					listaDeErros.Add( new Erro( 0, ex.Message, "Contate o Fornecedor" ) );
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
 				}
 			}
 			return listaDeErros;

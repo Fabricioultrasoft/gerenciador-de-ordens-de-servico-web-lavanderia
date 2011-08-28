@@ -13,8 +13,8 @@ Ext.define('App.view.servicos.ServicosSearchView', {
             win = desktop.createWindow({
                 id: 'win-servicos-search',
                 title: 'Consultar Servi&ccedil;os',
-                width: 700,
-                height: 580,
+                width: 500,
+                height: 380,
                 iconCls: 'servicos-search-thumb',
                 animCollapse: false,
                 constrainHeader: true,
@@ -30,23 +30,22 @@ Ext.define('App.view.servicos.ServicosSearchView', {
     createPanel: function () {
 
         var servicosStore = Ext.create('App.store.servicos.ServicosStore',{});
-        //servicosStore.load();
+        servicosStore.load();
 
-        var grid = Ext.create('Ext.tree.Panel', {
+        var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-servicos',
-            border: false,
-            useArrows: true,
-            rootVisible: false,
             store: servicosStore,
+            cls: 'grid-style-1',
             columns: [
-                { xtype: 'treecolumn', header: 'nome', dataIndex: 'nome' },
                 { xtype: 'numbercolumn', header: 'Cod', dataIndex: 'codigo', format: '0' },
-                { header: 'Tipo', dataIndex: 'nomeTipoServico' }
+                { header: 'nome', dataIndex: 'nome', flex: 1, renderer: Ext.String.htmlEncode },
+                { header: 'Tipo', dataIndex: 'nomeTipoDeServico' }
             ],
             tbar: [
                 { itemId: 'btnAddServico', text: 'Adicionar', iconCls: 'btn-add', scope: this },
-                { itemId: 'btnEditServico', text: 'Editar', iconCls: 'btn-del', disabled: true, scope: this },
-                { itemId: 'btnDelServico', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: this }
+                { itemId: 'btnEditServico', text: 'Editar', iconCls: 'edit', disabled: true, scope: this },
+                { itemId: 'btnDelServico', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: this },
+                { itemId: 'btnShowDescricaoServico', text: 'Descri&ccedil;&atilde;o', iconCls: 'btn-detalhes', pressed: false, enableToggle: true, scope: this,tooltip: { title: 'Descri&ccedil;&atilde;o dos servi&ccedil;os', text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem'} }
             ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: servicosStore,
@@ -59,6 +58,16 @@ Ext.define('App.view.servicos.ServicosSearchView', {
                     grid.down('#btnEditServico').setDisabled(!records.length);
                     grid.down('#btnDelServico').setDisabled(!records.length);
                 }
+            },
+            viewConfig: {
+                itemId: 'viewServicos',
+                plugins: [{
+                    pluginId: 'previewServicos',
+                    ptype: 'preview',
+                    bodyField: 'descricao',
+                    previewExpanded: false,
+                    labelField: '<b>Descri&ccedil;&atilde;o:</b> '
+                }]
             }
         });
         this.gridServicos = grid;

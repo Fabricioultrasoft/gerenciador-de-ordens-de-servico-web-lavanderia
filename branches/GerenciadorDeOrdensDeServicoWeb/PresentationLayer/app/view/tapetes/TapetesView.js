@@ -123,7 +123,7 @@ Ext.define('App.view.tapetes.TapetesView', {
                     text: 'Descri&ccedil;&atilde;o',
                     tooltip: {
                         title: 'Descri&ccedil;&atilde;o dos tapetes',
-                        text: 'Visializar a descri&ccedil;&atilde;o de cada registro na listagem'
+                        text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem'
                     }
                 }],
                 bbar: Ext.create('Ext.PagingToolbar', {

@@ -1,6 +1,7 @@
 ﻿
 .location-thumb { background-image: url("../images/location-thumb.png") !important; }
 .fav { background-image: url("../images/favicon.png") !important; }
+.dinheiro-thumb {background-image: url("../images/dinheiro-thumb.png") !important;}
 .user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
 .btn-add {background-image: url("../images/btn-add.png") !important;}
 .btn-del {background-image: url("../images/btn-del.png") !important;}
@@ -14,6 +15,7 @@
 .talk {background-image: url("../images/talk.png") !important;}
 .tapete {background-image: url("../images/tapete.png") !important;}
 .tapete-thumb {background-image: url("../images/tapete-thumb.png") !important;}
+.tapete-estrela-thumb {background-image: url("../images/tapete-estrela-thumb.png") !important;}
 .clientes-thumb {background-image: url("../images/clientes-thumb.png") !important;}
 .clientes-add {background-image: url("../images/clientes-add.png") !important;}
 .clientes-add-thumb {background-image: url("../images/clientes-add-thumb.png") !important;}
@@ -27,5 +29,9 @@
 .search {background-image: url("../images/search.png") !important;}
 .link-add {background-image: url("../images/link-add.png") !important;}
 .edit {background-image: url("../images/edit.png") !important;}
+.servicos {background-image: url("../images/servicos.png") !important;}
+.servicos-thumb {background-image: url("../images/servicos-thumb.png") !important;}
 .servicos-search {background-image: url("../images/servicos-search.png") !important;}
 .servicos-search-thumb {background-image: url("../images/servicos-search-thumb.png") !important;}
+.servicos-add {background-image: url("../images/servicos-add.png") !important;}
+.servicos-add-thumb {background-image: url("../images/servicos-add-thumb.png") !important;}
