@@ -127,46 +127,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\",", servico.cobradoPor );
 			jsonResposta.AppendFormat( " \"flagValorUnico\": {0},", servico.flgValorUnico.ToString().ToLower() );
 			jsonResposta.AppendFormat( " \"valorBase\": {0},", servico.valorBase.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
-
-			jsonResposta.Append( " \"valores\": [" );
-			foreach( ValorDeServico valorServico in servico.valores ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.AppendFormat( " \"codigo\": {0},", valorServico.codigo );
-				jsonResposta.AppendFormat( " \"codigoServico\": {0},", valorServico.codigoServico );
-				jsonResposta.AppendFormat( " \"valor\": {0},", valorServico.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
-				jsonResposta.AppendFormat( " \"valorAcima10m2\": {0},", valorServico.valorAcima10m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
-				jsonResposta.AppendFormat( " \"codigoTapete\": {0},", valorServico.tapete.codigo );
-				jsonResposta.AppendFormat( " \"nomeTapete\": \"{0}\",", valorServico.tapete.nome );
-				jsonResposta.Append( " \"codigoTipoDeCliente\": 0, " );
-				jsonResposta.Append( " \"nomeTipoDeCliente\": \"Todos\", " );
-				jsonResposta.Append( " \"iconCls\": \"tapete-thumb\", " );
-
-				if( valorServico.valoresEspeciais.Count > 0 ) {
-					jsonResposta.Append( " \"valores\": [" );
-					foreach( ValorEspecial valorEspecial in valorServico.valoresEspeciais ) {
-						jsonResposta.Append( "{" );
-						jsonResposta.AppendFormat( " \"codigo\": {0},", valorEspecial.codigo );
-						jsonResposta.AppendFormat( " \"valor\": {0},", valorEspecial.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
-						jsonResposta.AppendFormat( " \"valorAcima10m2\": {0},", valorEspecial.valorAcima10m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
-						jsonResposta.AppendFormat( " \"codigoTapete\": {0},", valorServico.tapete.codigo );
-						jsonResposta.AppendFormat( " \"nomeTapete\": \"{0}\", ", valorServico.tapete.nome );
-						jsonResposta.AppendFormat( " \"codigoTipoDeCliente\": {0},", valorEspecial.tipoDeCliente.codigo );
-						jsonResposta.AppendFormat( " \"nomeTipoDeCliente\": \"{0}\",", valorEspecial.tipoDeCliente.nome );
-						jsonResposta.Append( " \"iconCls\": \"tapete-estrela-thumb\", " );
-						jsonResposta.Append( " \"leaf\": true " );
-						jsonResposta.Append( "}," );
-					}
-					jsonResposta.Remove( jsonResposta.Length - 1, 1 );
-					jsonResposta.Append( "]" );
-				
-				} else {
-					jsonResposta.Append( " \"leaf\": true " );
-				}
-
-				jsonResposta.Append( "}," );
-			}
-			if( servico.valores.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]}" );
+			montarValoresJson( ref jsonResposta, servico.valores );
+			jsonResposta.Append( "}" );
 			#endregion
 
 			return jsonResposta.ToString();
@@ -182,6 +144,27 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			for( int i = 0; i < valores.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<ValorDeServico>( valores[i] );
 			}
+		}
+
+		private static void montarValoresJson(ref StringBuilder json, List<ValorDeServico> valores) {
+			json.Append( " \"valores\": [" );
+			foreach( ValorDeServico val in valores ) {
+				json.Append( "{" );
+				json.AppendFormat( " \"codigo\": {0},", val.codigo );
+				json.AppendFormat( " \"codigoServico\": {0},", val.codigoServico );
+				json.AppendFormat( " \"valor\": {0},", val.valorInicial.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				json.AppendFormat( " \"valorAcima10m2\": {0},", val.valorAcima10m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				json.AppendFormat( " \"codigoTapete\": {0},", val.tapete.codigo );
+				json.AppendFormat( " \"nomeTapete\": \"{0}\",", val.tapete.nome );
+				json.AppendFormat( " \"codigoTipoDeCliente\": {0},", val.tipoDeCliente.codigo );
+				json.AppendFormat( " \"nomeTipoDeCliente\": \"{0}\", ", String.IsNullOrEmpty( val.tipoDeCliente.nome ) ? "Todos" : val.tipoDeCliente.nome );
+				json.AppendFormat( " \"iconCls\": \"{0}\", ", val.tipoDeCliente.codigo == 0 ? "tapete-thumb" : "tapete-estrela-thumb" );
+				json.AppendFormat( " \"leaf\": {0}, ", val.valoresEspeciais.Count == 0 ? "true" : "false" );
+				montarValoresJson( ref json, val.valoresEspeciais );
+				json.Append( "}," );
+			}
+			if( valores.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
+			json.Append( "]" );
 		}
 
 		public bool IsReusable {

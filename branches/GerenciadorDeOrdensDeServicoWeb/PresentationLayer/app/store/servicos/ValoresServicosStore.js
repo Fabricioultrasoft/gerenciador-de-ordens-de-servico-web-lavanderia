@@ -18,7 +18,7 @@ Ext.define('App.store.servicos.ValoresServicosStore', {
     proxy: {
         type: 'ajax',
         api: {
-            read: 'app/handlers/servicos/ServicosHandler.ashx?action=readServico'
+            read: 'app/handlers/servicos/ServicosHandler.ashx?action=readServico&codigoServico=1'
         },
         reader: {
             type: 'json',

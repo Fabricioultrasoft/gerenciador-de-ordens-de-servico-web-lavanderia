@@ -97,8 +97,6 @@ Ext.define('App.view.servicos.ServicosAddView', {
             ]
         });
 
-
-
         var mainPanel = Ext.create('Ext.panel.Panel', {
             xtype: 'panel',
             layout: 'border',

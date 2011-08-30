@@ -17,15 +17,15 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "		,cod_servico "
 			+ "		,tb_tapetes.cod_tapete "
 			+ "		,tb_tapetes.nom_tapete "
-			+ "		,tipos_clientes.cod_tipo_cliente "
-			+ "		,tipos_clientes.nom_tipo_cliente "
+			+ "		,tb_tipos_clientes.cod_tipo_cliente "
+			+ "		,tb_tipos_clientes.nom_tipo_cliente "
 			+ "		,val_inicial "
 			+ "		,val_acima_10m2 "
 			+ "FROM tb_tapetes "
 			+ "LEFT JOIN tb_valores_servicos "
 			+ "		  ON tb_valores_servicos.cod_tapete = tb_tapetes.cod_tapete "
-			+ "LEFT JOIN tipos_clientes "
-			+ "		  ON tipos_clientes.cod_tipo_cliente = tb_valores_servicos.cod_tipo_cliente "
+			+ "LEFT JOIN tb_tipos_clientes "
+			+ "		  ON tb_tipos_clientes.cod_tipo_cliente = tb_valores_servicos.cod_tipo_cliente "
 			+ "WHERE cod_servico = @codServico OR cod_servico IS NULL ";
 
 		public static long countServicos() {
@@ -70,7 +70,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = codigoServico;
 
 			conn.Open();
-			
+
 			MySqlDataReader reader = cmd.ExecuteReader();
 			if( reader.Read() ) {
 				servico.nome = reader.GetString( "nom_servico" );
@@ -128,7 +128,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 					preencherValores( ref servico );
 				}
 
-				servicos.Add( servico ); 
+				servicos.Add( servico );
 			}
 			reader.Close(); reader.Dispose(); cmdServicos.Dispose();
 			connServicos.Close(); connServicos.Dispose();
@@ -137,7 +137,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 		}
 
 		public static void preencherValores( ref Servico servico ) {
-			
+			List<ValorDeServico> valoresAux = new List<ValorDeServico>();
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			MySqlCommand cmd = new MySqlCommand( SQL_VALORES, conn );
 			cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servico.codigo;
@@ -158,11 +158,40 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				try { val.valorInicial = reader.GetDouble( "val_inicial" ); } catch { }
 				try { val.valorAcima10m2 = reader.GetDouble( "val_acima_10m2" ); } catch { }
 
-				servico.addValor( val );
+				valoresAux.Add( val );
 			}
 
-			reader.Close(); reader.Dispose();cmd.Dispose(); 
+			servico.valores.AddRange( estreturarValores( valoresAux ) );
+
+			reader.Close(); reader.Dispose(); cmd.Dispose();
 			conn.Close(); conn.Dispose();
+		}
+
+		public static List<ValorDeServico> estreturarValores( List<ValorDeServico> valores ) {
+
+			List<ValorDeServico> valFilhos = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo != 0 && val.codigoPai != 0; } );
+			if( valFilhos == null ) { return valores; }
+
+			List<ValorDeServico> valPais = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo != 0 && val.codigoPai == 0; } );
+			if( valPais == null ) { return valores; }
+
+			List<ValorDeServico> valAux = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo == 0; } );			
+			if( valAux == null ) { valAux = new List<ValorDeServico>(); }
+
+			Dictionary<UInt32, ValorDeServico> dic = new Dictionary<UInt32, ValorDeServico>();
+			foreach( ValorDeServico val in valPais ) {
+				dic.Add( val.codigo, val );
+			}
+
+			foreach( ValorDeServico val in valFilhos ) {
+				dic[val.codigoPai].valoresEspeciais.Add( val );
+			}
+
+			foreach( KeyValuePair<UInt32, ValorDeServico> val in dic ) {
+				valAux.Add( val.Value );
+			}
+
+			return valAux;
 		}
 	}
 }
