@@ -81,9 +81,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 				jsonResposta.AppendFormat( " nome: \"{0}\",", servico.nome );
 				jsonResposta.AppendFormat( " descricao: \"{0}\",", servico.descricao );
 				jsonResposta.AppendFormat( " codigoCobradoPor: {0},", (int) servico.cobradoPor );
-				jsonResposta.AppendFormat( " nomeCobradoPor: \"{0}\",", servico.cobradoPor );
-				jsonResposta.AppendFormat( " flagValorUnico: {0},", servico.flgValorUnico.ToString().ToLower() );
-				jsonResposta.AppendFormat( " valorBase: {0},", servico.valorBase.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				jsonResposta.AppendFormat( " nomeCobradoPor: \"{0}\" ", servico.cobradoPor );
 				jsonResposta.Append( "}" );
 			}
 			if( servicos.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
@@ -124,9 +122,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			jsonResposta.AppendFormat( " \"nome\": \"{0}\",", servico.nome );
 			jsonResposta.AppendFormat( " \"descricao\": \"{0}\",", servico.descricao );
 			jsonResposta.AppendFormat( " \"codigoCobradoPor\": {0},", (int) servico.cobradoPor );
-			jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\",", servico.cobradoPor );
-			jsonResposta.AppendFormat( " \"flagValorUnico\": {0},", servico.flgValorUnico.ToString().ToLower() );
-			jsonResposta.AppendFormat( " \"valorBase\": {0},", servico.valorBase.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+			jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\" ", servico.cobradoPor );
 			montarValoresJson( ref jsonResposta, servico.valores );
 			jsonResposta.Append( "}" );
 			#endregion

@@ -47,8 +47,8 @@ Ext.define('App.view.servicos.ServicosAddView', {
                     store: Ext.create('Ext.data.Store', { fields: ['codigo', 'nome'], data: [ { 'codigo': 1, 'nome': "Metro (M)" }, { 'codigo': 2, 'nome': "Metro quadrado (m²)" } ] }),
                     queryMode: 'local', displayField: 'nome', valueField: 'codigo', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'Uma op&ccedil;&atilde;o deve ser selecionada'
                 },
-                { xtype: 'checkbox', itemId: 'addServicoFlgValorUnico', name: 'flgValorUnico', fieldLabel: '&Eacute; valor unico', inputValue: '1' },
-                { xtype: 'numberfield', itemId: 'addServicoValorUnico', name: 'valorUnico', fieldLabel: 'Valor unico', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                { xtype: 'checkbox', itemId: 'addServicoFlgValorUnico', name: 'flgValorUnico', fieldLabel: '&Eacute; valor unico', inputValue: '1', scope: this },
+                { xtype: 'numberfield', itemId: 'addServicoValorUnico', name: 'valorUnico', fieldLabel: 'Valor unico', emptyText: 'Digite um valor valido para todos os tapetes', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'textarea', name: 'descricao', fieldLabel: 'Descri&ccedil;&atilde;o', emptyText: 'Descrição do serviço', height: 100 }
             ]
         });
@@ -59,13 +59,19 @@ Ext.define('App.view.servicos.ServicosAddView', {
             iconCls: 'cifrao-thumb',
             region: 'center',
             rootVisible: false,
-            useArrows: true,
+            //useArrows: true,
+            animate: false,
             store: valoresStore,
             columns: [
                 { xtype: 'treecolumn', dataIndex: 'nomeTapete', text: 'Tapete', flex: 2, sortable: true },
-                { dataIndex: 'nomeTipoDeCliente', text: 'Tipo de cliente', flex: 1, align: 'center', sortable: true },
-                { xtype: 'numbercolumn', dataIndex: 'valor', text: 'Valor', align: 'center', width: 70, sortable: true },
-                { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: true },
+                {
+                    xtype: 'templatecolumn', dataIndex: 'nomeTipoDeCliente', text: 'Tipo de cliente', flex: 1, align: 'center', sortable: false,
+                    tpl: Ext.create('Ext.XTemplate', '{nomeTipoDeCliente:this.formatCondEspec}', {
+                        formatCondEspec: function(v) { if (v != 'Todos') { return '<b>' + v + '</b>'; } else { return v; } }
+                    })
+                },
+                { xtype: 'numbercolumn', dataIndex: 'valor', text: 'Valor', align: 'center', width: 70, sortable: false },
+                { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: false },
                 {
                     xtype: 'actioncolumn',
                     text: 'Açao',
@@ -96,6 +102,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
                     }]}
             ]
         });
+        this.gridValoresServico = gridValoresServico;
 
         var mainPanel = Ext.create('Ext.panel.Panel', {
             xtype: 'panel',

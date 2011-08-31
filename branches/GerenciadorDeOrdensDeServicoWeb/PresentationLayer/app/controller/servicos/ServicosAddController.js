@@ -20,7 +20,17 @@ Ext.define('App.controller.servicos.ServicosAddController', {
     },
 
     onCheckValorUnico: function ( checkbox, newValue, oldValue, eOpts ) {
-        grid.panel.module.app.getModule("win-servicos-add").createWindow({record:record});
+        var valUnico = checkbox.scope.formServico.down("#addServicoValorUnico");
+
+        if(newValue) {
+            valUnico.enable();
+            valUnico.setValue(0);
+            checkbox.scope.gridValoresServico.disable();
+        } else {
+            valUnico.disable();
+            valUnico.reset();
+            checkbox.scope.gridValoresServico.enable();
+        }
     },
 
 });

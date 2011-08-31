@@ -6,6 +6,8 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.servicos;
 using MySql.Data.MySqlClient;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.servicos;
+using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.tapetes;
+using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.tapetes;
 
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 	public class GerenciadorDeServicos {
@@ -43,9 +45,20 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 
 		public static List<Erro> preencherServico( UInt32 codigoServico, out Servico servico ) {
 			List<Erro> listaDeErros = new List<Erro>();
-			
+
 			try {
-				servico = MySqlServicosDao.getServico( codigoServico );
+				if( codigoServico == 0 ) {
+					servico = new Servico();
+					List<Tapete> tapetes = MySqlTapetesDao.getTapetes();
+					foreach( Tapete tapete in tapetes ) {
+						ValorDeServico val = new ValorDeServico();
+						val.tapete.codigo = tapete.codigo;
+						val.tapete.nome = tapete.nome;
+						servico.valores.Add(val);
+					}
+				} else {
+					servico = MySqlServicosDao.getServico( codigoServico );
+				}
 			} catch( MySqlException ex ) {
 
 				servico = new Servico( codigoServico );

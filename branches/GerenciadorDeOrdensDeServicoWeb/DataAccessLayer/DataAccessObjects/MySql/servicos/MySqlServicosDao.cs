@@ -13,7 +13,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 		private const String SQL_VALORES
 			= "SELECT "
 			+ "		 cod_valor_servico "
-			+ "		 cod_valor_servico_pai "
+			+ "		,cod_valor_servico_pai "
 			+ "		,cod_servico "
 			+ "		,tb_tapetes.cod_tapete "
 			+ "		,tb_tapetes.nom_tapete "
@@ -26,7 +26,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "		  ON tb_valores_servicos.cod_tapete = tb_tapetes.cod_tapete "
 			+ "LEFT JOIN tb_tipos_clientes "
 			+ "		  ON tb_tipos_clientes.cod_tipo_cliente = tb_valores_servicos.cod_tipo_cliente "
-			+ "WHERE cod_servico = @codServico OR cod_servico IS NULL ";
+			+ "WHERE (cod_servico = @codServico OR cod_servico IS NULL) ";
 
 		public static long countServicos() {
 			long count = 0;
@@ -59,8 +59,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			sql.AppendLine( "SELECT" );
 			sql.AppendLine( "	 nom_servico" );
 			sql.AppendLine( "	,int_cobrado_por" );
-			sql.AppendLine( "	,flg_valor_unico" );
-			sql.AppendLine( "	,val_base" );
 			sql.AppendLine( "	,txt_descricao" );
 			sql.AppendLine( "FROM tb_servicos " );
 			sql.AppendLine( "WHERE cod_servico = @codServico " );
@@ -75,8 +73,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			if( reader.Read() ) {
 				servico.nome = reader.GetString( "nom_servico" );
 				servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), reader.GetUInt32( "int_cobrado_por" ).ToString(), true );
-				servico.flgValorUnico = reader.GetBoolean( "flg_valor_unico" );
-				servico.valorBase = reader.GetDouble( "val_base" );
 				try { servico.descricao = reader.GetString( "txt_descricao" ); } catch { }
 			}
 
@@ -102,8 +98,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			sqlServicos.AppendLine( "	 cod_servico" );
 			sqlServicos.AppendLine( "	,nom_servico" );
 			sqlServicos.AppendLine( "	,int_cobrado_por" );
-			sqlServicos.AppendLine( "	,flg_valor_unico" );
-			sqlServicos.AppendLine( "	,val_base" );
 			sqlServicos.AppendLine( "	,txt_descricao" );
 			sqlServicos.AppendLine( "FROM tb_servicos " );
 			sqlServicos.AppendLine( " ORDER BY nom_servico " );
@@ -119,8 +113,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 				servico.codigo = reader.GetUInt32( "cod_servico" );
 				servico.nome = reader.GetString( "nom_servico" );
-				servico.flgValorUnico = reader.GetBoolean( "flg_valor_unico" );
-				servico.valorBase = reader.GetDouble( "val_base" );
 				servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), reader.GetUInt32( "int_cobrado_por" ).ToString(), true );
 				try { servico.descricao = reader.GetString( "txt_descricao" ); } catch { }
 
@@ -175,9 +167,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			List<ValorDeServico> valPais = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo != 0 && val.codigoPai == 0; } );
 			if( valPais == null ) { return valores; }
 
-			List<ValorDeServico> valAux = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo == 0; } );			
-			if( valAux == null ) { valAux = new List<ValorDeServico>(); }
-
 			Dictionary<UInt32, ValorDeServico> dic = new Dictionary<UInt32, ValorDeServico>();
 			foreach( ValorDeServico val in valPais ) {
 				dic.Add( val.codigo, val );
@@ -187,9 +176,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				dic[val.codigoPai].valoresEspeciais.Add( val );
 			}
 
+			List<ValorDeServico> valAux = new List<ValorDeServico>();
+			
 			foreach( KeyValuePair<UInt32, ValorDeServico> val in dic ) {
 				valAux.Add( val.Value );
 			}
+
+			valAux.AddRange(valores.FindAll( delegate( ValorDeServico val ) { return val.codigo == 0; } ));
 
 			return valAux;
 		}
