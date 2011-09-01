@@ -10,27 +10,59 @@ Ext.define('App.controller.servicos.ServicosAddController', {
 
     init: function () {
         this.control({
-            '#grid-servicos': {
-                itemdblclick: this.editServico
+            '#gridAddServico': {
+                itemdblclick: this.editValores
             },
-            '#addServicoFlgValorUnico': {
-                change: this.onCheckValorUnico
+            '#win-addServico-editValores button[action=save]': {
+                click: this.alterarValores
+            },
+            '#btnAddServico-editValores': {
+                click: this.onEditValoresClick
             }
         });
     },
 
-    onCheckValorUnico: function ( checkbox, newValue, oldValue, eOpts ) {
-        var valUnico = checkbox.scope.formServico.down("#addServicoValorUnico");
+    onEditValoresClick: function(btn, eventObject, options) {
+        var grid = btn.scope.gridValoresServico;
+        var record = grid.getSelectionModel().getSelection()[0];
 
-        if(newValue) {
-            valUnico.enable();
-            valUnico.setValue(0);
-            checkbox.scope.gridValoresServico.disable();
-        } else {
-            valUnico.disable();
-            valUnico.reset();
-            checkbox.scope.gridValoresServico.enable();
-        }
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
+    editValores: function(view, record, item, index, event, eOpts) {
+        var store = view.panel.module.tiposDeClientesStore;
+        var winEditValores = view.panel.module.createWinEditValores();
+        if(store.getAt(store.find('codigo', record.codigoTipoDeCliente)) == null ) {
+            store.add({codigo: record.data.codigoTipoDeCliente, nome: record.data.nomeTipoDeCliente});
+            winEditValores.down('combobox').disable();
+        }
+        winEditValores.show();
+        winEditValores.down('form').loadRecord(record);
+    },
+
+    alterarValores: function (btn) {
+        var win = btn.up('window'),
+        form = win.down('form'),
+        record = form.getRecord(),
+        values = form.getValues();
+        if (!form.getForm().isValid()) {
+            genericErrorAlert("Erro", "Preencha os campos corretamente antes de alterar os valores");
+            return false;
+        }
+
+        var count = 0, i;
+        for(i = 0; i < record.parentNode.childNodes.length; i++ ) {
+            if(record.parentNode.childNodes[i].data.codigoTipoDeCliente != 0
+                && record.parentNode.childNodes[i].data.codigoTipoDeCliente == values.codigoTipoDeCliente) {
+                count++;
+            }
+        }
+        if(count > 1) {
+            genericErrorAlert("Erro", "J&aacute; existe uma condi&ccedil;&atilde;o especial para esse tipo de cliente");
+            return false;
+        }
+
+        record.set(values);
+        win.close();
+    }
 });

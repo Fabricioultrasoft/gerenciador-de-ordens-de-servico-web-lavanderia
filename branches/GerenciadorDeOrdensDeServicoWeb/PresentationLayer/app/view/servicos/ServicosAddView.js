@@ -29,12 +29,16 @@ Ext.define('App.view.servicos.ServicosAddView', {
     createPanel: function () {
 
         var valoresStore = Ext.create('App.store.servicos.ValoresServicosStore',{ pageSize:0 });
+        var tiposDeClientesStore = Ext.create('App.store.clientes.TiposDeClientesStore', { pageSize: 0 });
+        tiposDeClientesStore.load({ params: { ativo: true} });
         
+        this.tiposDeClientesStore = tiposDeClientesStore;
+
         var formServico = Ext.create('Ext.form.Panel',{
             title: 'Dados do servi&ccedil;o',
             iconCls: 'servicos-thumb',
             bodyPadding: 5,
-            height: 250,
+            height: 200,
             region: 'north',
             layout: 'anchor',
             defaults: {
@@ -47,14 +51,13 @@ Ext.define('App.view.servicos.ServicosAddView', {
                     store: Ext.create('Ext.data.Store', { fields: ['codigo', 'nome'], data: [ { 'codigo': 1, 'nome': "Metro (M)" }, { 'codigo': 2, 'nome': "Metro quadrado (m²)" } ] }),
                     queryMode: 'local', displayField: 'nome', valueField: 'codigo', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'Uma op&ccedil;&atilde;o deve ser selecionada'
                 },
-                { xtype: 'checkbox', itemId: 'addServicoFlgValorUnico', name: 'flgValorUnico', fieldLabel: '&Eacute; valor unico', inputValue: '1', scope: this },
-                { xtype: 'numberfield', itemId: 'addServicoValorUnico', name: 'valorUnico', fieldLabel: 'Valor unico', emptyText: 'Digite um valor valido para todos os tapetes', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'textarea', name: 'descricao', fieldLabel: 'Descri&ccedil;&atilde;o', emptyText: 'Descrição do serviço', height: 100 }
             ]
         });
         this.formServico = formServico;
         
         var gridValoresServico =  Ext.create('Ext.tree.Panel', {
+            id: 'gridAddServico',
             title: 'Valores do servi&ccedil;o',
             iconCls: 'cifrao-thumb',
             region: 'center',
@@ -62,47 +65,25 @@ Ext.define('App.view.servicos.ServicosAddView', {
             //useArrows: true,
             animate: false,
             store: valoresStore,
+            tbar: [
+                { xtype: 'button', itemId: 'btnAddServico-editValores', text: 'Editar valores', iconCls: 'edit', tooltip: 'Editar valores do servi&ccedil;o para o tapete selecionado na listagem abaixo', scope: this, disabled: true },
+                { xtype: 'button', itemId: 'btnAddServico-addCondicaoEspecial', text: 'Adicionar Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-add', tooltip: 'Adicionar uma condi&ccedil;&atilde;o de valor especial para um tipo de cliente', scope: this, disabled: true },
+                { xtype: 'button', itemId: 'btnAddServico-delCondicaoEspecial', text: 'Remover Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-del', tooltip: 'Remover condi&ccedil;&atilde;o de valor especial', scope: this, disabled: true }
+            ],
             columns: [
                 { xtype: 'treecolumn', dataIndex: 'nomeTapete', text: 'Tapete', flex: 2, sortable: true },
-                {
-                    xtype: 'templatecolumn', dataIndex: 'nomeTipoDeCliente', text: 'Tipo de cliente', flex: 1, align: 'center', sortable: false,
-                    tpl: Ext.create('Ext.XTemplate', '{nomeTipoDeCliente:this.formatCondEspec}', {
-                        formatCondEspec: function(v) { if (v != 'Todos') { return '<b>' + v + '</b>'; } else { return v; } }
-                    })
-                },
+                { xtype: 'templatecolumn', dataIndex: 'nomeTipoDeCliente', text: 'Tipo de cliente', flex: 1, align: 'center', sortable: false, tpl: Ext.create('Ext.XTemplate', '{nomeTipoDeCliente:this.formatCondEspec}', { formatCondEspec: function(v) { if (v != 'Todos') { return '<b>' + v + '</b>'; } else { return v; } } }) },
                 { xtype: 'numbercolumn', dataIndex: 'valor', text: 'Valor', align: 'center', width: 70, sortable: false },
                 { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: false },
-                {
-                    xtype: 'actioncolumn',
-                    text: 'Açao',
-                    sortable: false,
-                    align: 'center',
-                    width: 50,
-                    items: [{
-                        iconCls: 'act-edit',  // Use a URL in the icon config
-                        tooltip: 'Editar valores do servi&ccedil;o para este tapete',
-                        handler: function(view, rowIndex, colIndex, item, event ) {
-                            var rec = store.getAt(rowIndex);
-                            alert("Sell " + rec.get('company'));
-                        }
-                    }, {
-                        getClass: function(v, meta, rec) {          // Or return a class from a function
-                            if (rec.get('codigoTipoDeCliente') > 0) {
-                                this.items[1].tooltip = 'Remover condi&ccedil;&atilde;o de valor especial';
-                                return 'act-dinheiro-del';
-                            } else {
-                                this.items[1].tooltip = 'Adicionar uma condi&ccedil;&atilde;o de valor especial para um tipo de cliente';
-                                return 'act-dinheiro-add';
-                            }
-                        },
-                        handler: function(grid, rowIndex, colIndex) {
-                            var rec = store.getAt(rowIndex);
-                            alert((rec.get('change') < 0 ? "Hold " : "Buy ") + rec.get('company'));
-                        }
-                    }]}
-            ]
+            ],
+            listeners: {
+                'selectionchange': function (view, records) {
+                    gridValoresServico.down('#btnAddServico-editValores').setDisabled(!records.length);
+                }
+            }
         });
         this.gridValoresServico = gridValoresServico;
+        this.gridValoresServico.module = this;
 
         var mainPanel = Ext.create('Ext.panel.Panel', {
             xtype: 'panel',
@@ -115,5 +96,42 @@ Ext.define('App.view.servicos.ServicosAddView', {
         this.mainPanel = mainPanel;
 
         return mainPanel;
-    }
+    },
+
+    createWinEditValores: function () {
+        var winEditValores = Ext.ComponentManager.get('win-addServico-editValores');
+        if (!winEditValores) {
+
+            winEditValores = Ext.create('widget.window', {
+                title: 'Alterar Valores do Servi&ccedil;o',
+                layout: 'fit',
+                id: 'win-addServico-editValores',
+                modal: true,
+                resizable: false,
+                width: 400,
+                items: [{
+                    xtype: 'form',
+                    border: false,
+                    fieldDefaults: {
+                        labelAlign: 'right',
+                        labelWidth: 85,
+                        anchor: '100%',
+                        margin: '2 2 2 2'
+                    },
+                    items: [
+                        { xtype: 'textfield', name: 'nomeTapete', fieldLabel: 'Tapete', readOnly: true },
+                        { xtype: 'combo', name: 'codigoTipoDeCliente', store: this.tiposDeClientesStore, fieldLabel: 'Tipo de cliente', emptyText: 'Selecione o tipo de cliente', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'O tipo de cliente é obrigatório' },
+                        { xtype: 'numberfield', name: 'valor', fieldLabel: 'Valor', emptyText: 'Valor inicial do serviço', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, allowBlank: false, blankText: 'O valor inicial é obrigatório' },
+                        { xtype: 'numberfield', name: 'valorAcima10m2', fieldLabel: 'Acima 10m&sup2;', emptyText: 'Valor do serviço acima de 10m2', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, allowBlank: false, blankText: 'O valor acima de 10m&sup2; é obrigatório' }
+                    ]
+                }],
+                buttons: [
+                    { text: 'Salvar', action: 'save', scope: this },
+                    { text: 'Cancelar', scope: winEditValores, handler: function () { winEditValores.close(); } }
+                ]
+            });
+        }
+
+        return winEditValores;
+    },
 });

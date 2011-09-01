@@ -1765,6 +1765,7 @@
     <Content Include="PresentationLayer\resources\css\app.css" />
     <Content Include="PresentationLayer\resources\css\icons.css" />
     <Content Include="PresentationLayer\resources\css\webDesktop.css" />
+    <Content Include="PresentationLayer\resources\images\add-thumb.png" />
     <Content Include="PresentationLayer\resources\images\btn-add.png" />
     <Content Include="PresentationLayer\resources\images\btn-del.png" />
     <Content Include="PresentationLayer\resources\images\btn-logout.png" />
@@ -1780,11 +1781,15 @@
     <Content Include="PresentationLayer\resources\images\clientes-add.png" />
     <Content Include="PresentationLayer\resources\images\clientes-edit.png" />
     <Content Include="PresentationLayer\resources\images\clientes-search.png" />
+    <Content Include="PresentationLayer\resources\images\del-thumb.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-add.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-del.png" />
     <Content Include="PresentationLayer\resources\images\cifrao-thumb.png" />
     <Content Include="PresentationLayer\resources\images\edit.png" />
     <Content Include="PresentationLayer\resources\images\favicon.png" />
+    <Content Include="PresentationLayer\resources\images\favorite-add.png" />
+    <Content Include="PresentationLayer\resources\images\favorite-del.png" />
+    <Content Include="PresentationLayer\resources\images\favorite.png" />
     <Content Include="PresentationLayer\resources\images\filtro.png" />
     <Content Include="PresentationLayer\resources\images\link-add.png" />
     <Content Include="PresentationLayer\resources\images\location-thumb.png" />

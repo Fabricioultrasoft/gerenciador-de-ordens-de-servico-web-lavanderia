@@ -5,6 +5,8 @@
 .user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
 .btn-add {background-image: url("../images/btn-add.png") !important;}
 .btn-del {background-image: url("../images/btn-del.png") !important;}
+.add-thumb {background-image: url("../images/add-thumb.png") !important;}
+.del-thumb {background-image: url("../images/del-thumb.png") !important;}
 .btn-logout {background-image: url("../images/btn-logout.png") !important;}
 .btn-settings {background-image: url("../images/btn-settings.png") !important;}
 .btn-limpar {background-image: url("../images/btn-limpar.png") !important;}
@@ -35,8 +37,11 @@
 .servicos-search-thumb {background-image: url("../images/servicos-search-thumb.png") !important;}
 .servicos-add {background-image: url("../images/servicos-add.png") !important;}
 .servicos-add-thumb {background-image: url("../images/servicos-add-thumb.png") !important;}
-
-
+.dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
+.dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}
+.favorite {background-image: url("../images/favorite.png") !important;}
+.favorite-add {background-image: url("../images/favorite-add.png") !important;}
+.favorite-del {background-image: url("../images/favorite-del.png") !important;}
 
 .x-action-col-cell img.act-dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
 .x-action-col-cell img.act-dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}

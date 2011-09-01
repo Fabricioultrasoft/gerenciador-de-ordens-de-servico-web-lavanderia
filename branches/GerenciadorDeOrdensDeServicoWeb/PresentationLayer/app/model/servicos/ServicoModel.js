@@ -8,8 +8,6 @@ Ext.define('App.model.servicos.ServicoModel',{
         { name: 'descricao', type: 'string' },
         { name: 'codigoCobradoPor', type: 'int' },
         { name: 'nomeCobradoPor', type: 'string' },
-        { name: 'flagValorUnico', type: 'boolean' },
-        { name: 'valorBase', type: 'float' },
         { name: 'valores', type: 'auto' },
     ]
 });

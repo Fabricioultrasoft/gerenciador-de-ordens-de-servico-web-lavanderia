@@ -122,7 +122,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			jsonResposta.AppendFormat( " \"nome\": \"{0}\",", servico.nome );
 			jsonResposta.AppendFormat( " \"descricao\": \"{0}\",", servico.descricao );
 			jsonResposta.AppendFormat( " \"codigoCobradoPor\": {0},", (int) servico.cobradoPor );
-			jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\" ", servico.cobradoPor );
+			jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\", ", servico.cobradoPor );
 			montarValoresJson( ref jsonResposta, servico.valores );
 			jsonResposta.Append( "}" );
 			#endregion
