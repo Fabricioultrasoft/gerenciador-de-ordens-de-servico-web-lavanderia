@@ -28,12 +28,12 @@ Ext.define('App.controller.servicos.ServicosSearchController', {
         });
     },
 
-    addServico: function (grid, record) {
-        grid.panel.module.app.getModule("win-servicos-add").createWindow({record:record});
+    editServico: function (grid, record) {
+        grid.panel.module.app.getModule("module-servicos-edit").createWindow({record:record});
     },
 
-    editServico: function (grid, record) {
-        grid.panel.module.app.getModule("win-servicos-edit").createWindow({record:record});
+    onAddServicoClick: function (btn, eventObject, options) {
+        btn.scope.app.getModule("module-servicos-add").createWindow();
     },
 
     onEditServicoClick: function(btn, eventObject, options) {

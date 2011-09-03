@@ -1,7 +1,7 @@
 ﻿
 Ext.define('App.view.clientes.ClientesAddView', {
     extend: 'App.webDesktop.Module',
-    id: 'win-clientes-add',
+    id: 'module-clientes-add',
     init: function () {
 //        this.launcher = {
 //            text: 'Adicionar Cliente',

@@ -12,7 +12,7 @@ Ext.define('App.view.servicos.ServicosSearchView', {
             var servicosPanel = this.createPanel();
             win = desktop.createWindow({
                 id: 'win-servicos-search',
-                title: 'Consultar Servi&ccedil;os',
+                title: 'Consultar Serviços',
                 width: 500,
                 height: 380,
                 iconCls: 'servicos-search-thumb',

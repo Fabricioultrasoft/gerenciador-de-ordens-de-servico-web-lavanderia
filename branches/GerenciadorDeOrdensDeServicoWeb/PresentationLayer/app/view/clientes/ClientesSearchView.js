@@ -105,7 +105,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
                 { header: 'Atualiza&ccedil;&atilde;o', dataIndex: 'dataDeAtualizacao'}
             ],
             tbar: [
-            { itemId: 'btnAddCliente', text: 'Adicionar', iconCls: 'clientes-add-thumb', scope: this, handler : function() { this.app.getModule("win-clientes-add").createWindow({store:clientesStore}); } },
+            { itemId: 'btnAddCliente', text: 'Adicionar', iconCls: 'clientes-add-thumb', scope: this, handler : function() { this.app.getModule("module-clientes-add").createWindow({store:clientesStore}); } },
             { itemId: 'btnEditCliente', text: 'Editar', iconCls: 'clientes-edit-thumb', scope: this, disabled: true },
             { itemId: 'btnDelCliente', text: 'Remover', iconCls: 'clientes-del-thumb', scope: this, disabled: true }, 
             {
@@ -114,9 +114,9 @@ Ext.define('App.view.clientes.ClientesSearchView', {
                 scope: this,
                 pressed: false,
                 enableToggle: true,
-                text: 'Descri&ccedil;&atilde;o',
+                text: 'Observa&ccedil;&otilde;es',
                 tooltip: {
-                    title: 'Descri&ccedil;&atilde;o dos clientes',
+                    title: 'Observa&ccedil;&otilde;es dos clientes',
                     text: 'Visializar a descri&ccedil;&atilde;o de cada registro na listagem'
                 }
             }],
@@ -139,7 +139,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
                     ptype: 'preview',
                     bodyField: 'observacoes',
                     previewExpanded: false,
-                    labelField: '<b>Descri&ccedil;&atilde;o:</b> '
+                    labelField: '<b>Observa&ccedil;&otilde;es:</b> '
                 }]
             }
         });

@@ -1781,6 +1781,7 @@
     <Content Include="PresentationLayer\resources\images\clientes-add.png" />
     <Content Include="PresentationLayer\resources\images\clientes-edit.png" />
     <Content Include="PresentationLayer\resources\images\clientes-search.png" />
+    <Content Include="PresentationLayer\resources\images\clientes.png" />
     <Content Include="PresentationLayer\resources\images\del-thumb.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-add.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-del.png" />

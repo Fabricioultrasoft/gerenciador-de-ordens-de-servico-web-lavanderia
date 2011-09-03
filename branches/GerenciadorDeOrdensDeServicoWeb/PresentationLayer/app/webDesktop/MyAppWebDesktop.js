@@ -56,8 +56,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
             shortcuts: Ext.create('Ext.data.Store', {
                 model: 'App.webDesktop.ShortcutModel',
                 data: [
-                    { name: 'Tapetes', iconCls: 'tapete', module: 'win-tapetes' },
-                    { name: 'Clientes', iconCls: 'clientes-search', module: 'module-clientes-search' },
+                    { name: 'Tapetes', iconCls: 'tapete', module: 'module-tapetes' },
+                    { name: 'Clientes', iconCls: 'clientes', module: 'module-clientes-search' },
                     { name: 'Servi&ccedil;os', iconCls: 'servicos', module: 'module-servicos-search' }
                 ]
             }),

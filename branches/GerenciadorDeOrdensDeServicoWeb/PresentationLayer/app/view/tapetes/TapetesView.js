@@ -2,7 +2,7 @@
 Ext.define('App.view.tapetes.TapetesView', {
     extend: 'App.webDesktop.Module',
     requires: ['App.ux.PreviewPlugin','Ext.String'],
-    id: 'win-tapetes',
+    id: 'module-tapetes',
     init: function () {
         this.launcher = {
             text: 'Tapetes',

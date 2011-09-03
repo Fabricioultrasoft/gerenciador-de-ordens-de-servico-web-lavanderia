@@ -19,7 +19,7 @@ Ext.define('App.view.clientes.ClientesView', {
             text: 'Adicionar Cliente',
             iconCls: 'clientes-add-thumb',
             handler : function() {
-                this.app.getModule("win-clientes-add").createWindow();
+                this.app.getModule("module-clientes-add").createWindow();
             },
             scope: this,
             id: 'mnuClientesAdd'
@@ -28,7 +28,7 @@ Ext.define('App.view.clientes.ClientesView', {
             text: 'Consultar Clientes',
             iconCls: 'clientes-search-thumb',
             handler : function() {
-                this.app.getModule("win-clientes-search").createWindow();
+                this.app.getModule("module-clientes-search").createWindow();
             },
             scope: this,
             id: 'mnuClientesSearch'

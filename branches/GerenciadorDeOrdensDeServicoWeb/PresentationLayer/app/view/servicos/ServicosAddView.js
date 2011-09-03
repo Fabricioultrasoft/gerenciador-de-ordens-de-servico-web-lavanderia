@@ -38,7 +38,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
             title: 'Dados do servi&ccedil;o',
             iconCls: 'servicos-thumb',
             bodyPadding: 5,
-            height: 200,
+            height: 190,
             region: 'north',
             layout: 'anchor',
             defaults: {
@@ -77,8 +77,16 @@ Ext.define('App.view.servicos.ServicosAddView', {
                 { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: false },
             ],
             listeners: {
-                'selectionchange': function (view, records) {
-                    gridValoresServico.down('#btnAddServico-editValores').setDisabled(!records.length);
+                'selectionchange': function (treeModel, selectedRecords) {
+                    
+                    if( selectedRecords[0].data.codigoTipoDeCliente == 0 ) {
+                        gridValoresServico.down('#btnAddServico-addCondicaoEspecial').enable();
+                        gridValoresServico.down('#btnAddServico-delCondicaoEspecial').disable();
+                    } else {
+                        gridValoresServico.down('#btnAddServico-addCondicaoEspecial').disable();
+                        gridValoresServico.down('#btnAddServico-delCondicaoEspecial').enable();
+                    }
+                    gridValoresServico.down('#btnAddServico-editValores').setDisabled(!selectedRecords.length);
                 }
             }
         });
@@ -104,6 +112,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
 
             winEditValores = Ext.create('widget.window', {
                 title: 'Alterar Valores do Servi&ccedil;o',
+                iconCls: 'edit',
                 layout: 'fit',
                 id: 'win-addServico-editValores',
                 modal: true,
@@ -134,4 +143,41 @@ Ext.define('App.view.servicos.ServicosAddView', {
 
         return winEditValores;
     },
+
+    createWinAddCondicaoEspecial: function (recordPai) {
+        var win = Ext.ComponentManager.get('win-addServico-addCondicaoEspecial');
+        if (!win) {
+
+            win = Ext.create('widget.window', {
+                title: 'Adicionar Condi&ccedil;&atilde;o Especial de valores',
+                iconCls: 'favorite-add',
+                layout: 'fit',
+                id: 'win-addServico-addCondicaoEspecial',
+                modal: true,
+                resizable: false,
+                width: 400,
+                items: [{
+                    xtype: 'form',
+                    border: false,
+                    fieldDefaults: {
+                        labelAlign: 'right',
+                        labelWidth: 85,
+                        anchor: '100%',
+                        margin: '2 2 2 2'
+                    },
+                    items: [
+                        { xtype: 'textfield', name: 'nomeTapete', fieldLabel: 'Tapete', readOnly: true, value: recordPai.data.nomeTapete },
+                        { xtype: 'combo', name: 'codigoTipoDeCliente', store: this.tiposDeClientesStore, fieldLabel: 'Tipo de cliente', emptyText: 'Selecione o tipo de cliente', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'O tipo de cliente é obrigatório' },
+                        { xtype: 'numberfield', name: 'valor', fieldLabel: 'Valor', emptyText: 'Valor inicial do serviço', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, allowBlank: false, blankText: 'O valor inicial é obrigatório' },
+                        { xtype: 'numberfield', name: 'valorAcima10m2', fieldLabel: 'Acima 10m&sup2;', emptyText: 'Valor do serviço acima de 10m2', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, allowBlank: false, blankText: 'O valor acima de 10m&sup2; é obrigatório' }
+                    ]
+                }],
+                buttons: [
+                    { text: 'Salvar', action: 'save', scope: this },
+                    { text: 'Cancelar', scope: win, handler: function () { win.close(); } }
+                ]
+            });
+        }
+        return win;
+    }
 });
