@@ -46,6 +46,15 @@ function genericExceptionHandler(thisProxy, response, operation, options) {
 }
 
 function genericErrorAlert(title, message) {
+    
+    if(isArray(message)) {
+        var i, msgAux = "";
+        for(i = 0; i < message.length; i++) {
+            msgAux += message[i];
+        }
+        message = msgAux;
+    }
+    
     Ext.Msg.show({
         title: (title) ? title : 'Erro',
         msg: (message) ? message : 'Erro indefinido.',
@@ -53,6 +62,10 @@ function genericErrorAlert(title, message) {
         icon: Ext.MessageBox.ERROR
     });
 };
+
+function isArray(o){
+	return(typeof(o.length)=="undefined")?false:true;
+}
 
 
 Ext.notification = function () {

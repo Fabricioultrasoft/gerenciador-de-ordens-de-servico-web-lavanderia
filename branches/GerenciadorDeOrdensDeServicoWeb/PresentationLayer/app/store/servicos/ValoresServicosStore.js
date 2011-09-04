@@ -3,7 +3,7 @@ Ext.define('App.store.servicos.ValoresServicosStore', {
     extend: 'Ext.data.TreeStore',
     autoDestroy: false,
     model: 'App.model.servicos.ValorServicoModel',
-    storeId: 'servicosStore',
+    storeId: 'valoresServicosStore',
     listeners: {
         write: function(proxy, operation){
             if (operation.action == 'destroy') {
@@ -22,7 +22,7 @@ Ext.define('App.store.servicos.ValoresServicosStore', {
         },
         reader: {
             type: 'json',
-            root: 'valores',
+            root: 'children',
             successProperty: 'success',
             messageProperty: 'message',
             totalProperty: 'total'

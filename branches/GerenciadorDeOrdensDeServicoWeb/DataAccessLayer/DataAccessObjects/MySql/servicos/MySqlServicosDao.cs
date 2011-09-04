@@ -6,10 +6,12 @@ using MySql.Data.MySqlClient;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DatabaseConnections;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.servicos;
 using System.Text;
+using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.servicos {
 	public class MySqlServicosDao {
 
+		#region SQL
 		private const String SQL_VALORES
 			= "SELECT "
 			+ "		 cod_valor_servico "
@@ -27,6 +29,25 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "LEFT JOIN tb_tipos_clientes "
 			+ "		  ON tb_tipos_clientes.cod_tipo_cliente = tb_valores_servicos.cod_tipo_cliente "
 			+ "WHERE (cod_servico = @codServico OR cod_servico IS NULL) ";
+
+		private const String SQL_INSERT_VALOR
+			= "INSERT INTO tb_valores_servicos ( "
+			+ "	 cod_valor_servico_pai "
+			+ "	,cod_servico "
+			+ "	,cod_tapete "
+			+ "	,cod_tipo_cliente "
+			+ "	,val_inicial "
+			+ "	,val_acima_10m2 "
+			+ ") VALUES ( "
+			+ "	 @codValorServicoPai "
+			+ "	,@codServico "
+			+ "	,@codTapete "
+			+ "	,@codTipoCliente "
+			+ "	,@valInicial "
+			+ "	,@valAcima10m2 "
+			+ "); "
+			+ "SELECT LAST_INSERT_ID() ";
+		#endregion
 
 		public static long countServicos() {
 			long count = 0;
@@ -159,6 +180,97 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			conn.Close(); conn.Dispose();
 		}
 
+		public static List<Erro> inserirListaDeServicos( ref List<Servico> servicos ) {
+			List<Erro> erros = new List<Erro>();
+			StringBuilder sqlServico = new StringBuilder();
+			StringBuilder sqlValor = new StringBuilder();
+
+			sqlServico.AppendLine( "INSERT INTO tb_servicos (" );
+			sqlServico.AppendLine( "	 nom_servico" );
+			sqlServico.AppendLine( "	,int_cobrado_por" );
+			sqlServico.AppendLine( "	,txt_descricao" );
+			sqlServico.AppendLine( ") VALUES (" );
+			sqlServico.AppendLine( "	 @nomServico" );
+			sqlServico.AppendLine( "	,@intCobradoPor" );
+			sqlServico.AppendLine( "	,@txtDescricao" );
+			sqlServico.AppendLine( ");" );
+			sqlServico.AppendLine( "SELECT LAST_INSERT_ID()" );
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			// abre a conexao
+			conn.Open();
+
+			foreach( Servico servico in servicos ) {
+				MySqlCommand cmdServico = new MySqlCommand( sqlServico.ToString(), conn );
+				cmdServico.Parameters.Add( "@nomServico", MySqlDbType.VarChar ).Value = servico.nome;
+				cmdServico.Parameters.Add( "@intCobradoPor", MySqlDbType.UInt32 ).Value = (int) servico.cobradoPor;
+
+				if( String.IsNullOrEmpty( servico.descricao.Trim() ) == false ) {
+					cmdServico.Parameters.Add( "@txtDescricao", MySqlDbType.VarChar ).Value = servico.descricao;
+				} else {
+					cmdServico.Parameters.Add( "@txtDescricao", MySqlDbType.VarChar ).Value = DBNull.Value;
+				}
+
+				servico.codigo = UInt32.Parse( cmdServico.ExecuteScalar().ToString() );
+				cmdServico.Dispose();
+
+				if( servico.codigo <= 0 ) {
+					erros.Add( new Erro( 0, "Não foi possível inserir o servi&ccedil;o: " + servico.nome, "Tente inseri-lo novamente" ) );
+					continue;
+				}
+
+				erros.AddRange( inserirValores( servico.valores, servico.codigo, conn ) );
+
+			}
+			// fecha a conexao e libera recursos
+			conn.Close(); conn.Dispose();
+
+			return erros;
+		}
+
+		public static List<Erro> inserirValores( List<ValorDeServico> valores, UInt32 codigoServico, MySqlConnection conn ) {
+			List<Erro> erros = new List<Erro>();
+			foreach( ValorDeServico val in valores ) {
+
+				MySqlCommand cmdValor = new MySqlCommand( SQL_INSERT_VALOR, conn );
+
+				val.codigoServico = codigoServico;
+
+				if( val.codigoPai > 0 ) {
+					cmdValor.Parameters.Add( "@codValorServicoPai", MySqlDbType.UInt32 ).Value = val.codigoPai;
+				} else {
+					cmdValor.Parameters.Add( "@codValorServicoPai", MySqlDbType.UInt32 ).Value = DBNull.Value;
+				}
+
+				if( val.tipoDeCliente.codigo > 0 ) {
+					cmdValor.Parameters.Add( "@codTipoCliente", MySqlDbType.UInt32 ).Value = val.tipoDeCliente.codigo;
+				} else {
+					cmdValor.Parameters.Add( "@codTipoCliente", MySqlDbType.UInt32 ).Value = DBNull.Value;
+				}
+
+				cmdValor.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = val.codigoServico;
+				cmdValor.Parameters.Add( "@codTapete", MySqlDbType.UInt32 ).Value = val.tapete.codigo;
+				cmdValor.Parameters.Add( "@valInicial", MySqlDbType.Double ).Value = val.valorInicial;
+				cmdValor.Parameters.Add( "@valAcima10m2", MySqlDbType.Double ).Value = val.valorAcima10m2;
+
+				val.codigo = UInt32.Parse( cmdValor.ExecuteScalar().ToString() );
+				cmdValor.Dispose();
+
+				if( val.codigo <= 0 ) {
+					erros.Add( new Erro( 0, "Não foi possível inserir o valor " + val.valorInicial + "/" + val.valorAcima10m2 + " para o tapete: " + val.tapete.nome, "Tente inseri-lo novamente" ) );
+				} else {
+					foreach( ValorDeServico valAdicional in val.valoresEspeciais ) {
+						valAdicional.codigoPai = val.codigo;
+						valAdicional.tapete.codigo = val.tapete.codigo;
+					}
+				}
+
+				erros.AddRange( inserirValores( val.valoresEspeciais, codigoServico, conn ) );
+
+			}
+			return erros;
+		}
+
 		public static List<ValorDeServico> estreturarValores( List<ValorDeServico> valores ) {
 
 			List<ValorDeServico> valFilhos = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo != 0 && val.codigoPai != 0; } );
@@ -177,12 +289,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			}
 
 			List<ValorDeServico> valAux = new List<ValorDeServico>();
-			
+
 			foreach( KeyValuePair<UInt32, ValorDeServico> val in dic ) {
 				valAux.Add( val.Value );
 			}
 
-			valAux.AddRange(valores.FindAll( delegate( ValorDeServico val ) { return val.codigo == 0; } ));
+			valAux.AddRange( valores.FindAll( delegate( ValorDeServico val ) { return val.codigo == 0; } ) );
 
 			return valAux;
 		}

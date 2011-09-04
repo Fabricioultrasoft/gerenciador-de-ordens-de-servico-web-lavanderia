@@ -36,6 +36,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
 
         var formServico = Ext.create('Ext.form.Panel',{
             title: 'Dados do servi&ccedil;o',
+            collapsible: true,
             iconCls: 'servicos-thumb',
             bodyPadding: 5,
             height: 190,
@@ -62,13 +63,16 @@ Ext.define('App.view.servicos.ServicosAddView', {
             iconCls: 'cifrao-thumb',
             region: 'center',
             rootVisible: false,
-            //useArrows: true,
             animate: false,
             store: valoresStore,
             tbar: [
                 { xtype: 'button', itemId: 'btnAddServico-editValores', text: 'Editar valores', iconCls: 'edit', tooltip: 'Editar valores do servi&ccedil;o para o tapete selecionado na listagem abaixo', scope: this, disabled: true },
                 { xtype: 'button', itemId: 'btnAddServico-addCondicaoEspecial', text: 'Adicionar Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-add', tooltip: 'Adicionar uma condi&ccedil;&atilde;o de valor especial para um tipo de cliente', scope: this, disabled: true },
                 { xtype: 'button', itemId: 'btnAddServico-delCondicaoEspecial', text: 'Remover Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-del', tooltip: 'Remover condi&ccedil;&atilde;o de valor especial', scope: this, disabled: true }
+            ],
+            bbar: [
+                { text: 'Expandir', iconCls: 'toggle-expand', handler: function(){ gridValoresServico.expandAll(); } }, 
+                { text: 'Contrair', iconCls: 'toggle-collapse', handler: function(){ gridValoresServico.collapseAll(); } }
             ],
             columns: [
                 { xtype: 'treecolumn', dataIndex: 'nomeTapete', text: 'Tapete', flex: 2, sortable: true },
@@ -109,6 +113,15 @@ Ext.define('App.view.servicos.ServicosAddView', {
     createWinEditValores: function () {
         var winEditValores = Ext.ComponentManager.get('win-addServico-editValores');
         if (!winEditValores) {
+            
+            var arrTipoClientes = new Array(), i;
+            for(i = 0; i < this.tiposDeClientesStore.data.items.length; i++) {
+                arrTipoClientes.push(this.tiposDeClientesStore.data.items[i].data);
+            }
+
+            var tempStore = Ext.create('App.store.clientes.TiposDeClientesStore', {
+                data: arrTipoClientes
+            });
 
             winEditValores = Ext.create('widget.window', {
                 title: 'Alterar Valores do Servi&ccedil;o',
@@ -123,13 +136,13 @@ Ext.define('App.view.servicos.ServicosAddView', {
                     border: false,
                     fieldDefaults: {
                         labelAlign: 'right',
-                        labelWidth: 85,
+                        labelWidth: 90,
                         anchor: '100%',
                         margin: '2 2 2 2'
                     },
                     items: [
                         { xtype: 'textfield', name: 'nomeTapete', fieldLabel: 'Tapete', readOnly: true },
-                        { xtype: 'combo', name: 'codigoTipoDeCliente', store: this.tiposDeClientesStore, fieldLabel: 'Tipo de cliente', emptyText: 'Selecione o tipo de cliente', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'O tipo de cliente é obrigatório' },
+                        { xtype: 'combo', name: 'codigoTipoDeCliente', store: tempStore, fieldLabel: 'Tipo de cliente', emptyText: 'Selecione o tipo de cliente', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'O tipo de cliente é obrigatório' },
                         { xtype: 'numberfield', name: 'valor', fieldLabel: 'Valor', emptyText: 'Valor inicial do serviço', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, allowBlank: false, blankText: 'O valor inicial é obrigatório' },
                         { xtype: 'numberfield', name: 'valorAcima10m2', fieldLabel: 'Acima 10m&sup2;', emptyText: 'Valor do serviço acima de 10m2', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, allowBlank: false, blankText: 'O valor acima de 10m&sup2; é obrigatório' }
                     ]
@@ -161,7 +174,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
                     border: false,
                     fieldDefaults: {
                         labelAlign: 'right',
-                        labelWidth: 85,
+                        labelWidth: 90,
                         anchor: '100%',
                         margin: '2 2 2 2'
                     },

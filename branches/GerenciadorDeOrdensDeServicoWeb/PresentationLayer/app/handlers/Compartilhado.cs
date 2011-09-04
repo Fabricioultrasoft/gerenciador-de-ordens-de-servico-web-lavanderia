@@ -18,12 +18,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 		public static void construirParteDoJsonMensagensDeErros( ref StringBuilder json, List<Erro> erros ) {
 			json.AppendLine( " \"message\": [" );
 			foreach( Erro err in erros ) {
+				tratarCaracteresEspeciais<Erro>( err );
 				json.Append( " \" " );
 				json.Append( "<p>" );
 				json.Append( "<h6>Erro</h6>" );
 				json.AppendFormat( "<b>Codigo:</b> {0}<br/>", err.numeroDoErro );
-				json.AppendFormat( "<b>Causa:</b> {0}<br/>", err.mensagem.Replace( @"\", @"\\" ).Replace( "\n", "\\n" ).Replace( "\r", "\\r" ).Replace( "\"", "\\\"" ) );
-				json.AppendFormat( "<b>Solução:</b> {0}", err.solucao.Replace( "\r\n", "" ) );
+				json.AppendFormat( "<b>Causa:</b> {0}<br/>", err.mensagem );
+				json.AppendFormat( "<b>Solução:</b> {0}", err.solucao );
 				json.Append( "</p>" );
 				json.Append( " \"," );
 			}
@@ -42,6 +43,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 							.Replace( @"\", @"\\" )
 							.Replace( "\n", "\\n" )
 							.Replace( "\r", "\\r" )
+							.Replace( "'", "\"" )
 							.Replace( "\"", "\\\"" )
 					,null);
 				}

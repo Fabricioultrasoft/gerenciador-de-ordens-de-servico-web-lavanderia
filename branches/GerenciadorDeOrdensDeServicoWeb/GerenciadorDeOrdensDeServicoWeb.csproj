@@ -1806,6 +1806,8 @@
     <Content Include="PresentationLayer\resources\images\tapete-estrela-thumb.png" />
     <Content Include="PresentationLayer\resources\images\tapete-thumb.png" />
     <Content Include="PresentationLayer\resources\images\tapete.png" />
+    <Content Include="PresentationLayer\resources\images\toggle-collapse.png" />
+    <Content Include="PresentationLayer\resources\images\toggle-expand.png" />
     <Content Include="PresentationLayer\resources\images\user-silhouette.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
     <Content Include="PresentationLayer\resources\images\servicos-add-thumb.png" />
