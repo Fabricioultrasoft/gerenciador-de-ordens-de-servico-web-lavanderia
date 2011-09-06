@@ -29,8 +29,9 @@ Ext.define('App.view.servicos.ServicosSearchView', {
 
     createPanel: function () {
 
-        var servicosStore = Ext.create('App.store.servicos.ServicosStore',{});
-        servicosStore.load();
+        var servicosStore = Ext.create('App.store.servicos.ServicosStore',{pageSize:0});
+        servicosStore.load({ params: { apenasDadosBasicos: true} });
+        this.servicosStore = servicosStore;
 
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-servicos',
@@ -39,7 +40,7 @@ Ext.define('App.view.servicos.ServicosSearchView', {
             columns: [
                 { xtype: 'numbercolumn', header: 'Cod', dataIndex: 'codigo', format: '0' },
                 { header: 'nome', dataIndex: 'nome', flex: 1, renderer: Ext.String.htmlEncode },
-                { header: 'Tipo', dataIndex: 'nomeTipoDeServico' }
+                { header: 'Cobrado por', dataIndex: 'nomeCobradoPor' }
             ],
             tbar: [
                 { itemId: 'btnAddServico', text: 'Adicionar', iconCls: 'btn-add', scope: this },
@@ -50,7 +51,7 @@ Ext.define('App.view.servicos.ServicosSearchView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: servicosStore,
                 displayInfo: true,
-                displayMsg: 'Servi&ccedil;os {0} - {1} of {2}',
+                displayMsg: 'Servi&ccedil;os {0} - {1} de {2}',
                 emptyMsg: "Nenhum servi&ccedil;o"
             }),
             listeners: {

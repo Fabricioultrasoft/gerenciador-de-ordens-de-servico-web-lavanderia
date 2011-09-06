@@ -60,7 +60,7 @@
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: logradourosStore,
                 displayInfo: true,
-                displayMsg: 'Logradouros {0} - {1} of {2}',
+                displayMsg: 'Logradouros {0} - {1} de {2}',
                 emptyMsg: "Nenhum logradouro"
             }),
             listeners: {

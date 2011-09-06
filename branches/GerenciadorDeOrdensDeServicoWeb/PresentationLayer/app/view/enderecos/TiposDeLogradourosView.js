@@ -39,7 +39,7 @@ Ext.define('App.view.enderecos.TiposDeLogradourosView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: tiposDeLogradourosStore,
                 displayInfo: true,
-                displayMsg: 'Tipos de Logradouros {0} - {1} of {2}',
+                displayMsg: 'Tipos de Logradouros {0} - {1} de {2}',
                 emptyMsg: "Nenhum tipo de logradouro"
             }),
             listeners: {

@@ -90,5 +90,22 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			}
 			return listaDeErros;
 		}
+
+		public static List<Erro> excluirListaDeServicos( List<Servico> servicos ) {
+			List<Erro> listaDeErros = new List<Erro>();
+			try {
+				listaDeErros.AddRange( MySqlServicosDao.excluirListaDeServicos( servicos ) );
+			} catch( MySqlException ex ) {
+
+				if( ex.Number == 1042 ) {
+					listaDeErros.Add( new Erro( 1042 ) );
+				} else {
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
+				}
+			}
+			return listaDeErros;
+		}
 	}
 }

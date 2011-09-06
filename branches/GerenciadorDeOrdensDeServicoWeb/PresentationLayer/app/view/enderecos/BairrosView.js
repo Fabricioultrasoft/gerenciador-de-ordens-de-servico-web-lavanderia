@@ -63,7 +63,7 @@ Ext.define('App.view.enderecos.BairrosView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: bairrosStore,
                 displayInfo: true,
-                displayMsg: 'Bairros {0} - {1} of {2}',
+                displayMsg: 'Bairros {0} - {1} de {2}',
                 emptyMsg: "Nenhum bairro"
             }),
             listeners: {

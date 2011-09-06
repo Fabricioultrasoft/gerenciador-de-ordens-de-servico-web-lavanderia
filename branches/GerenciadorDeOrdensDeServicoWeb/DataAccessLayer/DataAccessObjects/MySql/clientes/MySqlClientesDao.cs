@@ -348,7 +348,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			sqlClientes.AppendLine( "INNER JOIN tb_tipos_clientes ON tb_tipos_clientes.cod_tipo_cliente = tb_clientes.cod_tipo_cliente  " );
 			sqlClientes.AppendLine( mySqlFilter.whereClause );
 			sqlClientes.AppendLine( ( sortClause.Trim().Length > 0 ) ? sortClause : " ORDER BY nom_cliente " );
-			sqlClientes.AppendLine( " LIMIT " + start + "," + limit );
+			if( limit > 0 )
+				sqlClientes.AppendLine( " LIMIT " + start + "," + limit );
 
 
 			MySqlConnection connClientes = MySqlConnectionWizard.getConnection();

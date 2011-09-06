@@ -122,7 +122,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			sqlServicos.AppendLine( "	,txt_descricao" );
 			sqlServicos.AppendLine( "FROM tb_servicos " );
 			sqlServicos.AppendLine( " ORDER BY nom_servico " );
-			sqlServicos.AppendLine( " LIMIT " + start + "," + limit );
+			if( limit > 0 )
+				sqlServicos.AppendLine( " LIMIT " + start + "," + limit );
 
 			MySqlConnection connServicos = MySqlConnectionWizard.getConnection();
 			connServicos.Open();
@@ -268,6 +269,28 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				erros.AddRange( inserirValores( val.valoresEspeciais, codigoServico, conn ) );
 
 			}
+			return erros;
+		}
+
+		public static List<Erro> excluirListaDeServicos( List<Servico> servicos ) {
+			List<Erro> erros = new List<Erro>();
+			String sql = "DELETE FROM tb_servicos WHERE cod_servico = @codServico ";
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			// abre a conexao
+			conn.Open();
+
+			foreach( Servico servico in servicos ) {
+				MySqlCommand cmd = new MySqlCommand( sql, conn );
+				cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servico.codigo;
+				if( cmd.ExecuteNonQuery() <= 0 ) {
+					erros.Add( new Erro( 0, "Não foi possível excluir o servi&ccedil;o: " + servico.nome, "Tente excluí-lo novamente" ) );
+				}
+				cmd.Dispose();
+			}
+			// fecha a conexao e libera recursos
+			conn.Close(); conn.Dispose();
+
 			return erros;
 		}
 

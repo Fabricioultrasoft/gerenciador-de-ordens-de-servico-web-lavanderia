@@ -129,7 +129,7 @@ Ext.define('App.view.tapetes.TapetesView', {
                 bbar: Ext.create('Ext.PagingToolbar', {
                     store: tapetesStore,
                     displayInfo: true,
-                    displayMsg: 'tapetes {0} - {1} of {2}',
+                    displayMsg: 'tapetes {0} - {1} de {2}',
                     emptyMsg: "Nenhum tapete"
                 }),
                 listeners: {

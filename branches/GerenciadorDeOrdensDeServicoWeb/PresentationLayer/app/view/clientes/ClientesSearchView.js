@@ -123,7 +123,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: clientesStore,
                 displayInfo: true,
-                displayMsg: 'clientes {0} - {1} of {2}',
+                displayMsg: 'clientes {0} - {1} de {2}',
                 emptyMsg: "Nenhum cliente"
             }),
             listeners: {

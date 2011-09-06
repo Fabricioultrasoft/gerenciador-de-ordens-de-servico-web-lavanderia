@@ -39,7 +39,7 @@ Ext.define('App.view.enderecos.PaisesView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: paisesStore,
                 displayInfo: true,
-                displayMsg: 'pa&iacute;ses {0} - {1} of {2}',
+                displayMsg: 'pa&iacute;ses {0} - {1} de {2}',
                 emptyMsg: "Nenhum pa&iacute;s"
             }),
             listeners: {

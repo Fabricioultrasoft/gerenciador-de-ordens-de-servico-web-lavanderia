@@ -47,7 +47,7 @@ Ext.define('App.view.enderecos.EstadosView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: estadosStore,
                 displayInfo: true,
-                displayMsg: 'Estados {0} - {1} of {2}',
+                displayMsg: 'Estados {0} - {1} de {2}',
                 emptyMsg: "Nenhum estado"
             }),
             listeners: {

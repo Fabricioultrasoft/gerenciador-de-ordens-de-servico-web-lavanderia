@@ -8,12 +8,13 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using System.Text;
 using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos;
 using System.Globalization;
+using System.Web.SessionState;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servicos {
 	/// <summary>
 	/// Summary description for ServicosHandler
 	/// </summary>
-	public class ServicosHandler : IHttpHandler {
+	public class ServicosHandler : IHttpHandler, IRequiresSessionState {
 
 		public void ProcessRequest( HttpContext context ) {
 			String action = String.Empty;// metodos CRUD
@@ -28,17 +29,23 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 				case "read":
 					UInt32 start = 0;
 					UInt32 limit = 0;
+					bool apenasDadosBasicos = false;
 
 					UInt32.TryParse( context.Request.QueryString["start"], out start );
 					UInt32.TryParse( context.Request.QueryString["limit"], out limit );
-					
-					response = readServicos( start, limit );
+					Boolean.TryParse( context.Request.QueryString["apenasDadosBasicos"], out apenasDadosBasicos );
+
+					context.Session["readServicos_start"] = start;
+					context.Session["readServicos_limit"] = limit;
+					context.Session["readServicos_apenasDadosBasicos"] = apenasDadosBasicos;
+
+					response = readServicos( start, limit, apenasDadosBasicos );
 					break;
 				case "update":
 					//response = updateClientes( context.Request.Form["records"] );
 					break;
 				case "destroy":
-					//response = destroyClientes( context.Request.Form["records"], context );
+					response = destroyServicos( context.Request.Form["records"], context );
 					break;
 
 				case "readServico":
@@ -93,11 +100,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 		}
 
 
-		private String readServicos( UInt32 start, UInt32 limit ) {
+		private String readServicos( UInt32 start, UInt32 limit, bool apenasDadosBasicos ) {
 			List<Servico> servicos;
 			List<Erro> erros;
 
-			erros = GerenciadorDeServicos.preencherListaDeServicos( out servicos, start, limit );
+			erros = GerenciadorDeServicos.preencherListaDeServicos( out servicos, start, limit, apenasDadosBasicos );
 			long qtdRegistros = GerenciadorDeServicos.countServicos();
 			StringBuilder jsonResposta = new StringBuilder();
 
@@ -117,12 +124,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			jsonResposta.Append( "    \"data\": [" );
 			foreach( Servico servico in servicos ) {
 				jsonResposta.Append( "{" );
-				jsonResposta.AppendFormat( " codigo: {0},", servico.codigo );
-				jsonResposta.AppendFormat( " nome: \"{0}\",", servico.nome );
-				jsonResposta.AppendFormat( " descricao: \"{0}\",", servico.descricao );
-				jsonResposta.AppendFormat( " codigoCobradoPor: {0},", (int) servico.cobradoPor );
-				jsonResposta.AppendFormat( " nomeCobradoPor: \"{0}\" ", servico.cobradoPor );
-				jsonResposta.Append( "}" );
+				jsonResposta.AppendFormat( " \"codigo\": {0},", servico.codigo );
+				jsonResposta.AppendFormat( " \"nome\": \"{0}\",", servico.nome );
+				jsonResposta.AppendFormat( " \"descricao\": \"{0}\",", servico.descricao );
+				jsonResposta.AppendFormat( " \"codigoCobradoPor\": {0},", (int) servico.cobradoPor );
+				jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\" ", servico.cobradoPor );
+				jsonResposta.Append( "}," );
 			}
 			if( servicos.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -171,6 +178,35 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			return jsonResposta.ToString();
 		}
 
+		private String destroyServicos( String records, HttpContext context ) {
+			List<Servico> servicos = jsonToServicos( records );
+			List<Erro> erros = GerenciadorDeServicos.excluirListaDeServicos( servicos );
+
+			if( erros.Count == 0 ) {
+				UInt32 start = 0;
+				UInt32 limit = 25;
+				bool apenasDadosBasicos = false;
+
+				UInt32.TryParse( context.Session["readServicos_start"].ToString(), out start );
+				UInt32.TryParse( context.Session["readServicos_limit"].ToString(), out limit );
+				Boolean.TryParse( context.Session["readServicos_apenasDadosBasicos"].ToString(), out apenasDadosBasicos );
+
+				return readServicos( start, limit, apenasDadosBasicos );
+			} else {
+				StringBuilder jsonResposta = new StringBuilder();
+
+				formatarSaidaServicos( ref servicos );
+				jsonResposta.AppendLine( "{" );
+				jsonResposta.AppendLine( "    \"total\": " + servicos.Count + "," );
+				jsonResposta.AppendLine( "    \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				jsonResposta.AppendLine( "    \"data\": []" );
+				jsonResposta.AppendLine( "}" );
+
+				return jsonResposta.ToString();
+			}
+		}
+
 		public static void formatarSaidaServicos( ref List<Servico> servicos ) {
 			for( int i = 0; i < servicos.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<Servico>( servicos[i] );
@@ -217,8 +253,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 				servico.nome = servicoTemp["nome"].ToString();
 				servico.descricao = servicoTemp["descricao"].ToString();
 				servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), servicoTemp["codigoCobradoPor"].ToString() );
-				servico.valores.AddRange( recuperarValores( servicoTemp["valores"], js ) );
-
+				if( servicoTemp["valores"].ToString() != "" ) {
+					servico.valores.AddRange( recuperarValores( servicoTemp["valores"], js ) );
+				}
 				servicos.Add( servico );
 			}
 

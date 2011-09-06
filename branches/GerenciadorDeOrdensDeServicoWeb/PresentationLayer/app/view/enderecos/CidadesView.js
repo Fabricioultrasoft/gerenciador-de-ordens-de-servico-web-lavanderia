@@ -55,7 +55,7 @@ Ext.define('App.view.enderecos.CidadesView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: cidadesStore,
                 displayInfo: true,
-                displayMsg: 'Cidades {0} - {1} of {2}',
+                displayMsg: 'Cidades {0} - {1} de {2}',
                 emptyMsg: "Nenhuma cidade"
             }),
             listeners: {
