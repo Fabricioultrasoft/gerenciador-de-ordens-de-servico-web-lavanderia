@@ -1,35 +1,35 @@
 ﻿
-Ext.define('App.controller.servicos.ServicosAddController', {
+Ext.define('App.controller.servicos.ServicosEditController', {
     extend: 'Ext.app.Controller',
 
     models: ['servicos.ServicoModel','servicos.ValorServicoModel'],
 
-    views: ['servicos.ServicosAddView'],
+    views: ['servicos.ServicosEditView'],
 
     stores: ['servicos.ServicosStore','servicos.ValoresServicosStore'],
 
     init: function () {
         this.control({
-            '#gridAddServico': {
+            '#gridEditServico': {
                 itemdblclick: this.editValores
             },
-            '#btnAddServico-editValores': {
+            '#btnEditServico-editValores': {
                 click: this.onEditValoresClick
             },
-            '#btnAddServico-addCondicaoEspecial': {
+            '#btnEditServico-addCondicaoEspecial': {
                 click: this.onAddCondicaoEspecialClick
             },
-            '#btnAddServico-delCondicaoEspecial': {
+            '#btnEditServico-delCondicaoEspecial': {
                 click: this.onDelCondicaoEspecialClick
             },
-            '#win-addServico-editValores button[action=save]': {
+            '#win-editServico-editValores button[action=save]': {
                 click: this.alterarValores
             },
-            '#win-addServico-addCondicaoEspecial button[action=save]': {
+            '#win-editServico-addCondicaoEspecial button[action=save]': {
                 click: this.addCondicaoEspecial
             },
-            '#btn-add-servico': {
-                click: this.onAddServicoClick
+            '#btn-edit-servico': {
+                click: this.onAlterarServicoClick
             }
         });
     },
@@ -155,45 +155,24 @@ Ext.define('App.controller.servicos.ServicosAddController', {
         win.close();
     },
 
-    onAddServicoClick: function(btn, event, options) {
+    onAlterarServicoClick: function(btn, event, options) {
         if (!btn.scope.formServico.getForm().isValid()) {
             genericErrorAlert("Erro", "Dados inv&aacute;lidos, passe o mouse sobre os campos em vermelho para mais detalhes");
             return false;
         }
+
+        var record = btn.scope.formServico.getRecord();
         var values = btn.scope.formServico.getValues();
         var cobradoPorStore = btn.scope.formServico.down('combobox').store;
         var valoresServico = this.preencherValores(btn.scope.gridValoresServico.getStore().getRootNode());
-        var r = Ext.ModelManager.create({
-            codigo: 0,
-            nome: values.nome,
-            codigoCobradoPor: values.codigoCobradoPor,
-            nomeCobradoPor: cobradoPorStore.getAt(cobradoPorStore.find('codigo',values.codigoCobradoPor)).get('nome'),
-            descricao: values.descricao,
-            valores: valoresServico
-        }, 'App.model.servicos.ServicoModel');
+        
+        values.nomeCobradoPor = cobradoPorStore.getAt(cobradoPorStore.find('codigo',values.codigoCobradoPor)).get('nome');
+        values.valores = valoresServico;
 
-        btn.scope.mainPanel.setLoading( "Cadastrando...", true );
-
-        var servicosStore = null;
-        try { servicosStore = btn.scope.app.getModule("module-servicos-search").servicosStore; }catch(e){}
-
-        if(servicosStore) {
-            servicosStore.insert(0, r);
-            servicosStore.sync();
-            btn.up('window').close();
-        }
-        else {
-            r.setProxy( Ext.create('App.store.servicos.ServicosStore',{}).getProxy() );
-            r.save({
-                success: function(ed) {
-                    btn.up('window').close();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Servi&ccedil;o cadastrado!');
-                },
-                failure: function(record, operation) {
-                    btn.scope.mainPanel.setLoading( false, true );
-                }
-            });
-        }
+        record.set(values);
+        record.store.sync();
+        btn.up('window').close();
+        Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Servi&ccedil;o alterado!');
     },
 
     preencherValores: function(recordPai) {

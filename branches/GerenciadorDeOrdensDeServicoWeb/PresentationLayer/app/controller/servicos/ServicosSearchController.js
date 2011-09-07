@@ -29,7 +29,7 @@ Ext.define('App.controller.servicos.ServicosSearchController', {
     },
 
     editServico: function (grid, record) {
-        grid.panel.module.app.getModule("module-servicos-edit").createWindow({record:record});
+        grid.panel.module.app.getModule("module-servicos-edit").createWindow(record);
     },
 
     onAddServicoClick: function (btn, eventObject, options) {

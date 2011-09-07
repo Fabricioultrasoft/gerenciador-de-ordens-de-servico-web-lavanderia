@@ -19,6 +19,7 @@ Ext.application({
         'clientes.ClientesEditController',
         'clientes.ClientesSearchController',
         'servicos.ServicosAddController',
+        'servicos.ServicosEditController',
         'servicos.ServicosSearchController'
     ],
     launch: function () {

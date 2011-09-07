@@ -42,7 +42,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 					response = readServicos( start, limit, apenasDadosBasicos );
 					break;
 				case "update":
-					//response = updateClientes( context.Request.Form["records"] );
+					response = updateServicos( context.Request.Form["records"] );
 					break;
 				case "destroy":
 					response = destroyServicos( context.Request.Form["records"], context );
@@ -177,6 +177,45 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 
 			return jsonResposta.ToString();
 		}
+
+		private String updateServicos( String records ) {
+			List<Servico> servicos = jsonToServicos( records );
+			StringBuilder jsonResposta = new StringBuilder();
+			List<Erro> erros = GerenciadorDeServicos.atualizarListaDeServicos( ref servicos );
+
+			#region CONSTROI O JSON
+			formatarSaidaServicos( ref servicos );
+			jsonResposta.AppendLine( "{" );
+			jsonResposta.AppendLine( "    \"total\": " + servicos.Count + "," );
+
+			if( erros.Count == 0 ) {
+				jsonResposta.AppendLine( "    \"success\": true," );
+				jsonResposta.AppendLine( "    \"message\": [\"Dados atualizados com sucesso\"]," );
+			} else {
+				jsonResposta.AppendLine( "    \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+			}
+
+			jsonResposta.AppendLine( "    \"data\": [" );
+			foreach( Servico servico in servicos ) {
+				jsonResposta.Append( "{" );
+				jsonResposta.AppendFormat( " \"codigo\": {0},", servico.codigo );
+				jsonResposta.AppendFormat( " \"nome\": \"{0}\",", servico.nome );
+				jsonResposta.AppendFormat( " \"descricao\": \"{0}\",", servico.descricao );
+				jsonResposta.AppendFormat( " \"codigoCobradoPor\": {0},", (int) servico.cobradoPor );
+				jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\" ", servico.cobradoPor );
+				jsonResposta.Append( " }," );
+			}
+			if( servicos.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
+			jsonResposta.Append( "]" );
+
+			// fim do json
+			jsonResposta.AppendLine( "}" );
+			#endregion
+
+			return jsonResposta.ToString();
+		}
+
 
 		private String destroyServicos( String records, HttpContext context ) {
 			List<Servico> servicos = jsonToServicos( records );

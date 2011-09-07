@@ -2,6 +2,7 @@
 Ext.define('App.store.servicos.ValoresServicosStore', {
     extend: 'Ext.data.TreeStore',
     autoDestroy: false,
+    autoLoad: false,
     model: 'App.model.servicos.ValorServicoModel',
     storeId: 'valoresServicosStore',
     listeners: {

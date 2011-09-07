@@ -29,7 +29,7 @@ Ext.define('App.view.servicos.ServicosSearchView', {
 
     createPanel: function () {
 
-        var servicosStore = Ext.create('App.store.servicos.ServicosStore',{pageSize:0});
+        var servicosStore = Ext.create('App.store.servicos.ServicosStore',{});
         servicosStore.load({ params: { apenasDadosBasicos: true} });
         this.servicosStore = servicosStore;
 
@@ -43,9 +43,9 @@ Ext.define('App.view.servicos.ServicosSearchView', {
                 { header: 'Cobrado por', dataIndex: 'nomeCobradoPor' }
             ],
             tbar: [
-                { itemId: 'btnAddServico', text: 'Adicionar', iconCls: 'btn-add', scope: this },
-                { itemId: 'btnEditServico', text: 'Editar', iconCls: 'edit', disabled: true, scope: this },
-                { itemId: 'btnDelServico', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: this },
+                { itemId: 'btnAddServico', text: 'Adicionar', iconCls: 'servicos-add-thumb', scope: this },
+                { itemId: 'btnEditServico', text: 'Editar', iconCls: 'servicos-edit-thumb', disabled: true, scope: this },
+                { itemId: 'btnDelServico', text: 'Remover', iconCls: 'servicos-del-thumb', disabled: true, scope: this },
                 { itemId: 'btnShowDescricaoServico', text: 'Descri&ccedil;&atilde;o', iconCls: 'btn-detalhes', pressed: false, enableToggle: true, scope: this,tooltip: { title: 'Descri&ccedil;&atilde;o dos servi&ccedil;os', text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem'} }
             ],
             bbar: Ext.create('Ext.PagingToolbar', {

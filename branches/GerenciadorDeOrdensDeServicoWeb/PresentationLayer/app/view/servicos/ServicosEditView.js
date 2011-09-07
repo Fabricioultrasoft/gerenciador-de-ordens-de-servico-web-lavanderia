@@ -1,20 +1,20 @@
 ﻿
-Ext.define('App.view.servicos.ServicosAddView', {
+Ext.define('App.view.servicos.ServicosEditView', {
     extend: 'App.webDesktop.Module',
-    id: 'module-servicos-add',
+    id: 'module-servicos-edit',
     
-    createWindow: function () {
+    createWindow: function (record) {
 
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('win-servicos-add');
+        var win = desktop.getWindow('win-servicos-edit');
         if (!win) {
-            var servicosPanel = this.createPanel();
+            var servicosPanel = this.createPanel(record);
             win = desktop.createWindow({
-                id: 'win-servicos-add',
-                title: 'Adicionar Serviço',
+                id: 'win-servicos-edit',
+                title: 'Editar Serviço',
                 width: 600,
                 height: 540,
-                iconCls: 'servicos-add-thumb',
+                iconCls: 'servicos-edit-thumb',
                 animCollapse: false,
                 constrainHeader: true,
                 layout: 'fit',
@@ -26,10 +26,10 @@ Ext.define('App.view.servicos.ServicosAddView', {
         return win;
     },
 
-    createPanel: function () {
+    createPanel: function (record) {
 
         var valoresStore = Ext.create('App.store.servicos.ValoresServicosStore',{ pageSize:0 });
-        valoresStore.getProxy().api.read = "app/handlers/servicos/ServicosHandler.ashx?action=readServico";
+        valoresStore.getProxy().api.read = "app/handlers/servicos/ServicosHandler.ashx?action=readServico&codigoServico=" + record.data.codigo;
 
         var tiposDeClientesStore = Ext.create('App.store.clientes.TiposDeClientesStore', { pageSize: 0 });
         tiposDeClientesStore.load({ params: { ativo: true} });
@@ -48,29 +48,32 @@ Ext.define('App.view.servicos.ServicosAddView', {
                 anchor: '100%'
             },
             items: [
+                { xtype: 'numberfield', name: 'codigo', fieldLabel: 'Codigo', editable: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'textfield', name: 'nome', fieldLabel: 'Nome', emptyText: 'Digite o nome do serviço', maxLength: 255, allowBlank: false, blankText: 'O NOME do servi&ccedil;o &eacute; obrigat&oacute;rio' },
                 {
                     xtype: 'combobox', name: 'codigoCobradoPor', fieldLabel: 'Cobrado por', emptyText: 'Selecione como o serviço é cobrado',
                     store: Ext.create('Ext.data.Store', { fields: ['codigo', 'nome'], data: [ { 'codigo': 1, 'nome': "Metro (M)" }, { 'codigo': 2, 'nome': "Metro quadrado (m²)" } ] }),
                     queryMode: 'local', displayField: 'nome', valueField: 'codigo', selectOnFocus: true, forceSelection: true, allowBlank: false, blankText: 'Uma op&ccedil;&atilde;o deve ser selecionada'
                 },
-                { xtype: 'textarea', name: 'descricao', fieldLabel: 'Descri&ccedil;&atilde;o', emptyText: 'Descrição do serviço', height: 100 }
+                { xtype: 'textarea', name: 'descricao', fieldLabel: 'Descri&ccedil;&atilde;o', emptyText: 'Descrição do serviço', height: 70 }
             ]
         });
+        formServico.loadRecord(record);
         this.formServico = formServico;
         
         var gridValoresServico =  Ext.create('Ext.tree.Panel', {
-            id: 'gridAddServico',
+            id: 'gridEditServico',
             title: 'Valores do servi&ccedil;o',
             iconCls: 'cifrao-thumb',
             region: 'center',
             rootVisible: false,
             animate: false,
             store: valoresStore,
+            autoScroll: false,
             tbar: [
-                { xtype: 'button', itemId: 'btnAddServico-editValores', text: 'Editar valores', iconCls: 'edit', tooltip: 'Editar valores do servi&ccedil;o para o tapete selecionado na listagem abaixo', scope: this, disabled: true },
-                { xtype: 'button', itemId: 'btnAddServico-addCondicaoEspecial', text: 'Adicionar Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-add', tooltip: 'Adicionar uma condi&ccedil;&atilde;o de valor especial para um tipo de cliente', scope: this, disabled: true },
-                { xtype: 'button', itemId: 'btnAddServico-delCondicaoEspecial', text: 'Remover Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-del', tooltip: 'Remover condi&ccedil;&atilde;o de valor especial', scope: this, disabled: true }
+                { xtype: 'button', itemId: 'btnEditServico-editValores', text: 'Editar valores', iconCls: 'edit', tooltip: 'Editar valores do servi&ccedil;o para o tapete selecionado na listagem abaixo', scope: this, disabled: true },
+                { xtype: 'button', itemId: 'btnEditServico-addCondicaoEspecial', text: 'Adicionar Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-add', tooltip: 'Adicionar uma condi&ccedil;&atilde;o de valor especial para um tipo de cliente', scope: this, disabled: true },
+                { xtype: 'button', itemId: 'btnEditServico-delCondicaoEspecial', text: 'Remover Condi&ccedil;&atilde;o Especial', iconCls: 'favorite-del', tooltip: 'Remover condi&ccedil;&atilde;o de valor especial', scope: this, disabled: true }
             ],
             bbar: [
                 { text: 'Expandir', iconCls: 'toggle-expand', handler: function(){ gridValoresServico.expandAll(); } }, 
@@ -86,13 +89,13 @@ Ext.define('App.view.servicos.ServicosAddView', {
                 'selectionchange': function (treeModel, selectedRecords) {
                     
                     if( selectedRecords[0].data.codigoTipoDeCliente == 0 ) {
-                        gridValoresServico.down('#btnAddServico-addCondicaoEspecial').enable();
-                        gridValoresServico.down('#btnAddServico-delCondicaoEspecial').disable();
+                        gridValoresServico.down('#btnEditServico-addCondicaoEspecial').enable();
+                        gridValoresServico.down('#btnEditServico-delCondicaoEspecial').disable();
                     } else {
-                        gridValoresServico.down('#btnAddServico-addCondicaoEspecial').disable();
-                        gridValoresServico.down('#btnAddServico-delCondicaoEspecial').enable();
+                        gridValoresServico.down('#btnEditServico-addCondicaoEspecial').disable();
+                        gridValoresServico.down('#btnEditServico-delCondicaoEspecial').enable();
                     }
-                    gridValoresServico.down('#btnAddServico-editValores').setDisabled(!selectedRecords.length);
+                    gridValoresServico.down('#btnEditServico-editValores').setDisabled(!selectedRecords.length);
                 }
             }
         });
@@ -105,7 +108,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
             border: false,
             items: [formServico,gridValoresServico],
             buttonAlign: 'center',
-            buttons: [{ text: 'Adicionar Servi&ccedil;o', itemId: 'btn-add-servico', iconCls: 'servicos-add-thumb', padding: '10', scope: this}]
+            buttons: [{ text: 'Salvar altera&ccedil;&otilde;es', itemId: 'btn-edit-servico', iconCls: 'servicos-edit-thumb', padding: '10', scope: this}]
         });
         this.mainPanel = mainPanel;
 
@@ -117,7 +120,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
     },
 
     createWinEditValores: function () {
-        var winEditValores = Ext.ComponentManager.get('win-addServico-editValores');
+        var winEditValores = Ext.ComponentManager.get('win-editServico-editValores');
         if (!winEditValores) {
             
             var arrTipoClientes = new Array(), i;
@@ -133,7 +136,7 @@ Ext.define('App.view.servicos.ServicosAddView', {
                 title: 'Alterar Valores do Servi&ccedil;o',
                 iconCls: 'edit',
                 layout: 'fit',
-                id: 'win-addServico-editValores',
+                id: 'win-editServico-editValores',
                 modal: true,
                 resizable: false,
                 width: 400,
@@ -164,14 +167,14 @@ Ext.define('App.view.servicos.ServicosAddView', {
     },
 
     createWinAddCondicaoEspecial: function (recordPai) {
-        var win = Ext.ComponentManager.get('win-addServico-addCondicaoEspecial');
+        var win = Ext.ComponentManager.get('win-editServico-addCondicaoEspecial');
         if (!win) {
 
             win = Ext.create('widget.window', {
                 title: 'Adicionar Condi&ccedil;&atilde;o Especial de valores',
                 iconCls: 'favorite-add',
                 layout: 'fit',
-                id: 'win-addServico-addCondicaoEspecial',
+                id: 'win-editServico-addCondicaoEspecial',
                 modal: true,
                 resizable: false,
                 width: 400,

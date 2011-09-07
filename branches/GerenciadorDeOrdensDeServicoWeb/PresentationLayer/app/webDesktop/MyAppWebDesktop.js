@@ -17,6 +17,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.clientes.ClientesSearchView',
         'App.view.servicos.ServicosView',
         'App.view.servicos.ServicosAddView',
+        'App.view.servicos.ServicosEditView',
         'App.view.servicos.ServicosSearchView'
     ],
 
@@ -37,6 +38,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
             new App.view.clientes.ClientesSearchView(),
             new App.view.servicos.ServicosView(),
             new App.view.servicos.ServicosAddView(),
+            new App.view.servicos.ServicosEditView(),
             new App.view.servicos.ServicosSearchView(),
             new App.view.enderecos.LogradourosView(),
             new App.view.enderecos.EnderecosView()

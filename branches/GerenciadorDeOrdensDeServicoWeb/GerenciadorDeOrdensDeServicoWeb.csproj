@@ -60,6 +60,7 @@
     <Content Include="PresentationLayer\app\controller\enderecos\PaisesController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\TiposDeLogradourosController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosAddController.js" />
+    <Content Include="PresentationLayer\app\controller\servicos\ServicosEditController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosSearchController.js" />
     <Content Include="PresentationLayer\app\controller\tapetes\TapetesController.js" />
     <Content Include="PresentationLayer\app\model\clientes\ClienteModel.js" />
@@ -100,6 +101,7 @@
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />
+    <Content Include="PresentationLayer\app\view\servicos\ServicosEditView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosSearchView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosView.js" />
     <Content Include="PresentationLayer\app\view\tapetes\TapetesView.js" />
@@ -1798,6 +1800,9 @@
     <Content Include="PresentationLayer\resources\images\save-edit.png" />
     <Content Include="PresentationLayer\resources\images\save.gif" />
     <Content Include="PresentationLayer\resources\images\search.png" />
+    <Content Include="PresentationLayer\resources\images\servicos-add-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\servicos-del-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\servicos-edit-thumb.png" />
     <Content Include="PresentationLayer\resources\images\servicos-search-thumb.png" />
     <Content Include="PresentationLayer\resources\images\servicos-search.png" />
     <Content Include="PresentationLayer\resources\images\servicos-thumb.png" />
@@ -1810,7 +1815,6 @@
     <Content Include="PresentationLayer\resources\images\toggle-expand.png" />
     <Content Include="PresentationLayer\resources\images\user-silhouette.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
-    <Content Include="PresentationLayer\resources\images\servicos-add-thumb.png" />
     <Content Include="PresentationLayer\resources\images\servicos-add.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
