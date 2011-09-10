@@ -318,4 +318,16 @@ Ext.onReady(function(){
             falseText: 'n&atilde;o'
        });
     }
+
+    // MessageBox
+    if(Ext.Msg.msgButtons.yes){
+        Ext.apply(Ext.Msg.msgButtons.yes, { text: 'sim' });
+    }
+    if(Ext.Msg.msgButtons.no){
+        Ext.apply(Ext.Msg.msgButtons.no, { text: 'n&atilde;o' });
+    }
+    if(Ext.Msg.msgButtons.cancel){
+        Ext.apply(Ext.Msg.msgButtons.cancel, { text: 'cancelar' });
+    }
+
 });

@@ -88,6 +88,7 @@
     <Content Include="PresentationLayer\app\store\servicos\ServicosStore.js" />
     <Content Include="PresentationLayer\app\store\servicos\ValoresServicosStore.js" />
     <Content Include="PresentationLayer\app\store\tapetes\TapetesStore.js" />
+    <Content Include="PresentationLayer\app\ux\LoginWindow.js" />
     <Content Include="PresentationLayer\app\ux\PreviewPlugin.js" />
     <Content Include="PresentationLayer\app\view\clientes\ClientesAddView.js" />
     <Content Include="PresentationLayer\app\view\clientes\ClientesEditView.js" />
@@ -1763,11 +1764,15 @@
     <Content Include="PresentationLayer\ext-4.0\src\window\Window.js" />
     <Content Include="PresentationLayer\ext-4.0\src\XTemplate.js" />
     <Content Include="PresentationLayer\ext-4.0\src\ZIndexManager.js" />
+    <Content Include="PresentationLayer\funcoesComuns.js" />
     <Content Include="PresentationLayer\index.html" />
+    <Content Include="PresentationLayer\login.html" />
     <Content Include="PresentationLayer\resources\css\app.css" />
     <Content Include="PresentationLayer\resources\css\icons.css" />
+    <Content Include="PresentationLayer\resources\css\login.css" />
     <Content Include="PresentationLayer\resources\css\webDesktop.css" />
     <Content Include="PresentationLayer\resources\images\add-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\app-go.png" />
     <Content Include="PresentationLayer\resources\images\btn-add.png" />
     <Content Include="PresentationLayer\resources\images\btn-del.png" />
     <Content Include="PresentationLayer\resources\images\btn-logout.png" />
@@ -1796,6 +1801,7 @@
     <Content Include="PresentationLayer\resources\images\filtro.png" />
     <Content Include="PresentationLayer\resources\images\link-add.png" />
     <Content Include="PresentationLayer\resources\images\location-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\lock.png" />
     <Content Include="PresentationLayer\resources\images\save-add.png" />
     <Content Include="PresentationLayer\resources\images\save-edit.png" />
     <Content Include="PresentationLayer\resources\images\save.gif" />
@@ -1816,7 +1822,9 @@
     <Content Include="PresentationLayer\resources\images\user-silhouette.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
     <Content Include="PresentationLayer\resources\images\servicos-add.png" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1834,6 +1842,7 @@
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeTiposDeLogradouros.cs" />
     <Compile Include="BusinessLogicLayer\servicos\GerenciadorDeServicos.cs" />
     <Compile Include="BusinessLogicLayer\tapetes\GerenciadorDeTapetes.cs" />
+    <Compile Include="BusinessLogicLayer\usuarios\GerenciadorDeUsuarios.cs" />
     <Compile Include="BusinessLogicLayer\Util.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\clientes\MySqlClientesDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\clientes\MySqlTiposDeClientesDao.cs" />
@@ -1846,6 +1855,7 @@
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\MySqlFilter.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\servicos\MySqlServicosDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\tapetes\MySqlTapetesDao.cs" />
+    <Compile Include="DataAccessLayer\DataAccessObjects\MySql\usuarios\MySqlUsuariosDao.cs" />
     <Compile Include="DataAccessLayer\DatabaseConnections\MySqlConnectionWizard.cs" />
     <Compile Include="DataTransferObjects\clientes\Cliente.cs" />
     <Compile Include="DataTransferObjects\clientes\MeioDeContato.cs" />
@@ -1890,6 +1900,12 @@
     <Compile Include="PresentationLayer\app\handlers\enderecos\TiposDeLogradourosHandler.ashx.cs">
       <DependentUpon>TiposDeLogradourosHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\app\handlers\Login.ashx.cs">
+      <DependentUpon>Login.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\app\handlers\Logout.ashx.cs">
+      <DependentUpon>Logout.ashx</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\app\handlers\servicos\ServicosHandler.ashx.cs">
       <DependentUpon>ServicosHandler.ashx</DependentUpon>
     </Compile>
@@ -1910,6 +1926,8 @@
     <Content Include="PresentationLayer\app\handlers\clientes\TiposDeClientesHandler.ashx" />
     <Content Include="PresentationLayer\app\handlers\clientes\ClientesHandler.ashx" />
     <Content Include="PresentationLayer\app\handlers\servicos\ServicosHandler.ashx" />
+    <Content Include="PresentationLayer\app\handlers\Login.ashx" />
+    <Content Include="PresentationLayer\app\handlers\Logout.ashx" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\config.rb" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-access.scss" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-gray.scss" />

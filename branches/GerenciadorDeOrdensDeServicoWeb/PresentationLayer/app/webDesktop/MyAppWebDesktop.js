@@ -87,7 +87,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
                     },
                     '-',
                     {
-                        text: 'Logout',
+                        text: 'Sair',
                         iconCls: 'btn-logout',
                         handler: me.onLogout,
                         scope: me
@@ -111,7 +111,27 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
     },
 
     onLogout: function () {
-        Ext.Msg.confirm('Logout', 'Are you sure you want to logout?');
+        Ext.Msg.confirm('Sair', 'Você confirma o encerramento da aplica&ccedil;&atilde;o?', function (buttonId) {
+            if (buttonId == 'yes') {
+                Ext.Ajax.request({
+                    url: '/PresentationLayer/app/handlers/Logout.ashx',
+                    method: 'POST',
+                    scope: this,
+                    success: function (responseObj) {
+                        var response = Ext.decode(responseObj.responseText);
+                        if(response.success) {
+                            window.location.href = response.redirect;
+                        } else {
+                            genericErrorAlert("Erro ao sair", response.message);
+                        }
+                    },
+                    exception: function(thisProxy, response, operation, options) {
+                        genericExceptionHandler(thisProxy, response, operation, options);
+                        this.form.setLoading(false);
+                    }
+                });
+            }
+        });
     },
 
     onSettings: function () {

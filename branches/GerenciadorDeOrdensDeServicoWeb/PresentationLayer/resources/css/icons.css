@@ -47,6 +47,8 @@
 .favorite-del {background-image: url("../images/favorite-del.png") !important;}
 .toggle-expand {background-image: url("../images/toggle-expand.png") !important;}
 .toggle-collapse {background-image: url("../images/toggle-collapse.png") !important;}
+.lock{ background-image:url("/PresentationLayer/resources/images/lock.png") !important; }
+.app-go{ background-image:url("/PresentationLayer/resources/images/app-go.png") !important; }
 
 .x-action-col-cell img.act-dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
 .x-action-col-cell img.act-dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}
