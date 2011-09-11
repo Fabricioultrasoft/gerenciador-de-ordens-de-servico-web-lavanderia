@@ -27,7 +27,7 @@ Ext.define('App.ux.LoginWindow', {
             defaultType: 'textfield',
             items: [
             { name: 'nome', fieldLabel: 'Nome', emptyText: 'Digite o nome do usuário' }, 
-            { name: 'senha', fieldLabel: 'Senha', emptyText: 'Digite a senha do usuário' }
+            { name: 'senha', fieldLabel: 'Senha', emptyText: 'Digite a senha do usuário', inputType: 'password' }
             ],
             buttons: [{ xtype: 'button', text: 'Entrar', iconCls: 'app-go', handler: this.onBtnEntrarClick, scope: this }]
         });
@@ -66,8 +66,8 @@ Ext.define('App.ux.LoginWindow', {
                     this.form.setLoading(false);
                 }
             },
-            exception: function(thisProxy, response, operation, options) {
-                genericExceptionHandler(thisProxy, response, operation, options);
+            failure: function(response, opts) {
+                genericExceptionHandler(null, response, null, opts);
                 this.form.setLoading(false);
             }
         });

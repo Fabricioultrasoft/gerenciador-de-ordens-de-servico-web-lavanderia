@@ -56,7 +56,7 @@ Ext.define('App.controller.clientes.ClientesSearchController', {
     },
 
     editCliente: function (grid, record) {
-        grid.panel.module.app.getModule("win-clientes-edit").createWindow({record:record});
+        grid.panel.module.app.getModule("module-clientes-edit").createWindow({record:record});
     },
 
     onEditClienteClick: function(btn, eventObject, options) {

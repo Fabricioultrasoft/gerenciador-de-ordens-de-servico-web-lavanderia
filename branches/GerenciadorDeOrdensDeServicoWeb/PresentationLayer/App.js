@@ -20,7 +20,10 @@ Ext.application({
         'clientes.ClientesSearchController',
         'servicos.ServicosAddController',
         'servicos.ServicosEditController',
-        'servicos.ServicosSearchController'
+        'servicos.ServicosSearchController',
+        'usuarios.UsuariosAddController',
+        'usuarios.UsuariosEditController',
+        'usuarios.UsuariosSearchController'
     ],
     launch: function () {
         Ext.create('App.webDesktop.MyAppWebDesktop', {});

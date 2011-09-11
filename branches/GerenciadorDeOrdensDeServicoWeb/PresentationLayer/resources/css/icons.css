@@ -3,6 +3,10 @@
 .fav { background-image: url("../images/favicon.png") !important; }
 .cifrao-thumb {background-image: url("../images/cifrao-thumb.png") !important;}
 .user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
+.user-add { background-image: url("../images/user-add.png") !important; }
+.user-del { background-image: url("../images/user-del.png") !important; }
+.user-edit { background-image: url("../images/user-edit.png") !important; }
+.user-search { background-image: url("../images/user-search.png") !important; }
 .btn-add {background-image: url("../images/btn-add.png") !important;}
 .btn-del {background-image: url("../images/btn-del.png") !important;}
 .add-thumb {background-image: url("../images/add-thumb.png") !important;}
@@ -28,6 +32,10 @@
 .clientes-search {background-image: url("../images/clientes-search.png") !important;}
 .clientes-search-thumb {background-image: url("../images/clientes-search-thumb.png") !important;}
 .clientes-dados {background-image: url("../images/clientes-dados.png") !important;}
+
+.clientes-tipos {background-image: url("../images/clientes-tipos.png") !important;}
+.clientes-tipos-thumb {background-image: url("../images/clientes-tipos-thumb.png") !important;}
+
 .filtro {background-image: url("../images/filtro.png") !important;}
 .search {background-image: url("../images/search.png") !important;}
 .link-add {background-image: url("../images/link-add.png") !important;}

@@ -63,6 +63,9 @@
     <Content Include="PresentationLayer\app\controller\servicos\ServicosEditController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosSearchController.js" />
     <Content Include="PresentationLayer\app\controller\tapetes\TapetesController.js" />
+    <Content Include="PresentationLayer\app\controller\usuarios\UsuariosAddController.js" />
+    <Content Include="PresentationLayer\app\controller\usuarios\UsuariosEditController.js" />
+    <Content Include="PresentationLayer\app\controller\usuarios\UsuariosSearchController.js" />
     <Content Include="PresentationLayer\app\model\clientes\ClienteModel.js" />
     <Content Include="PresentationLayer\app\model\clientes\MeioDeContatoModel.js" />
     <Content Include="PresentationLayer\app\model\enderecos\BairroModel.js" />
@@ -75,6 +78,7 @@
     <Content Include="PresentationLayer\app\model\servicos\ServicoModel.js" />
     <Content Include="PresentationLayer\app\model\servicos\ValorServicoModel.js" />
     <Content Include="PresentationLayer\app\model\tapetes\TapeteModel.js" />
+    <Content Include="PresentationLayer\app\model\usuarios\UsuarioModel.js" />
     <Content Include="PresentationLayer\app\store\clientes\ClientesStore.js" />
     <Content Include="PresentationLayer\app\store\clientes\MeiosDeContatoStore.js" />
     <Content Include="PresentationLayer\app\store\clientes\TiposDeClientesStore.js" />
@@ -88,6 +92,7 @@
     <Content Include="PresentationLayer\app\store\servicos\ServicosStore.js" />
     <Content Include="PresentationLayer\app\store\servicos\ValoresServicosStore.js" />
     <Content Include="PresentationLayer\app\store\tapetes\TapetesStore.js" />
+    <Content Include="PresentationLayer\app\store\usuarios\UsuariosStore.js" />
     <Content Include="PresentationLayer\app\ux\LoginWindow.js" />
     <Content Include="PresentationLayer\app\ux\PreviewPlugin.js" />
     <Content Include="PresentationLayer\app\view\clientes\ClientesAddView.js" />
@@ -106,6 +111,10 @@
     <Content Include="PresentationLayer\app\view\servicos\ServicosSearchView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosView.js" />
     <Content Include="PresentationLayer\app\view\tapetes\TapetesView.js" />
+    <Content Include="PresentationLayer\app\view\usuarios\UsuariosAddView.js" />
+    <Content Include="PresentationLayer\app\view\usuarios\UsuariosEditView.js" />
+    <Content Include="PresentationLayer\app\view\usuarios\UsuariosSearchView.js" />
+    <Content Include="PresentationLayer\app\view\usuarios\UsuariosView.js" />
     <Content Include="PresentationLayer\app\webDesktop\AppWebDesktop.js" />
     <Content Include="PresentationLayer\app\webDesktop\Desktop.js" />
     <Content Include="PresentationLayer\app\webDesktop\FitAllLayout.js" />
@@ -1788,6 +1797,8 @@
     <Content Include="PresentationLayer\resources\images\clientes-add.png" />
     <Content Include="PresentationLayer\resources\images\clientes-edit.png" />
     <Content Include="PresentationLayer\resources\images\clientes-search.png" />
+    <Content Include="PresentationLayer\resources\images\clientes-tipos-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\clientes-tipos.png" />
     <Content Include="PresentationLayer\resources\images\clientes.png" />
     <Content Include="PresentationLayer\resources\images\del-thumb.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-add.png" />
@@ -1819,7 +1830,11 @@
     <Content Include="PresentationLayer\resources\images\tapete.png" />
     <Content Include="PresentationLayer\resources\images\toggle-collapse.png" />
     <Content Include="PresentationLayer\resources\images\toggle-expand.png" />
+    <Content Include="PresentationLayer\resources\images\user-search.png" />
     <Content Include="PresentationLayer\resources\images\user-silhouette.png" />
+    <Content Include="PresentationLayer\resources\images\user-add.png" />
+    <Content Include="PresentationLayer\resources\images\user-del.png" />
+    <Content Include="PresentationLayer\resources\images\user-edit.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
     <Content Include="PresentationLayer\resources\images\servicos-add.png" />
     <Content Include="Web.config">
@@ -1912,6 +1927,9 @@
     <Compile Include="PresentationLayer\app\handlers\tapetes\TapetesHandler.ashx.cs">
       <DependentUpon>TapetesHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\app\handlers\usuarios\UsuariosHandler.ashx.cs">
+      <DependentUpon>UsuariosHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -1928,6 +1946,7 @@
     <Content Include="PresentationLayer\app\handlers\servicos\ServicosHandler.ashx" />
     <Content Include="PresentationLayer\app\handlers\Login.ashx" />
     <Content Include="PresentationLayer\app\handlers\Logout.ashx" />
+    <Content Include="PresentationLayer\app\handlers\usuarios\UsuariosHandler.ashx" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\config.rb" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-access.scss" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-gray.scss" />

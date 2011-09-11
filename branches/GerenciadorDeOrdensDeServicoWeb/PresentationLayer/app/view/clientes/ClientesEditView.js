@@ -1,7 +1,7 @@
 ﻿
 Ext.define('App.view.clientes.ClientesEditView', {
     extend: 'App.webDesktop.Module',
-    id: 'win-clientes-edit',
+    id: 'module-clientes-edit',
     init: function () {
 //        this.launcher = {
 //            text: 'Editar Cliente',
