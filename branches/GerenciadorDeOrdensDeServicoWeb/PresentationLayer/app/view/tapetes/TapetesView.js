@@ -114,7 +114,9 @@ Ext.define('App.view.tapetes.TapetesView', {
                     iconCls: 'btn-del',
                     scope: this,
                     disabled: true
-                }, {
+                }, 
+                { itemId: 'btnEditTapete', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
+                {
                     itemId: 'btnShowDescricaoTapete',
                     iconCls: 'btn-detalhes',
                     scope: this,
@@ -134,6 +136,7 @@ Ext.define('App.view.tapetes.TapetesView', {
                 }),
                 listeners: {
                     'selectionchange': function (view, records) {
+                        gridTapetes.down('#btnEditTapete').setDisabled(!records.length);
                         gridTapetes.down('#btnDelTapete').setDisabled(!records.length);
                     }
                 },

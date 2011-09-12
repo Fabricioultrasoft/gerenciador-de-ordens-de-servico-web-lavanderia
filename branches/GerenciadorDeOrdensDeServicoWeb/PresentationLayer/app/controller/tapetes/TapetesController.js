@@ -16,6 +16,9 @@ Ext.define('App.controller.tapetes.TapetesController', {
             '#btnAddTapete': {
                 click: this.onAddTapeteClick
             },
+            '#btnEditTapete': {
+                click: this.onEditTapeteClick
+            },
             '#btnDelTapete': {
                 click: this.onDelTapeteClick
             },
@@ -57,6 +60,13 @@ Ext.define('App.controller.tapetes.TapetesController', {
         btn.scope.gridTapetes.getStore().insert(0, r);
         btn.scope.gridTapetes.getStore().sync();
         btn.scope.formTapetes.getForm().reset();
+    },
+
+    onEditTapeteClick: function(btn, eventObject, options) {
+        var grid = btn.scope.gridTapetes;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelTapeteClick: function (btn, eventObject, options) {

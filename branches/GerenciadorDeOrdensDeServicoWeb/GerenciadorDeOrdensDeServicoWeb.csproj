@@ -33,7 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.3.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.3.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -49,6 +51,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="index.aspx" />
     <Content Include="PresentationLayer\App.js" />
     <Content Include="PresentationLayer\app\controller\clientes\ClientesAddController.js" />
     <Content Include="PresentationLayer\app\controller\clientes\ClientesEditController.js" />
@@ -1897,6 +1900,13 @@
     <Compile Include="DataTransferObjects\tapetes\Tapete.cs" />
     <Compile Include="DataTransferObjects\clientes\TipoDeCliente.cs" />
     <Compile Include="DataTransferObjects\usuarios\Usuario.cs" />
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\app\handlers\clientes\ClientesHandler.ashx.cs">
       <DependentUpon>ClientesHandler.ashx</DependentUpon>
     </Compile>

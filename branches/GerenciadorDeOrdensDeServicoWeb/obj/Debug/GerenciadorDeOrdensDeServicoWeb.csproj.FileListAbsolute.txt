@@ -5,6 +5,7 @@ c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoW
 c:\users\one\documents\visual studio 2010\Projects\GerenciadorDeOrdensDeServicoWeb\GerenciadorDeOrdensDeServicoWeb\obj\Debug\GerenciadorDeOrdensDeServicoWeb.pdb
 C:\Users\one\Documents\Visual Studio 2010\Projects\TCC\branches\GerenciadorDeOrdensDeServicoWeb\bin\GerenciadorDeOrdensDeServicoWeb.dll
 C:\Users\one\Documents\Visual Studio 2010\Projects\TCC\branches\GerenciadorDeOrdensDeServicoWeb\bin\GerenciadorDeOrdensDeServicoWeb.pdb
+C:\Users\one\Documents\Visual Studio 2010\Projects\TCC\branches\GerenciadorDeOrdensDeServicoWeb\bin\MySql.Data.dll
 C:\Users\one\Documents\Visual Studio 2010\Projects\TCC\branches\GerenciadorDeOrdensDeServicoWeb\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\one\Documents\Visual Studio 2010\Projects\TCC\branches\GerenciadorDeOrdensDeServicoWeb\obj\Debug\GerenciadorDeOrdensDeServicoWeb.dll
 C:\Users\one\Documents\Visual Studio 2010\Projects\TCC\branches\GerenciadorDeOrdensDeServicoWeb\obj\Debug\GerenciadorDeOrdensDeServicoWeb.pdb
