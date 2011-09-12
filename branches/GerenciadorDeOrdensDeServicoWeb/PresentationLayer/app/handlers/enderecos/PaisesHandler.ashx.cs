@@ -67,7 +67,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 				jsonResposta.Append( "\t\t{" );
 				jsonResposta.AppendFormat( " \"codigo\": {0}, ", pais.codigo );
 				jsonResposta.AppendFormat( " \"nome\": \"{0}\" ", pais.nome );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( paises.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -140,7 +140,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 				jsonResposta.Append( "\t\t{" );
 				jsonResposta.AppendFormat( " \"codigo\": {0}, ", pais.codigo );
 				jsonResposta.AppendFormat( " \"nome\": \"{0}\" ", pais.nome );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( paises.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );

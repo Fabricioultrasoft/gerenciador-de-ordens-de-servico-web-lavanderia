@@ -43,5 +43,20 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer {
 
 			return resultNumber;
 		}
+
+		public static byte[] stringToBytes( string str ) {
+			System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+			return encoding.GetBytes( str );
+		}
+
+		public static String bytesToString( byte [] bytes ) {
+			System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+			return encoding.GetString( bytes );
+		}
+
+		public static string bytesToHex( byte[] bytes ) {
+			string hex = BitConverter.ToString( bytes );
+			return hex.Replace( "-", "" );
+		}
 	}
 }

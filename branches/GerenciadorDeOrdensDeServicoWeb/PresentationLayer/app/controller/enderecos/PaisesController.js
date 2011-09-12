@@ -16,6 +16,9 @@ Ext.define('App.controller.enderecos.PaisesController', {
             '#btnAddPais': {
                 click: this.onAddPaisClick
             },
+            '#btnEditPais': {
+                click: this.onEditPaisClick
+            },
             '#btnDelPais': {
                 click: this.onDelPaisClick
             },
@@ -36,6 +39,13 @@ Ext.define('App.controller.enderecos.PaisesController', {
 
     onAddPaisClick: function (thisButton, eventObject, options) {
         thisButton.scope.createWinAddPais().show();
+    },
+
+    onEditPaisClick: function(btn, eventObject, options) {
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelPaisClick: function (thisButton, eventObject, options) {

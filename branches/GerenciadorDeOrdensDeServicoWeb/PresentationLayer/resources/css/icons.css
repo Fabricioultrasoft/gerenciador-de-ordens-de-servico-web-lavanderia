@@ -32,10 +32,11 @@
 .clientes-search {background-image: url("../images/clientes-search.png") !important;}
 .clientes-search-thumb {background-image: url("../images/clientes-search-thumb.png") !important;}
 .clientes-dados {background-image: url("../images/clientes-dados.png") !important;}
-
 .clientes-tipos {background-image: url("../images/clientes-tipos.png") !important;}
-.clientes-tipos-thumb {background-image: url("../images/clientes-tipos-thumb.png") !important;}
-
+.clientes-tipos-add {background-image: url("../images/clientes-tipos-add.png") !important;}
+.clientes-tipos-del {background-image: url("../images/clientes-tipos-del.png") !important;}
+.clientes-tipos-edit {background-image: url("../images/clientes-tipos-edit.png") !important;}
+.clientes-tipos-search {background-image: url("../images/clientes-tipos-search.png") !important;}
 .filtro {background-image: url("../images/filtro.png") !important;}
 .search {background-image: url("../images/search.png") !important;}
 .link-add {background-image: url("../images/link-add.png") !important;}

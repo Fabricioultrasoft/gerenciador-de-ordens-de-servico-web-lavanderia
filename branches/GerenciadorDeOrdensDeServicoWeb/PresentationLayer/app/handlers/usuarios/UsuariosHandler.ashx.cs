@@ -8,6 +8,8 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.usuarios;
 using System.Web.Script.Serialization;
 using System.Web.SessionState;
+using System.Security.Cryptography;
+using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuarios {
 	/// <summary>
@@ -50,6 +52,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		}
 
 		private String createUsuarios( String records ) {
+			SHA1 sha1 = new SHA1CryptoServiceProvider();
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.cadastrarListaDeUsuarios( ref usuarios );
@@ -72,7 +75,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 				jsonResposta.Append( "{" );
 				jsonResposta.AppendFormat( " \"codigo\": {0}, ", usu.codigo );
 				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", usu.nome );
-				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", usu.senha );
+				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usu.senha ) ) ) );
 				jsonResposta.Append( "}," );
 			}
 			if( usuarios.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
@@ -124,6 +127,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		}
 
 		private String updateUsuarios( String records ) {
+			SHA1 sha1 = new SHA1CryptoServiceProvider();
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.atualizarListaDeUsuarios( usuarios );
@@ -146,7 +150,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 				jsonResposta.Append( "{" );
 				jsonResposta.AppendFormat( " \"codigo\": {0}, ", usu.codigo );
 				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", usu.nome );
-				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", usu.senha );
+				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usu.senha ) ) ) );
 				jsonResposta.Append( "}," );
 			}
 			if( usuarios.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula

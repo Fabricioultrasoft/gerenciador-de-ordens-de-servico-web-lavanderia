@@ -16,6 +16,9 @@ Ext.define('App.controller.enderecos.CidadesController', {
             '#btnAddCidade': {
                 click: this.onAddCidadeClick
             },
+            '#btnEditCidade': {
+                click: this.onEditCidadeClick
+            },
             '#btnDelCidade': {
                 click: this.onDelCidadeClick
             },
@@ -55,6 +58,13 @@ Ext.define('App.controller.enderecos.CidadesController', {
 
     onAddCidadeClick: function (thisButton, eventObject, options) {
         thisButton.scope.createWinAddCidade().show();
+    },
+
+    onEditCidadeClick: function(btn, eventObject, options) {
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelCidadeClick: function (thisButton, eventObject, options) {

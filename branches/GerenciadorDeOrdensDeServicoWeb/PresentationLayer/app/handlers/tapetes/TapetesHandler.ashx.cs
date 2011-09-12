@@ -70,7 +70,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.tapetes
 				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", tapete.nome );
 				jsonResposta.AppendFormat( " \"descricao\": \"{0}\", ", tapete.descricao );
 				jsonResposta.AppendFormat( " \"ativo\": {0} ", tapete.ativo.ToString().ToLower() );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( tapetes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );

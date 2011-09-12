@@ -32,18 +32,11 @@ Ext.define('App.view.enderecos.EstadosView', {
                 header: 'Pa&iacute;s',
                 dataIndex: 'nomePais'
             }],
-            tbar: [{
-                itemId: 'btnAddEstado',
-                text: 'Adicionar',
-                iconCls: 'btn-add',
-                scope: me
-            }, {
-                itemId: 'btnDelEstado',
-                text: 'Remover',
-                iconCls: 'btn-del',
-                disabled: true,
-                scope: me
-            }],
+            tbar: [
+                { itemId: 'btnAddEstado', text: 'Adicionar', iconCls: 'btn-add', scope: me }, 
+                { itemId: 'btnEditEstado', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
+                { itemId: 'btnDelEstado', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: me }
+            ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: estadosStore,
                 displayInfo: true,
@@ -52,6 +45,7 @@ Ext.define('App.view.enderecos.EstadosView', {
             }),
             listeners: {
                 'selectionchange': function (view, records) {
+                    grid.down('#btnEditEstado').setDisabled(!records.length);
                     grid.down('#btnDelEstado').setDisabled(!records.length);
                 }
             }

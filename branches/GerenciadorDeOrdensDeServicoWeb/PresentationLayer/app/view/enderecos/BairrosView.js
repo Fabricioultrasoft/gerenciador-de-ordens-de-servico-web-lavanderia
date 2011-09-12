@@ -48,18 +48,11 @@ Ext.define('App.view.enderecos.BairrosView', {
                 header: 'Pa&iacute;s',
                 dataIndex: 'nomePais'
             }],
-            tbar: [{
-                itemId: 'btnAddBairro',
-                text: 'Adicionar',
-                iconCls: 'btn-add',
-                scope: me
-            }, {
-                itemId: 'btnDelBairro',
-                text: 'Remover',
-                iconCls: 'btn-del',
-                disabled: true,
-                scope: me
-            }],
+            tbar: [
+                { itemId: 'btnAddBairro', text: 'Adicionar', iconCls: 'btn-add', scope: me }, 
+                { itemId: 'btnEditBairro', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
+                { itemId: 'btnDelBairro', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: me }
+            ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: bairrosStore,
                 displayInfo: true,
@@ -68,6 +61,7 @@ Ext.define('App.view.enderecos.BairrosView', {
             }),
             listeners: {
                 'selectionchange': function (view, records) {
+                    grid.down('#btnEditBairro').setDisabled(!records.length);
                     grid.down('#btnDelBairro').setDisabled(!records.length);
                 }
             }

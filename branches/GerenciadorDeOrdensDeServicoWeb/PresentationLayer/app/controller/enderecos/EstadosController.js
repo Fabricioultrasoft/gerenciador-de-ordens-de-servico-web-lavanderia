@@ -16,6 +16,9 @@ Ext.define('App.controller.enderecos.EstadosController', {
             '#btnAddEstado': {
                 click: this.onAddEstadoClick
             },
+            '#btnEditEstado': {
+                click: this.onEditEstadoClick
+            },
             '#btnDelEstado': {
                 click: this.onDelEstadoClick
             },
@@ -50,6 +53,13 @@ Ext.define('App.controller.enderecos.EstadosController', {
 
     onAddEstadoClick: function (thisButton, eventObject, options) {
         thisButton.scope.createWinAddEstado().show();
+    },
+
+    onEditEstadoClick: function(btn, eventObject, options) {
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelEstadoClick: function (thisButton, eventObject, options) {

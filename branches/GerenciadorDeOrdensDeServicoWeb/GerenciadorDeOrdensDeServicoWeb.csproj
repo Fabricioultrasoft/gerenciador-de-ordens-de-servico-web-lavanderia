@@ -53,6 +53,7 @@
     <Content Include="PresentationLayer\app\controller\clientes\ClientesAddController.js" />
     <Content Include="PresentationLayer\app\controller\clientes\ClientesEditController.js" />
     <Content Include="PresentationLayer\app\controller\clientes\ClientesSearchController.js" />
+    <Content Include="PresentationLayer\app\controller\clientes\TiposDeClientesController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\BairrosController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\CidadesController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\EstadosController.js" />
@@ -68,6 +69,7 @@
     <Content Include="PresentationLayer\app\controller\usuarios\UsuariosSearchController.js" />
     <Content Include="PresentationLayer\app\model\clientes\ClienteModel.js" />
     <Content Include="PresentationLayer\app\model\clientes\MeioDeContatoModel.js" />
+    <Content Include="PresentationLayer\app\model\clientes\TipoDeClienteModel.js" />
     <Content Include="PresentationLayer\app\model\enderecos\BairroModel.js" />
     <Content Include="PresentationLayer\app\model\enderecos\CidadeModel.js" />
     <Content Include="PresentationLayer\app\model\enderecos\EnderecoModel.js" />
@@ -99,6 +101,7 @@
     <Content Include="PresentationLayer\app\view\clientes\ClientesEditView.js" />
     <Content Include="PresentationLayer\app\view\clientes\ClientesSearchView.js" />
     <Content Include="PresentationLayer\app\view\clientes\ClientesView.js" />
+    <Content Include="PresentationLayer\app\view\clientes\TiposDeClientesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\BairrosView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\CidadesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\EnderecosView.js" />
@@ -1797,7 +1800,10 @@
     <Content Include="PresentationLayer\resources\images\clientes-add.png" />
     <Content Include="PresentationLayer\resources\images\clientes-edit.png" />
     <Content Include="PresentationLayer\resources\images\clientes-search.png" />
-    <Content Include="PresentationLayer\resources\images\clientes-tipos-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\clientes-tipos-add.png" />
+    <Content Include="PresentationLayer\resources\images\clientes-tipos-del.png" />
+    <Content Include="PresentationLayer\resources\images\clientes-tipos-edit.png" />
+    <Content Include="PresentationLayer\resources\images\clientes-tipos-search.png" />
     <Content Include="PresentationLayer\resources\images\clientes-tipos.png" />
     <Content Include="PresentationLayer\resources\images\clientes.png" />
     <Content Include="PresentationLayer\resources\images\del-thumb.png" />
@@ -1849,6 +1855,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogicLayer\clientes\GerenciadorDeClientes.cs" />
+    <Compile Include="BusinessLogicLayer\clientes\GerenciadorDeTiposDeClientes.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeBairros.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeCidades.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeEstados.cs" />

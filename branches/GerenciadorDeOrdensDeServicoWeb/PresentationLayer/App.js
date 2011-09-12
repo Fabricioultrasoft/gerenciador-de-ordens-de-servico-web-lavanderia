@@ -18,6 +18,7 @@ Ext.application({
         'clientes.ClientesAddController',
         'clientes.ClientesEditController',
         'clientes.ClientesSearchController',
+        'clientes.TiposDeClientesController',
         'servicos.ServicosAddController',
         'servicos.ServicosEditController',
         'servicos.ServicosSearchController',

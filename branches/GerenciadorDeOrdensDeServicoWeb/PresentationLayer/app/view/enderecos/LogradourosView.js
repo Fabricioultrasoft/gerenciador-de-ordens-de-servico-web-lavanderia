@@ -54,7 +54,8 @@
                 { header: 'Pa&iacute;s', dataIndex: 'nomePais' }
             ],
             tbar: [
-                { itemId: 'btnAddLogradouro', text: 'Adicionar', iconCls: 'btn-add', scope: this }, 
+                { itemId: 'btnAddLogradouro', text: 'Adicionar', iconCls: 'btn-add', scope: this },
+                { itemId: 'btnEditLogradouro', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
                 { itemId: 'btnDelLogradouro', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: this }
             ],
             bbar: Ext.create('Ext.PagingToolbar', {
@@ -65,6 +66,7 @@
             }),
             listeners: {
                 'selectionchange': function (view, records) {
+                    grid.down('#btnEditLogradouro').setDisabled(!records.length);
                     grid.down('#btnDelLogradouro').setDisabled(!records.length);
                 }
             }

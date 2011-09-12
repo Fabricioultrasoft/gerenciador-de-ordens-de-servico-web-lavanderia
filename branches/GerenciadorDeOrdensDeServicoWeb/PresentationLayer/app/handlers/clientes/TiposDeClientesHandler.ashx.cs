@@ -6,6 +6,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.clientes;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using System.Text;
 using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes;
+using System.Web.Script.Serialization;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.clientes {
 	/// <summary>
@@ -21,7 +22,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 			switch( action ) {
 				case "create":
-					//response = createTiposDeClientes( context.Request.Form["records"] );
+					response = createTiposDeClientes( context.Request.Form["records"] );
 					break;
 				case "read":
 					UInt32 start = 0;
@@ -38,10 +39,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 					response = readTiposDeClientes( start, limit, ativo );
 					break;
 				case "update":
-					//response = updateTiposDeClientes( context.Request.Form["records"] );
+					response = updateTiposDeClientes( context.Request.Form["records"] );
 					break;
 				case "destroy":
-					//response = destroyTiposDeClientes( context.Request.Form["records"] );
+					response = destroyTiposDeClientes( context.Request.Form["records"] );
 					break;
 			}
 
@@ -49,11 +50,46 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			context.Response.Write( response );
 		}
 
+		private String createTiposDeClientes( String records ) {
+			List<TipoDeCliente> tiposDeClientes = jsonToTiposDeClientes( records );
+			StringBuilder jsonResposta = new StringBuilder();
+			List<Erro> erros = GerenciadorDeTiposDeClientes.cadastrarListaDeTiposDeClientes( ref tiposDeClientes );
+
+			#region CONSTROI O JSON
+			jsonResposta.Append( "{" );
+			jsonResposta.Append( "    \"total\": " + tiposDeClientes.Count + "," );
+
+			if( erros.Count == 0 ) {
+				jsonResposta.Append( "    \"success\": true," );
+				jsonResposta.Append( "    \"message\": [\"Dados cadastrados com sucesso\"]," );
+			} else {
+				jsonResposta.Append( "    \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+			}
+
+			jsonResposta.Append( "    \"data\": [" );
+			foreach( TipoDeCliente tipoDeCliente in tiposDeClientes ) {
+				jsonResposta.Append( "{" );
+				jsonResposta.AppendFormat( " \"codigo\": {0}, ", tipoDeCliente.codigo );
+				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", tipoDeCliente.nome );
+				jsonResposta.AppendFormat( " \"ativo\": {0} ", tipoDeCliente.ativo.ToString().ToLower() );
+				jsonResposta.Append( " }," );
+			}
+			if( tiposDeClientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
+			jsonResposta.Append( "]" );
+
+			// fim do json
+			jsonResposta.Append( "}" );
+			#endregion
+
+			return jsonResposta.ToString();
+		}
+
 		private String readTiposDeClientes( UInt32 start, UInt32 limit, bool? ativo ) {
 			List<TipoDeCliente> tiposDeClientes;
 			List<Erro> erros;
-			erros = GerenciadorDeClientes.preencherListaDeTiposDeClientes( out tiposDeClientes, start, limit, ativo );
-			long qtdRegistros = GerenciadorDeClientes.countTiposDeClientes();
+			erros = GerenciadorDeTiposDeClientes.preencherListaDeTiposDeClientes( out tiposDeClientes, start, limit, ativo );
+			long qtdRegistros = GerenciadorDeTiposDeClientes.countTiposDeClientes();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -69,7 +105,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 					jsonResposta.Append( "{" );
 					jsonResposta.AppendFormat( " \"codigo\": {0},", tipoDeCliente.codigo );
 					jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", tipoDeCliente.nome );
-					jsonResposta.AppendFormat( " \"ativo\": {0}, ", tipoDeCliente.ativo.ToString().ToLower() );
+					jsonResposta.AppendFormat( " \"ativo\": {0} ", tipoDeCliente.ativo.ToString().ToLower() );
 					jsonResposta.Append( "}," );
 				}
 				if( tiposDeClientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
@@ -87,6 +123,72 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			#endregion
 
 			return jsonResposta.ToString();
+		}
+
+		private String updateTiposDeClientes( String records ) {
+			List<TipoDeCliente> tiposDeClientes = jsonToTiposDeClientes( records );
+			StringBuilder jsonResposta = new StringBuilder();
+			List<Erro> erros = GerenciadorDeTiposDeClientes.atualizarListaDeTiposDeClientes( tiposDeClientes );
+
+			#region CONSTROI O JSON
+			jsonResposta.Append( "{" );
+			jsonResposta.Append( "    \"total\": " + tiposDeClientes.Count + "," );
+
+			if( erros.Count == 0 ) {
+				jsonResposta.Append( "    \"success\": true," );
+				jsonResposta.Append( "    \"message\": [\"Dados alterados com sucesso\"]," );
+			} else {
+				jsonResposta.Append( "    \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+			}
+
+			jsonResposta.Append( "    \"data\": [" );
+			foreach( TipoDeCliente tipoDeCliente in tiposDeClientes ) {
+				jsonResposta.Append( "{" );
+				jsonResposta.AppendFormat( " \"codigo\": {0}, ", tipoDeCliente.codigo );
+				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", tipoDeCliente.nome );
+				jsonResposta.AppendFormat( " \"ativo\": {0} ", tipoDeCliente.ativo.ToString().ToLower() );
+				jsonResposta.Append( " }," );
+			}
+			if( tiposDeClientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
+			jsonResposta.Append( "]" );
+
+			// fim do json
+			jsonResposta.Append( "}" );
+			#endregion
+
+			return jsonResposta.ToString();
+		}
+
+		private String destroyTiposDeClientes( String records ) {
+			List<TipoDeCliente> tiposDeClientes = jsonToTiposDeClientes( records );
+			StringBuilder jsonResposta = new StringBuilder();
+			List<Erro> erros = GerenciadorDeTiposDeClientes.excluirListaDeTiposDeClientes( tiposDeClientes );
+
+			#region CONSTROI O JSON
+			jsonResposta.AppendLine( "{" );
+			jsonResposta.AppendLine( "    \"total\": " + tiposDeClientes.Count + "," );
+
+			if( erros.Count == 0 ) {
+				jsonResposta.AppendLine( "    \"success\": true," );
+				jsonResposta.AppendLine( "    \"message\": [\"Dados excluidos com sucesso\"]," );
+			} else {
+				jsonResposta.AppendLine( "    \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+			}
+
+			jsonResposta.AppendLine( "    \"data\": []" );
+
+			// fim do json
+			jsonResposta.AppendLine( "}" );
+			#endregion
+
+			return jsonResposta.ToString();
+		}
+
+		public static List<TipoDeCliente> jsonToTiposDeClientes( String json ) {
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			return js.Deserialize<List<TipoDeCliente>>( json );
 		}
 
 		public bool IsReusable {

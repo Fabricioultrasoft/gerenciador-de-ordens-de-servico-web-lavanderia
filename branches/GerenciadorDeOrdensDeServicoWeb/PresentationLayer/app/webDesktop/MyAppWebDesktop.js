@@ -11,6 +11,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.enderecos.LogradourosView',
         'App.view.enderecos.EnderecosView',
         'App.view.tapetes.TapetesView',
+        'App.view.clientes.TiposDeClientesView',
         'App.view.clientes.ClientesView',
         'App.view.clientes.ClientesAddView',
         'App.view.clientes.ClientesEditView',
@@ -36,6 +37,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
     getModules: function () {
         return [
             new App.view.tapetes.TapetesView(),
+            new App.view.clientes.TiposDeClientesView(),
             new App.view.clientes.ClientesView(),
             new App.view.clientes.ClientesAddView(),
             new App.view.clientes.ClientesEditView(),
@@ -82,7 +84,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         var me = this, ret = me.callParent();
 
         return Ext.apply(ret, {
-            title: 'MyAppWebDesktop.js',
+            title: Ext.util.Cookies.get('nomeUsuario'),
             height: 300,
             toolConfig: {
                 width: 100,

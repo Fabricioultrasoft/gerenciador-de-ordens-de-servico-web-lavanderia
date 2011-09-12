@@ -16,6 +16,9 @@ Ext.define('App.controller.enderecos.LogradourosController', {
             '#btnAddLogradouro': {
                 click: this.onAddLogradouroClick
             },
+            '#btnEditLogradouro': {
+                click: this.onEditLogradouroClick
+            },
             '#btnDelLogradouro': {
                 click: this.onDelLogradouroClick
             },
@@ -64,6 +67,13 @@ Ext.define('App.controller.enderecos.LogradourosController', {
 
     onAddLogradouroClick: function (btn, eventObject, options) {
         btn.scope.createWinAddLogradouro().show();
+    },
+
+    onEditLogradouroClick: function(btn, eventObject, options) {
+        var grid = btn.scope.gridLogradouros;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelLogradouroClick: function (btn, eventObject, options) {

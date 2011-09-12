@@ -16,6 +16,9 @@ Ext.define('App.controller.enderecos.BairrosController', {
             '#btnAddBairro': {
                 click: this.onAddBairroClick
             },
+            '#btnEditBairro': {
+                click: this.onEditBairroClick
+            },
             '#btnDelBairro': {
                 click: this.onDelBairroClick
             },
@@ -58,6 +61,13 @@ Ext.define('App.controller.enderecos.BairrosController', {
 
     onAddBairroClick: function (thisButton, eventObject, options) {
         thisButton.scope.createWinAddBairro().show();
+    },
+
+    onEditBairroClick: function(btn, eventObject, options) {
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelBairroClick: function (thisButton, eventObject, options) {

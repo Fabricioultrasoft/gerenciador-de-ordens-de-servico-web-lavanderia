@@ -24,18 +24,11 @@ Ext.define('App.view.enderecos.TiposDeLogradourosView', {
                 dataIndex: 'nome',
                 flex: 1
             }],
-            tbar: [{
-                itemId: 'btnAddTipoDeLogradouro',
-                text: 'Adicionar',
-                iconCls: 'btn-add',
-                scope: me
-            }, {
-                itemId: 'btnDelTipoDeLogradouro',
-                text: 'Remover',
-                iconCls: 'btn-del',
-                disabled: true,
-                scope: me
-            }],
+            tbar: [
+                { itemId: 'btnAddTipoDeLogradouro', text: 'Adicionar', iconCls: 'btn-add', scope: me }, 
+                { itemId: 'btnEditTipoDeLogradouro', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
+                { itemId: 'btnDelTipoDeLogradouro', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: me }
+            ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: tiposDeLogradourosStore,
                 displayInfo: true,
@@ -44,6 +37,7 @@ Ext.define('App.view.enderecos.TiposDeLogradourosView', {
             }),
             listeners: {
                 'selectionchange': function (view, records) {
+                    grid.down('#btnEditTipoDeLogradouro').setDisabled(!records.length);
                     grid.down('#btnDelTipoDeLogradouro').setDisabled(!records.length);
                 }
             }

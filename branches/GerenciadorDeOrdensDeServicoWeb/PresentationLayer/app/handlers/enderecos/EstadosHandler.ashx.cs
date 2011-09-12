@@ -148,7 +148,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", estado.nome );
 				jsonResposta.AppendFormat( " \"codigoPais\": {0}, ", estado.pais.codigo );
 				jsonResposta.AppendFormat( " \"nomePais\": \"{0}\" ", estado.pais.nome );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( estados.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );

@@ -3,7 +3,7 @@ Ext.define('App.store.clientes.TiposDeClientesStore', {
     extend: 'Ext.data.Store',
     autoDestroy: false,
     storeId: 'tiposDeClientesStore',
-    fields: [{name: 'codigo', type: 'int'},{name: 'nome', type: 'string'},{name: 'ativo', type: 'boolean'}],
+    model: 'App.model.clientes.TipoDeClienteModel',
     proxy: {
         type: 'ajax',
         api: {

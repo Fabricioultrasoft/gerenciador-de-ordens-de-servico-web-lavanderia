@@ -40,18 +40,11 @@ Ext.define('App.view.enderecos.CidadesView', {
                 header: 'Pa&iacute;s',
                 dataIndex: 'nomePais'
             }],
-            tbar: [{
-                itemId: 'btnAddCidade',
-                text: 'Adicionar',
-                iconCls: 'btn-add',
-                scope: me
-            }, {
-                itemId: 'btnDelCidade',
-                text: 'Remover',
-                iconCls: 'btn-del',
-                disabled: true,
-                scope: me
-            }],
+            tbar: [
+                { itemId: 'btnAddCidade', text: 'Adicionar', iconCls: 'btn-add', scope: me }, 
+                { itemId: 'btnEditCidade', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
+                { itemId: 'btnDelCidade', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: me }
+            ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: cidadesStore,
                 displayInfo: true,
@@ -60,6 +53,7 @@ Ext.define('App.view.enderecos.CidadesView', {
             }),
             listeners: {
                 'selectionchange': function (view, records) {
+                    grid.down('#btnEditCidade').setDisabled(!records.length);
                     grid.down('#btnDelCidade').setDisabled(!records.length);
                 }
             }

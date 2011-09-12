@@ -154,7 +154,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 				jsonResposta.AppendFormat( " \"nomeEstado\": \"{0}\", ", cidade.estado.nome );
 				jsonResposta.AppendFormat( " \"codigoPais\": {0}, ", cidade.estado.pais.codigo );
 				jsonResposta.AppendFormat( " \"nomePais\": \"{0}\" ", cidade.estado.pais.nome );
-				jsonResposta.Append( " },\n" );
+				jsonResposta.Append( " }\n," );
 			}
 			if( cidades.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );

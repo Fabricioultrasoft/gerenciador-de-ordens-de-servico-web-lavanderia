@@ -16,6 +16,9 @@ Ext.define('App.controller.enderecos.TiposDeLogradourosController', {
             '#btnAddTipoDeLogradouro': {
                 click: this.onAddTipoDeLogradouroClick
             },
+            '#btnEditTipoDeLogradouro': {
+                click: this.onEditTipoDeLogradouroClick
+            },
             '#btnDelTipoDeLogradouro': {
                 click: this.onDelTipoDeLogradouroClick
             },
@@ -36,6 +39,13 @@ Ext.define('App.controller.enderecos.TiposDeLogradourosController', {
 
     onAddTipoDeLogradouroClick: function (thisButton, eventObject, options) {
         thisButton.scope.createWinAddTipoDeLogradouro().show();
+    },
+
+    onEditTipoDeLogradouroClick: function(btn, eventObject, options) {
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     },
 
     onDelTipoDeLogradouroClick: function (thisButton, eventObject, options) {

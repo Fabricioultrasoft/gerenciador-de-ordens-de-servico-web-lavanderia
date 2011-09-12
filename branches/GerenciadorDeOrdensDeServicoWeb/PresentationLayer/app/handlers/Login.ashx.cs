@@ -21,6 +21,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 
 			if( GerenciadorDeUsuarios.autenticar( ref usuario ) ) {
 				FormsAuthentication.SetAuthCookie( usuario.nome, false );
+
+				HttpCookie nomeUsuarioCookie = new HttpCookie( "nomeUsuario", usuario.nome );
+				nomeUsuarioCookie.Expires = DateTime.MinValue;
+				context.Response.Cookies.Add( nomeUsuarioCookie );
+
 				response = "{ success:true, redirect:'/PresentationLayer/index.html' }";
 			} else {
 				response = "{ success:false, message:'nome e senha incorretos' }";

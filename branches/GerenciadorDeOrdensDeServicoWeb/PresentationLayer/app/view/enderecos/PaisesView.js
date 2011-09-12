@@ -24,18 +24,11 @@ Ext.define('App.view.enderecos.PaisesView', {
                 dataIndex: 'nome',
                 flex: 1
             }],
-            tbar: [{
-                itemId: 'btnAddPais',
-                text: 'Adicionar',
-                iconCls: 'btn-add',
-                scope: me
-            }, {
-                itemId: 'btnDelPais',
-                text: 'Remover',
-                iconCls: 'btn-del',
-                disabled: true,
-                scope: me
-            }],
+            tbar: [
+                { itemId: 'btnAddPais', text: 'Adicionar', iconCls: 'btn-add', scope: me },
+                { itemId: 'btnEditPais', text: 'Editar', iconCls: 'edit', scope: this, disabled: true },
+                { itemId: 'btnDelPais', text: 'Remover', iconCls: 'btn-del', disabled: true, scope: me }
+            ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: paisesStore,
                 displayInfo: true,
@@ -44,6 +37,7 @@ Ext.define('App.view.enderecos.PaisesView', {
             }),
             listeners: {
                 'selectionchange': function (view, records) {
+                    grid.down('#btnEditPais').setDisabled(!records.length);
                     grid.down('#btnDelPais').setDisabled(!records.length);
                 }
             }

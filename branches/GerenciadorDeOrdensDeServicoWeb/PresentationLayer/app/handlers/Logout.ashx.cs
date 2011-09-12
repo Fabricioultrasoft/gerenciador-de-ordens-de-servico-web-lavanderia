@@ -11,7 +11,20 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 	public class Logout : IHttpHandler {
 
 		public void ProcessRequest( HttpContext context ) {
+			// finaliza a sessao
 			FormsAuthentication.SignOut();
+
+			// limpa os cookies
+			HttpCookie aCookie;
+			string cookieName;
+			int limit = context.Request.Cookies.Count;
+			for( int i=0; i<limit; i++ ) {
+				cookieName = context.Request.Cookies[i].Name;
+				aCookie = new HttpCookie( cookieName );
+				aCookie.Expires = DateTime.Now.AddDays( -1 );
+				context.Response.Cookies.Add( aCookie );
+			}
+
 			context.Response.ContentType = "application/json";
 			context.Response.Write( "{ success:true, redirect:'/PresentationLayer/login.html' }" );
 		}
