@@ -1893,6 +1893,9 @@
     <Compile Include="DataTransferObjects\enderecos\Pais.cs" />
     <Compile Include="DataTransferObjects\enderecos\TipoDeLogradouro.cs" />
     <Compile Include="DataTransferObjects\Erro.cs" />
+    <Compile Include="DataTransferObjects\ordensDeServico\Item.cs" />
+    <Compile Include="DataTransferObjects\ordensDeServico\OrdemDeServico.cs" />
+    <Compile Include="DataTransferObjects\ordensDeServico\Status.cs" />
     <Compile Include="DataTransferObjects\servicos\Servico.cs" />
     <Compile Include="DataTransferObjects\servicos\ValorDeServico.cs" />
     <Compile Include="DataTransferObjects\sql\Filter.cs" />
