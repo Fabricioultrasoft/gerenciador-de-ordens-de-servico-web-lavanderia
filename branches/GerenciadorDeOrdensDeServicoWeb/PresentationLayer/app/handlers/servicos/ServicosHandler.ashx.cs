@@ -45,7 +45,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 					response = updateServicos( context.Request.Form["records"] );
 					break;
 				case "destroy":
-					response = destroyServicos( context.Request.Form["records"], context );
+					response = destroyServicos( context.Request.Form["records"] );
 					break;
 
 				case "readServico":
@@ -99,7 +99,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			return jsonResposta.ToString();
 		}
 
-
 		private String readServicos( UInt32 start, UInt32 limit, bool apenasDadosBasicos ) {
 			List<Servico> servicos;
 			List<Erro> erros;
@@ -146,7 +145,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			List<Erro> erros;
 
 			erros = GerenciadorDeServicos.preencherServico( codigoServico, out servico );
-			
+
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -216,34 +215,29 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			return jsonResposta.ToString();
 		}
 
-
-		private String destroyServicos( String records, HttpContext context ) {
+		private String destroyServicos( String records ) {
 			List<Servico> servicos = jsonToServicos( records );
+			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeServicos.excluirListaDeServicos( servicos );
 
+			#region CONSTROI O JSON
+			formatarSaidaServicos( ref servicos );
+			jsonResposta.Append( "{" );
+			jsonResposta.Append( "    \"total\": " + servicos.Count + "," );
+
 			if( erros.Count == 0 ) {
-				UInt32 start = 0;
-				UInt32 limit = 25;
-				bool apenasDadosBasicos = false;
-
-				UInt32.TryParse( context.Session["readServicos_start"].ToString(), out start );
-				UInt32.TryParse( context.Session["readServicos_limit"].ToString(), out limit );
-				Boolean.TryParse( context.Session["readServicos_apenasDadosBasicos"].ToString(), out apenasDadosBasicos );
-
-				return readServicos( start, limit, apenasDadosBasicos );
+				jsonResposta.Append( "    \"success\": true," );
+				jsonResposta.Append( "    \"message\": [\"Dados excluidos com sucesso\"]," );
 			} else {
-				StringBuilder jsonResposta = new StringBuilder();
-
-				formatarSaidaServicos( ref servicos );
-				jsonResposta.AppendLine( "{" );
-				jsonResposta.AppendLine( "    \"total\": " + servicos.Count + "," );
-				jsonResposta.AppendLine( "    \"success\": false," );
+				jsonResposta.Append( "    \"success\": false," );
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
-				jsonResposta.AppendLine( "    \"data\": []" );
-				jsonResposta.AppendLine( "}" );
-
-				return jsonResposta.ToString();
 			}
+
+			jsonResposta.Append( "    \"data\": [] }" );
+			#endregion
+
+			return jsonResposta.ToString();
+
 		}
 
 		public static void formatarSaidaServicos( ref List<Servico> servicos ) {
@@ -258,7 +252,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			}
 		}
 
-		private static void montarValoresJson(ref StringBuilder json, List<ValorDeServico> valores) {
+		private static void montarValoresJson( ref StringBuilder json, List<ValorDeServico> valores ) {
 			json.Append( " \"children\": [" );
 			foreach( ValorDeServico val in valores ) {
 				json.Append( "{" );
@@ -306,10 +300,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			StringBuilder valoresJson = new StringBuilder();
 
 			js.Serialize( objJson, valoresJson );
-			
+
 			foreach( Dictionary<String, Object> valorTemp in js.Deserialize<List<Dictionary<String, Object>>>( valoresJson.ToString() ) ) {
 				ValorDeServico valor = new ValorDeServico();
-				
+
 				valor.codigo = UInt32.Parse( valorTemp["codigo"].ToString() );
 				valor.codigoPai = UInt32.Parse( valorTemp["codigoPai"].ToString() );
 				valor.codigoServico = UInt32.Parse( valorTemp["codigoServico"].ToString() );
@@ -324,7 +318,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 				valores.Add( valor );
 			}
 
-			
+
 			return valores;
 		}
 

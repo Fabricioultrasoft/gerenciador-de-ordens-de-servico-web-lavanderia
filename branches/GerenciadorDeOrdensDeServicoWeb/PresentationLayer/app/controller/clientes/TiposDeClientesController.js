@@ -60,6 +60,7 @@ Ext.define('App.controller.clientes.TiposDeClientesController', {
                 if (buttonId == 'yes') {
                     module.grid.getStore().remove(sm.getSelection());
                     module.grid.getStore().sync();
+                    module.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O tipo de cliente selecionado foi excluido');
                     if (module.grid.getStore().getCount() > 0) {
                         sm.select(0);
@@ -88,6 +89,7 @@ Ext.define('App.controller.clientes.TiposDeClientesController', {
         }, 'App.model.clientes.TipoDeClienteModel');
         module.grid.getStore().insert(0, r);
         module.grid.getStore().sync();
+        module.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
         win.close();
     },
 

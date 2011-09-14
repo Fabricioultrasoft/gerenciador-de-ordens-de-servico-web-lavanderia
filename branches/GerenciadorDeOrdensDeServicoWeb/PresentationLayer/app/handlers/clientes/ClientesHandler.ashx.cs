@@ -53,7 +53,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 					response = updateClientes( context.Request.Form["records"] );
 					break;
 				case "destroy":
-					response = destroyClientes( context.Request.Form["records"], context );
+					response = destroyClientes( context.Request.Form["records"] );
 					break;
 			}
 
@@ -188,39 +188,28 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			return jsonResposta.ToString();
 		}
 
-		private String destroyClientes( String records, HttpContext context ) {
+		private String destroyClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
+			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeClientes.excluirListaDeClientes( clientes );
 
+			#region CONSTROI O JSON
+			formatarSaida( ref clientes );
+			jsonResposta.AppendLine( "{" );
+			jsonResposta.AppendLine( "    \"total\": " + clientes.Count + "," );
+
 			if( erros.Count == 0 ) {
-				UInt32 start = 0;
-				UInt32 limit = 25;
-				String filters = String.Empty;
-				String sorters = String.Empty;
-
-				UInt32.TryParse( context.Session["readClientes_start"].ToString(), out start );
-				UInt32.TryParse( context.Session["readClientes_limit"].ToString(), out limit );
-				if( String.IsNullOrEmpty( context.Session["readClientes_filters"].ToString() ) == false ) {
-					filters = context.Session["readClientes_filters"].ToString();
-				}
-				if( String.IsNullOrEmpty( context.Session["readClientes_sorters"].ToString() ) == false ) {
-					sorters = context.Session["readClientes_sorters"].ToString();
-				}
-
-				return readClientes( start, limit, filters, sorters );
+				jsonResposta.AppendLine( "    \"success\": true," );
+				jsonResposta.AppendLine( "    \"message\": [\"Dados excluidos com sucesso\"]," );
 			} else {
-				StringBuilder jsonResposta = new StringBuilder();
-				
-				formatarSaida( ref clientes );
-				jsonResposta.AppendLine( "{" );
-				jsonResposta.AppendLine( "    \"total\": " + clientes.Count + "," );
 				jsonResposta.AppendLine( "    \"success\": false," );
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
-				jsonResposta.AppendLine( "    \"data\": []" );
-				jsonResposta.AppendLine( "}" );
-				
-				return jsonResposta.ToString();
 			}
+
+			jsonResposta.AppendLine( "    \"data\": [] }" );
+			#endregion
+
+			return jsonResposta.ToString();
 		}
 
 		public static List<Cliente> jsonToClientes( String json ) {

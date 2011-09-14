@@ -59,6 +59,7 @@ Ext.define('App.controller.tapetes.TapetesController', {
         }, 'App.model.tapetes.TapeteModel');
         btn.scope.gridTapetes.getStore().insert(0, r);
         btn.scope.gridTapetes.getStore().sync();
+        btn.scope.gridTapetes.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
         btn.scope.formTapetes.getForm().reset();
     },
 
@@ -80,6 +81,7 @@ Ext.define('App.controller.tapetes.TapetesController', {
                 if (buttonId == 'yes') {
                     btn.scope.gridTapetes.getStore().remove(sm.getSelection());
                     btn.scope.gridTapetes.getStore().sync();
+                    btn.scope.gridTapetes.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O tapete selecionado foi excluido');
                     if (btn.scope.gridTapetes.getStore().getCount() > 0) {
                         sm.select(0);

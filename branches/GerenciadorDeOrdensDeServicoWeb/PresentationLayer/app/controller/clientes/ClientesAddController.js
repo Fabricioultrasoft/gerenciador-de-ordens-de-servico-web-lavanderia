@@ -194,6 +194,7 @@ Ext.define('App.controller.clientes.ClientesAddController', {
         if(storeClientes) {
             storeClientes.insert(0, r);
             storeClientes.sync();
+            storeClientes.module.gridClientes.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             btn.up('window').close();
         }
         else {

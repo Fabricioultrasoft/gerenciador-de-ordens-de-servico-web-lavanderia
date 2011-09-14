@@ -43,7 +43,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 					response = updateUsuarios( context.Request.Form["records"] );
 					break;
 				case "destroy":
-					response = destroyUsuarios( context.Request.Form["records"], context );
+					response = destroyUsuarios( context.Request.Form["records"] );
 					break;
 			}
 
@@ -163,33 +163,28 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 			return jsonResposta.ToString();
 		}
 
-		private String destroyUsuarios( String records, HttpContext context ) {
+		private String destroyUsuarios( String records ) {
 			List<Usuario> usuarios = jsonToUsuarios( records );
+			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.excluirListaDeUsuarios( usuarios );
 
+			#region CONSTROI O JSON
+			formatarSaida( ref usuarios );
+			jsonResposta.AppendLine( "{" );
+			jsonResposta.AppendLine( "    \"total\": " + usuarios.Count + "," );
+
 			if( erros.Count == 0 ) {
-				UInt32 start = 0;
-				UInt32 limit = 25;
-				String filters = String.Empty;
-				String sorters = String.Empty;
-
-				UInt32.TryParse( context.Session["readUsuarios_start"].ToString(), out start );
-				UInt32.TryParse( context.Session["readUsuarios_limit"].ToString(), out limit );
-
-				return readUsuarios( start, limit );
+				jsonResposta.AppendLine( "    \"success\": true," );
+				jsonResposta.AppendLine( "    \"message\": [\"Dados excluidos com sucesso\"]," );
 			} else {
-				StringBuilder jsonResposta = new StringBuilder();
-
-				formatarSaida( ref usuarios );
-				jsonResposta.AppendLine( "{" );
-				jsonResposta.AppendLine( "    \"total\": " + usuarios.Count + "," );
 				jsonResposta.AppendLine( "    \"success\": false," );
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
-				jsonResposta.AppendLine( "    \"data\": []" );
-				jsonResposta.AppendLine( "}" );
-
-				return jsonResposta.ToString();
 			}
+
+			jsonResposta.AppendLine( "    \"data\": [] }" );
+			#endregion
+
+			return jsonResposta.ToString();
 		}
 
 		public static List<Usuario> jsonToUsuarios( String json ) {

@@ -34,6 +34,7 @@ Ext.define('App.view.usuarios.UsuariosSearchView', {
         var usuariosStore = Ext.create('App.store.usuarios.UsuariosStore', {});
         usuariosStore.load({ params: { ativo: true} });
         this.usuariosStore = usuariosStore;
+        this.usuariosStore.module = this;
 
         var gridUsuarios = Ext.create('Ext.grid.Panel',{
             id: 'grid-usuarios',

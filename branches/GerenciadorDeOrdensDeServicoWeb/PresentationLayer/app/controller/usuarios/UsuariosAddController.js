@@ -43,6 +43,7 @@ Ext.define('App.controller.usuarios.UsuariosAddController', {
         if(storeUsuarios) {
             storeUsuarios.insert(0, r);
             storeUsuarios.sync();
+            storeUsuarios.module.gridUsuarios.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             btn.up('window').close();
         }
         else {

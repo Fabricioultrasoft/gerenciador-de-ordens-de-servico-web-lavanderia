@@ -32,6 +32,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
             });
         }
         win.show();
+
         return win;
     },
 
@@ -42,6 +43,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
 
         var clientesStore = Ext.create('App.store.clientes.ClientesStore', { remoteFilter:true, remoteSort: true});
         this.clientesStore = clientesStore;
+        this.clientesStore.module = this;
 
         clientesStore.load({ params: { ativo: true} });
         
@@ -145,6 +147,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
         });
         this.gridClientes = gridClientes;
         this.gridClientes.module = this;
+
         //--------------------------------------------------------------------
         var mainPanel = Ext.create('Ext.panel.Panel', {
             border: false,

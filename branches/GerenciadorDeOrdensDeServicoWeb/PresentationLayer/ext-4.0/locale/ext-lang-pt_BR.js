@@ -47,6 +47,10 @@ Ext.onReady(function(){
         Ext.LoadMask.prototype.msg = "Carregando...";
     }
 
+    if(Ext.view.AbstractView) {
+        Ext.view.AbstractView.prototype.loadingText = "Carregando...";
+    }
+
     if(Ext.Date) {
         Ext.Date.monthNames = [
            "Janeiro",
@@ -104,6 +108,23 @@ Ext.onReady(function(){
           yes    : "Sim",
           no     : "N&atilde;o"
        };
+    }
+
+    if(Ext.window.MessageBox) {
+        
+        Ext.window.MessageBox.prototype.buttonText = {
+            ok: 'OK',
+            yes: 'Sim',
+            no: 'N&atilde;o',
+            cancel: 'Cancelar'
+        }
+
+        Ext.window.MessageBox.prototype.titleText = {
+            confirm: 'Confirmar',
+            prompt: 'Prompt',
+            wait: 'Carregando...',
+            alert: 'Aten&ccedil;&atilde;o'
+        }
     }
 
     if(Ext.util.Format){
@@ -189,6 +210,8 @@ Ext.onReady(function(){
           loadingText       : "Carregando...",
           valueNotFoundText : undefined
        });
+
+       Ext.form.field.ComboBox.prototype.defaultListConfig.loadingText = "Carregando...";
     }
 
     if(Ext.form.field.VTypes){
