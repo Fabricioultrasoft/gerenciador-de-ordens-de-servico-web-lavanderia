@@ -9,6 +9,8 @@ Ext.define('App.view.enderecos.CidadesView', {
         var me = this;
 
         var cidadesStore = Ext.create('App.store.enderecos.CidadesStore',{});
+        this.cidadesStore = cidadesStore;
+        this.cidadesStore.module = this;
 
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-cidades',

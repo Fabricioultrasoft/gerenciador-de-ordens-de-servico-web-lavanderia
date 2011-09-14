@@ -180,6 +180,7 @@ Ext.define('App.controller.servicos.ServicosAddController', {
         if(servicosStore) {
             servicosStore.insert(0, r);
             servicosStore.sync();
+            servicosStore.module.gridServicos.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             btn.up('window').close();
         }
         else {

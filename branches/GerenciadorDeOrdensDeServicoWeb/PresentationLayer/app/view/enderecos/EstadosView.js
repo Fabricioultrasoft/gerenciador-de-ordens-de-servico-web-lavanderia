@@ -9,6 +9,8 @@ Ext.define('App.view.enderecos.EstadosView', {
         var me = this;
 
         var estadosStore = Ext.create('App.store.enderecos.EstadosStore',{});
+        this.estadosStore = estadosStore;
+        this.estadosStore.module = this;
 
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-estados',

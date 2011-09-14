@@ -79,6 +79,7 @@ Ext.define('App.controller.enderecos.CidadesController', {
                 if (buttonId == 'yes') {
                     cidadesView.grid.getStore().remove(sm.getSelection());
                     cidadesView.grid.getStore().sync();
+                    cidadesView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'A cidade selecionada foi excluida');
                     if (cidadesView.grid.getStore().getCount() > 0) {
                         sm.select(0);
@@ -114,6 +115,7 @@ Ext.define('App.controller.enderecos.CidadesController', {
             }, 'App.model.enderecos.CidadeModel');
             cidadesView.grid.getStore().insert(0, r);
             cidadesView.grid.getStore().sync();
+            cidadesView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             win.close();
         }
     },

@@ -32,6 +32,7 @@ Ext.define('App.view.servicos.ServicosSearchView', {
         var servicosStore = Ext.create('App.store.servicos.ServicosStore',{});
         servicosStore.load({ params: { apenasDadosBasicos: true} });
         this.servicosStore = servicosStore;
+        this.servicosStore.module = this;
 
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-servicos',

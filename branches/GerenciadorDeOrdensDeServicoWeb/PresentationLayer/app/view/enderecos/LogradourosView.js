@@ -31,6 +31,9 @@
     createPanel: function () {
 
         var logradourosStore = Ext.create('App.store.enderecos.LogradourosStore',{});
+        this.logradourosStore = logradourosStore;
+        this.logradourosStore.module = this;
+        
         logradourosStore.load();
 
         var grid = Ext.create('Ext.grid.Panel', {

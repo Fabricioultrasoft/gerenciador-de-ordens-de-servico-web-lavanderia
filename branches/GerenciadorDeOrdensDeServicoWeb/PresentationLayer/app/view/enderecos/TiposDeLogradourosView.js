@@ -9,6 +9,8 @@ Ext.define('App.view.enderecos.TiposDeLogradourosView', {
         var me = this;
 
         var tiposDeLogradourosStore = Ext.create('App.store.enderecos.TiposDeLogradourosStore',{});
+        this.tiposDeLogradourosStore = tiposDeLogradourosStore;
+        this.tiposDeLogradourosStore.module = this;
 
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-tipos-de-logradouros',

@@ -60,6 +60,7 @@ Ext.define('App.controller.enderecos.TiposDeLogradourosController', {
                 if (buttonId == 'yes') {
                     tiposDeLogradourosView.grid.getStore().remove(sm.getSelection());
                     tiposDeLogradourosView.grid.getStore().sync();
+                    tiposDeLogradourosView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O tipo de logradouro selecionado foi excluido');
                     if (tiposDeLogradourosView.grid.getStore().getCount() > 0) {
                         sm.select(0);
@@ -87,6 +88,7 @@ Ext.define('App.controller.enderecos.TiposDeLogradourosController', {
             }, 'App.model.enderecos.TipoDeLogradouroModel');
             tiposDeLogradourosView.grid.getStore().insert(0, r);
             tiposDeLogradourosView.grid.getStore().sync();
+            tiposDeLogradourosView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             win.close();
         }
     },

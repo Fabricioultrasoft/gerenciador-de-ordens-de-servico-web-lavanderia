@@ -9,6 +9,8 @@ Ext.define('App.view.enderecos.PaisesView', {
         var me = this;
 
         var paisesStore = Ext.create('App.store.enderecos.PaisesStore',{});
+        this.paisesStore = paisesStore;
+        this.paisesStore.module = this;
 
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-paises',

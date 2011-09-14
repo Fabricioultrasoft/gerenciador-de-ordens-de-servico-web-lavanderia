@@ -88,6 +88,7 @@ Ext.define('App.controller.enderecos.LogradourosController', {
                 if (buttonId == 'yes') {
                     grid.getStore().remove(sm.getSelection());
                     grid.getStore().sync();
+                    grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O Logradouro selecionado foi excluido');
                     if (grid.getStore().getCount() > 0) {
                         sm.select(0);
@@ -136,6 +137,7 @@ Ext.define('App.controller.enderecos.LogradourosController', {
             }, 'App.model.enderecos.LogradouroModel');
             btn.scope.gridLogradouros.getStore().insert(0, r);
             btn.scope.gridLogradouros.getStore().sync();
+            btn.scope.gridLogradouros.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             win.close();
         }
     },

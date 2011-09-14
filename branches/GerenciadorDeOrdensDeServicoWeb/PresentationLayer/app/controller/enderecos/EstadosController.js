@@ -74,6 +74,7 @@ Ext.define('App.controller.enderecos.EstadosController', {
                 if (buttonId == 'yes') {
                     estadoView.grid.getStore().remove(sm.getSelection());
                     estadoView.grid.getStore().sync();
+                    estadoView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O estado selecionado foi excluido');
                     if (estadoView.grid.getStore().getCount() > 0) {
                         sm.select(0);
@@ -106,6 +107,7 @@ Ext.define('App.controller.enderecos.EstadosController', {
             }, 'App.model.enderecos.EstadoModel');
             estadosView.grid.getStore().insert(0, r);
             estadosView.grid.getStore().sync();
+            estadosView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             win.close();
         }
     },
