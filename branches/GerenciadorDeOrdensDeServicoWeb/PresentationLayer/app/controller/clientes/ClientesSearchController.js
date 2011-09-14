@@ -32,8 +32,6 @@ Ext.define('App.controller.clientes.ClientesSearchController', {
     },
 
     onSearchClienteClick:  function(btn, eventObject, options) {
-        
-        btn.scope.gridClientes.setLoading();
 
         var filtros = btn.scope.formFiltros.getValues();
 
