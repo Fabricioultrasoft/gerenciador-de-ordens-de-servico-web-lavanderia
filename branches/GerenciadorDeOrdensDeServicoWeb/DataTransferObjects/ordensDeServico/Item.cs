@@ -16,8 +16,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 		private float _largura;
 		private double _area;
 		private double _valor;
-		private double _metros;
-		private double _metrosQuadrados;
+		private double _m_m2;
 		private String _observacoes;
 
 		public Item() {
@@ -28,8 +27,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_largura = 0;
 			_area = 0;
 			_valor = 0;
-			_metros = 0;
-			_metrosQuadrados = 0;
+			_m_m2 = 0;
 			_servicos = new List<Servico>();
 			_observacoes = String.Empty;
 		}
@@ -42,8 +40,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_largura = largura;
 			_area = comprimento * largura;
 			_valor = 0;
-			_metros = 0;
-			_metrosQuadrados = 0;
+			_m_m2 = 0;
 			_servicos = new List<Servico>();
 			_observacoes = observacoes;
 		}
@@ -85,13 +82,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			get { return _valor; }
 			set { _valor = value; }
 		}
-		public double metros {
-			get { return _metros; }
-			set { _metros = value; }
-		}
-		public double metrosQuadrados {
-			get { return _metrosQuadrados; }
-			set { _metrosQuadrados = value; }
+		public double m_m2 {
+			get { return _m_m2; }
+			set { _m_m2 = value; }
 		}
 		public String observacoes {
 			get { return _observacoes; }

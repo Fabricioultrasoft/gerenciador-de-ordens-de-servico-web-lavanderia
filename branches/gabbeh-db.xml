@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes" ?>
 <DBMODEL Version="4.0">
 <SETTINGS>
-<GLOBALSETTINGS ModelName="gabbeh-db" IDModel="0" IDVersion="0" VersionStr="1.0.0.0" Comments="" UseVersionHistroy="1" AutoIncVersion="1" DatabaseType="MySQL" ZoomFac="88.89" XPos="0" YPos="1267" DefaultDataType="5" DefaultTablePrefix="0" DefSaveDBConn="" DefSyncDBConn="localhost" DefQueryDBConn="" Printer="" HPageCount="4.0" PageAspectRatio="1.440892512336408" PageOrientation="1" PageFormat="A4 (210x297 mm, 8.26x11.7 inches)" SelectedPages="" UsePositionGrid="0" PositionGridX="20" PositionGridY="20" TableNameInRefs="0" DefaultTableType="1" ActivateRefDefForNewRelations="1" FKPrefix="" FKPostfix="" CreateFKRefDefIndex="1" DBQuoteCharacter="`" CreateSQLforLinkedObjects="0" DefModelFont="Tahoma" CanvasWidth="4096" CanvasHeight="2842" />
+<GLOBALSETTINGS ModelName="gabbeh-db" IDModel="0" IDVersion="0" VersionStr="1.0.0.0" Comments="" UseVersionHistroy="1" AutoIncVersion="1" DatabaseType="MySQL" ZoomFac="88.89" XPos="454" YPos="456" DefaultDataType="5" DefaultTablePrefix="0" DefSaveDBConn="" DefSyncDBConn="localhost" DefQueryDBConn="" Printer="" HPageCount="4.0" PageAspectRatio="1.440892512336408" PageOrientation="1" PageFormat="A4 (210x297 mm, 8.26x11.7 inches)" SelectedPages="" UsePositionGrid="0" PositionGridX="20" PositionGridY="20" TableNameInRefs="0" DefaultTableType="1" ActivateRefDefForNewRelations="1" FKPrefix="" FKPostfix="" CreateFKRefDefIndex="1" DBQuoteCharacter="`" CreateSQLforLinkedObjects="0" DefModelFont="Tahoma" CanvasWidth="4096" CanvasHeight="2842" />
 <DATATYPEGROUPS>
 <DATATYPEGROUP Name="Numeric Types" Icon="1" />
 <DATATYPEGROUP Name="Date and Time Types" Icon="2" />
@@ -260,7 +260,7 @@
 <REGIONS>
 </REGIONS>
 <TABLES>
-<TABLE ID="1742" Tablename="tb_paises" PrevTableName="Table_01" XPos="404" YPos="48" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="insert into tb_paises(nom_pais)values(\aBrasil\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="2" >
+<TABLE ID="1742" Tablename="tb_paises" PrevTableName="Table_01" XPos="42" YPos="141" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="insert into tb_paises(nom_pais)values(\aBrasil\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="2" >
 <COLUMNS>
 <COLUMN ID="1744" ColName="cod_pais" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -285,7 +285,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1750" Tablename="tb_estados" PrevTableName="Table_02" XPos="391" YPos="206" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAcre\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAlagoas\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAmap\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAmazonas\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aBahia\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aCear\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aDistrito Federal\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aEsp\237rito Santo\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aGoi\225s\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMaranh\227o\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMato Grosso\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMato Grosso do Sul\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMinas Gerais\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPar\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPara\237ba\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aParan\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPernambuco\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPiau\237\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRio de Janeiro\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRio Grande do Norte\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRio Grande do Sul\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRond\244nia\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRoraima\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aSanta Catarina\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aS\227o Paulo\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aSergipe\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aTocantins\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="3" >
+<TABLE ID="1750" Tablename="tb_estados" PrevTableName="Table_02" XPos="263" YPos="144" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAcre\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAlagoas\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAmap\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aAmazonas\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aBahia\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aCear\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aDistrito Federal\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aEsp\237rito Santo\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aGoi\225s\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMaranh\227o\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMato Grosso\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMato Grosso do Sul\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aMinas Gerais\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPar\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPara\237ba\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aParan\225\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPernambuco\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aPiau\237\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRio de Janeiro\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRio Grande do Norte\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRio Grande do Sul\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRond\244nia\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aRoraima\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aSanta Catarina\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aS\227o Paulo\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aSergipe\a);  \nINSERT INTO tb_estados (cod_pais, nom_estado) VALUES (1, \aTocantins\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="3" >
 <COLUMNS>
 <COLUMN ID="1752" ColName="cod_estado" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -324,7 +324,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1763" Tablename="tb_cidades" PrevTableName="Table_03" XPos="394" YPos="385" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="5" >
+<TABLE ID="1763" Tablename="tb_cidades" PrevTableName="Table_03" XPos="510" YPos="144" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="5" >
 <COLUMNS>
 <COLUMN ID="1765" ColName="cod_cidade" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -363,7 +363,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1772" Tablename="tb_bairros" PrevTableName="Table_04" XPos="400" YPos="560" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="7" >
+<TABLE ID="1772" Tablename="tb_bairros" PrevTableName="Table_04" XPos="763" YPos="144" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="7" >
 <COLUMNS>
 <COLUMN ID="1774" ColName="cod_bairro" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -402,7 +402,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1781" Tablename="tb_logradouros" PrevTableName="Table_05" XPos="374" YPos="725" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="9" >
+<TABLE ID="1781" Tablename="tb_logradouros" PrevTableName="Table_05" XPos="1005" YPos="135" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="9" >
 <COLUMNS>
 <COLUMN ID="1783" ColName="cod_logradouro" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -458,7 +458,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1787" Tablename="tb_tipos_logradouros" PrevTableName="Table_06" XPos="726" YPos="777" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="10" >
+<TABLE ID="1787" Tablename="tb_tipos_logradouros" PrevTableName="Table_06" XPos="1287" YPos="137" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="10" >
 <COLUMNS>
 <COLUMN ID="1789" ColName="cod_tipo_logradouro" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -483,7 +483,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1802" Tablename="tb_tapetes" PrevTableName="Table_07" XPos="940" YPos="2086" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Seda e Chinile\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Chinile\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal com Algod\227o\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal Comum\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Seda e Chinile (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Chinile (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal com Algod\227o (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal Comum (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aIndustrializado (Pelo Baixo)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aBelga (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aIndustrializado Importado (Egipcio, Turco, Franc\234s, etc)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aIndustrializado (PELO ALTO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aArraiolo\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aBelga Comum\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aKilim Colorido\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aKilim Persa\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aPele de Carneiro\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTape\231aria\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTape\231aria Antigo\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapete com Seda\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapete Santa Helena\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapetes Antigos\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapetes Orientais\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapetes Orientais Gabbeh e Chines\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="13" >
+<TABLE ID="1802" Tablename="tb_tapetes" PrevTableName="Table_07" XPos="755" YPos="1266" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Seda e Chinile\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Chinile\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal com Algod\227o\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal Comum\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Seda e Chinile (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aAlgod\227o com Chinile (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal com Algod\227o (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aSisal Comum (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aIndustrializado (Pelo Baixo)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aBelga (GROSSO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aIndustrializado Importado (Egipcio, Turco, Franc\234s, etc)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aIndustrializado (PELO ALTO)\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aArraiolo\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aBelga Comum\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aKilim Colorido\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aKilim Persa\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aPele de Carneiro\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTape\231aria\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTape\231aria Antigo\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapete com Seda\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapete Santa Helena\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapetes Antigos\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapetes Orientais\a);\nINSERT INTO tb_tapetes(nom_tapete) VALUES(\aTapetes Orientais Gabbeh e Chines\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="13" >
 <COLUMNS>
 <COLUMN ID="1804" ColName="cod_tapete" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -507,6 +507,7 @@
 </COLUMNS>
 <RELATIONS_START>
 <RELATION_START ID="2088" />
+<RELATION_START ID="2211" />
 </RELATIONS_START>
 <INDICES>
 <INDEX ID="1805" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
@@ -516,7 +517,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1809" Tablename="tb_tipos_clientes" PrevTableName="Table_08" XPos="30" YPos="1201" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_tipos_clientes(nom_tipo_cliente) VALUES(\aComum\a);\nINSERT INTO tb_tipos_clientes(nom_tipo_cliente) VALUES(\aLavanderia\a);\nINSERT INTO tb_tipos_clientes(nom_tipo_cliente) VALUES(\aDecoradora\a); \n \n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="14" >
+<TABLE ID="1809" Tablename="tb_tipos_clientes" PrevTableName="Table_08" XPos="480" YPos="1009" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_tipos_clientes(nom_tipo_cliente) VALUES(\aComum\a);\nINSERT INTO tb_tipos_clientes(nom_tipo_cliente) VALUES(\aLavanderia\a);\nINSERT INTO tb_tipos_clientes(nom_tipo_cliente) VALUES(\aDecoradora\a); \n \n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="14" >
 <COLUMNS>
 <COLUMN ID="1811" ColName="cod_tipo_cliente" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -546,7 +547,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1870" Tablename="tb_clientes" PrevTableName="Table_09" XPos="417" YPos="1197" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="15" >
+<TABLE ID="1870" Tablename="tb_clientes" PrevTableName="Table_09" XPos="782" YPos="823" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="15" >
 <COLUMNS>
 <COLUMN ID="1872" ColName="cod_cliente" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -610,6 +611,7 @@
 <RELATIONS_START>
 <RELATION_START ID="1924" />
 <RELATION_START ID="1940" />
+<RELATION_START ID="2236" />
 </RELATIONS_START>
 <RELATIONS_END>
 <RELATION_END ID="1892" />
@@ -627,7 +629,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1896" Tablename="tb_usuarios" PrevTableName="Table_10" XPos="423" YPos="1513" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="ALTER TABLE tb_usuarios AUTO_INCREMENT = 1; \nINSERT INTO tb_usuarios(nom_usuario,txt_senha) VALUES (\aadmin\a,SHA1(\aadmin\a));\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="17" >
+<TABLE ID="1896" Tablename="tb_usuarios" PrevTableName="Table_10" XPos="784" YPos="1129" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="ALTER TABLE tb_usuarios AUTO_INCREMENT = 1; \nINSERT INTO tb_usuarios(nom_usuario,txt_senha) VALUES (\aadmin\a,SHA1(\aadmin\a));\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="17" >
 <COLUMNS>
 <COLUMN ID="1898" ColName="cod_usuario" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -646,6 +648,9 @@
 </OPTIONSELECTED>
 </COLUMN>
 </COLUMNS>
+<RELATIONS_START>
+<RELATION_START ID="2239" />
+</RELATIONS_START>
 <INDICES>
 <INDEX ID="1899" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
 <INDEXCOLUMNS>
@@ -654,7 +659,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1907" Tablename="tb_meios_de_contato" PrevTableName="Table_11" XPos="779" YPos="1309" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="19" >
+<TABLE ID="1907" Tablename="tb_meios_de_contato" PrevTableName="Table_11" XPos="287" YPos="718" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="19" >
 <COLUMNS>
 <COLUMN ID="1909" ColName="cod_meio_de_contato" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -712,7 +717,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1914" Tablename="tb_tipos_meios_de_contato" PrevTableName="Table_12" XPos="767" YPos="1131" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aTel. Residencial\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aTel. Comercial\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aCelular\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aRadio\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aOutros\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="20" >
+<TABLE ID="1914" Tablename="tb_tipos_meios_de_contato" PrevTableName="Table_12" XPos="282" YPos="606" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aTel. Residencial\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aTel. Comercial\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aCelular\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aRadio\a);\nINSERT INTO tb_tipos_meios_de_contato(nom_tipo_meio_de_contato) VALUES (\aOutros\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="20" >
 <COLUMNS>
 <COLUMN ID="1916" ColName="cod_tipo_meio_de_contato" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -737,7 +742,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1928" Tablename="tb_enderecos" PrevTableName="Table_13" XPos="417" YPos="941" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="23" >
+<TABLE ID="1928" Tablename="tb_enderecos" PrevTableName="Table_13" XPos="795" YPos="426" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="23" >
 <COLUMNS>
 <COLUMN ID="1930" ColName="cod_endereco" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -796,7 +801,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="1943" Tablename="tb_servicos" PrevTableName="Table_14" XPos="641" YPos="1793" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="ALTER TABLE tb_servicos AUTO_INCREMENT = 1; \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aLavagem\a,2);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aFranja de algod\227o\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aFranja de l\227\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aFranja de seda\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aAmarrar franja\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aCord\227o (feito \225 m\227o)\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aDebrum (feito \225 maquina com fita)\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aDebrum (feito \225 maquina)\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aCola\a,2); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aForro de algod\227o\a,2); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aCouro\a,2); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aGoma em Sisal\a,1); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aAntiderrapante\a,2); \n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="25" >
+<TABLE ID="1943" Tablename="tb_servicos" PrevTableName="Table_14" XPos="755" YPos="1452" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="ALTER TABLE tb_servicos AUTO_INCREMENT = 1; \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aLavagem\a,2);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aFranja de algod\227o\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aFranja de l\227\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aFranja de seda\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aAmarrar franja\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aCord\227o (feito \225 m\227o)\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aDebrum (feito \225 maquina com fita)\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aDebrum (feito \225 maquina)\a,1);\nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aCola\a,2); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aForro de algod\227o\a,2); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aCouro\a,2); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aGoma em Sisal\a,1); \nINSERT INTO tb_servicos(nom_servico, int_cobrado_por) VALUES(\aAntiderrapante\a,2); \n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="25" >
 <COLUMNS>
 <COLUMN ID="1945" ColName="cod_servico" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -822,6 +827,7 @@
 </COLUMNS>
 <RELATIONS_START>
 <RELATION_START ID="2091" />
+<RELATION_START ID="2203" />
 </RELATIONS_START>
 <INDICES>
 <INDEX ID="1946" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
@@ -831,7 +837,7 @@
 </INDEX>
 </INDICES>
 </TABLE>
-<TABLE ID="2082" Tablename="tb_valores_servicos" PrevTableName="Table_16" XPos="178" YPos="1983" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="ALTER TABLE tb_valores_servicos AUTO_INCREMENT = 1; \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,1,17.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,2,20.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,3,20.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,4,17.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,5,17.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,6,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,7,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,8,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,9,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,10,20.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,11,15.00,20.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,12,17.00,20.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,13,20.00,22.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,14,20.00,22.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,15,17.00,20.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,16,17.00,20.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,17,17.00,20.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,18,25.00,30.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,19,30.00,35.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,20,30.00,40.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,21,50.00,60.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,22,50.00,60.00);   \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,23,35.00,40.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,24,50.00,60.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,25,35.00,40.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,26,50.00,60.00);  \n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="28" >
+<TABLE ID="2082" Tablename="tb_valores_servicos" PrevTableName="Table_16" XPos="225" YPos="1375" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="ALTER TABLE tb_valores_servicos AUTO_INCREMENT = 1; \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,1,17.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,2,20.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,3,20.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,4,17.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,5,17.00,20.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,6,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,7,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,8,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,9,25.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,10,20.00,30.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,11,15.00,20.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,12,17.00,20.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,13,20.00,22.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,14,20.00,22.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,15,17.00,20.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,16,17.00,20.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,17,17.00,20.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,18,25.00,30.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,19,30.00,35.00); \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,20,30.00,40.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,21,50.00,60.00);  \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,22,50.00,60.00);   \nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,23,35.00,40.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,24,50.00,60.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,25,35.00,40.00);\nINSERT INTO tb_valores_servicos ( cod_servico, cod_tapete, val_inicial, val_acima_10m2 ) VALUES (1,26,50.00,60.00);  \n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="28" >
 <COLUMNS>
 <COLUMN ID="2084" ColName="cod_valor_servico" PrevColName="cod_servico_tapete" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
 <OPTIONSELECTED>
@@ -889,44 +895,287 @@
 <INDEXCOLUMN idColumn="2084" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
-<INDEX ID="2090" IndexName="ix_tapete" IndexKind="1" FKRefDef_Obj_id="2088">
+<INDEX ID="2090" IndexName="ix_cod_tapete" IndexKind="1" FKRefDef_Obj_id="2088">
 <INDEXCOLUMNS>
 <INDEXCOLUMN idColumn="2089" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
-<INDEX ID="2093" IndexName="ix_servico" IndexKind="1" FKRefDef_Obj_id="2091">
+<INDEX ID="2093" IndexName="ix_cod_servico" IndexKind="1" FKRefDef_Obj_id="2091">
 <INDEXCOLUMNS>
 <INDEXCOLUMN idColumn="2092" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
-<INDEX ID="2165" IndexName="ix_valor_servico_pai" IndexKind="1" FKRefDef_Obj_id="2163">
+<INDEX ID="2165" IndexName="ix_cod_valor_servico_pai" IndexKind="1" FKRefDef_Obj_id="2163">
 <INDEXCOLUMNS>
 <INDEXCOLUMN idColumn="2167" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
-<INDEX ID="2171" IndexName="ix_tipo_cliente" IndexKind="1" FKRefDef_Obj_id="2169">
+<INDEX ID="2171" IndexName="ix_cod_tipo_cliente" IndexKind="1" FKRefDef_Obj_id="2169">
 <INDEXCOLUMNS>
 <INDEXCOLUMN idColumn="2170" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
 </INDICES>
 </TABLE>
+<TABLE ID="2172" Tablename="tb_ordens_de_servico" PrevTableName="Table_16" XPos="1315" YPos="934" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="31" >
+<COLUMNS>
+<COLUMN ID="2174" ColName="cod_ordem_de_servico" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2237" ColName="cod_cliente" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2240" ColName="cod_usuario" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2194" ColName="cod_status_os" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2223" ColName="num_os" PrevColName="" Pos="2" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2224" ColName="val_original" PrevColName="" Pos="3" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2225" ColName="val_final" PrevColName="" Pos="4" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="0" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2226" ColName="dat_abertura" PrevColName="" Pos="5" idDatatype="16" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2227" ColName="dat_prev_entrega" PrevColName="" Pos="6" idDatatype="16" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2228" ColName="data_fechamento" PrevColName="" Pos="7" idDatatype="16" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="0" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2231" ColName="txt_observacoes" PrevColName="" Pos="10" idDatatype="28" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="0" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2229" ColName="dat_cadastro" PrevColName="" Pos="8" idDatatype="16" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="CURRENT_TIMESTAMP  " Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2230" ColName="dat_atualizacao" PrevColName="" Pos="9" idDatatype="16" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="\a2001-01-01 00:00:00\a" Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+</COLUMNS>
+<RELATIONS_START>
+<RELATION_START ID="2190" />
+</RELATIONS_START>
+<RELATIONS_END>
+<RELATION_END ID="2193" />
+<RELATION_END ID="2236" />
+<RELATION_END ID="2239" />
+</RELATIONS_END>
+<INDICES>
+<INDEX ID="2175" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2174" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2195" IndexName="ix_cod_status_os" IndexKind="1" FKRefDef_Obj_id="2193">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2194" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2238" IndexName="ix_cod_cliente" IndexKind="1" FKRefDef_Obj_id="2236">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2237" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2241" IndexName="ix_cod_usuario" IndexKind="1" FKRefDef_Obj_id="2239">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2240" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDICES>
+</TABLE>
+<TABLE ID="2176" Tablename="tb_status_os" PrevTableName="Table_17" XPos="1323" YPos="790" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_status_os (nom_status_os) VALUES (\aNovo\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aEm Andamento\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aConcluido\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aEncerrado\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aCancelado\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="32" >
+<COLUMNS>
+<COLUMN ID="2183" ColName="cod_status_os" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2185" ColName="nom_status_os" PrevColName="" Pos="1" idDatatype="20" DatatypeParams="(50)" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+</COLUMNS>
+<RELATIONS_START>
+<RELATION_START ID="2193" />
+</RELATIONS_START>
+<INDICES>
+<INDEX ID="2184" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2183" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDICES>
+</TABLE>
+<TABLE ID="2186" Tablename="tb_itens_os" PrevTableName="Table_18" XPos="1303" YPos="1370" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="33" >
+<COLUMNS>
+<COLUMN ID="2188" ColName="cod_item_os" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2212" ColName="cod_tapete" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2191" ColName="cod_ordem_de_servico" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2216" ColName="flt_comprimento" PrevColName="" Pos="3" idDatatype="7" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2218" ColName="flt_largura" PrevColName="" Pos="4" idDatatype="7" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2219" ColName="dbl_area" PrevColName="" Pos="5" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2220" ColName="dbl_m_m2" PrevColName="" Pos="6" idDatatype="9" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2221" ColName="txt_observacoes" PrevColName="" Pos="7" idDatatype="28" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="0" AutoInc="0" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+</OPTIONSELECTED>
+</COLUMN>
+</COLUMNS>
+<RELATIONS_START>
+<RELATION_START ID="2200" />
+</RELATIONS_START>
+<RELATIONS_END>
+<RELATION_END ID="2190" />
+<RELATION_END ID="2211" />
+</RELATIONS_END>
+<INDICES>
+<INDEX ID="2189" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2188" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2192" IndexName="ix_cod_ordem_de_servico" IndexKind="1" FKRefDef_Obj_id="2190">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2191" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2213" IndexName="ix_cod_tapete" IndexKind="1" FKRefDef_Obj_id="2211">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2212" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDICES>
+</TABLE>
+<TABLE ID="2196" Tablename="tb_servicos_itens_os" PrevTableName="Table_19" XPos="1014" YPos="1488" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="36" >
+<COLUMNS>
+<COLUMN ID="2198" ColName="cod_servico_item_os" PrevColName="" Pos="0" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="1" NotNull="1" AutoInc="1" IsForeignKey="0" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2204" ColName="cod_servico" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+<COLUMN ID="2201" ColName="cod_item_os" PrevColName="" Pos="1" idDatatype="5" DatatypeParams="" Width="-1" Prec="-1" PrimaryKey="0" NotNull="1" AutoInc="0" IsForeignKey="1" DefaultValue="" Comments="">
+<OPTIONSELECTED>
+<OPTIONSELECT Value="1" />
+<OPTIONSELECT Value="0" />
+</OPTIONSELECTED>
+</COLUMN>
+</COLUMNS>
+<RELATIONS_END>
+<RELATION_END ID="2200" />
+<RELATION_END ID="2203" />
+</RELATIONS_END>
+<INDICES>
+<INDEX ID="2199" IndexName="PRIMARY" IndexKind="0" FKRefDef_Obj_id="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2198" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2202" IndexName="ix_cod_item_os" IndexKind="1" FKRefDef_Obj_id="2200">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2201" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+<INDEX ID="2205" IndexName="ix_cod_servico" IndexKind="1" FKRefDef_Obj_id="2203">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2204" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
+</INDICES>
+</TABLE>
 </TABLES>
 <RELATIONS>
-<RELATION ID="1759" RelationName="Rel_01" Kind="2" SrcTable="1742" DestTable="1750" FKFields="cod_pais=cod_pais\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1761" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="4" />
-<RELATION ID="1768" RelationName="Rel_02" Kind="2" SrcTable="1750" DestTable="1763" FKFields="cod_estado=cod_estado\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1770" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="6" />
-<RELATION ID="1777" RelationName="Rel_03" Kind="2" SrcTable="1763" DestTable="1772" FKFields="cod_cidade=cod_cidade\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1779" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="8" />
-<RELATION ID="1792" RelationName="Rel_04" Kind="2" SrcTable="1772" DestTable="1781" FKFields="cod_bairro=cod_bairro\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1794" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="11" />
+<RELATION ID="1759" RelationName="Rel_01" Kind="2" SrcTable="1742" DestTable="1750" FKFields="cod_pais=cod_pais\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1761" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="4" />
+<RELATION ID="1768" RelationName="Rel_02" Kind="2" SrcTable="1750" DestTable="1763" FKFields="cod_estado=cod_estado\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1770" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="6" />
+<RELATION ID="1777" RelationName="Rel_03" Kind="2" SrcTable="1763" DestTable="1772" FKFields="cod_cidade=cod_cidade\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1779" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="8" />
+<RELATION ID="1792" RelationName="Rel_04" Kind="2" SrcTable="1772" DestTable="1781" FKFields="cod_bairro=cod_bairro\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1794" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="11" />
 <RELATION ID="1796" RelationName="Rel_05" Kind="2" SrcTable="1787" DestTable="1781" FKFields="cod_tipo_logradouro=cod_tipo_logradouro\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1798" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="12" />
 <RELATION ID="1892" RelationName="Rel_06" Kind="2" SrcTable="1809" DestTable="1870" FKFields="cod_tipo_cliente=cod_tipo_cliente\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1894" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="16" />
 <RELATION ID="1919" RelationName="Rel_08" Kind="2" SrcTable="1914" DestTable="1907" FKFields="cod_tipo_meio_de_contato=cod_tipo_meio_de_contato\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1921" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="21" />
-<RELATION ID="1924" RelationName="Rel_09" Kind="2" SrcTable="1870" DestTable="1907" FKFields="cod_cliente=cod_cliente\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1926" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="22" />
+<RELATION ID="1924" RelationName="Rel_09" Kind="2" SrcTable="1870" DestTable="1907" FKFields="cod_cliente=cod_cliente\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1926" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="22" />
 <RELATION ID="1936" RelationName="Rel_10" Kind="2" SrcTable="1781" DestTable="1928" FKFields="cod_logradouro=cod_logradouro\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1938" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="24" />
 <RELATION ID="1940" RelationName="Rel_11" Kind="2" SrcTable="1870" DestTable="1928" FKFields="cod_cliente=cod_cliente\n" FKFieldsComments="\n" relDirection="1" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="1942" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="25" />
 <RELATION ID="2088" RelationName="Rel_12" Kind="2" SrcTable="1802" DestTable="2082" FKFields="cod_tapete=cod_tapete\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2090" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="29" />
 <RELATION ID="2091" RelationName="Rel_13" Kind="2" SrcTable="1943" DestTable="2082" FKFields="cod_servico=cod_servico\n" FKFieldsComments="\n" relDirection="4" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2093" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
 <RELATION ID="2163" RelationName="Rel_15" Kind="2" SrcTable="2082" DestTable="2082" FKFields="cod_valor_servico=cod_valor_servico_pai\n" FKFieldsComments="\n" relDirection="2" MidOffset="23" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2165" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="29" />
-<RELATION ID="2169" RelationName="Rel_16" Kind="2" SrcTable="1809" DestTable="2082" FKFields="cod_tipo_cliente=cod_tipo_cliente\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2171" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
+<RELATION ID="2169" RelationName="Rel_16" Kind="2" SrcTable="1809" DestTable="2082" FKFields="cod_tipo_cliente=cod_tipo_cliente\n" FKFieldsComments="\n" relDirection="3" MidOffset="-103" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2171" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="30" />
+<RELATION ID="2190" RelationName="Rel_15" Kind="2" SrcTable="2172" DestTable="2186" FKFields="cod_ordem_de_servico=cod_ordem_de_servico\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2192" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="34" />
+<RELATION ID="2193" RelationName="Rel_16" Kind="2" SrcTable="2176" DestTable="2172" FKFields="cod_status_os=cod_status_os\n" FKFieldsComments="\n" relDirection="3" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2195" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="35" />
+<RELATION ID="2200" RelationName="Rel_17" Kind="2" SrcTable="2186" DestTable="2196" FKFields="cod_item_os=cod_item_os\n" FKFieldsComments="\n" relDirection="4" MidOffset="5" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=1\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2202" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="37" />
+<RELATION ID="2203" RelationName="Rel_18" Kind="2" SrcTable="1943" DestTable="2196" FKFields="cod_servico=cod_servico\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2205" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="38" />
+<RELATION ID="2211" RelationName="Rel_19" Kind="2" SrcTable="1802" DestTable="2186" FKFields="cod_tapete=cod_tapete\n" FKFieldsComments="\n" relDirection="2" MidOffset="57" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2213" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="39" />
+<RELATION ID="2236" RelationName="Rel_20" Kind="2" SrcTable="1870" DestTable="2172" FKFields="cod_cliente=cod_cliente\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2238" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="40" />
+<RELATION ID="2239" RelationName="Rel_21" Kind="2" SrcTable="1896" DestTable="2172" FKFields="cod_usuario=cod_usuario\n" FKFieldsComments="\n" relDirection="2" MidOffset="0" OptionalStart="0" OptionalEnd="0" CaptionOffsetX="0" CaptionOffsetY="0" StartIntervalOffsetX="0" StartIntervalOffsetY="0" EndIntervalOffsetX="0" EndIntervalOffsetY="0" CreateRefDef="1" Invisible="0" RefDef="Matching=0\nOnDelete=3\nOnUpdate=3\n" Comments="" FKRefDefIndex_Obj_id="2241" Splitted="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="41" />
 </RELATIONS>
 <NOTES>
 </NOTES>

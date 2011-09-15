@@ -1865,6 +1865,7 @@
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeLogradouros.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDePaises.cs" />
     <Compile Include="BusinessLogicLayer\enderecos\GerenciadorDeTiposDeLogradouros.cs" />
+    <Compile Include="BusinessLogicLayer\ordensDeServico\GerenciadorDeOrdensDeServico.cs" />
     <Compile Include="BusinessLogicLayer\servicos\GerenciadorDeServicos.cs" />
     <Compile Include="BusinessLogicLayer\tapetes\GerenciadorDeTapetes.cs" />
     <Compile Include="BusinessLogicLayer\usuarios\GerenciadorDeUsuarios.cs" />
@@ -1878,6 +1879,7 @@
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\enderecos\MySqlPaisesDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\enderecos\MySqlTiposDeLogradourosDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\MySqlFilter.cs" />
+    <Compile Include="DataAccessLayer\DataAccessObjects\MySql\ordensDeServico\MySqlOrdensDeServicoDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\servicos\MySqlServicosDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\tapetes\MySqlTapetesDao.cs" />
     <Compile Include="DataAccessLayer\DataAccessObjects\MySql\usuarios\MySqlUsuariosDao.cs" />

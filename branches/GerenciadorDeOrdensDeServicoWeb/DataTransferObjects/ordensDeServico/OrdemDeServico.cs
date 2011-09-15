@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.clientes;
+using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.usuarios;
 
 namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 	public class OrdemDeServico {
@@ -10,6 +11,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 		private UInt32 _codigo;
 		private UInt32 _numero;
 		private Cliente _cliente;
+		private Usuario _usuario; // usuario que cadastrou a OS
 		private Status _status;
 		private List<Item> _itens;
 		private String _observacoes;
@@ -18,8 +20,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 		private double _valorFinal; // valor da OS caso o usuario altere o valor original
 
 		private DateTime _dataDeAbertura; // usuario deve informar a data de abertura da OS
-		private DateTime _previsaoDeEntrega; // usuario deve informar a previsao para a OS ser entregue
-		private DateTime _dataDeEncerramento; // usuario deve informar a data que a OS foi concluida
+		private DateTime _previsaoDeConclusao; // usuario deve informar a previsao para a OS ser concluida e entregue
+		private DateTime _dataDeEncerramento; // usuario deve informar a data que a OS foi finalizada
 
 
 		/*+---------------------------------+
@@ -34,29 +36,31 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_codigo = 0;
 			_numero = 0;
 			_cliente = new Cliente();
+			_usuario = new Usuario();
 			_status = new Status();
 			_itens = new List<Item>();
 			_observacoes = String.Empty;
 			_valorOriginal = 0;
 			_valorFinal = 0;
 			_dataDeAbertura = datAux;
-			_previsaoDeEntrega = datAux;
+			_previsaoDeConclusao = datAux;
 			_dataDeEncerramento = datAux;
 		}
 
-		public OrdemDeServico( UInt32 codigo, UInt32 numero, Cliente cliente, Status status, String observacoes,
-			double valorOriginal, double valorFinal, DateTime dataDeAbertura, DateTime previsaoDeEntrega, DateTime dataDeEncerramento ) {
+		public OrdemDeServico( UInt32 codigo, UInt32 numero, Cliente cliente, Usuario usuario, Status status, String observacoes,
+			double valorOriginal, double valorFinal, DateTime dataDeAbertura, DateTime previsaoDeConclusao, DateTime dataDeEncerramento ) {
 
 			_codigo = codigo;
 			_numero = numero;
 			_cliente = cliente;
+			_usuario = usuario;
 			_status = status;
 			_itens = new List<Item>();
 			_observacoes = observacoes;
 			_valorOriginal = valorOriginal;
 			_valorFinal = valorFinal;
 			_dataDeAbertura = dataDeAbertura;
-			_previsaoDeEntrega = previsaoDeEntrega;
+			_previsaoDeConclusao = previsaoDeConclusao;
 			_dataDeEncerramento = dataDeEncerramento;
 		}
 
@@ -71,6 +75,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 		public Cliente cliente {
 			get { return _cliente; }
 			set { _cliente = value; }
+		}
+		public Usuario usuario {
+			get { return _usuario; }
+			set { _usuario = value; }
 		}
 		public Status status {
 			get { return _status; }
@@ -100,9 +108,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			get { return _dataDeEncerramento; }
 			set { _dataDeEncerramento = value; }
 		}
-		public DateTime previsaoDeEntrega {
-			get { return _previsaoDeEntrega; }
-			set { _previsaoDeEntrega = value; }
+		public DateTime previsaoDeConclusao {
+			get { return _previsaoDeConclusao; }
+			set { _previsaoDeConclusao = value; }
 		}
 		public DateTime dataDeCadastro {
 			get { return _dataDeCadastro; }
