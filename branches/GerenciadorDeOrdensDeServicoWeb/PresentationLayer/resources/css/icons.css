@@ -58,6 +58,12 @@
 .toggle-collapse {background-image: url("../images/toggle-collapse.png") !important;}
 .lock{ background-image:url("/PresentationLayer/resources/images/lock.png") !important; }
 .app-go{ background-image:url("/PresentationLayer/resources/images/app-go.png") !important; }
+.lupa{ background-image:url("/PresentationLayer/resources/images/lupa.png") !important; }
+.ordens-de-servico{ background-image:url("/PresentationLayer/resources/images/ordens-de-servico.png") !important; }
+.os-thumb{ background-image:url("/PresentationLayer/resources/images/os-thumb.png") !important; }
+.os-add-thumb{ background-image:url("/PresentationLayer/resources/images/os-add-thumb.png") !important; }
+.os-del-thumb{ background-image:url("/PresentationLayer/resources/images/os-del-thumb.png") !important; }
+
 
 .x-action-col-cell img.act-dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
 .x-action-col-cell img.act-dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}

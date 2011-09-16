@@ -1013,6 +1013,11 @@
 <INDEXCOLUMN idColumn="2240" LengthParam="0" />
 </INDEXCOLUMNS>
 </INDEX>
+<INDEX ID="2243" IndexName="ix_num_os" IndexKind="1" FKRefDef_Obj_id="-1">
+<INDEXCOLUMNS>
+<INDEXCOLUMN idColumn="2223" LengthParam="0" />
+</INDEXCOLUMNS>
+</INDEX>
 </INDICES>
 </TABLE>
 <TABLE ID="2176" Tablename="tb_status_os" PrevTableName="Table_17" XPos="1323" YPos="790" TableType="1" TablePrefix="0" nmTable="0" Temporary="0" UseStandardInserts="0" StandardInserts="INSERT INTO tb_status_os (nom_status_os) VALUES (\aNovo\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aEm Andamento\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aConcluido\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aEncerrado\a);\nINSERT INTO tb_status_os (nom_status_os) VALUES (\aCancelado\a);\n" TableOptions="DelayKeyTblUpdates=0\nPackKeys=0\nRowChecksum=0\nRowFormat=0\nUseRaid=0\nRaidType=0\n" Comments="" Collapsed="0" IsLinkedObject="0" IDLinkedModel="-1" Obj_id_Linked="-1" OrderPos="32" >

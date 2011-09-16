@@ -112,6 +112,7 @@
     <Content Include="PresentationLayer\app\view\enderecos\LogradourosView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
+    <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosEditView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosSearchView.js" />
@@ -1822,6 +1823,11 @@
     <Content Include="PresentationLayer\resources\images\link-add.png" />
     <Content Include="PresentationLayer\resources\images\location-thumb.png" />
     <Content Include="PresentationLayer\resources\images\lock.png" />
+    <Content Include="PresentationLayer\resources\images\lupa.png" />
+    <Content Include="PresentationLayer\resources\images\ordens-de-servico.png" />
+    <Content Include="PresentationLayer\resources\images\os-add-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\os-del-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\os-thumb.png" />
     <Content Include="PresentationLayer\resources\images\save-add.png" />
     <Content Include="PresentationLayer\resources\images\save-edit.png" />
     <Content Include="PresentationLayer\resources\images\save.gif" />
