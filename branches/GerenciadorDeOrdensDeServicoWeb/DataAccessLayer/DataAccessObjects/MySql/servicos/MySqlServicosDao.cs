@@ -157,6 +157,89 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return servicos;
 		}
 
+		public static List<Servico> getServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
+			List<Servico> servicos = new List<Servico>();
+			StringBuilder sql = new StringBuilder();
+
+			sql.AppendLine( "SELECT" );
+			sql.AppendLine( "     tb_servicos.cod_servico" );
+			sql.AppendLine( "    ,tb_servicos.nom_servico" );
+			sql.AppendLine( "    ,tb_servicos.int_cobrado_por" );
+			sql.AppendLine( "    ,tb_servicos.txt_descricao" );
+			sql.AppendLine( "    ,tb_valores_servicos.cod_valor_servico" );
+			sql.AppendLine( "    ,tb_valores_servicos.cod_valor_servico_pai" );
+			sql.AppendLine( "    ,tb_valores_servicos.val_inicial" );
+			sql.AppendLine( "    ,tb_valores_servicos.val_acima_10m2" );
+			sql.AppendLine( "    ,tb_tapetes.cod_tapete" );
+			sql.AppendLine( "    ,tb_tapetes.nom_tapete" );
+			sql.AppendLine( "    ,tb_tipos_clientes.cod_tipo_cliente" );
+			sql.AppendLine( "    ,tb_tipos_clientes.nom_tipo_cliente" );
+			sql.AppendLine( "  FROM tb_servicos" );
+			sql.AppendLine( " INNER JOIN tb_valores_servicos ON tb_servicos.cod_servico = tb_valores_servicos.cod_servico" );
+			sql.AppendLine( " INNER JOIN tb_tapetes ON tb_valores_servicos.cod_tapete = tb_tapetes.cod_tapete" );
+			sql.AppendLine( "  LEFT JOIN tb_tipos_clientes ON tb_valores_servicos.cod_tipo_cliente = tb_tipos_clientes.cod_tipo_cliente" );
+			sql.AppendLine( " WHERE tb_valores_servicos.cod_tapete = @codTapete " );
+			sql.AppendLine( "   AND tb_valores_servicos.cod_tipo_cliente = @codTipoCliente " );
+			sql.AppendLine( "UNION" );
+			sql.AppendLine( "SELECT" );
+			sql.AppendLine( "     tb_servicos.cod_servico" );
+			sql.AppendLine( "    ,tb_servicos.nom_servico" );
+			sql.AppendLine( "    ,tb_servicos.int_cobrado_por" );
+			sql.AppendLine( "    ,tb_servicos.txt_descricao" );
+			sql.AppendLine( "    ,tb_valores_servicos.cod_valor_servico" );
+			sql.AppendLine( "    ,tb_valores_servicos.cod_valor_servico_pai" );
+			sql.AppendLine( "    ,tb_valores_servicos.val_inicial" );
+			sql.AppendLine( "    ,tb_valores_servicos.val_acima_10m2" );
+			sql.AppendLine( "    ,tb_tapetes.cod_tapete" );
+			sql.AppendLine( "    ,tb_tapetes.nom_tapete" );
+			sql.AppendLine( "    ,tb_tipos_clientes.cod_tipo_cliente" );
+			sql.AppendLine( "    ,tb_tipos_clientes.nom_tipo_cliente" );
+			sql.AppendLine( "  FROM tb_servicos" );
+			sql.AppendLine( " INNER JOIN tb_valores_servicos ON tb_servicos.cod_servico = tb_valores_servicos.cod_servico" );
+			sql.AppendLine( " INNER JOIN tb_tapetes ON tb_valores_servicos.cod_tapete = tb_tapetes.cod_tapete" );
+			sql.AppendLine( "  LEFT JOIN tb_tipos_clientes ON tb_valores_servicos.cod_tipo_cliente = tb_tipos_clientes.cod_tipo_cliente" );
+			sql.AppendLine( " WHERE tb_valores_servicos.cod_tapete = @codTapete " );
+			sql.AppendLine( "   AND tb_valores_servicos.cod_tipo_cliente IS NULL" );
+			sql.AppendLine( "   AND tb_servicos.cod_servico NOT IN " );
+			sql.AppendLine( "   (" );
+			sql.AppendLine( "       SELECT cod_servico FROM tb_valores_servicos" );
+			sql.AppendLine( "       WHERE cod_tapete = @codTapete AND cod_tipo_cliente = @codTipoCliente" );
+			sql.AppendLine( "   )" );
+			sql.AppendLine( "ORDER BY nom_servico" );
+
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			MySqlCommand cmd = new MySqlCommand( sql.ToString(), conn );
+			cmd.Parameters.Add("@codTapete",MySqlDbType.UInt32).Value = codigoTapete;
+			cmd.Parameters.Add( "@codTipoCliente", MySqlDbType.UInt32 ).Value = codigoTipoDeCliente;
+
+			conn.Open();
+
+			MySqlDataReader reader = cmd.ExecuteReader();
+			while( reader.Read() ) {
+				Servico servico = new Servico();
+				servico.valores.Add( new ValorDeServico() );
+
+				servico.codigo = reader.GetUInt32( "cod_servico" );
+				servico.nome = reader.GetString( "nom_servico" );
+				servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), reader.GetUInt32( "int_cobrado_por" ).ToString(), true );
+				try { servico.descricao = reader.GetString( "txt_descricao" ); } catch { }
+				servico.valores[0].codigo = reader.GetUInt32( "cod_valor_servico" );
+				try { servico.valores[0].codigoPai = reader.GetUInt32( "cod_valor_servico_pai" ); } catch { }
+				servico.valores[0].valorInicial = reader.GetDouble( "val_inicial" );
+				servico.valores[0].valorInicial = reader.GetDouble( "val_acima_10m2" );
+				servico.valores[0].tapete.codigo = reader.GetUInt32( "cod_tapete" );
+				servico.valores[0].tapete.nome = reader.GetString( "nom_tapete" );
+				try { servico.valores[0].tipoDeCliente.codigo = reader.GetUInt32( "cod_tipo_cliente" ); } catch { }
+				try { servico.valores[0].tipoDeCliente.nome = reader.GetString( "nom_tipo_cliente" ); } catch { }
+				servicos.Add( servico );
+			}
+			reader.Close(); reader.Dispose(); cmd.Dispose();
+			conn.Close(); conn.Dispose();
+
+			return servicos;
+		}
+
 		public static void preencherValores( ref Servico servico ) {
 			List<ValorDeServico> valoresAux = new List<ValorDeServico>();
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
@@ -245,7 +328,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			sqlServico.AppendLine( "	,int_cobrado_por = @intCobradoPor " );
 			sqlServico.AppendLine( "	,txt_descricao = @txtDescricao " );
 			sqlServico.AppendLine( "WHERE cod_servico = @codServico " );
-			
+
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			// abre a conexao
 			conn.Open();
@@ -265,7 +348,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				#region ATUALIZA VALORES
 				foreach( ValorDeServico val in servico.valores ) {
 					if( val.codigo == 0 ) {
-						inserirValor(val, servico.codigo, conn, ref erros);
+						inserirValor( val, servico.codigo, conn, ref erros );
 					} else {
 						atualizarValor( val, servico.codigo, conn, ref erros );
 					}
@@ -273,7 +356,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 				List<UInt32> codValoresList = new List<UInt32>();
 				preencherCodValoreslist( servico.valores, ref codValoresList );
-				
+
 				#region EXCLUI VALORES NAO USADOS
 				MySqlCommand cmdDeleteValores = new MySqlCommand();
 				cmdDeleteValores.Connection = conn;
@@ -330,7 +413,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			cmdValor.Dispose();
 
 			if( val.codigo <= 0 ) {
-				erros.Add( new Erro( 0, "Não foi possível inserir o valor " + val.valorInicial + "/" + val.valorAcima10m2 + " para o tapete: " + val.tapete.nome, "Tente inseri-lo novamente" ));
+				erros.Add( new Erro( 0, "Não foi possível inserir o valor " + val.valorInicial + "/" + val.valorAcima10m2 + " para o tapete: " + val.tapete.nome, "Tente inseri-lo novamente" ) );
 			} else {
 				foreach( ValorDeServico valAdicional in val.valoresEspeciais ) {
 					valAdicional.codigoPai = val.codigo;
@@ -441,7 +524,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 		//======================= STATIC =======================
 
 		private static void preencherCodValoreslist( List<ValorDeServico> valores, ref List<UInt32> codigos ) {
-			foreach(ValorDeServico val in valores) {
+			foreach( ValorDeServico val in valores ) {
 				codigos.Add( val.codigo );
 				preencherCodValoreslist( val.valoresEspeciais, ref codigos );
 			}

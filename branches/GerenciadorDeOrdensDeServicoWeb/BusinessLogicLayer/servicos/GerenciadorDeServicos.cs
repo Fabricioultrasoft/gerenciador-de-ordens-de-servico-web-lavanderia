@@ -43,6 +43,25 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			return listaDeErros;
 		}
 
+		public static List<Erro> preencherListaDeServicosEspecificos( out List<Servico> servicos, UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
+			List<Erro> listaDeErros = new List<Erro>();
+			try {
+				servicos = MySqlServicosDao.getServicosEspecificos( codigoTapete, codigoTipoDeCliente );
+			} catch( MySqlException ex ) {
+				// se houver um erro, preenche uma lista vazia
+				servicos = new List<Servico>();
+
+				if( ex.Number == 1042 ) {
+					listaDeErros.Add( new Erro( 1042 ) );
+				} else {
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
+				}
+			}
+			return listaDeErros;
+		}
+
 		public static List<Erro> preencherServico( UInt32 codigoServico, out Servico servico ) {
 			List<Erro> listaDeErros = new List<Erro>();
 

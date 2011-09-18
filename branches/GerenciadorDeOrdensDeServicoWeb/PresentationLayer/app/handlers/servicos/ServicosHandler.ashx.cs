@@ -41,6 +41,15 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 
 					response = readServicos( start, limit, apenasDadosBasicos );
 					break;
+				case "readEspecificos":
+					UInt32 codigoTapete = 0;
+					UInt32 codigoTipoDeCliente = 0;
+
+					UInt32.TryParse( context.Request.QueryString["codigoTapete"], out codigoTapete );
+					UInt32.TryParse( context.Request.QueryString["codigoTipoDeCliente"], out codigoTipoDeCliente );
+
+					response = readServicosEspecificos( codigoTapete,codigoTipoDeCliente );
+					break;
 				case "update":
 					response = updateServicos( context.Request.Form["records"] );
 					break;
@@ -171,6 +180,52 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			jsonResposta.AppendFormat( " \"codigoCobradoPor\": {0},", (int) servico.cobradoPor );
 			jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\", ", servico.cobradoPor );
 			montarValoresJson( ref jsonResposta, servico.valores );
+			jsonResposta.Append( "}" );
+			#endregion
+
+			return jsonResposta.ToString();
+		}
+
+		private String readServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
+			List<Servico> servicos;
+			List<Erro> erros;
+
+			erros = GerenciadorDeServicos.preencherListaDeServicosEspecificos( out servicos, codigoTapete, codigoTipoDeCliente );
+			StringBuilder jsonResposta = new StringBuilder();
+
+			#region CONSTROI O JSON
+			formatarSaidaServicos( ref servicos );
+			jsonResposta.Append( "{" );
+			jsonResposta.Append( "    \"total\": " + servicos.Count + "," );
+
+			if( erros.Count == 0 ) {
+				jsonResposta.Append( "    \"success\": true," );
+				jsonResposta.Append( "    \"message\": [\"Foram encontrados " + servicos.Count + " registros\"]," );
+			} else {
+				jsonResposta.Append( "    \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+			}
+
+			jsonResposta.Append( "    \"data\": [" );
+			foreach( Servico servico in servicos ) {
+				jsonResposta.Append( "{" );
+				jsonResposta.AppendFormat( " \"codigo\": {0},", servico.codigo );
+				jsonResposta.AppendFormat( " \"nome\": \"{0}\",", servico.nome );
+				jsonResposta.AppendFormat( " \"descricao\": \"{0}\",", servico.descricao );
+				jsonResposta.AppendFormat( " \"codigoCobradoPor\": {0},", (int) servico.cobradoPor );
+				jsonResposta.AppendFormat( " \"nomeCobradoPor\": \"{0}\", ", servico.cobradoPor );
+				jsonResposta.AppendFormat( " \"codigoTapete\": {0}, ", servico.valores[0].tapete.codigo );
+				jsonResposta.AppendFormat( " \"nomeTapete\": \"{0}\", ", servico.valores[0].tapete.nome );
+				jsonResposta.AppendFormat( " \"codigoTipoDeCliente\": {0}, ", servico.valores[0].tipoDeCliente.codigo );
+				jsonResposta.AppendFormat( " \"nomeTipoDeCliente\": \"{0}\", ", (servico.valores[0].tipoDeCliente.codigo > 0) ? servico.valores[0].tipoDeCliente.nome : "Todos" );
+				jsonResposta.AppendFormat( " \"valor\": {0}, ", servico.valores[0].valorInicial.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				jsonResposta.AppendFormat( " \"valorAcima10m2\": {0} ", servico.valores[0].valorAcima10m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				jsonResposta.Append( "}," );
+			}
+			if( servicos.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
+			jsonResposta.Append( "]" );
+			
+			// fim do json
 			jsonResposta.Append( "}" );
 			#endregion
 

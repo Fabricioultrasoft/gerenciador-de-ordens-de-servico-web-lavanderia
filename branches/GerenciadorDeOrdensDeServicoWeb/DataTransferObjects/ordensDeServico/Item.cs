@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.tapetes;
-using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.servicos;
 
 namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 	public class Item {
@@ -11,7 +10,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 		private UInt32 _codigo;
 		private UInt32 _codigoOrdemDeServico;
 		private Tapete _tapete;
-		private List<Servico> _servicos;
+		private List<ItemServico> _itensServicos;
 		private float _comprimento;
 		private float _largura;
 		private double _area;
@@ -28,7 +27,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_area = 0;
 			_valor = 0;
 			_m_m2 = 0;
-			_servicos = new List<Servico>();
+			_itensServicos = new List<ItemServico>();
 			_observacoes = String.Empty;
 		}
 
@@ -41,7 +40,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_area = comprimento * largura;
 			_valor = 0;
 			_m_m2 = 0;
-			_servicos = new List<Servico>();
+			_itensServicos = new List<ItemServico>();
 			_observacoes = observacoes;
 		}
 
@@ -57,9 +56,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			get { return _tapete; }
 			set { _tapete = value; }
 		}
-		public List<Servico> servicos {
-			get { return _servicos; }
-			set { _servicos = value; }
+		public List<ItemServico> itensServicos {
+			get { return _itensServicos; }
+			set { _itensServicos = value; }
 		}
 		public float comprimento {
 			get { return _comprimento; }
