@@ -31,6 +31,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
 
     createPanel: function (options) {
         this.options = options;
+        this.cliente = null;
 
         var form = Ext.create('Ext.form.Panel', {
             border: false,
@@ -43,21 +44,21 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
             },
             items: [
                 { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                { xtype: 'fieldcontainer', combineErrors: true, fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true },
+                { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true, allowBlank: false, blankText: 'Para adicionar um Cliente, clique no bot&atilde;o [Add]' },
                     items: [
-                        { xtype: 'numberfield', width: 60, name: 'codigoCliente', emptyText: 'Codigo', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                        { xtype: 'textfield', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', allowBlank: false, margins: '0 4' },
-                        { xtype: 'button', text: 'Buscar', iconCls: 'lupa' }
+                        { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                        { xtype: 'textfield', itemId:'moduleAddOS_nomeCliente', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', readOnly: true, margins: '0 4' },
+                        { xtype: 'button', text: 'Add', itemId: 'btnAddClienteOS', iconCls: 'clientes-add-thumb', scope: this }
                     ]
                 },
-                { xtype: 'fieldcontainer', combineErrors: true, fieldLabel: 'Valor', layout: 'hbox', defaults: { labelAlign: 'top' },
+                { xtype: 'fieldcontainer', fieldLabel: 'Valor', layout: 'hbox', defaults: { labelAlign: 'top' },
                     items: [
                         { xtype: 'numberfield', flex : 1, name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', editable: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0' },
                         { xtype: 'numberfield', flex : 1, name: 'valorFinal', fieldLabel: 'Final/Com Desconto', emptyText: 'Final/Com Desconto', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
                     ]
                 },
 
-                { xtype: 'fieldcontainer', combineErrors: true, fieldLabel: 'Datas', layout: 'hbox', defaults: { labelAlign: 'top' },
+                { xtype: 'fieldcontainer', fieldLabel: 'Datas', layout: 'hbox', defaults: { labelAlign: 'top' },
                     items: [
                         { xtype: 'datefield', flex : 1, name: 'dataDeAbertura', fieldLabel: 'Data de Abertura', emptyText: 'Data de Abertura', emptyText: 'dd/mm/aaaa', format: 'd/m/Y', value: new Date(), margins: '0 4 0 0' },
                         { xtype: 'datefield', flex : 1, name: 'previsaoDeConclusao', fieldLabel: 'Previsão de Conclusão', emptyText: 'Previsão de Conclusão', emptyText: 'dd/mm/aaaa', format: 'd/m/Y', value: new Date() }
@@ -129,10 +130,20 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
             layout: 'border',
             items: [form,grid],
             buttonAlign: 'center',
-            buttons: [{ text: 'Adicionar OS', itemId: 'btn-add-ordemDeServico', iconCls: 'os-add', padding: '10', scope: this}]
+            buttons: [{ text: 'Adicionar OS', itemId: 'btnConfirmAddOS', iconCls: 'os-add', padding: '10', scope: this}]
         });
         this.mainPanel = mainPanel;
 
         return mainPanel;
+    },
+
+    setCliente: function(cliente) {
+        if(this.cliente != null && this.cliente.codigoTipoCliente != cliente.codigoTipoCliente) {
+            // alertar que o tipo de cliente é diferente e se o usuario quer que os valores dos itens sejam recalculados
+        }
+
+        this.cliente = cliente;
+        this.form.down('#moduleAddOS_codigoCliente').setValue(cliente.codigo);
+        this.form.down('#moduleAddOS_nomeCliente').setValue(cliente.nome);
     }
 });

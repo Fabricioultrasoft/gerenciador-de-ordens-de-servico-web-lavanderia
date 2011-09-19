@@ -85,6 +85,7 @@
     <Content Include="PresentationLayer\app\model\ordensDeServico\ItemModel.js" />
     <Content Include="PresentationLayer\app\model\ordensDeServico\ItemServicoModel.js" />
     <Content Include="PresentationLayer\app\model\ordensDeServico\OrdemDeServicoModel.js" />
+    <Content Include="PresentationLayer\app\controller\ordensDeServico\OrdensDeServicoClienteSearchController.js" />
     <Content Include="PresentationLayer\app\model\servicos\ServicoModel.js" />
     <Content Include="PresentationLayer\app\model\servicos\ServicoEspecificoModel.js" />
     <Content Include="PresentationLayer\app\model\servicos\ValorServicoModel.js" />
@@ -125,6 +126,7 @@
     <Content Include="PresentationLayer\app\view\ordensDeServico\ItensAddView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\ItensServicosView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoAddView.js" />
+    <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoClienteSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />

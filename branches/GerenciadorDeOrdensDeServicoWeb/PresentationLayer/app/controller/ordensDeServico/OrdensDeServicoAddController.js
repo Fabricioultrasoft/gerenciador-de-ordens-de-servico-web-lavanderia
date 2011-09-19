@@ -22,8 +22,11 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
             '#module-ordensDeServico-add_btnDelItemOS': {
                 click: this.onDelItemClick
             },
-            '#btn-add-ordemDeServico': {
-                click: this.onAddOrdemDeServicoClick
+            '#btnAddClienteOS': {
+                click: this.onAddClienteOSClick
+            },
+            '#btnConfirmAddOS': {
+                click: this.onConfirmAddOSClick
             }
         });
     },
@@ -65,6 +68,11 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
             animateTarget: btn.id,
             icon: Ext.Msg.QUESTION
         });
+    },
+
+    //----------------------------------------------------------------------------------------
+    onAddClienteOSClick: function(btn, event, options) {
+        btn.scope.app.getModule("module-ordensDeServico-clientesSearch").createWindow(btn.scope);
     },
 
     //----------------------------------------------------------------------------------------

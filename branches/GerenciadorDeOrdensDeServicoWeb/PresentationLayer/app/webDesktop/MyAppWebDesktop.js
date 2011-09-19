@@ -27,6 +27,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.ordensDeServico.OrdensDeServicoView',
         'App.view.ordensDeServico.OrdensDeServicoAddView',
 
+        'App.view.ordensDeServico.OrdensDeServicoClienteSearchView',
+
         'App.view.ordensDeServico.ItensAddView'
     ],
 
@@ -58,6 +60,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
             new App.view.ordensDeServico.OrdensDeServicoView(),
             new App.view.ordensDeServico.OrdensDeServicoAddView(),
             
+            new App.view.ordensDeServico.OrdensDeServicoClienteSearchView(),
             new App.view.ordensDeServico.ItensAddView(),
 
             new App.view.enderecos.EnderecosView()
