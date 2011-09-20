@@ -33,12 +33,22 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
     
     //----------------------------------------------------------------------------------------
     onAddItemClick: function (btn, event, options) {
-        btn.scope.app.getModule("module-itensOS-add").createWindow();
+        if(btn.scope.cliente == null) {
+            Ext.Msg.show({
+                title: 'Dados incompletos',
+                msg: 'Para incluir um Item na Ordem de Servi&ccedil;o <b>&eacute; preciso informar o Cliente antes</b>, '
+                   + 'pois os valores dos Itens são calculados com base no Tipo de Cliente selecionado.',
+                buttons: Ext.Msg.OK,
+                icon: Ext.Msg.WARNING
+            });
+        } else {
+            btn.scope.app.getModule("module-itensOS").createWindow();
+        }
     },
 
     //----------------------------------------------------------------------------------------
     editItem: function (grid, record) {
-        grid.panel.module.app.getModule("module-itensOS-edit").createWindow({record:record});
+        grid.panel.module.app.getModule("module-itensOS").createWindow({record:record});
     },
 
     //----------------------------------------------------------------------------------------

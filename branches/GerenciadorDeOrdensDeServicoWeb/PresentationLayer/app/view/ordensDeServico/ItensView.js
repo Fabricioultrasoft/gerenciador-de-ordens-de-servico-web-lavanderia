@@ -1,24 +1,24 @@
 ﻿
-Ext.define('App.view.ordensDeServico.ItensAddView', {
+Ext.define('App.view.ordensDeServico.ItensView', {
     extend: 'App.webDesktop.Module',
-    id: 'module-itensOS-add',
+    id: 'module-itensOS',
     init: function () {
     },
 
     createWindow: function (options) {
 
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('win-itensOS-add');
+        var win = desktop.getWindow('win-itensOS');
         if (!win) {
             var panel = this.createPanel(options);
             win = desktop.createWindow({
-                id: 'win-itensOS-add',
-                title: 'Adicionar Novo Item na Ordem de Serviço',
+                id: 'win-itensOS',
+                title: 'Item da Ordem de Serviço',
                 width: 500,
                 height: 380,
                 modal: true,
                 minimizable: false,
-                iconCls: 'itens-add',
+                iconCls: 'itens',
                 animCollapse: false,
                 constrainHeader: true,
                 layout: 'fit',
@@ -56,9 +56,9 @@ Ext.define('App.view.ordensDeServico.ItensAddView', {
         this.form = form;
 
         var grid = Ext.create('Ext.grid.Panel', {
-            id: 'grid-itensServicosOS',
+            id: 'grid-servicosDoItemOS',
             border: false,
-            title: 'Servi&ccedil;os relacionados ao tapete',
+            title: 'Servi&ccedil;os que ser&atilde;o realizados no Tapete',
             iconCls: 'servicos-thumb',
             region: 'center',
             store: Ext.create('App.store.ordensDeServico.ItensServicosStore', {}),
@@ -71,14 +71,14 @@ Ext.define('App.view.ordensDeServico.ItensAddView', {
                 { text: 'Valor', dataIndex: 'valor' }
             ],
             tbar: [
-                { itemId: 'module-itensOS-add_btnAddItemServicosOS', text: 'Adicionar', iconCls: 'servicos-add-thumb', scope: this },
-                { itemId: 'module-itensOS-add_btnEditItemServicosOS', text: 'Editar', iconCls: 'servicos-edit-thumb', scope: this, disabled: true },
-                { itemId: 'module-itensOS-add_btnDelItemServicosOS', text: 'Remover', iconCls: 'servicos-del-thumb', scope: this, disabled: true }
+                { itemId: 'btnAddServicos-ItemOS', text: 'Adicionar', iconCls: 'servicos-add-thumb', scope: this },
+                { itemId: 'btnEditServicos-ItemOS', text: 'Editar', iconCls: 'servicos-edit-thumb', scope: this, disabled: true },
+                { itemId: 'btnDelServicos-ItemOS', text: 'Remover', iconCls: 'servicos-del-thumb', scope: this, disabled: true }
             ],
             listeners: {
                 'selectionchange': function (view, records) {
-                    grid.down('#module-itensOS-add_btnEditItemServicosOS').setDisabled(!records.length);
-                    grid.down('#module-itensOS-add_btnDelItemServicosOS').setDisabled(!records.length);
+                    grid.down('#btnEditServicos-ItemOS').setDisabled(!records.length);
+                    grid.down('#btnDelServicos-ItemOS').setDisabled(!records.length);
                 }
             }
         });

@@ -10,6 +10,9 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoClienteSearchControlle
 
     init: function () {
         this.control({
+            '#grid-clientesOS': {
+                itemdblclick: this.onRowDblClick
+            },
             '#btnSearchClienteOS': {
                 click: this.onSearchClienteOSClick
             },
@@ -17,6 +20,12 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoClienteSearchControlle
                 click: this.onConfirmAddClienteOSClick
             }
         });
+    },
+
+    onRowDblClick: function(grid, record) {
+        var cliente = grid.panel.getSelectionModel().getSelection()[0].data;
+        grid.panel.module.options.moduleTarget.setCliente(cliente);
+        grid.panel.up('window').close();
     },
 
     onSearchClienteOSClick:  function(btn, eventObject, options) {
@@ -34,8 +43,8 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoClienteSearchControlle
     },
 
     onConfirmAddClienteOSClick: function (btn, event, options) {
-        var cliente = btn.scope.grid.getSelectionModel().getSelection()[0].data;
-        btn.scope.options.moduleTarget.setCliente(cliente);
-        btn.up('window').close();
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+        grid.fireEvent("itemdblclick",grid.view,record ); 
     }
 });

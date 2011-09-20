@@ -43,7 +43,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 anchor: '100%'
             },
             items: [
-                { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', allowBlank: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true, allowBlank: false, blankText: 'Para adicionar um Cliente, clique no bot&atilde;o [Add]' },
                     items: [
                         { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
@@ -138,12 +138,33 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
     },
 
     setCliente: function(cliente) {
-        if(this.cliente != null && this.cliente.codigoTipoCliente != cliente.codigoTipoCliente) {
+        if(this.cliente != null 
+        && this.grid.getSelectionModel().getSelection().length > 0
+        && this.cliente.codigoTipoCliente != cliente.codigoTipoCliente) {
             // alertar que o tipo de cliente é diferente e se o usuario quer que os valores dos itens sejam recalculados
+            Ext.Msg.show({
+                title: 'Tipo de Cliente &eacute; diferente',
+                msg: 'O tipo de Cliente selecionado &eacute; diferente do cliente anterior, '
+                   + 'devido a isto, podem haver diferen&ccedil;as nos valores dos itens desta Ordem de Servi&ccedil;o!<br />'
+                   + 'Tipo de Cliente Anterior: <b>' + this.cliente.nomeTipoCliente + '</b><br />'
+                   + 'Tipo de Cliente Novo: <b>' + cliente.nomeTipoCliente + '</b><br /><br />'
+                   + 'Deseja que o sistema recalcule os valores automaticamente?',
+                buttons: Ext.Msg.YESNO,
+                fn: function (buttonId) {
+                    if (buttonId == 'yes') {
+                        this.recalcularValores();
+                    }
+                },
+                icon: Ext.Msg.QUESTION
+            });
         }
 
         this.cliente = cliente;
         this.form.down('#moduleAddOS_codigoCliente').setValue(cliente.codigo);
         this.form.down('#moduleAddOS_nomeCliente').setValue(cliente.nome);
+    },
+
+    recalcularValores: function() {
+
     }
 });

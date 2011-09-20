@@ -63,7 +63,7 @@
     <Content Include="PresentationLayer\app\controller\enderecos\LogradourosController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\PaisesController.js" />
     <Content Include="PresentationLayer\app\controller\enderecos\TiposDeLogradourosController.js" />
-    <Content Include="PresentationLayer\app\controller\ordensDeServico\ItensAddController.js" />
+    <Content Include="PresentationLayer\app\controller\ordensDeServico\ItensController.js" />
     <Content Include="PresentationLayer\app\controller\ordensDeServico\OrdensDeServicoAddController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosAddController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosEditController.js" />
@@ -123,7 +123,7 @@
     <Content Include="PresentationLayer\app\view\enderecos\LogradourosView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
-    <Content Include="PresentationLayer\app\view\ordensDeServico\ItensAddView.js" />
+    <Content Include="PresentationLayer\app\view\ordensDeServico\ItensView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\ItensServicosView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoAddView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoClienteSearchView.js" />

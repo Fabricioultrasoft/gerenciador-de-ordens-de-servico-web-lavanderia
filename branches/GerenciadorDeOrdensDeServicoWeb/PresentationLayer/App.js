@@ -26,9 +26,8 @@ Ext.application({
         'usuarios.UsuariosEditController',
         'usuarios.UsuariosSearchController',
         'ordensDeServico.OrdensDeServicoAddController',
-
         'ordensDeServico.OrdensDeServicoClienteSearchController',
-        'ordensDeServico.ItensAddController'
+        'ordensDeServico.ItensController'
     ],
     launch: function () {
         Ext.create('App.webDesktop.MyAppWebDesktop', {});

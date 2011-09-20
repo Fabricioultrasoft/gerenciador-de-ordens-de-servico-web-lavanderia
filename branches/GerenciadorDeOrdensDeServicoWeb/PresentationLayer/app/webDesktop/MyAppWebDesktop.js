@@ -26,10 +26,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.usuarios.UsuariosSearchView',
         'App.view.ordensDeServico.OrdensDeServicoView',
         'App.view.ordensDeServico.OrdensDeServicoAddView',
-
         'App.view.ordensDeServico.OrdensDeServicoClienteSearchView',
-
-        'App.view.ordensDeServico.ItensAddView'
+        'App.view.ordensDeServico.ItensView'
     ],
 
     init: function () {
@@ -42,8 +40,10 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
 
     getModules: function () {
         return [
-            new App.view.tapetes.TapetesView(),
-            new App.view.clientes.TiposDeClientesView(),
+            new App.view.ordensDeServico.OrdensDeServicoView(),
+            new App.view.ordensDeServico.OrdensDeServicoAddView(),
+            new App.view.ordensDeServico.OrdensDeServicoClienteSearchView(),
+            new App.view.ordensDeServico.ItensView(),
             new App.view.clientes.ClientesView(),
             new App.view.clientes.ClientesAddView(),
             new App.view.clientes.ClientesEditView(),
@@ -52,18 +52,14 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
             new App.view.servicos.ServicosAddView(),
             new App.view.servicos.ServicosEditView(),
             new App.view.servicos.ServicosSearchView(),
+            new App.view.enderecos.EnderecosView(),
             new App.view.enderecos.LogradourosView(),
             new App.view.usuarios.UsuariosView(),
             new App.view.usuarios.UsuariosAddView(),
             new App.view.usuarios.UsuariosEditView(),
             new App.view.usuarios.UsuariosSearchView(),
-            new App.view.ordensDeServico.OrdensDeServicoView(),
-            new App.view.ordensDeServico.OrdensDeServicoAddView(),
-            
-            new App.view.ordensDeServico.OrdensDeServicoClienteSearchView(),
-            new App.view.ordensDeServico.ItensAddView(),
-
-            new App.view.enderecos.EnderecosView()
+            new App.view.clientes.TiposDeClientesView(),
+            new App.view.tapetes.TapetesView()
         ];
     },
 
