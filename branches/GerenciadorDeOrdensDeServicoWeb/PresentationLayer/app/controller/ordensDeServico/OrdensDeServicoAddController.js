@@ -36,13 +36,13 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
         if(btn.scope.cliente == null) {
             Ext.Msg.show({
                 title: 'Dados incompletos',
-                msg: 'Para incluir um Item na Ordem de Servi&ccedil;o <b>&eacute; preciso informar o Cliente antes</b>, '
+                msg: 'Para incluir um Item na Ordem de Servi&ccedil;o <b>&eacute; preciso informar antes o Cliente</b>, '
                    + 'pois os valores dos Itens são calculados com base no Tipo de Cliente selecionado.',
                 buttons: Ext.Msg.OK,
                 icon: Ext.Msg.WARNING
             });
         } else {
-            btn.scope.app.getModule("module-itensOS").createWindow();
+            btn.scope.app.getModule("module-itensOS").createWindow({targetModule: btn.scope});
         }
     },
 

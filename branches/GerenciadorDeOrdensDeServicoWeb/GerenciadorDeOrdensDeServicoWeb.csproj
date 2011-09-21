@@ -124,7 +124,6 @@
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\ItensView.js" />
-    <Content Include="PresentationLayer\app\view\ordensDeServico\ItensServicosView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoAddView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoClienteSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoSearchView.js" />
@@ -1826,6 +1825,7 @@
     <Content Include="PresentationLayer\resources\images\clientes-tipos-search.png" />
     <Content Include="PresentationLayer\resources\images\clientes-tipos.png" />
     <Content Include="PresentationLayer\resources\images\clientes.png" />
+    <Content Include="PresentationLayer\resources\images\confirm.png" />
     <Content Include="PresentationLayer\resources\images\del-thumb.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-add.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-del.png" />
