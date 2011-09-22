@@ -33,6 +33,9 @@ Ext.define('App.view.ordensDeServico.ItensView', {
     createPanel: function (options) {
         this.options = options;
 
+        // usado para controlar os servicos do item
+        this.servicosEspecificosStore = Ext.create('App.store.servicos.ServicosEspecificosStore', { pageSize: 0 });
+
         var tapetesStore = Ext.create('App.store.tapetes.TapetesStore', { pageSize: 0 });
         this.tapetesStore = tapetesStore;
         tapetesStore.load();
@@ -50,7 +53,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
             bodyPadding: 5,
             fieldDefaults: { labelAlign: 'left', labelWidth: 80, anchor: '100%', allowBlank: false, blankText: 'Este campo &eacute; obrigat&oacute;rio' },
             items: [
-                { xtype: 'combobox', store: tapetesStore, name: 'codigoTapete', fieldLabel: 'Tapete', emptyText: 'Selecione o tapete', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, scope: this, listConfig: { getInnerTpl: function () { return '<div>{codigo} - {nome}</div>'; } } },
+                { xtype: 'combobox', itemId:'cboTapetes-itensOS', store: tapetesStore, name: 'codigoTapete', fieldLabel: 'Tapete', emptyText: 'Selecione o tapete', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, scope: this, listConfig: { getInnerTpl: function () { return '<div>{codigo} - {nome}</div>'; } } },
                 { xtype: 'fieldcontainer', fieldLabel: 'Dimens&otilde;es em metros', layout: 'hbox', items: [ this.comprimento, this.largura, this.area ] },
                 { xtype: 'textarea', name: 'observacoes', fieldLabel: 'Observa&ccedil;&otilde;es', emptyText: 'Observações referentes aos serviços para este tapete', height: 50, allowBlank: true }
             ]
@@ -103,11 +106,11 @@ Ext.define('App.view.ordensDeServico.ItensView', {
     createServicoWindow: function (options) {
 
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('win-addServicoNoItemOS');
+        var win = desktop.getWindow('win-servicoNoItemOS');
         if (!win) {
             var panel = this.createServicoPanel(options);
             win = desktop.createWindow({
-                id: 'win-addServicoNoItemOS',
+                id: 'win-servicoNoItemOS',
                 title: 'Servi&ccedil;o a realizar no Tapete',
                 width: 400,
                 height: 300,
@@ -120,6 +123,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
                 border: false,
                 items: [panel]
             });
+            win.module = this;
         }
         win.show();
         return win;
@@ -128,32 +132,29 @@ Ext.define('App.view.ordensDeServico.ItensView', {
     createServicoPanel: function (options) {
         this.optionsServicoPanel = options;
 
-        var servicosEspecificosStore = Ext.create('App.store.servicos.ServicosEspecificosStore', { pageSize: 0 });
-        servicosEspecificosStore.load({ params:{ codigoTapete: options.codigoTapete,codigoTipoDeCliente: options.codigoTipoDeCliente} });
-
-        var form = Ext.create('Ext.form.Panel', {
+        var formServicos = Ext.create('Ext.form.Panel', {
             region: 'north',
             bodyPadding: 5,
             fieldDefaults: { labelAlign: 'left', labelWidth: 90, anchor: '100%', allowBlank: false },
             items: [
-                { xtype: 'combobox', itemId: '', store: servicosEspecificosStore, name: 'codigoServico', fieldLabel: 'Servi&ccedil;o', emptyText: 'Selecione o serviço', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, scope: this, listConfig: { getInnerTpl: function () { return '<div>{codigo} - {nome} (para: {nomeTipoDeCliente})</div>'; } } },
-                { xtype: 'textfield', itemId: '', fieldLabel: 'Cobrado Por', readOnly: true },
-                { xtype: 'textfield', itemId: '', fieldLabel: 'Tapete', value: options.nomeTapete, readOnly: true },
-                { xtype: 'textfield', itemId: '', fieldLabel: 'Tipo de Cliente', value: options.nomeTipoDeCliente, readOnly: true },
-                { xtype: 'fieldcontainer', fieldLabel: 'Valores', layout: 'hbox', defaults: { labelAlign: 'top', margins: '0 4 0 0',editable: false, },
+                { xtype: 'textfield', fieldLabel: 'Tapete', value: options.nomeTapete, readOnly: true, cls: 'inputDisabled' },
+                { xtype: 'textfield', fieldLabel: 'Tipo de Cliente', value: options.nomeTipoDeCliente, readOnly: true, cls: 'inputDisabled' },
+                { xtype: 'combobox', itemId: 'cboValoresEspecificos-itemOS', store: options.servicosEspecificosStore, name: 'codigoServico', fieldLabel: 'Servi&ccedil;o', emptyText: 'Selecione o serviço', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, scope: this, listConfig: { getInnerTpl: function () { return '<div>{codigo} - {nome} (para: {nomeTipoDeCliente})</div>'; } } },
+                { xtype: 'fieldcontainer', fieldLabel: 'Valores', layout: 'hbox', defaults: { labelAlign: 'top', margins: '0 4 0 0',editable: false },
                     items: [
-                        { xtype: 'numberfield', flex : 1, fieldLabel: 'Valor at&eacute; 10 m&sup2;', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                        { xtype: 'numberfield', flex : 1, fieldLabel: 'Valor acima de 10 m&sup2;', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0' }
+                        { xtype: 'numberfield', flex : 1, itemId: 'servicoValInicial-itemOS', fieldLabel: 'Valor R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, cls: 'inputDisabled' },
+                        { xtype: 'numberfield', flex : 1, itemId: 'servicoValAcima10m2-itemOS', fieldLabel: 'Acima de 10 m&sup2; R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0', cls: 'inputDisabled' }
                     ]
                 },
-                { xtype: 'numberfield', fieldLabel: 'Qtd M/M&sup2;', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                { xtype: 'numberfield', fieldLabel: 'Valor Final', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
+                { xtype: 'textfield', itemId: 'txtCobradoPor-itemOS', fieldLabel: 'Cobrado Por', disabled: true, readOnly: true, cls: 'inputDisabled' },
+                { xtype: 'numberfield', itemId: 'qtdMm2-itemOS', fieldLabel: 'Qtd M/M&sup2;', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                { xtype: 'numberfield', itemId: 'servicoValFinal-itemOS', fieldLabel: 'Valor Final R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
             ],
             buttonAlign: 'center',
             buttons: [{ text: 'Confirmar', itemId: 'btnConfirmServicoOS', iconCls: 'confirm', padding: '10', scope: this}]
         });
-        this.form = form;
+        this.formServicos = formServicos;
 
-        return form;
+        return formServicos;
     }
 });

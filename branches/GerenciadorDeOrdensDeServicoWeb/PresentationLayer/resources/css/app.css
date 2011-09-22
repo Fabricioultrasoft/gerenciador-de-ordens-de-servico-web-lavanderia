@@ -24,3 +24,8 @@
     position:relative;
     top:-1px;
 }
+
+.inputDisabled input {
+    color: Gray;
+    font-weight: bold;
+}
