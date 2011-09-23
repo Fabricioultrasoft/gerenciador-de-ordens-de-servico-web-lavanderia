@@ -26,6 +26,9 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             '#cboValoresEspecificos-itemOS': {
                 select: this.onValorEspecificoSelect   
             },
+            '#qtdMm2-itemOS': {
+                keyup: this.onQtdMm2KeyUp
+            },
             '#win-servicoNoItemOS': {
                 destroy: this.onServicosWindowDestroy
             }
@@ -88,6 +91,7 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
     onValorEspecificoSelect: function( combo, records, opts ) {
         var store = combo.scope.servicosEspecificosStore;
         var servico = store.getAt(store.find('codigo', combo.getValue() )).data;
+        combo.scope.optionsServicoPanel.servicoSelecionado = servico;
 
         var valorInicial = combo.scope.formServicos.down('#servicoValInicial-itemOS');
         var valorAcima10m2 = combo.scope.formServicos.down('#servicoValAcima10m2-itemOS');
@@ -107,12 +111,24 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
 
         // se servico cobrado por metroQuadrado
         if(servico.codigoCobradoPor == 2) {
+            var comp = combo.scope.optionsServicoPanel.comprimento;
+            var larg = combo.scope.optionsServicoPanel.largura;
+            
             valorAcima10m2.enable();
             valorAcima10m2.setValue(servico.valorAcima10m2);
+            qtdMm2.setValue(comp * larg);
+            combo.scope.calcularValorServico(servico);
         } else {
             valorAcima10m2.setValue(0);
             valorAcima10m2.disable();
+
+            qtdMm2.reset();
+            valorFinal.reset();
         }
+    },
+
+    onQtdMm2KeyUp: function( field, event, opts ) {
+        field.module.calcularValorServico(field.module.optionsServicoPanel.servicoSelecionado);
     },
 
     onServicosWindowDestroy: function( component, opts ) {

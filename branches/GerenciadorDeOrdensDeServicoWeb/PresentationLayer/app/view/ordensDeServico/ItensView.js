@@ -42,7 +42,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
 
         this.comprimento = Ext.create('Ext.form.field.Number', { enableKeyEvents: true, flex : 1, itemId: 'module-itensOS-comprimento', name: 'comprimento', fieldLabel: 'Comprimento', emptyText: 'Comprimento', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, labelAlign: 'top',allowBlank: false, blankText: 'Este campo &eacute; obrigat&oacute;rio', margins: '0 4 0 0' });
         this.largura = Ext.create('Ext.form.field.Number', { enableKeyEvents: true, flex : 1, itemId: 'module-itensOS-largura', name: 'largura', fieldLabel: 'Largura', emptyText: 'Largura', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, labelAlign: 'top',allowBlank: false, blankText: 'Este campo &eacute; obrigat&oacute;rio', margins: '0 4 0 0' });
-        this.area = Ext.create('Ext.form.field.Number', { flex : 1, itemId: 'module-itensOS-area', name: 'area', fieldLabel: 'Area (m&sup2;)', emptyText: 'Area', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, editable: false, labelAlign: 'top',allowBlank: false, blankText: 'Este campo &eacute; obrigat&oacute;rio', margins: '0' });
+        this.area = Ext.create('Ext.form.field.Number', { flex : 1, itemId: 'module-itensOS-area', name: 'area', fieldLabel: 'Area (m&sup2;)', emptyText: 'Area', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, editable: false, labelAlign: 'top',allowBlank: false, blankText: 'Este campo &eacute; obrigat&oacute;rio', margins: '0', cls: 'inputDisabled' });
         
         this.comprimento.module = this;
         this.largura.module = this;
@@ -147,7 +147,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
                     ]
                 },
                 { xtype: 'textfield', itemId: 'txtCobradoPor-itemOS', fieldLabel: 'Cobrado Por', disabled: true, readOnly: true, cls: 'inputDisabled' },
-                { xtype: 'numberfield', itemId: 'qtdMm2-itemOS', fieldLabel: 'Qtd M/M&sup2;', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                { xtype: 'numberfield', itemId: 'qtdMm2-itemOS', fieldLabel: 'Qtd M/M&sup2;', disabled: true, enableKeyEvents: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, module: this },
                 { xtype: 'numberfield', itemId: 'servicoValFinal-itemOS', fieldLabel: 'Valor Final R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
             ],
             buttonAlign: 'center',
@@ -156,5 +156,15 @@ Ext.define('App.view.ordensDeServico.ItensView', {
         this.formServicos = formServicos;
 
         return formServicos;
+    },
+
+    calcularValorServico: function(servico) {
+        var qtdMm2 = this.formServicos.down('#qtdMm2-itemOS').getValue();
+        if(qtdMm2 > 0) {
+            var valorTabela = (servico.codigoCobradoPor == 2 && qtdMm2 > 10) ? servico.valorAcima10m2 : servico.valor;
+            this.formServicos.down('#servicoValFinal-itemOS').setValue(qtdMm2 * valorTabela);
+        } else {
+            this.formServicos.down('#servicoValFinal-itemOS').setValue(0);
+        }
     }
 });

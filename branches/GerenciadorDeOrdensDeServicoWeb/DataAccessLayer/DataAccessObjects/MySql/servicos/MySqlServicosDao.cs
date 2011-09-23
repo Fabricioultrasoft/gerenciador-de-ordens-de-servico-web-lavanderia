@@ -227,7 +227,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				servico.valores[0].codigo = reader.GetUInt32( "cod_valor_servico" );
 				try { servico.valores[0].codigoPai = reader.GetUInt32( "cod_valor_servico_pai" ); } catch { }
 				servico.valores[0].valorInicial = reader.GetDouble( "val_inicial" );
-				servico.valores[0].valorInicial = reader.GetDouble( "val_acima_10m2" );
+				servico.valores[0].valorAcima10m2 = reader.GetDouble( "val_acima_10m2" );
 				servico.valores[0].tapete.codigo = reader.GetUInt32( "cod_tapete" );
 				servico.valores[0].tapete.nome = reader.GetString( "nom_tapete" );
 				try { servico.valores[0].tipoDeCliente.codigo = reader.GetUInt32( "cod_tipo_cliente" ); } catch { }
