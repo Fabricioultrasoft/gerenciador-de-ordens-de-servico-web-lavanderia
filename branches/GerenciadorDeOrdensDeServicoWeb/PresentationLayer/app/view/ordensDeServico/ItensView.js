@@ -25,6 +25,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
                 border: false,
                 items: [panel]
             });
+            win.module = this;
         }
         win.show();
         return win;
@@ -88,7 +89,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
             }
         });
         this.grid = grid;
-
+        this.grid.module = this;
 
         var mainPanel = Ext.create('Ext.panel.Panel', {
             border: true,
@@ -139,7 +140,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
             items: [
                 { xtype: 'textfield', fieldLabel: 'Tapete', value: options.nomeTapete, readOnly: true, cls: 'inputDisabled' },
                 { xtype: 'textfield', fieldLabel: 'Tipo de Cliente', value: options.nomeTipoDeCliente, readOnly: true, cls: 'inputDisabled' },
-                { xtype: 'combobox', itemId: 'cboValoresEspecificos-itemOS', store: options.servicosEspecificosStore, name: 'codigoServico', fieldLabel: 'Servi&ccedil;o', emptyText: 'Selecione o serviço', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, scope: this, listConfig: { getInnerTpl: function () { return '<div>{codigo} - {nome} (para: {nomeTipoDeCliente})</div>'; } } },
+                { xtype: 'combobox', itemId: 'cboValoresEspecificos-itemOS', store: this.servicosEspecificosStore, name: 'codigoServico', fieldLabel: 'Servi&ccedil;o', emptyText: 'Selecione o serviço', displayField: 'nome', valueField: 'codigo', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true, scope: this, listConfig: { getInnerTpl: function () { return '<div>{codigo} - {nome} (para: {nomeTipoDeCliente})</div>'; } } },
                 { xtype: 'fieldcontainer', fieldLabel: 'Valores', layout: 'hbox', defaults: { labelAlign: 'top', margins: '0 4 0 0',editable: false },
                     items: [
                         { xtype: 'numberfield', flex : 1, itemId: 'servicoValInicial-itemOS', fieldLabel: 'Valor R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, cls: 'inputDisabled' },
@@ -147,13 +148,20 @@ Ext.define('App.view.ordensDeServico.ItensView', {
                     ]
                 },
                 { xtype: 'textfield', itemId: 'txtCobradoPor-itemOS', fieldLabel: 'Cobrado Por', disabled: true, readOnly: true, cls: 'inputDisabled' },
-                { xtype: 'numberfield', itemId: 'qtdMm2-itemOS', fieldLabel: 'Qtd M/M&sup2;', disabled: true, enableKeyEvents: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, module: this },
-                { xtype: 'numberfield', itemId: 'servicoValFinal-itemOS', fieldLabel: 'Valor Final R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
+                { xtype: 'numberfield', itemId: 'qtdMm2-itemOS', name: 'quantidade_m_m2', fieldLabel: 'Qtd M/M&sup2;', disabled: true, enableKeyEvents: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, module: this },
+                { xtype: 'numberfield', itemId: 'servicoValFinal-itemOS', name: 'valor', fieldLabel: 'Valor Final R$', disabled: true, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
             ],
             buttonAlign: 'center',
             buttons: [{ text: 'Confirmar', itemId: 'btnConfirmServicoOS', iconCls: 'confirm', padding: '10', scope: this}]
         });
         this.formServicos = formServicos;
+
+        if(options.edit) {
+            var combo = formServicos.down('#cboValoresEspecificos-itemOS');
+            combo.select( options.record.data.servico.codigo );
+            combo.fireEvent('select',combo,combo.findRecordByValue( options.record.data.servico.codigo ),{});
+            formServicos.loadRecord(options.record);
+        }
 
         return formServicos;
     },
@@ -166,5 +174,20 @@ Ext.define('App.view.ordensDeServico.ItensView', {
         } else {
             this.formServicos.down('#servicoValFinal-itemOS').setValue(0);
         }
+    },
+
+    habilitaDadosTapete: function() {
+        // habilita os campos para poder recuperar os valores
+        this.form.down('#cboTapetes-itensOS').enable();
+        this.comprimento.enable();
+        this.largura.enable();
+        this.area.enable();
+    },
+
+    desabilitaDadosTapete: function() {
+        this.form.down('#cboTapetes-itensOS').disable();
+        this.comprimento.disable();
+        this.largura.disable();
+        this.area.disable();
     }
 });

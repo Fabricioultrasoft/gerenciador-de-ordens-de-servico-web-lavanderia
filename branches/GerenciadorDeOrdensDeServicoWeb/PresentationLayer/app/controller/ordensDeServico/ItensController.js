@@ -13,8 +13,17 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             '#cboTapetes-itensOS': {
                 select: this.onTapeteSelect
             },
+            '#grid-servicosDoItemOS': {
+                itemdblclick: this.editServico
+            },
             '#btnAddServicos-ItemOS': {
                 click: this.onAddServicoClick
+            },
+            '#btnEditServicos-ItemOS': {
+                click: this.onEditServicoClick
+            },
+            '#btnDelServicos-ItemOS': {
+                click: this.onDelServicoClick
             },
             '#module-itensOS-comprimento': {
                 keyup: this.calcularArea
@@ -28,6 +37,9 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             },
             '#qtdMm2-itemOS': {
                 keyup: this.onQtdMm2KeyUp
+            },
+            '#btnConfirmServicoOS':{
+                click: this.confirmServicoOSClick
             },
             '#win-servicoNoItemOS': {
                 destroy: this.onServicosWindowDestroy
@@ -50,10 +62,7 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             });
         } else {
             // habilita os campos para poder recuperar os valores
-            btn.scope.form.down('#cboTapetes-itensOS').enable();
-            btn.scope.comprimento.enable();
-            btn.scope.largura.enable();
-            btn.scope.area.enable();
+            btn.scope.habilitaDadosTapete();
 
             var values = btn.scope.form.getValues();
             var tapetesStore = btn.scope.tapetesStore;
@@ -68,11 +77,57 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             });
 
             // desabilita os campos para o usuario nao alterar os valores
-            btn.scope.form.down('#cboTapetes-itensOS').disable();
-            btn.scope.comprimento.disable();
-            btn.scope.largura.disable();
-            btn.scope.area.disable();
+            btn.scope.desabilitaDadosTapete();
         }
+    },
+
+    editServico: function (grid, record) {
+        // habilita os campos para poder recuperar os valores
+        grid.panel.module.habilitaDadosTapete();
+
+        var values = grid.panel.module.form.getValues();
+        var tapetesStore = grid.panel.module.tapetesStore;
+            
+        grid.panel.module.createServicoWindow({
+            record:record, 
+            edit: true,
+            servicosEspecificosStore: grid.panel.module.servicosEspecificosStore,
+            codigoTapete: values.codigoTapete,
+            nomeTapete: tapetesStore.getAt(tapetesStore.find('codigo', values.codigoTapete)).get('nome'),
+            comprimento: values.comprimento,
+            largura: values.largura,
+            codigoTipoDeCliente: grid.panel.module.options.targetModule.cliente.codigoTipoDeCliente,
+            nomeTipoDeCliente: grid.panel.module.options.targetModule.cliente.nomeTipoDeCliente
+        });
+
+        // desabilita os campos para o usuario nao alterar os valores
+        grid.panel.module.desabilitaDadosTapete();
+    },
+
+    onEditServicoClick: function(btn, eventObject, options) {
+        var grid = btn.scope.grid;
+        var record = grid.getSelectionModel().getSelection()[0];
+
+        grid.fireEvent("itemdblclick",grid.view,record ); 
+    },
+
+    onDelServicoClick: function (btn, event, options) {
+        var sm = btn.scope.grid.getSelectionModel();
+        var servico = sm.getSelection()[0].data;
+        var controller = this;
+
+        Ext.Msg.show({
+            title: 'Excluir servi&ccedil;o',
+            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Servi&ccedil;o: ' + servico.nomeServico + '<br />Valor: ' + servico.valor,
+            buttons: Ext.Msg.YESNO,
+            fn: function (buttonId) {
+                if (buttonId == 'yes') {
+                    btn.scope.grid.getStore().remove(sm.getSelection());
+                    controller.onServicosWindowDestroy(btn.up('window'));
+                }
+            },
+            icon: Ext.Msg.QUESTION
+        });
     },
 
     calcularArea: function( field, event, opts ) {
@@ -129,6 +184,45 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
 
     onQtdMm2KeyUp: function( field, event, opts ) {
         field.module.calcularValorServico(field.module.optionsServicoPanel.servicoSelecionado);
+    },
+
+    confirmServicoOSClick: function( btn, event, options ) {
+        
+        if(!btn.scope.formServicos.getForm().isValid() ) {
+            genericErrorAlert("Erro", "Dados inv&aacute;lidos, passe o mouse sobre os campos em vermelho para mais detalhes");
+            return false;
+        }
+
+        var values = btn.scope.formServicos.getValues();
+        var store = btn.scope.servicosEspecificosStore;
+        var servico = store.getAt(store.find('codigo', values.codigoServico )).data;
+        
+        
+        if(btn.scope.optionsServicoPanel.edit) {
+
+            btn.scope.optionsServicoPanel.record.set({
+                codigoServico: servico.codigo,
+                nomeServico: servico.nome,
+                quantidade_m_m2: values.quantidade_m_m2,
+                valor: values.valor,
+                servico: servico
+            });
+        
+        } else {
+            var record = Ext.ModelManager.create({
+                codigo: 0,
+                codigoItem: 0,
+                codigoServico: servico.codigo,
+                nomeServico: servico.nome,
+                quantidade_m_m2: values.quantidade_m_m2,
+                valor: values.valor,
+                servico: servico
+            }, 'App.model.ordensDeServico.ItemServicoModel');
+
+            btn.scope.grid.getStore().add(record);
+        }
+        
+        btn.up('window').close();
     },
 
     onServicosWindowDestroy: function( component, opts ) {

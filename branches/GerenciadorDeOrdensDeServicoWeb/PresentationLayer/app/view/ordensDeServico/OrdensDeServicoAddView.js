@@ -46,14 +46,14 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', allowBlank: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true, allowBlank: false, blankText: 'Para adicionar um Cliente, clique no bot&atilde;o [Add]' },
                     items: [
-                        { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                        { xtype: 'textfield', itemId:'moduleAddOS_nomeCliente', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', readOnly: true, margins: '0 4' },
+                        { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, cls: 'inputDisabled', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                        { xtype: 'textfield', itemId:'moduleAddOS_nomeCliente', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', readOnly: true, cls: 'inputDisabled', margins: '0 4' },
                         { xtype: 'button', text: 'Add', itemId: 'btnAddClienteOS', iconCls: 'clientes-add-thumb', scope: this }
                     ]
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Valor', layout: 'hbox', defaults: { labelAlign: 'top' },
                     items: [
-                        { xtype: 'numberfield', flex : 1, name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', editable: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0' },
+                        { xtype: 'numberfield', flex : 1, name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', editable: false, cls: 'inputDisabled', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0' },
                         { xtype: 'numberfield', flex : 1, name: 'valorFinal', fieldLabel: 'Final/Com Desconto', emptyText: 'Final/Com Desconto', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
                     ]
                 },
