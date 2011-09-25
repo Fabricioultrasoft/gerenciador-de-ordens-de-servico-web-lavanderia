@@ -42,10 +42,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 					if( String.IsNullOrEmpty( context.Request.QueryString["sort"] ) == false ) {
 						sorters = context.Request.QueryString["sort"];
 					}
-					context.Session["readClientes_start"] = start;
-					context.Session["readClientes_limit"] = limit;
-					context.Session["readClientes_filters"] = filters;
-					context.Session["readClientes_sorters"] = sorters;
 
 					response = readClientes( start, limit, filters, sorters );
 					break;

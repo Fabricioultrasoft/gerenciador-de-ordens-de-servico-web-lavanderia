@@ -30,6 +30,9 @@ Ext.application({
         'ordensDeServico.ItensController'
     ],
     launch: function () {
+        // define funcoes extendidas
+        Ext.util.Format.brMoney = function(v) { return Ext.util.Format.currency(v, 'R$ ', 2); };
+        
         Ext.create('App.webDesktop.MyAppWebDesktop', {});
     }
 });

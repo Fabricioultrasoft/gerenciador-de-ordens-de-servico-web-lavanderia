@@ -327,7 +327,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			StringBuilder sqlClientes = new StringBuilder();
 
 			MySqlFilter mySqlFilter = createMySqlFilter( filters );
-			String sortClause = construirClientesSortClause( sorters );
+			String sortClause = construirSortClause( sorters );
 
 
 			sqlClientes.AppendLine( "SELECT" );
@@ -780,7 +780,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return mySqlfilter;
 		}
 
-		private static String construirClientesSortClause( List<Sorter> sorters ) {
+		private static String construirSortClause( List<Sorter> sorters ) {
 
 			StringBuilder sortSql = new StringBuilder();
 

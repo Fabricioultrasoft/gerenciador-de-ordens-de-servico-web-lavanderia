@@ -33,6 +33,10 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
         this.options = options;
         this.cliente = null;
 
+        var itensStore = Ext.create('App.store.ordensDeServico.ItensStore', {});
+        itensStore.on({ add: this.atualizarValorOS, update: this.atualizarValorOS, remove: this.atualizarValorOS, scope: this });
+        this.itensStore = itensStore;
+
         var form = Ext.create('Ext.form.Panel', {
             border: false,
             region: 'north',
@@ -51,14 +55,13 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                         { xtype: 'button', text: 'Add', itemId: 'btnAddClienteOS', iconCls: 'clientes-add-thumb', scope: this }
                     ]
                 },
-                { xtype: 'fieldcontainer', fieldLabel: 'Valor', layout: 'hbox', defaults: { labelAlign: 'top' },
+                { xtype: 'fieldcontainer', fieldLabel: 'Valor R$', layout: 'hbox', defaults: { labelAlign: 'top', allowBlank: false },
                     items: [
-                        { xtype: 'numberfield', flex : 1, name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', editable: false, cls: 'inputDisabled', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0' },
-                        { xtype: 'numberfield', flex : 1, name: 'valorFinal', fieldLabel: 'Final/Com Desconto', emptyText: 'Final/Com Desconto', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
+                        { xtype: 'numberfield', flex : 1, itemId: 'osAddValOriginal', name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0', editable: false, cls: 'inputDisabled' },
+                        { xtype: 'numberfield', flex : 1, itemId: 'osAddValFinal', name: 'valorFinal', fieldLabel: 'Valor Final/Com Desconto', emptyText: 'Final/Com Desconto', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
                     ]
                 },
-
-                { xtype: 'fieldcontainer', fieldLabel: 'Datas', layout: 'hbox', defaults: { labelAlign: 'top' },
+                { xtype: 'fieldcontainer', fieldLabel: 'Datas', layout: 'hbox', defaults: { labelAlign: 'top',allowBlank: false },
                     items: [
                         { xtype: 'datefield', flex : 1, name: 'dataDeAbertura', fieldLabel: 'Data de Abertura', emptyText: 'Data de Abertura', emptyText: 'dd/mm/aaaa', format: 'd/m/Y', value: new Date(), margins: '0 4 0 0' },
                         { xtype: 'datefield', flex : 1, name: 'previsaoDeConclusao', fieldLabel: 'Previsão de Conclusão', emptyText: 'Previsão de Conclusão', emptyText: 'dd/mm/aaaa', format: 'd/m/Y', value: new Date() }
@@ -69,13 +72,20 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
         });
         this.form = form;
 
+        var renderServicosDoItem = function(servicos) {
+            var nomes = new Array(), i;
+            for( i = 0; i < servicos.length; i++ ) { nomes.push(servicos[i].nomeServico); }
+            return nomes.join(', ');
+        };
+
         var grid = Ext.create('Ext.grid.Panel', {
             id: 'grid-itensOS',
             border: false,
             title: 'Itens da Ordem de Servi&ccedil;o',
             iconCls: 'itens',
             region: 'center',
-            store: Ext.create('App.store.ordensDeServico.ItensStore', {}),
+            store: itensStore,
+            cls: 'grid-style-1',
             style: {
                 borderTop: '1px solid #99BCE8'
             },
@@ -83,10 +93,11 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 { text: 'Cod. Item', dataIndex: 'codigo', hidden: true },
                 { text: 'Cod. Tapete', dataIndex: 'codigoTapete', hidden: true },
                 { text: 'Tapete', dataIndex: 'nomeTapete', flex: 1 },
-                { text: 'Comprimento', dataIndex: 'comprimento' },
-                { text: 'Largura', dataIndex: 'largura' },
-                { text: 'Area', dataIndex: 'area' },
-                { text: 'Valor', dataIndex: 'valor' }
+                { text: 'Comprimento', dataIndex: 'comprimento', width: 80, renderer: function(value){ return value + ' metro(s)';  } },
+                { text: 'Largura', dataIndex: 'largura', width: 80, renderer: function(value){ return value + ' metro(s)';  } },
+                { text: 'Area', dataIndex: 'area', width: 80, renderer: function(value){ return value + ' m&sup2;';  } },
+                { text: 'Valor', dataIndex: 'valor', width: 80, renderer: Ext.util.Format.brMoney },
+                { text: 'Servi&ccedil;os', dataIndex: 'servicosDoItem', flex: 1, renderer: renderServicosDoItem }
             ],
             tbar: [
                 { itemId: 'module-ordensDeServico-add_btnAddItemOS', text: 'Adicionar', iconCls: 'itens-add', scope: this },
@@ -123,6 +134,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
             }
         });
         this.grid = grid;
+        this.grid.module = this;
 
         //--------------------------------------------------------------------
         var mainPanel = Ext.create('Ext.panel.Panel', {
@@ -139,23 +151,17 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
 
     setCliente: function(cliente) {
         if(this.cliente != null 
-        && this.grid.getSelectionModel().getSelection().length > 0
-        && this.cliente.codigoTipoCliente != cliente.codigoTipoCliente) {
-            // alertar que o tipo de cliente é diferente e se o usuario quer que os valores dos itens sejam recalculados
+        && this.grid.getStore().getCount() > 0
+        && this.cliente.codigoTipoDeCliente != cliente.codigoTipoDeCliente) {
+            // alertar que o tipo de cliente é diferente e que os valores dos itens devem recalculados
             Ext.Msg.show({
                 title: 'Tipo de Cliente &eacute; diferente',
-                msg: 'O tipo de Cliente selecionado &eacute; diferente do cliente anterior, '
+                msg: 'O <b>Tipo de Cliente</b> selecionado &eacute; diferente do Cliente anterior, '
                    + 'devido a isto, podem haver diferen&ccedil;as nos valores dos itens desta Ordem de Servi&ccedil;o!<br />'
-                   + 'Tipo de Cliente Anterior: <b>' + this.cliente.nomeTipoCliente + '</b><br />'
-                   + 'Tipo de Cliente Novo: <b>' + cliente.nomeTipoCliente + '</b><br /><br />'
-                   + 'Deseja que o sistema recalcule os valores automaticamente?',
-                buttons: Ext.Msg.YESNO,
-                fn: function (buttonId) {
-                    if (buttonId == 'yes') {
-                        this.recalcularValores();
-                    }
-                },
-                icon: Ext.Msg.QUESTION
+                   + 'Anterior: <b>' + this.cliente.nomeTipoDeCliente + '</b><br />'
+                   + 'Novo: <b>' + cliente.nomeTipoDeCliente + '</b>.',
+                buttons: Ext.Msg.OK,
+                icon: Ext.Msg.WARNING
             });
         }
 
@@ -164,7 +170,19 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
         this.form.down('#moduleAddOS_nomeCliente').setValue(cliente.nome);
     },
 
-    recalcularValores: function() {
+    atualizarValorOS: function() {
+        var valOriginal = this.form.down('#osAddValOriginal');
+        var valFinal = this.form.down('#osAddValFinal');
 
+        var valorOS = 0;
+        this.itensStore.each(function(record){
+            valorOS += record.data.valor;
+        },this);
+
+        valOriginal.enable();
+        valOriginal.setValue(valorOS);
+        valOriginal.disable();
+
+        valFinal.setValue(valorOS);
     }
 });

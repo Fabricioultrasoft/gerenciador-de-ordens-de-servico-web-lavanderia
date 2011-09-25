@@ -350,6 +350,29 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			return servicos;
 		}
 
+		public static Servico jsonToServicoEspecifico( String json, JavaScriptSerializer js) {
+
+			Dictionary<String, Object> servicoTemp = js.Deserialize<Dictionary<String, Object>>( json );
+			Servico servico = new Servico();
+			ValorDeServico valor = new ValorDeServico();
+			//-------
+			servico.codigo = UInt32.Parse( servicoTemp["codigo"].ToString() );
+			servico.nome = servicoTemp["nome"].ToString();
+			servico.descricao = servicoTemp["descricao"].ToString();
+			servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), servicoTemp["codigoCobradoPor"].ToString() );
+			//-------
+			valor.tapete.codigo = UInt32.Parse( servicoTemp["codigoTapete"].ToString() );
+			valor.tapete.nome = servicoTemp["nomeTapete"].ToString();
+			valor.tipoDeCliente.codigo = UInt32.Parse( servicoTemp["codigoTipoDeCliente"].ToString() );
+			valor.tipoDeCliente.nome = servicoTemp["nomeTipoDeCliente"].ToString();
+			valor.valorInicial = Double.Parse( servicoTemp["valor"].ToString() );
+			valor.valorAcima10m2 = Double.Parse( servicoTemp["valorAcima10m2"].ToString() );
+			//-------
+			servico.valores.Add( valor );
+			
+			return servico;
+		}
+
 		private static List<ValorDeServico> recuperarValores( Object objJson, JavaScriptSerializer js ) {
 			List<ValorDeServico> valores = new List<ValorDeServico>();
 			StringBuilder valoresJson = new StringBuilder();

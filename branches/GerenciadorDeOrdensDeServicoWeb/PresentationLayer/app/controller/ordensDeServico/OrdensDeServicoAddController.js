@@ -22,6 +22,9 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
             '#module-ordensDeServico-add_btnDelItemOS': {
                 click: this.onDelItemClick
             },
+            '#btnShowDescricaoOrdensDeServicoAdd': {
+                click: this.onShowDescricaoClick
+            },
             '#btnAddClienteOS': {
                 click: this.onAddClienteOSClick
             },
@@ -34,6 +37,8 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
     //----------------------------------------------------------------------------------------
     onAddItemClick: function (btn, event, options) {
         if(btn.scope.cliente == null) {
+            btn.scope.form.down('#moduleAddOS_codigoCliente').isValid();
+            btn.scope.form.down('#moduleAddOS_nomeCliente').isValid();
             Ext.Msg.show({
                 title: 'Dados incompletos',
                 msg: 'Para incluir um Item na Ordem de Servi&ccedil;o <b>&eacute; preciso informar antes o Cliente</b>, '
@@ -48,7 +53,7 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
 
     //----------------------------------------------------------------------------------------
     editItem: function (grid, record) {
-        grid.panel.module.app.getModule("module-itensOS").createWindow({record:record});
+        grid.panel.module.app.getModule("module-itensOS").createWindow({targetModule: grid.panel.module, record:record, edit: true});
     },
 
     //----------------------------------------------------------------------------------------
@@ -61,23 +66,20 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
 
     //----------------------------------------------------------------------------------------
     onDelItemClick: function(btn, event, options) {
-        var sm = btn.scope.gridMeiosDeContato.getSelectionModel();
+        var sm = btn.scope.grid.getSelectionModel();
 
         Ext.Msg.show({
-            title: 'Excluir este meio de contato',
-            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Meio de contato: ' + sm.getSelection()[0].data.nomeTipoDeContato + '<br />Contato: ' + sm.getSelection()[0].data.contato,
+            title: 'Excluir Item',
+            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Tapete: ' + sm.getSelection()[0].data.nomeTapete + '<br />Valor: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valor),
             buttons: Ext.Msg.YESNO,
-            fn: function (buttonId) {
-                if (buttonId == 'yes') {
-                    btn.scope.gridMeiosDeContato.getStore().remove(sm.getSelection());
-                    if (btn.scope.gridMeiosDeContato.getStore().getCount() > 0) {
-                        sm.select(0);
-                    }
-                }
-            },
+            fn: function (buttonId) { if (buttonId == 'yes') { btn.scope.grid.getStore().remove(sm.getSelection()); } },
             animateTarget: btn.id,
             icon: Ext.Msg.QUESTION
         });
+    },
+
+    onShowDescricaoClick: function (btn, event, options) {
+        btn.scope.grid.getComponent('view').getPlugin('preview').toggleExpanded(btn.pressed);
     },
 
     //----------------------------------------------------------------------------------------
@@ -86,62 +88,50 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
     },
 
     //----------------------------------------------------------------------------------------
-    onAddClienteClick: function(btn, event, options) {
-        if (!btn.scope.formDadosPrimarios.getForm().isValid()) {
-            btn.scope.tabPanel.setActiveTab(0);
-            genericErrorAlert("Erro", "Dados prim&aacute;rios inv&aacute;lidos, passe o mouse sobre os campos em vermelho para mais detalhes");
+    onConfirmAddOSClick: function(btn, event, options) {
+        if (!btn.scope.form.getForm().isValid()) {
+            genericErrorAlert("Dados inv&aacute;lidos", "<b>Ordem de Servi&ccedil;o incompleta!</b><br />passe o mouse sobre os campos em vermelho para mais detalhes");
             return false;
         }
 
-        var values = btn.scope.formDadosPrimarios.getValues();
-        var tipoDeCliente = btn.scope.tiposDeClientesStore.getAt(btn.scope.tiposDeClientesStore.find('codigo', values.codigoTipoDeCliente));
-        
-        var meiosDeContato = [];
-        btn.scope.gridMeiosDeContato.getStore().each(function(record){
-            meiosDeContato.push(record.data);
-        });
+        var values = btn.scope.formDados.getValues();
+        var itens = new Array();
 
-        var enderecos = [];
-        btn.scope.gridEnderecos.getStore().each(function(record){
-            enderecos.push(record.data);
-        });
+        btn.scope.itensStore.each( function(record) {
+            itens.push(record.data);
+        }, this);
 
         var r = Ext.ModelManager.create({
             codigo: 0,
-            ativo: true,
-            nome: values.nome,
-            conjuge: values.conjuge,
-            codigoTipoDeCliente: tipoDeCliente.data.codigo,
-            nomeTipoDeCliente: tipoDeCliente.data.nome,
-            ativoTipoDeCliente: tipoDeCliente.data.ativo,
-            sexo: values.sexo,
-            dataDeNascimento: values.dataDeNascimento,
-            rg: values.rg,
-            cpf: values.cpf,
+            numero: values.numero,
+            valorOriginal: values.valorOriginal,
+            valorFinal: values.valorFinal,
+            dataDeAbertura: values.dataDeAbertura,
+            previsaoDeConclusao: values.previsaoDeConclusao,
             observacoes: values.observacoes,
-            dataDeCadastro: '',
-            dataDeAtualizacao: '',
-            meiosDeContato: meiosDeContato,
-            enderecos: enderecos
-        }, 'App.model.clientes.ClienteModel');
+            codigoCliente: values.codigoCliente,
+            nomeCliente: values.nomeCliente,
+            cliente: btn.scope.cliente,
+            itens: itens
+        }, 'App.model.ordensDeServico.OrdemDeServicoModel');
 
         btn.scope.mainPanel.setLoading( "Cadastrando...", true );
 
-        var storeClientes = null;
-        try { storeClientes = btn.scope.app.getModule("module-clientes-search").clientesStore; }catch(e){}
+        var ordensDeServicoStore = null;
+        try { ordensDeServicoStore = btn.scope.app.getModule("module-ordensDeServico-clientesSearch").ordensDeServicoStore; }catch(e){}
 
-        if(storeClientes) {
-            storeClientes.insert(0, r);
-            storeClientes.sync();
-            storeClientes.module.gridClientes.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
+        if(ordensDeServicoStore) {
+            ordensDeServicoStore.insert(0, r);
+            ordensDeServicoStore.sync();
+            ordensDeServicoStore.module.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
             btn.up('window').close();
         }
         else {
-            r.setProxy( Ext.create('App.store.clientes.ClientesStore',{}).getProxy() );
+            r.setProxy( Ext.create('App.store.ordensDeServico.OrdensDeServicoStore',{}).getProxy() );
             r.save({
                 success: function(ed) {
                     btn.up('window').close();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Cliente cadastrado!');
+                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Ordem de Servi&ccedil;o cadastrada!');
                 },
                 failure: function(record, operation) {
                     btn.scope.mainPanel.setLoading( false, true );

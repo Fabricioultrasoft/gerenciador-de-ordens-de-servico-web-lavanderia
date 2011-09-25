@@ -13,8 +13,10 @@ Ext.define('App.model.ordensDeServico.OrdemDeServicoModel',{
         { name: 'previsaoDeConclusao', type: 'string' },
         { name: 'dataDeEncerramento', type: 'string' },
         { name: 'observacoes', type: 'string' },
-        { name: 'usuario', type: 'auto' },
+        { name: 'codigoCliente', type: 'int' },
+        { name: 'nomeCliente', type: 'string' },
         { name: 'cliente', type: 'auto' },
+        { name: 'usuario', type: 'auto' },
         { name: 'itens', type: 'auto' }
     ]
 });

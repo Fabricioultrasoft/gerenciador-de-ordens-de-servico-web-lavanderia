@@ -43,7 +43,11 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             },
             '#win-servicoNoItemOS': {
                 destroy: this.onServicosWindowDestroy
-            }
+            },
+            //--------------------------------
+            '#btnConfirmItemOS':{
+                click: this.confirmItemOSClick
+            },
         });
     },
 
@@ -86,6 +90,10 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
         grid.panel.module.habilitaDadosTapete();
 
         var values = grid.panel.module.form.getValues();
+        
+        // desabilita os campos para o usuario nao alterar os valores
+        grid.panel.module.desabilitaDadosTapete();
+
         var tapetesStore = grid.panel.module.tapetesStore;
             
         grid.panel.module.createServicoWindow({
@@ -99,9 +107,6 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             codigoTipoDeCliente: grid.panel.module.options.targetModule.cliente.codigoTipoDeCliente,
             nomeTipoDeCliente: grid.panel.module.options.targetModule.cliente.nomeTipoDeCliente
         });
-
-        // desabilita os campos para o usuario nao alterar os valores
-        grid.panel.module.desabilitaDadosTapete();
     },
 
     onEditServicoClick: function(btn, eventObject, options) {
@@ -145,7 +150,19 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
 
     onValorEspecificoSelect: function( combo, records, opts ) {
         var store = combo.scope.servicosEspecificosStore;
-        var servico = store.getAt(store.find('codigo', combo.getValue() )).data;
+        var codServico = store.find('codigo', combo.getValue());
+        
+        // se o codigo do valor especifico nao for encontrado
+        // significa que o usuario mudou o tipo de cliente da OS
+        // entao nao eh possivel recuperar o valor
+        if(codServico == -1) {
+            combo.blankText = 'Os valores deste servi&ccedil;o mudaram devido ao <b>Tipo de Cliente</b> do cliente selecionado na Ordem de Servi&ccedil;o '
+                   + 'ser diferente da primeira vez em que este servi&ccedil;o foi adicionado no Item, sendo assim, ser&aacute preciso recalcular os valores!';
+            combo.clearValue();
+            return false;
+        }
+
+        var servico = store.getAt(codServico).data;
         combo.scope.optionsServicoPanel.servicoSelecionado = servico;
 
         var valorInicial = combo.scope.formServicos.down('#servicoValInicial-itemOS');
@@ -232,6 +249,68 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
             component.module.comprimento.enable();
             component.module.largura.enable();
             component.module.area.enable();
+        }
+    },
+
+    confirmItemOSClick: function( btn, event, options ) {
+        if(btn.scope.form.getForm().isValid() == false || btn.scope.grid.getStore().getCount() <= 0 ) {
+            Ext.Msg.show({
+                title: 'Dados incompletos',
+                msg: 'Para confirmar um Item na Ordem Servi&ccedil;o <b>&eacute; preciso informar os dados dos tapetes e os servi&ccedil;os que ser&atilde;o realizados</b>.',
+                buttons: Ext.Msg.OK,
+                icon: Ext.Msg.WARNING
+            });
+        } else {
+
+            btn.scope.habilitaDadosTapete();
+            var values = btn.scope.form.getValues();
+            btn.scope.desabilitaDadosTapete();
+            
+            var tapete = btn.scope.tapetesStore.getAt(btn.scope.tapetesStore.find('codigo', values.codigoTapete )).data;
+            var store = btn.scope.grid.getStore();
+            
+            var valorDoItem = 0;
+            var itemServicos = new Array();
+            
+            store.each( function(record) {
+                valorDoItem += record.data.valor;
+                itemServicos.push(record.data);
+            }, this );
+
+            
+            if(btn.scope.options.edit) {
+
+                btn.scope.options.record.set({
+                    codigoTapete: tapete.codigo,
+                    nomeTapete: tapete.nome,
+                    tapete: tapete,
+                    comprimento: values.comprimento,
+                    largura: values.largura,
+                    area: values.area,
+                    valor: valorDoItem,
+                    observacoes: values.observacoes,
+                    servicosDoItem: itemServicos
+                });
+        
+            } else {
+                var record = Ext.ModelManager.create({
+                    codigo: 0,
+                    codigoOrdemDeServico: 0,
+                    codigoTapete: tapete.codigo,
+                    nomeTapete: tapete.nome,
+                    tapete: tapete,
+                    comprimento: values.comprimento,
+                    largura: values.largura,
+                    area: values.area,
+                    valor: valorDoItem,
+                    observacoes: values.observacoes,
+                    servicosDoItem: itemServicos
+                }, 'App.model.ordensDeServico.ItemModel');
+
+                btn.scope.options.targetModule.grid.getStore().add(record);
+            }
+        
+            btn.up('window').close();
         }
     }
 });

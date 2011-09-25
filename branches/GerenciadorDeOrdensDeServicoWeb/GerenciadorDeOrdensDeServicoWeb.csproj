@@ -1971,6 +1971,9 @@
     <Compile Include="PresentationLayer\app\handlers\Logout.ashx.cs">
       <DependentUpon>Logout.ashx</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\app\handlers\ordensDeServico\OrdensDeServicoHandler.ashx.cs">
+      <DependentUpon>OrdensDeServicoHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\app\handlers\servicos\ServicosHandler.ashx.cs">
       <DependentUpon>ServicosHandler.ashx</DependentUpon>
     </Compile>
@@ -1997,6 +2000,7 @@
     <Content Include="PresentationLayer\app\handlers\Login.ashx" />
     <Content Include="PresentationLayer\app\handlers\Logout.ashx" />
     <Content Include="PresentationLayer\app\handlers\usuarios\UsuariosHandler.ashx" />
+    <Content Include="PresentationLayer\app\handlers\ordensDeServico\OrdensDeServicoHandler.ashx" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\config.rb" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-access.scss" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-gray.scss" />

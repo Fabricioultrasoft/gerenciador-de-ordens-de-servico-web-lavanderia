@@ -74,7 +74,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
                 { text: 'Cod. Servi&ccedil;o', dataIndex: 'codigoServico', hidden: true },
                 { text: 'Servi&ccedil;o', dataIndex: 'nomeServico', flex: 1 },
                 { text: 'Qtd. M/M&sup2;', dataIndex: 'quantidade_m_m2' },
-                { text: 'Valor', dataIndex: 'valor' }
+                { text: 'Valor', dataIndex: 'valor', renderer: Ext.util.Format.brMoney }
             ],
             tbar: [
                 { itemId: 'btnAddServicos-ItemOS', text: 'Adicionar', iconCls: 'servicos-add-thumb', scope: this },
@@ -96,9 +96,22 @@ Ext.define('App.view.ordensDeServico.ItensView', {
             layout: 'border',
             items: [form,grid],
             buttonAlign: 'center',
-            buttons: [{ text: 'Adicionar Item', itemId: 'btn-add-itemOS', iconCls: 'itens-add', padding: '10', scope: this}]
+            buttons: [{ text: 'Confirmar', itemId: 'btnConfirmItemOS', iconCls: 'confirm', padding: '10', scope: this}]
         });
         this.mainPanel = mainPanel;
+
+        if(options.edit) {
+            tapetesStore.on('load', function( store, records, isSuccessful, operation, opts) {
+                form.loadRecord(options.record);
+                var combo = form.down('#cboTapetes-itensOS');
+                combo.fireEvent('select',combo,combo.findRecordByValue( options.record.data.tapete.codigo ),{});
+                this.desabilitaDadosTapete();
+
+                for(var i = 0; i < options.record.data.servicosDoItem.length; i++ ) {
+                    grid.getStore().add(options.record.data.servicosDoItem[i]);
+                }
+            },this);
+        }
 
         return mainPanel;
     },
