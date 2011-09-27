@@ -47,7 +47,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 anchor: '100%'
             },
             items: [
-                { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', allowBlank: false, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', allowBlank: false, minValue: 0, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true, allowBlank: false, blankText: 'Para adicionar um Cliente, clique no bot&atilde;o [Add]' },
                     items: [
                         { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, cls: 'inputDisabled', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
@@ -179,10 +179,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
             valorOS += record.data.valor;
         },this);
 
-        valOriginal.enable();
         valOriginal.setValue(valorOS);
-        valOriginal.disable();
-
         valFinal.setValue(valorOS);
     }
 });

@@ -350,9 +350,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			return servicos;
 		}
 
-		public static Servico jsonToServicoEspecifico( String json, JavaScriptSerializer js) {
+		public static Servico jsonToServicoEspecifico( Object json, JavaScriptSerializer js) {
+			StringBuilder servicosJson = new StringBuilder();
+			js.Serialize( json, servicosJson );
 
-			Dictionary<String, Object> servicoTemp = js.Deserialize<Dictionary<String, Object>>( json );
+			Dictionary<String, Object> servicoTemp = js.Deserialize<Dictionary<String, Object>>( servicosJson.ToString() );
 			Servico servico = new Servico();
 			ValorDeServico valor = new ValorDeServico();
 			//-------

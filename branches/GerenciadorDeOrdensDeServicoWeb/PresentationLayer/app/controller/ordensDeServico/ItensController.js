@@ -286,7 +286,7 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
                     tapete: tapete,
                     comprimento: values.comprimento,
                     largura: values.largura,
-                    area: values.area,
+                    area: values.comprimento * values.largura,
                     valor: valorDoItem,
                     observacoes: values.observacoes,
                     servicosDoItem: itemServicos
@@ -301,7 +301,7 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
                     tapete: tapete,
                     comprimento: values.comprimento,
                     largura: values.largura,
-                    area: values.area,
+                    area: values.comprimento * values.largura,
                     valor: valorDoItem,
                     observacoes: values.observacoes,
                     servicosDoItem: itemServicos

@@ -210,7 +210,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 				ordem.numero = UInt32.Parse( ordemTemp["numero"].ToString() );
 				ordem.valorOriginal = Double.Parse( ordemTemp["valorOriginal"].ToString() );
 				ordem.valorFinal = Double.Parse( ordemTemp["valorFinal"].ToString() );
-				ordem.status = (Status) Enum.Parse( typeof(Status), ordemTemp["numero"].ToString(), true );
+				try { 
+					ordem.status.codigo = UInt32.Parse(ordemTemp["codigoStatus"].ToString());
+					ordem.status.nome = ordemTemp["nomeStatus"].ToString();
+				} catch {}
 				ordem.dataDeAbertura = DateTime.Parse( ordemTemp["dataDeAbertura"].ToString() );
 				ordem.previsaoDeConclusao = DateTime.Parse( ordemTemp["previsaoDeConclusao"].ToString() );
 				try { ordem.dataDeEncerramento = DateTime.Parse( ordemTemp["dataDeEncerramento"].ToString() ); } catch{}
@@ -234,7 +237,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 					item.observacoes = itensTemp["observacoes"].ToString();
 
 
-					item.itensServicos.AddRange( jsonToServicosDoItem( itensTemp["servicosDoItem"].ToString(), js ) );
+					item.itensServicos.AddRange( jsonToServicosDoItem( itensTemp["servicosDoItem"], js ) );
 					
 					ordem.itens.Add( item );
 				}
@@ -245,9 +248,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			return ordensDeServico;
 		}
 
-		public static List<ItemServico> jsonToServicosDoItem( String json, JavaScriptSerializer js ) {
+		public static List<ItemServico> jsonToServicosDoItem( Object json, JavaScriptSerializer js ) {
 			List<ItemServico> itensServicos = new List<ItemServico>();
-			List<Dictionary<String, Object>> list = js.Deserialize<List<Dictionary<String, Object>>>( json );
+			StringBuilder servicosJson = new StringBuilder();
+			js.Serialize( json, servicosJson );
+
+			List<Dictionary<String, Object>> list = js.Deserialize<List<Dictionary<String, Object>>>( servicosJson.ToString() );
 
 			foreach( Dictionary<String, Object> servicosDoItemTemp in list ) {
 				ItemServico servicoDoItem = new ItemServico();
@@ -255,7 +261,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 				servicoDoItem.codigo = UInt32.Parse(servicosDoItemTemp["codigo"].ToString());
 				servicoDoItem.quantidade_m_m2 = UInt32.Parse(servicosDoItemTemp["quantidade_m_m2"].ToString());
 				servicoDoItem.valor = Double.Parse(servicosDoItemTemp["valor"].ToString());
-				servicoDoItem.servico = ServicosHandler.jsonToServicoEspecifico(servicosDoItemTemp["servico"].ToString(),js);
+				servicoDoItem.servico = ServicosHandler.jsonToServicoEspecifico(servicosDoItemTemp["servico"],js);
 
 				itensServicos.Add( servicoDoItem );
 			}

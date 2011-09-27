@@ -94,8 +94,22 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
             return false;
         }
 
-        var values = btn.scope.formDados.getValues();
+        var values = btn.scope.form.getValues();
         var itens = new Array();
+
+        // data em javascript tem o formato MM/dd/yyyy
+        var dataAbertura = new Date(values.dataDeAbertura.substring(3,5) + "/" + values.dataDeAbertura.substring(0,2) + "/" + values.dataDeAbertura.substring(6,11) );
+        var dataConclusao = new Date(values.previsaoDeConclusao.substring(3,5) + "/" + values.previsaoDeConclusao.substring(0,2) + "/" + values.previsaoDeConclusao.substring(6,11) );
+
+        if( dataAbertura > dataConclusao ) {
+            genericErrorAlert("Dados inv&aacute;lidos", "A <b>data de abertura</b> n&atilde;o pode ser posterior &agrave; <b>data de previs&atilde;o de conclus&atilde;o</b>!");
+            return false;
+        }
+
+        if(values.valorFinal < 0) {
+            genericErrorAlert("Dados inv&aacute;lidos", "O <b>valor final</b> da Ordem de Servi&ccedil;o n&atilde;o pode ser negativo!");
+            return false;
+        }
 
         btn.scope.itensStore.each( function(record) {
             itens.push(record.data);
