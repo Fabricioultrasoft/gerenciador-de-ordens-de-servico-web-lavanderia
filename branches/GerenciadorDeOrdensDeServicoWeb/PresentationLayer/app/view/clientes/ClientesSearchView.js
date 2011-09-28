@@ -50,11 +50,12 @@ Ext.define('App.view.clientes.ClientesSearchView', {
         //--------------------------------------------------------------------
         var formFiltros = Ext.create('Ext.form.Panel', {
             title: 'Filtros',
+            border: false,
             collapsible: true,
             animCollapse: true,
             autoScroll: true,
             region: 'north',
-            height: 260,
+            height: 235,
             iconCls: 'filtro',
             bodyPadding: 5,
             layout: 'anchor',
@@ -62,15 +63,27 @@ Ext.define('App.view.clientes.ClientesSearchView', {
                 anchor: '100%'
             },
             items: [
-                { xtype: 'numberfield', name: 'codigo', fieldLabel: 'Codigo', emptyText: '0000', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                { xtype: 'checkbox', name: 'ativo', fieldLabel: 'Ativo', inputValue: 1},
-                { xtype: 'textfield', name: 'nome', fieldLabel: 'Nome', emptyText: 'Digite o nome do cliente', maxLength: 50},
-                { xtype: 'textfield', name: 'conjuge', fieldLabel: 'Conjuge', emptyText: 'Digite o nome do cônjuge', maxLength: 50 },
-                { xtype: 'combobox', name: 'codigoTipoDeCliente', fieldLabel: 'Tipo de cliente', store: tiposDeClientesStore, queryMode: 'local', valueField: 'codigo', displayField: 'nome', emptyText: 'Selecione o tipo de cliente', selectOnFocus: true, forceSelection: true },
-                { xtype: 'datefield', name: 'dataDeNascimento', fieldLabel: 'Nascimento', emptyText: 'dd/mm/aaaa', format: 'd/m/Y' },
-                { xtype: 'radiogroup', fieldLabel: 'Sexo', items: [{ xtype: 'radio', boxLabel: 'Masculino', inputValue: 1, name: 'sexo', checked: true }, { xtype: 'radio', boxLabel: 'Feminino', inputValue: 2, name: 'sexo'}] },
-                { xtype: 'textfield', name: 'rg', fieldLabel: 'RG', emptyText: 'Digite o RG', maxLength: 12 },
-                { xtype: 'textfield', name: 'cpf', fieldLabel: 'CPF', emptyText: 'Digite o CPF', maxLength: 14 }
+                { xtype: 'fieldcontainer', fieldLabel: '', layout: 'hbox', defaults: { labelAlign: 'top' },
+                    items: [
+                        { xtype: 'checkbox', name: 'ativo', fieldLabel: 'Ativo', width: 50, inputValue: 1, checked: true },
+                        { xtype: 'numberfield', name: 'codigo', minValue: 0, flex: 1, fieldLabel: 'Codigo', emptyText: '0000', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4' },
+                        { xtype: 'combobox', name: 'codigoTipoDeCliente', flex: 1, fieldLabel: 'Tipo de cliente', store: tiposDeClientesStore, queryMode: 'local', valueField: 'codigo', displayField: 'nome', emptyText: 'Selecione o tipo de cliente', selectOnFocus: true, forceSelection: true }
+                    ]
+                },
+                { xtype: 'fieldcontainer', fieldLabel: '', layout: 'hbox', defaults: { labelAlign: 'top' },
+                    items: [
+                        { xtype: 'textfield', name: 'nome', flex: 1, fieldLabel: 'Nome', emptyText: 'Digite o nome do cliente', maxLength: 50, margins: '0 4 0 0'},
+                        { xtype: 'textfield', name: 'conjuge', flex: 1, fieldLabel: 'Conjuge', emptyText: 'Digite o nome do cônjuge', maxLength: 50 }
+                    ]
+                },
+                { xtype: 'fieldcontainer', fieldLabel: '', layout: 'hbox', defaults: { labelAlign: 'top', margins: '0 4 0 0' },
+                    items: [
+                        { xtype: 'radiogroup', fieldLabel: 'Sexo', width: 200, items: [{ xtype: 'radio', boxLabel: 'Masculino', inputValue: 1, name: 'sexo', checked: true }, { xtype: 'radio', boxLabel: 'Feminino', inputValue: 2, name: 'sexo'}] },
+                        { xtype: 'datefield', name: 'dataDeNascimento', flex: 1, fieldLabel: 'Nascimento', emptyText: 'dd/mm/aaaa', format: 'd/m/Y' },
+                        { xtype: 'textfield', name: 'rg', flex: 1, fieldLabel: 'RG', emptyText: 'Digite o RG', maxLength: 12 },
+                        { xtype: 'textfield', name: 'cpf', flex: 1, fieldLabel: 'CPF', emptyText: 'Digite o CPF', maxLength: 14, margins: '0' }
+                    ]
+                }
             ],
             buttonAlign: 'center',
             buttons: [{
@@ -119,7 +132,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
                 text: 'Observa&ccedil;&otilde;es',
                 tooltip: {
                     title: 'Observa&ccedil;&otilde;es dos clientes',
-                    text: 'Visializar a descri&ccedil;&atilde;o de cada registro na listagem'
+                    text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem'
                 }
             }],
             bbar: Ext.create('Ext.PagingToolbar', {
@@ -150,7 +163,6 @@ Ext.define('App.view.clientes.ClientesSearchView', {
 
         //--------------------------------------------------------------------
         var mainPanel = Ext.create('Ext.panel.Panel', {
-            border: false,
             layout: 'border',
             items: [formFiltros,gridClientes]
         });

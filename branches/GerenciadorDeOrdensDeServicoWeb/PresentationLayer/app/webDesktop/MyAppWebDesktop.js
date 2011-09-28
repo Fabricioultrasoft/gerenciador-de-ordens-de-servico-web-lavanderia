@@ -26,6 +26,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.usuarios.UsuariosSearchView',
         'App.view.ordensDeServico.OrdensDeServicoView',
         'App.view.ordensDeServico.OrdensDeServicoAddView',
+        'App.view.ordensDeServico.OrdensDeServicoSearchView',
         'App.view.ordensDeServico.OrdensDeServicoClienteSearchView',
         'App.view.ordensDeServico.ItensView'
     ],
@@ -42,6 +43,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         return [
             new App.view.ordensDeServico.OrdensDeServicoView(),
             new App.view.ordensDeServico.OrdensDeServicoAddView(),
+            new App.view.ordensDeServico.OrdensDeServicoSearchView(),
             new App.view.ordensDeServico.OrdensDeServicoClienteSearchView(),
             new App.view.ordensDeServico.ItensView(),
             new App.view.clientes.ClientesView(),
@@ -78,7 +80,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
                 data: [
                     { name: 'Tapetes', iconCls: 'tapete', module: 'module-tapetes' },
                     { name: 'Clientes', iconCls: 'clientes', module: 'module-clientes-search' },
-                    { name: 'Servi&ccedil;os', iconCls: 'servicos', module: 'module-servicos-search' }
+                    { name: 'Servi&ccedil;os', iconCls: 'servicos', module: 'module-servicos-search' },
+                    { name: 'Ordens de Servi&ccedil;o', iconCls: 'ordens-de-servico', module: 'module-ordensDeServico-search' }
                 ]
             }),
 
