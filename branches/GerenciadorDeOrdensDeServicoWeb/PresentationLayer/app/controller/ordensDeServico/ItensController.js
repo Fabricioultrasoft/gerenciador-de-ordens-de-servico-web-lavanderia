@@ -2,11 +2,11 @@
 Ext.define('App.controller.ordensDeServico.ItensController', {
     extend: 'Ext.app.Controller',
 
-    models: ['ordensDeServico.ItemModel','ordensDeServico.ItemServicoModel','servicos.ServicoEspecificoModel'],
+    models: ['ordensDeServico.ItemModel','ordensDeServico.ServicoDoItemModel','servicos.ServicoEspecificoModel'],
 
     views: ['ordensDeServico.ItensView'],
 
-    stores: ['ordensDeServico.ItensStore','ordensDeServico.ItensServicosStore','servicos.ServicosEspecificosStore'],
+    stores: ['ordensDeServico.ItensStore','ordensDeServico.ServicosDoItemStore','servicos.ServicosEspecificosStore'],
 
     init: function () {
         this.control({
@@ -123,7 +123,7 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
 
         Ext.Msg.show({
             title: 'Excluir servi&ccedil;o',
-            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Servi&ccedil;o: ' + servico.nomeServico + '<br />Valor: ' + servico.valor,
+            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Servi&ccedil;o: ' + servico.nomeServico + '<br />Valor: ' + Ext.util.Format.brMoney(servico.valor),
             buttons: Ext.Msg.YESNO,
             fn: function (buttonId) {
                 if (buttonId == 'yes') {
@@ -234,7 +234,7 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
                 quantidade_m_m2: values.quantidade_m_m2,
                 valor: values.valor,
                 servico: servico
-            }, 'App.model.ordensDeServico.ItemServicoModel');
+            }, 'App.model.ordensDeServico.ServicoDoItemModel');
 
             btn.scope.grid.getStore().add(record);
         }

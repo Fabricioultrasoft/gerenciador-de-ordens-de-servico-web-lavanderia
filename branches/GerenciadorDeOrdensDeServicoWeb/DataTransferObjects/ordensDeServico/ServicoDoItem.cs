@@ -5,21 +5,21 @@ using System.Web;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.servicos;
 
 namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
-	public class ItemServico {
+	public class ServicoDoItem {
 
 		private UInt32 _codigo;
 		private Servico _servico;
 		private double _quantidade_m_m2; // quantidade de metros ou metros quadrados em que será realizado o serviço no tapete
 		private double _valor;
 
-		public ItemServico() {
+		public ServicoDoItem() {
 			_codigo = 0;
 			_servico = new Servico();
 			_quantidade_m_m2 = 0;
 			_valor = 0;
 		}
 
-		public ItemServico(UInt32 codigo, Servico servico, double quantidade_m_m2, double valor ) {
+		public ServicoDoItem(UInt32 codigo, Servico servico, double quantidade_m_m2, double valor ) {
 			_codigo = codigo;
 			_servico = servico;
 			_quantidade_m_m2 = quantidade_m_m2;

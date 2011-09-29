@@ -88,8 +88,8 @@ Ext.define('App.view.clientes.ClientesSearchView', {
             buttonAlign: 'center',
             buttons: [{
                 itemId: 'btnSearchCliente',
-                text: 'Procurar', 
-                iconCls: 'search',
+                text: 'Filtrar', 
+                iconCls: 'filtro',
                 scope: this
             }, {
                 itemId: 'btnLimparFiltros',

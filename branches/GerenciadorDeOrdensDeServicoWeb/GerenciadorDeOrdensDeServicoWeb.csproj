@@ -84,7 +84,7 @@
     <Content Include="PresentationLayer\app\model\enderecos\PaisModel.js" />
     <Content Include="PresentationLayer\app\model\enderecos\TipoDeLogradouroModel.js" />
     <Content Include="PresentationLayer\app\model\ordensDeServico\ItemModel.js" />
-    <Content Include="PresentationLayer\app\model\ordensDeServico\ItemServicoModel.js" />
+    <Content Include="PresentationLayer\app\model\ordensDeServico\ServicoDoItemModel.js" />
     <Content Include="PresentationLayer\app\model\ordensDeServico\OrdemDeServicoModel.js" />
     <Content Include="PresentationLayer\app\controller\ordensDeServico\OrdensDeServicoClienteSearchController.js" />
     <Content Include="PresentationLayer\app\model\ordensDeServico\StatusModel.js" />
@@ -103,7 +103,7 @@
     <Content Include="PresentationLayer\app\store\enderecos\LogradourosStore.js" />
     <Content Include="PresentationLayer\app\store\enderecos\PaisesStore.js" />
     <Content Include="PresentationLayer\app\store\enderecos\TiposDeLogradourosStore.js" />
-    <Content Include="PresentationLayer\app\store\ordensDeServico\ItensServicosStore.js" />
+    <Content Include="PresentationLayer\app\store\ordensDeServico\ServicosDoItemStore.js" />
     <Content Include="PresentationLayer\app\store\ordensDeServico\ItensStore.js" />
     <Content Include="PresentationLayer\app\store\ordensDeServico\OrdensDeServicoStore.js" />
     <Content Include="PresentationLayer\app\store\ordensDeServico\StatusStore.js" />
@@ -1813,6 +1813,7 @@
     <Content Include="PresentationLayer\resources\images\btn-settings.png" />
     <Content Include="PresentationLayer\resources\images\btn-limpar.png" />
     <Content Include="PresentationLayer\resources\images\btn-detalhes.gif" />
+    <Content Include="PresentationLayer\resources\images\cancel.png" />
     <Content Include="PresentationLayer\resources\images\clientes-del-thumb.png" />
     <Content Include="PresentationLayer\resources\images\clientes-thumb.png" />
     <Content Include="PresentationLayer\resources\images\clientes-dados.png" />
@@ -1828,6 +1829,7 @@
     <Content Include="PresentationLayer\resources\images\clientes-tipos-search.png" />
     <Content Include="PresentationLayer\resources\images\clientes-tipos.png" />
     <Content Include="PresentationLayer\resources\images\clientes.png" />
+    <Content Include="PresentationLayer\resources\images\concluido.png" />
     <Content Include="PresentationLayer\resources\images\confirm.png" />
     <Content Include="PresentationLayer\resources\images\del-thumb.png" />
     <Content Include="PresentationLayer\resources\images\dinheiro-add.png" />
@@ -1926,7 +1928,7 @@
     <Compile Include="DataTransferObjects\enderecos\TipoDeLogradouro.cs" />
     <Compile Include="DataTransferObjects\Erro.cs" />
     <Compile Include="DataTransferObjects\ordensDeServico\Item.cs" />
-    <Compile Include="DataTransferObjects\ordensDeServico\ItemServico.cs" />
+    <Compile Include="DataTransferObjects\ordensDeServico\ServicoDoItem.cs" />
     <Compile Include="DataTransferObjects\ordensDeServico\OrdemDeServico.cs" />
     <Compile Include="DataTransferObjects\ordensDeServico\Status.cs" />
     <Compile Include="DataTransferObjects\servicos\Servico.cs" />

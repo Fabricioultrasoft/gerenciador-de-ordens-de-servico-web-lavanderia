@@ -60,8 +60,8 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                     items: [
                         { xtype: 'numberfield', name: 'numero', flex : 1, fieldLabel: 'Numero', emptyText: 'Numero da OS', minValue: 0, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                         { xtype: 'combobox', name: 'codigoStatus', flex : 1, fieldLabel: 'Status', store: statusStore, queryMode: 'local', valueField: 'codigo', displayField: 'nome', emptyText: 'Selecione o status', selectOnFocus: true, forceSelection: true },
-                        { xtype: 'numberfield', flex : 1, itemId: 'valOriginalSearchOS', name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'R$0.00', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                        { xtype: 'numberfield', flex : 1, itemId: 'ValFinalSearchOS', name: 'valorFinal', fieldLabel: 'Valor Final/Com Desconto', emptyText: 'R$0.00', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0' }
+                        { xtype: 'numberfield', flex : 1, name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'R$ 0.00', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                        { xtype: 'numberfield', flex : 1, name: 'valorFinal', fieldLabel: 'Valor Final/Com Desconto', emptyText: 'R$ 0.00', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0' }
                     ]
                 },
                 { xtype: 'fieldcontainer', fieldLabel: '', layout: 'hbox', defaults: { labelAlign: 'top' },
@@ -73,8 +73,8 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true },
                     items: [
-                        { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                        { xtype: 'textfield', itemId:'moduleAddOS_nomeCliente', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', margins: '0 4' },
+                        { xtype: 'numberfield', itemId:'codigoClienteSearchOS', width: 60, name: 'codigoCliente', emptyText: 'Codigo', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                        { xtype: 'textfield', itemId:'nomeClienteSearchOS', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', margins: '0 4' },
                         { xtype: 'button', text: 'Add', itemId: 'btnClienteSearchOS', iconCls: 'clientes-add-thumb', scope: this }
                     ]
                 }
@@ -82,8 +82,8 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
             buttonAlign: 'center',
             buttons: [{
                 itemId: 'btnSearchOS',
-                text: 'Procurar', 
-                iconCls: 'lupa',
+                text: 'Filtrar', 
+                iconCls: 'filtro',
                 scope: this
             }, {
                 itemId: 'btnLimparFiltrosOS',
@@ -112,14 +112,14 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                 { header: 'Encerramento', dataIndex: 'dataDeEncerramento' }
             ],
             tbar: [
-                { itemId: 'btnAddOS', text: 'Adicionar', iconCls: 'clientes-add-thumb', scope: this, handler : function() { this.app.getModule("module-clientes-add").createWindow({store:clientesStore}); } },
-                { itemId: 'btnEditOS', text: 'Editar', iconCls: 'clientes-edit-thumb', scope: this, disabled: true },
-                { itemId: 'btnDelOS', text: 'Remover', iconCls: 'clientes-del-thumb', scope: this, disabled: true },
+                { itemId: 'btnAddOS', text: 'Adicionar', iconCls: 'os-add', scope: this },
+                { itemId: 'btnEditOS', text: 'Editar', iconCls: 'os-thumb', scope: this, disabled: true },
+                { itemId: 'btnDelOS', text: 'Remover', iconCls: 'os-del', scope: this, disabled: true },
                 { itemId: 'btnShowDescricaoOS', iconCls: 'btn-detalhes', scope: this, pressed: false, enableToggle: true, text: 'Observa&ccedil;&otilde;es', tooltip: { title: 'Observa&ccedil;&otilde;es das Ordens de Servi&ccedil;o', text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem' } },
                 '->',
-                { itemId: 'btnViewOS', text: 'Visualizar', iconCls: 'clientes-del-thumb', scope: this, disabled: true },
-                { itemId: 'btnFinalizarOS', text: 'Finalizar', iconCls: 'clientes-del-thumb', scope: this, disabled: true },
-                { itemId: 'btnCancelarOS', text: 'Cancelar', iconCls: 'clientes-del-thumb', scope: this, disabled: true }
+                { itemId: 'btnViewOS', text: 'Visualizar', iconCls: 'lupa', scope: this, disabled: true },
+                { itemId: 'btnFinalizarOS', text: 'Finalizar', iconCls: 'concluido', scope: this, disabled: true },
+                { itemId: 'btnCancelarOS', text: 'Cancelar', iconCls: 'cancel', scope: this, disabled: true }
             ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: ordensDeServicoStore,
@@ -149,5 +149,10 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
         this.mainPanel = mainPanel;
 
         return mainPanel;
+    },
+
+    setCliente: function(cliente) {
+        this.form.down('#codigoClienteSearchOS').setValue(cliente.codigo);
+        this.form.down('#nomeClienteSearchOS').setValue(cliente.nome);
     }
 });

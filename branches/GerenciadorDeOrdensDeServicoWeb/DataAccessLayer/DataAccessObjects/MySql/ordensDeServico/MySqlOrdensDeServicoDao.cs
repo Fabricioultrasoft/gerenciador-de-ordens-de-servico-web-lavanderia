@@ -98,6 +98,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
+		public static List<Status> selectStatus() {
+			List<Status> statusList = new List<Status>();
+			StringBuilder sql = new StringBuilder();
+
+			return statusList;
+		}
+
 		private static MySqlFilter getFilter( List<Filter> filters ) {
 			
 			MySqlFilter mySqlfilter = new MySqlFilter();

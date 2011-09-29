@@ -10,7 +10,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 		private UInt32 _codigo;
 		private UInt32 _codigoOrdemDeServico;
 		private Tapete _tapete;
-		private List<ItemServico> _itensServicos;
+		private List<ServicoDoItem> _servicosDoItem;
 		private float _comprimento;
 		private float _largura;
 		private double _area;
@@ -27,7 +27,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_area = 0;
 			_valor = 0;
 			_m_m2 = 0;
-			_itensServicos = new List<ItemServico>();
+			_servicosDoItem = new List<ServicoDoItem>();
 			_observacoes = String.Empty;
 		}
 
@@ -40,7 +40,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_area = comprimento * largura;
 			_valor = 0;
 			_m_m2 = 0;
-			_itensServicos = new List<ItemServico>();
+			_servicosDoItem = new List<ServicoDoItem>();
 			_observacoes = observacoes;
 		}
 
@@ -56,9 +56,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			get { return _tapete; }
 			set { _tapete = value; }
 		}
-		public List<ItemServico> itensServicos {
-			get { return _itensServicos; }
-			set { _itensServicos = value; }
+		public List<ServicoDoItem> servicosDoItem {
+			get { return _servicosDoItem; }
+			set { _servicosDoItem = value; }
 		}
 		public float comprimento {
 			get { return _comprimento; }

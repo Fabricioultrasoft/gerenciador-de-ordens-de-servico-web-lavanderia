@@ -375,6 +375,31 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			return servico;
 		}
 
+		public static String servicoEspecificoToJson( Servico servicoEspecifico ) {
+
+			if( servicoEspecifico.valores.Count <= 0 ) {
+				return "{}";
+			}
+
+			StringBuilder json = new StringBuilder();
+			
+			json.Append("{");
+			json.AppendFormat(" \"codigo\": {0}, ", servicoEspecifico.codigo);
+			json.AppendFormat(" \"nome\": \"{0}\", ", servicoEspecifico.nome);
+			json.AppendFormat(" \"descricao\": \"{0}\", ", servicoEspecifico.descricao);
+			json.AppendFormat(" \"codigoCobradoPor\": {0}, ", (int) servicoEspecifico.cobradoPor);
+			json.AppendFormat(" \"nomeCobradoPor\": \"{0}\", ", servicoEspecifico.cobradoPor);
+			json.AppendFormat(" \"codigoTapete\": {0}, ", servicoEspecifico.valores[0].tapete.codigo);
+			json.AppendFormat(" \"nomeTapete\": \"{0}\", ", servicoEspecifico.valores[0].tapete.nome);
+			json.AppendFormat(" \"codigoTipoDeCliente\": {0}, ", servicoEspecifico.valores[0].tipoDeCliente.codigo);
+			json.AppendFormat(" \"nomeTipoDeCliente\": \"{0}\", ", servicoEspecifico.valores[0].tipoDeCliente.nome);
+			json.AppendFormat(" \"valor\": {0} ", servicoEspecifico.valores[0].valorInicial.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+			json.AppendFormat(" \"valorAcima10m2\": {0} ", servicoEspecifico.valores[0].valorAcima10m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+			json.Append("}");
+
+			return json.ToString();
+		}
+
 		private static List<ValorDeServico> recuperarValores( Object objJson, JavaScriptSerializer js ) {
 			List<ValorDeServico> valores = new List<ValorDeServico>();
 			StringBuilder valoresJson = new StringBuilder();

@@ -67,7 +67,7 @@ Ext.define('App.view.ordensDeServico.ItensView', {
             title: 'Servi&ccedil;os que ser&atilde;o realizados no Tapete',
             iconCls: 'servicos-thumb',
             region: 'center',
-            store: Ext.create('App.store.ordensDeServico.ItensServicosStore', {}),
+            store: Ext.create('App.store.ordensDeServico.ServicosDoItemStore', {}),
             style: { borderTop: '1px solid #99BCE8' },
             columns: [
                 { text: 'Cod. Item', dataIndex: 'codigoitem', hidden: true },

@@ -63,6 +63,25 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 			return listaDeErros;
 		}
 
+		public static List<Erro> preencher( out List<Status> statusList ) {
+			List<Erro> listaDeErros = new List<Erro>();
+			try {
+				statusList = MySqlOrdensDeServicoDao.selectStatus();
+			} catch( MySqlException ex ) {
+				// se houver um erro, preenche uma lista vazia
+				statusList = new List<Status>();
+
+				if( ex.Number == 1042 ) {
+					listaDeErros.Add( new Erro( 1042 ) );
+				} else {
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
+				}
+			}
+			return listaDeErros;
+		}
+
 		public static List<Erro> atualizar( ref List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {

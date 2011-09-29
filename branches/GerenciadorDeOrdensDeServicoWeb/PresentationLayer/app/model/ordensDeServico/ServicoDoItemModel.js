@@ -1,5 +1,5 @@
 ﻿
-Ext.define('App.model.ordensDeServico.ItemServicoModel',{
+Ext.define('App.model.ordensDeServico.ServicoDoItemModel',{
     extend: 'Ext.data.Model',
     idProperty : 'codigo',
     fields: [

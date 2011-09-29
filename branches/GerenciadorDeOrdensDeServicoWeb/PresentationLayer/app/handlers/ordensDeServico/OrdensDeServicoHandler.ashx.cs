@@ -9,6 +9,7 @@ using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico;
 using System.Web.Script.Serialization;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.sql;
 using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servicos;
+using System.Globalization;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensDeServico {
 	/// <summary>
@@ -49,6 +50,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 				case "destroy":
 					response = destroyOrdensDeServico( context.Request.Form["records"] );
 					break;
+				case "readStatus":
+					response = readStatus();
+					break;
 			}
 
 			context.Response.ContentType = "application/json";
@@ -75,8 +79,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 			jsonResposta.AppendLine( " \"data\": [" );
 			foreach( OrdemDeServico os in ordensDeServico ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.Append( "}," );
+				jsonResposta.Append( ordemDeServicoToJson(os) ).Append( "," );
 			}
 			if( ordensDeServico.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -127,8 +130,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 			jsonResposta.AppendLine( " \"data\": [" );
 			foreach( OrdemDeServico os in ordensDeServico ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.Append( "}," );
+				jsonResposta.Append( ordemDeServicoToJson(os) ).Append( "," );
 			}
 			if( ordensDeServico.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -160,8 +162,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 			jsonResposta.AppendLine( " \"data\": [" );
 			foreach( OrdemDeServico os in ordensDeServico ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.Append( "}," );
+				jsonResposta.Append( ordemDeServicoToJson(os) ).Append( "," );
 			}
 			if( ordensDeServico.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
 			jsonResposta.Append( "]" );
@@ -195,6 +196,93 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			#endregion
 
 			return jsonResposta.ToString();
+		}
+
+		private String readStatus() {
+			List<Status> statusList = new List<Status>();
+			List<Erro> erros = GerenciadorDeOrdensDeServico.preencher( out statusList );
+			StringBuilder jsonResposta = new StringBuilder();
+
+			#region CONSTROI O JSON
+			formatarSaida( ref statusList );
+			jsonResposta.AppendLine( "{" );
+			jsonResposta.AppendLine( " \"total\": " + statusList.Count + "," );
+
+			if( erros.Count == 0 ) {
+				jsonResposta.AppendLine( " \"success\": true," );
+				jsonResposta.AppendLine( " \"message\": [\"Foram encontrados " + statusList.Count + " registros\"]," );
+			} else {
+				jsonResposta.AppendLine( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+			}
+
+			jsonResposta.AppendLine( " \"data\": [" );
+			foreach( Status status in statusList ) {
+				jsonResposta.Append( "{" );
+				jsonResposta.AppendFormat( " \"codigo\": {0}, ", status.codigo );
+				jsonResposta.AppendFormat( " \"nome\": \"{0}\" ", status.nome );
+				jsonResposta.Append( "}," );
+			}
+			if( statusList.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
+			jsonResposta.Append( "]" );
+
+			// fim do json
+			jsonResposta.AppendLine( "}" );
+			#endregion
+
+			return jsonResposta.ToString();
+		}
+
+		public String ordemDeServicoToJson( OrdemDeServico os ) {
+			StringBuilder json = new StringBuilder();
+
+			json.Append("{");
+			json.AppendFormat(" \"codigo\": {0}, ", os.codigo);
+			json.AppendFormat(" \"numero\": {0}, ", os.numero);
+			json.AppendFormat(" \"valorOriginal\": {0}, ", os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+			json.AppendFormat(" \"valorFinal\": {0}, ", os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+			json.AppendFormat(" \"codigoStatus\": {0}, ", os.status.codigo);
+			json.AppendFormat(" \"nomeStatus\": \"{0}\", ", os.status.nome);
+			json.AppendFormat(" \"dataDeAbertura\": \"{0}\", ", os.dataDeAbertura);
+			json.AppendFormat(" \"previsaoDeConclusao\": \"{0}\", ", os.previsaoDeConclusao);
+			json.AppendFormat(" \"dataDeEncerramento\": \"{0}\", ", os.dataDeEncerramento);
+			json.AppendFormat(" \"observacoes\": \"{0}\", ", os.observacoes);
+			json.AppendFormat(" \"codigoCliente\": {0}, ", os.cliente.codigo);
+			json.AppendFormat(" \"nomeCliente\": \"{0}\", ", os.cliente.nome);
+			
+			json.Append(" \"itens\": [" );
+			foreach(Item item in os.itens) {
+				json.Append( "{" );
+				json.AppendFormat(" \"codigo\": {0}, ", item.codigo);
+				json.AppendFormat(" \"codigoOrdemDeServico\": {0}, ", os.codigo);
+				json.AppendFormat(" \"codigoTapete\": {0}, ", item.tapete.codigo);
+				json.AppendFormat(" \"nomeTapete\": \"{0}\", ", item.tapete.nome);
+				json.AppendFormat(" \"comprimento\": {0}, ", item.comprimento.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+				json.AppendFormat(" \"largura\": {0}, ", item.largura.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+				json.AppendFormat(" \"area\": {0}, ", item.area.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+				json.AppendFormat(" \"valor\": {0}, ", item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+				json.AppendFormat(" \"observacoes\": \"{0}\", ", item.observacoes);
+
+				json.Append(" \"servicosDoItem\": [" );
+				foreach( ServicoDoItem servicoDoItem in item.servicosDoItem ) {
+					json.Append( "{" );
+					json.AppendFormat(" \"codigo\": {0}, ", servicoDoItem.codigo);
+					json.AppendFormat(" \"codigoItem\": {0}, ", item.codigo);
+					json.AppendFormat(" \"codigoServico\": {0}, ", servicoDoItem.servico.codigo);
+					json.AppendFormat(" \"nomeServico\": \"{0}\", ", servicoDoItem.servico.nome);
+					json.AppendFormat( " \"servico\": {0}, ", ServicosHandler.servicoEspecificoToJson( servicoDoItem.servico ) );
+					json.AppendFormat(" \"quantidade_m_m2\": {0}, ", servicoDoItem.quantidade_m_m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+					json.AppendFormat(" \"valor\": {0} ", servicoDoItem.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+					json.Append( "}," );
+				}
+				if( item.servicosDoItem.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
+				json.Append( "]}," );
+
+			}
+			if( os.itens.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
+			json.Append("]}");
+
+			return json.ToString();
 		}
 
 		public static List<OrdemDeServico> jsonToOrdensDeServico( String json ) {
@@ -248,15 +336,15 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			return ordensDeServico;
 		}
 
-		public static List<ItemServico> jsonToServicosDoItem( Object json, JavaScriptSerializer js ) {
-			List<ItemServico> itensServicos = new List<ItemServico>();
+		public static List<ServicoDoItem> jsonToServicosDoItem( Object json, JavaScriptSerializer js ) {
+			List<ServicoDoItem> itensServicos = new List<ServicoDoItem>();
 			StringBuilder servicosJson = new StringBuilder();
 			js.Serialize( json, servicosJson );
 
 			List<Dictionary<String, Object>> list = js.Deserialize<List<Dictionary<String, Object>>>( servicosJson.ToString() );
 
 			foreach( Dictionary<String, Object> servicosDoItemTemp in list ) {
-				ItemServico servicoDoItem = new ItemServico();
+				ServicoDoItem servicoDoItem = new ServicoDoItem();
 
 				servicoDoItem.codigo = UInt32.Parse(servicosDoItemTemp["codigo"].ToString());
 				servicoDoItem.quantidade_m_m2 = UInt32.Parse(servicosDoItemTemp["quantidade_m_m2"].ToString());
@@ -272,6 +360,18 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 		public static void formatarSaida( ref List<OrdemDeServico> ordensDeServico ) {
 			for( int i = 0; i < ordensDeServico.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<OrdemDeServico>( ordensDeServico[i] );
+			}
+		}
+
+		public static void formatarSaida( ref List<Item> itens ) {
+			for( int i = 0; i < itens.Count; i++ ) {
+				Compartilhado.tratarCaracteresEspeciais<Item>( itens[i] );
+			}
+		}
+
+		public static void formatarSaida( ref List<Status> statusList ) {
+			for( int i = 0; i < statusList.Count; i++ ) {
+				Compartilhado.tratarCaracteresEspeciais<Status>( statusList[i] );
 			}
 		}
 
