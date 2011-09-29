@@ -65,7 +65,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			List<Erro> erros = GerenciadorDeOrdensDeServico.cadastrar( ref ordensDeServico );
 
 			#region CONSTROI O JSON
-			formatarSaida( ref ordensDeServico );
+			formatarSaida( ordensDeServico );
 			jsonResposta.AppendLine( "{" );
 			jsonResposta.AppendLine( " \"total\": " + ordensDeServico.Count + "," );
 
@@ -116,7 +116,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
-			formatarSaida( ref ordensDeServico );
+			formatarSaida( ordensDeServico );
 			jsonResposta.AppendLine( "{" );
 			jsonResposta.AppendLine( " \"total\": " + qtdRegistros + "," );
 
@@ -148,7 +148,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			List<Erro> erros = GerenciadorDeOrdensDeServico.atualizar( ref ordensDeServico );
 
 			#region CONSTROI O JSON
-			formatarSaida( ref ordensDeServico );
+			formatarSaida( ordensDeServico );
 			jsonResposta.AppendLine( "{" );
 			jsonResposta.AppendLine( " \"total\": " + ordensDeServico.Count + "," );
 
@@ -180,7 +180,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			List<Erro> erros = GerenciadorDeOrdensDeServico.excluir( ordensDeServico );
 
 			#region CONSTROI O JSON
-			formatarSaida( ref ordensDeServico );
+			formatarSaida( ordensDeServico );
 			jsonResposta.AppendLine( "{" );
 			jsonResposta.AppendLine( " \"total\": " + ordensDeServico.Count + "," );
 
@@ -204,7 +204,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
-			formatarSaida( ref statusList );
+			formatarSaida( statusList );
 			jsonResposta.AppendLine( "{" );
 			jsonResposta.AppendLine( " \"total\": " + statusList.Count + "," );
 
@@ -235,6 +235,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 		public String ordemDeServicoToJson( OrdemDeServico os ) {
 			StringBuilder json = new StringBuilder();
+			formatarSaida( os.itens );
 
 			json.Append("{");
 			json.AppendFormat(" \"codigo\": {0}, ", os.codigo);
@@ -252,6 +253,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			
 			json.Append(" \"itens\": [" );
 			foreach(Item item in os.itens) {
+
 				json.Append( "{" );
 				json.AppendFormat(" \"codigo\": {0}, ", item.codigo);
 				json.AppendFormat(" \"codigoOrdemDeServico\": {0}, ", os.codigo);
@@ -325,7 +327,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 					item.observacoes = itensTemp["observacoes"].ToString();
 
 
-					item.itensServicos.AddRange( jsonToServicosDoItem( itensTemp["servicosDoItem"], js ) );
+					item.servicosDoItem.AddRange( jsonToServicosDoItem( itensTemp["servicosDoItem"], js ) );
 					
 					ordem.itens.Add( item );
 				}
@@ -357,19 +359,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			return itensServicos;
 		}
 
-		public static void formatarSaida( ref List<OrdemDeServico> ordensDeServico ) {
+		public static void formatarSaida( List<OrdemDeServico> ordensDeServico ) {
 			for( int i = 0; i < ordensDeServico.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<OrdemDeServico>( ordensDeServico[i] );
 			}
 		}
 
-		public static void formatarSaida( ref List<Item> itens ) {
+		public static void formatarSaida( List<Item> itens ) {
 			for( int i = 0; i < itens.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<Item>( itens[i] );
 			}
 		}
 
-		public static void formatarSaida( ref List<Status> statusList ) {
+		public static void formatarSaida( List<Status> statusList ) {
 			for( int i = 0; i < statusList.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<Status>( statusList[i] );
 			}

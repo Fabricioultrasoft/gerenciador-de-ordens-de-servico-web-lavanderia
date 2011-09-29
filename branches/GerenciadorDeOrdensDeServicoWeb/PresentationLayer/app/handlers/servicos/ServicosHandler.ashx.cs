@@ -76,7 +76,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
-			formatarSaidaServicos( ref servicos );
+			formatarSaida( servicos );
 			jsonResposta.Append( "{" );
 			jsonResposta.Append( "    \"total\": " + servicos.Count + "," );
 
@@ -117,7 +117,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
-			formatarSaidaServicos( ref servicos );
+			formatarSaida( servicos );
 			jsonResposta.Append( "{" );
 			jsonResposta.Append( "    \"total\": " + qtdRegistros + "," );
 
@@ -159,7 +159,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 
 			#region CONSTROI O JSON
 			Compartilhado.tratarCaracteresEspeciais<Servico>( servico );
-			formatarSaidaValores( servico.valores );
+			formatarSaida( servico.valores );
 
 			jsonResposta.Append( "{" );
 			jsonResposta.Append( "    \"total\": 1," );
@@ -194,7 +194,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
-			formatarSaidaServicos( ref servicos );
+			formatarSaida( servicos );
 			jsonResposta.Append( "{" );
 			jsonResposta.Append( "    \"total\": " + servicos.Count + "," );
 
@@ -238,7 +238,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			List<Erro> erros = GerenciadorDeServicos.atualizarListaDeServicos( ref servicos );
 
 			#region CONSTROI O JSON
-			formatarSaidaServicos( ref servicos );
+			formatarSaida( servicos );
 			jsonResposta.AppendLine( "{" );
 			jsonResposta.AppendLine( "    \"total\": " + servicos.Count + "," );
 
@@ -276,7 +276,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			List<Erro> erros = GerenciadorDeServicos.excluirListaDeServicos( servicos );
 
 			#region CONSTROI O JSON
-			formatarSaidaServicos( ref servicos );
+			formatarSaida( servicos );
 			jsonResposta.Append( "{" );
 			jsonResposta.Append( "    \"total\": " + servicos.Count + "," );
 
@@ -295,13 +295,17 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 
 		}
 
-		public static void formatarSaidaServicos( ref List<Servico> servicos ) {
+		public static void formatarSaida( Servico servico ) {
+			Compartilhado.tratarCaracteresEspeciais<Servico>( servico );
+		}
+
+		public static void formatarSaida( List<Servico> servicos ) {
 			for( int i = 0; i < servicos.Count; i++ ) {
-				Compartilhado.tratarCaracteresEspeciais<Servico>( servicos[i] );
+				formatarSaida( servicos[i] );
 			}
 		}
 
-		public static void formatarSaidaValores( List<ValorDeServico> valores ) {
+		public static void formatarSaida( List<ValorDeServico> valores ) {
 			for( int i = 0; i < valores.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<ValorDeServico>( valores[i] );
 			}
@@ -382,7 +386,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			}
 
 			StringBuilder json = new StringBuilder();
-			
+			formatarSaida( servicoEspecifico );
+
 			json.Append("{");
 			json.AppendFormat(" \"codigo\": {0}, ", servicoEspecifico.codigo);
 			json.AppendFormat(" \"nome\": \"{0}\", ", servicoEspecifico.nome);
