@@ -13,6 +13,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.sql {
 			_value = String.Empty;
 		}
 
+		public Filter( String property, String value ) {
+			_property = property;
+			_value = value;
+		}
+
 		public String property {
 			get { return _property; }
 			set { _property = value; }

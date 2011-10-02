@@ -30,6 +30,32 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
         return win;
     },
 
+    createViewOSWindow: function ( ordemDeServico ) {
+
+        var desktop = this.app.getDesktop();
+        var win = desktop.getWindow('win-viewOS-' + ordemDeServico.numero);
+        if (!win) {
+            win = desktop.createWindow({
+                id: 'win-viewOS-' + ordemDeServico.numero,
+                title: 'Ordens de Serviço - Numero: <span style="color:red;">' + ordemDeServico.numero + '</span>',
+                width: 700,
+                height: 580,
+                iconCls: 'os-thumb',
+                animCollapse: false,
+                constrainHeader: true,
+                loader: {
+                    autoLoad: true,
+                    url: '/PresentationLayer/app/view/ordensDeServico/OrdemDeServicoViewTpl.aspx',
+                    loadMask: true,
+                    params: { numero: ordemDeServico.numero }
+                }
+            });
+        }
+        win.show();
+
+        return win;
+    },
+
     createPanel: function () {
         
         var ordensDeServicoStore = Ext.create('App.store.ordensDeServico.OrdensDeServicoStore', { remoteFilter:true, remoteSort: true});

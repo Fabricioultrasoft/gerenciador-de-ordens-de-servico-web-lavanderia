@@ -33,6 +33,15 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
             },
             '#btnClienteSearchOS': {
                 click: this.onClienteSearchOSClick
+            },
+            '#btnViewOS': {
+                click: this.onViewOSClick
+            },
+            '#btnFinalizarOS': {
+                click: this.onFinalizarOSClick
+            },
+            '#btnCancelarOS': {
+                click: this.onCancelarOSClick
             }
         });
     },
@@ -81,12 +90,14 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
         var sm = btn.scope.grid.getSelectionModel();
 
         Ext.Msg.show({
-            title: 'Excluir Ordem de Servi7ccedil;o',
+            title: 'Excluir Ordem de Servi&ccedil;o',
             msg: '<b>Tem certeza de que deseja excluir este registro?</b>'
                + '<br />Numero: ' + sm.getSelection()[0].data.numero 
                + '<br />Cliente: ' + sm.getSelection()[0].data.nomeCliente
                + '<br />Valor Orig.: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorOriginal)
-               + '<br />Valor Final: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorFinal),
+               + '<br />Valor Final: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorFinal)
+               + '<br />Todas os dados ser&atilde;o apagados. Caso deseje consultar esta Ordem de Serviço posteriormente, '
+               + 'opte pela op&ccedil;&atilde;o de [Cancelar] a Ordem de Servi&ccedil;o.',
             buttons: Ext.Msg.YESNO,
             fn: function (buttonId) {
                 if (buttonId == 'yes') {
@@ -105,5 +116,60 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
 
     onClienteSearchOSClick: function(btn, event, options) {
         btn.scope.app.getModule("module-ordensDeServico-clientesSearch").createWindow(btn.scope);
+    },
+
+    onViewOSClick: function(btn, event, options) {
+        var os = btn.scope.grid.getSelectionModel().getSelection()[0].data;
+        btn.scope.createViewOSWindow(os);
+    },
+
+    onFinalizarOSClick: function(btn, event, options) {
+        var sm = btn.scope.grid.getSelectionModel();
+
+        Ext.Msg.show({
+            title: 'Finalizar Ordem de Servi&ccedil;o',
+            msg: '<b>Tem certeza de que deseja Finalizar esta Ordem de Servi&ccedil;o?</b>'
+               + '<br />Numero: ' + sm.getSelection()[0].data.numero 
+               + '<br />Cliente: ' + sm.getSelection()[0].data.nomeCliente
+               + '<br />Valor Orig.: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorOriginal)
+               + '<br />Valor Final: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorFinal)
+               + '<br />Depois de Finalizada, n&atilde;o ser&aacute; mais poss&iacute;vel editar seus dados, '
+               + 'mas ainda estar&aacute dispon&iacute;vel para visualiza&ccedil;&atilde;o.',
+            buttons: Ext.Msg.YESNO,
+            fn: function (buttonId) {
+                if (buttonId == 'yes') {
+                    var record = sm.getSelection()[0];
+                    record.set({status:2});// status FINALIZADO
+                    record.set(values);
+                    record.store.sync();
+                }
+            },
+            icon: Ext.Msg.QUESTION
+        });
+    },
+
+    onCancelarOSClick: function(btn, event, options) {
+        var sm = btn.scope.grid.getSelectionModel();
+
+        Ext.Msg.show({
+            title: 'Cancelar Ordem de Servi&ccedil;o',
+            msg: '<b>Tem certeza de que deseja Cancelar esta Ordem de Servi&ccedil;o?</b>'
+               + '<br />Numero: ' + sm.getSelection()[0].data.numero 
+               + '<br />Cliente: ' + sm.getSelection()[0].data.nomeCliente
+               + '<br />Valor Orig.: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorOriginal)
+               + '<br />Valor Final: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorFinal)
+               + '<br />Depois de Cancelada, n&atilde;o ser&aacute; mais poss&iacute;vel editar seus dados, '
+               + 'mas ainda estar&aacute dispon&iacute;vel para visualiza&ccedil;&atilde;o.',
+            buttons: Ext.Msg.YESNO,
+            fn: function (buttonId) {
+                if (buttonId == 'yes') {
+                    var record = sm.getSelection()[0];
+                    record.set({status:3});// status CANCELADO
+                    record.set(values);
+                    record.store.sync();
+                }
+            },
+            icon: Ext.Msg.WARNING
+        });
     }
 });

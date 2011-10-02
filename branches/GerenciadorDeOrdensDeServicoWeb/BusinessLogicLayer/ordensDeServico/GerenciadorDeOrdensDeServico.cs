@@ -44,6 +44,25 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 			return listaDeErros;
 		}
 
+		public static List<Erro> preencher( out OrdemDeServico ordemDeServico, List<Filter> filters ) {
+			List<Erro> listaDeErros = new List<Erro>();
+			try {
+				ordemDeServico = MySqlOrdensDeServicoDao.select( filters );
+			} catch( MySqlException ex ) {
+				// se houver um erro, preenche um Objeto vazio
+				ordemDeServico = new OrdemDeServico();
+
+				if( ex.Number == 1042 ) {
+					listaDeErros.Add( new Erro( 1042 ) );
+				} else {
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
+				}
+			}
+			return listaDeErros;
+		}
+
 		public static List<Erro> preencher( out List<OrdemDeServico> ordensDeServico, UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {

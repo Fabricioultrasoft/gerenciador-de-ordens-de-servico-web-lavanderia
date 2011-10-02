@@ -62,6 +62,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
+		public static OrdemDeServico select( List<Filter> filters ) {
+			OrdemDeServico ordemDeServico = new OrdemDeServico();
+			StringBuilder sql = new StringBuilder();
+
+			return ordemDeServico;
+		}
+
 		public static List<OrdemDeServico> select( UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
 			List<OrdemDeServico> ordensDeServico = new List<OrdemDeServico>();
 			StringBuilder sql = new StringBuilder();
