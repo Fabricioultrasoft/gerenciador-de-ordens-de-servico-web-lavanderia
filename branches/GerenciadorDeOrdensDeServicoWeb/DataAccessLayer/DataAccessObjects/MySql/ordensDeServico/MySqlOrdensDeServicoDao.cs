@@ -109,6 +109,24 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			List<Status> statusList = new List<Status>();
 			StringBuilder sql = new StringBuilder();
 
+			sql.Append("SELECT ");
+			sql.Append("	cod_status_os ");
+			sql.Append("	,nom_status_os ");
+			sql.Append( "FROM tb_status_os " );
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			MySqlCommand cmd = new MySqlCommand( sql.ToString(), conn );
+			conn.Open();
+			MySqlDataReader reader = cmd.ExecuteReader();
+
+			while( reader.Read() ) {
+				statusList.Add( new Status( reader.GetUInt32( 0 ), reader.GetString( 1 ) ));
+			}
+
+			reader.Close(); reader.Dispose();
+			cmd.Dispose();
+			conn.Close(); conn.Dispose();
+			
 			return statusList;
 		}
 

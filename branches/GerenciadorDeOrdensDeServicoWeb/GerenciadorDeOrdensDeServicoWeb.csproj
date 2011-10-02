@@ -127,6 +127,7 @@
     <Content Include="PresentationLayer\app\view\enderecos\PaisesView.js" />
     <Content Include="PresentationLayer\app\view\enderecos\TiposDeLogradourosView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\ItensView.js" />
+    <Content Include="PresentationLayer\app\view\ordensDeServico\OrdemDeServicoViewTpl.aspx" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoAddView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoClienteSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoSearchView.js" />
@@ -1841,6 +1842,7 @@
     <Content Include="PresentationLayer\resources\images\favorite-del.png" />
     <Content Include="PresentationLayer\resources\images\favorite.png" />
     <Content Include="PresentationLayer\resources\images\filtro.png" />
+    <Content Include="PresentationLayer\resources\images\gabbeh.jpg" />
     <Content Include="PresentationLayer\resources\images\itens-add.png" />
     <Content Include="PresentationLayer\resources\images\itens-del.png" />
     <Content Include="PresentationLayer\resources\images\itens-edit.png" />
@@ -1987,6 +1989,13 @@
     </Compile>
     <Compile Include="PresentationLayer\app\handlers\usuarios\UsuariosHandler.ashx.cs">
       <DependentUpon>UsuariosHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\app\view\ordensDeServico\OrdemDeServicoViewTpl.aspx.cs">
+      <DependentUpon>OrdemDeServicoViewTpl.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PresentationLayer\app\view\ordensDeServico\OrdemDeServicoViewTpl.aspx.designer.cs">
+      <DependentUpon>OrdemDeServicoViewTpl.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
