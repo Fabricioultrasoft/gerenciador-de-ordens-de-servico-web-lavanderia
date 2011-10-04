@@ -12,6 +12,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 	public class MySqlServicosDao {
 
 		#region SQL
+		private static const String SELECT_SERVICOS
+ 			= "SELECT "
+			+ "	 nom_servico "
+			+ "	,int_cobrado_por "
+			+ "	,txt_descricao "
+			+ "FROM tb_servicos ";
+
 		private const String SQL_VALORES
 			= "SELECT "
 			+ "		 cod_valor_servico "
@@ -76,23 +83,36 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return count;
 		}
 
+		public static void fillServico( UInt32 codigo,ref Servico servico, MySqlConnection conn, bool apenasDadosBasicos ) {
+			
+			MySqlCommand cmd = new MySqlCommand( SELECT_SERVICOS + " WHERE cod_servico = @codServico", conn );
+			cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = codigo;
+			
+			servico.codigo = codigo;
+
+			MySqlDataReader reader = cmd.ExecuteReader();
+			if( reader.Read() ) {
+				servico.nome = reader.GetString( "nom_servico" );
+				servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), reader.GetUInt32( "int_cobrado_por" ).ToString(), true );
+				try { servico.descricao = reader.GetString( "txt_descricao" ); } catch { }
+			}
+
+			if( !apenasDadosBasicos ) {
+				preencherValores( ref servico );
+			}
+
+			reader.Close(); reader.Dispose(); cmd.Dispose();
+		}
+
 		public static Servico getServico( UInt32 codigoServico ) {
 			return getServico( codigoServico, false );
 		}
 
 		public static Servico getServico( UInt32 codigoServico, bool apenasDadosBasicos ) {
 			Servico servico = new Servico( codigoServico );
-			StringBuilder sql = new StringBuilder();
-
-			sql.AppendLine( "SELECT" );
-			sql.AppendLine( "	 nom_servico" );
-			sql.AppendLine( "	,int_cobrado_por" );
-			sql.AppendLine( "	,txt_descricao" );
-			sql.AppendLine( "FROM tb_servicos " );
-			sql.AppendLine( "WHERE cod_servico = @codServico " );
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
-			MySqlCommand cmd = new MySqlCommand( sql.ToString(), conn );
+			MySqlCommand cmd = new MySqlCommand( SELECT_SERVICO + " WHERE cod_servico = @codServico", conn );
 			cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = codigoServico;
 
 			conn.Open();
@@ -122,12 +142,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			List<Servico> servicos = new List<Servico>();
 			StringBuilder sqlServicos = new StringBuilder();
 
-			sqlServicos.AppendLine( "SELECT" );
-			sqlServicos.AppendLine( "	 cod_servico" );
-			sqlServicos.AppendLine( "	,nom_servico" );
-			sqlServicos.AppendLine( "	,int_cobrado_por" );
-			sqlServicos.AppendLine( "	,txt_descricao" );
-			sqlServicos.AppendLine( "FROM tb_servicos " );
+			sqlServicos.AppendLine( SELECT_SERVICOS );
 			sqlServicos.AppendLine( " ORDER BY nom_servico " );
 			if( limit > 0 )
 				sqlServicos.AppendLine( " LIMIT " + start + "," + limit );

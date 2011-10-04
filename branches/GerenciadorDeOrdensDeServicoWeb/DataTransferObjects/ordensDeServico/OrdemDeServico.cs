@@ -21,7 +21,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 
 		private DateTime _dataDeAbertura; // usuario deve informar a data de abertura da OS
 		private DateTime _previsaoDeConclusao; // usuario deve informar a previsao para a OS ser concluida e entregue
-		private DateTime _dataDeEncerramento; // usuario deve informar a data que a OS foi finalizada
+		private DateTime _dataDeFechamento; // usuario deve informar a data que a OS foi finalizada
 
 
 		/*+---------------------------------+
@@ -44,11 +44,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_valorFinal = 0;
 			_dataDeAbertura = datAux;
 			_previsaoDeConclusao = datAux;
-			_dataDeEncerramento = datAux;
+			_dataDeFechamento = datAux;
 		}
 
 		public OrdemDeServico( UInt32 codigo, UInt32 numero, Cliente cliente, Usuario usuario, Status status, String observacoes,
-			double valorOriginal, double valorFinal, DateTime dataDeAbertura, DateTime previsaoDeConclusao, DateTime dataDeEncerramento ) {
+			double valorOriginal, double valorFinal, DateTime dataDeAbertura, DateTime previsaoDeConclusao, DateTime dataDeFechamento ) {
 
 			_codigo = codigo;
 			_numero = numero;
@@ -61,7 +61,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_valorFinal = valorFinal;
 			_dataDeAbertura = dataDeAbertura;
 			_previsaoDeConclusao = previsaoDeConclusao;
-			_dataDeEncerramento = dataDeEncerramento;
+			_dataDeFechamento = dataDeFechamento;
 		}
 
 		public UInt32 codigo {
@@ -104,9 +104,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			get { return _dataDeAbertura; }
 			set { _dataDeAbertura = value; }
 		}
-		public DateTime dataDeEncerramento {
-			get { return _dataDeEncerramento; }
-			set { _dataDeEncerramento = value; }
+		public DateTime dataDeFechamento {
+			get { return _dataDeFechamento; }
+			set { _dataDeFechamento = value; }
 		}
 		public DateTime previsaoDeConclusao {
 			get { return _previsaoDeConclusao; }

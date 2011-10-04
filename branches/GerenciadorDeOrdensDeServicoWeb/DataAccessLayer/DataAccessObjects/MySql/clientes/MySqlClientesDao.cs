@@ -278,23 +278,42 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static Cliente getCliente( UInt32 codigo ) {
-			Cliente cliente;
+		public static void fillCliente( UInt32 codigo, ref Cliente cliente, MySqlConnection conn ) {
 
-			MySqlConnection connCliente = MySqlConnectionWizard.getConnection();
-			connCliente.Open();
-			MySqlCommand cmdCliente = new MySqlCommand( SQL_CLIENTE, connCliente );
-			cmdCliente.Parameters.Add( "@codCliente", MySqlDbType.UInt32 ).Value = codigo;
+			MySqlCommand cmd = new MySqlCommand( SQL_CLIENTE, conn );
+			cmd.Parameters.Add( "@codCliente", MySqlDbType.UInt32 ).Value = codigo;
+			MySqlDataReader reader = cmd.ExecuteReader();
 
+			if( reader.Read() ) {
+				cliente.codigo = reader.GetUInt32( "cod_cliente" );
+				try { cliente.nome = reader.GetString( "nom_cliente" ); } catch { }
+				try { cliente.conjuge = reader.GetString( "nom_conjuge" ); } catch { }
+				try { cliente.tipoDeCliente.codigo = reader.GetUInt32( "cod_tipo_cliente" ); } catch { }
+				try { cliente.tipoDeCliente.nome = reader.GetString( "nom_tipo_cliente" ); } catch { }
+				try { cliente.sexo = (Sexo) Enum.Parse( typeof( Sexo ), reader.GetUInt32( "int_sexo" ).ToString(), true ); } catch { }
+				try { cliente.dataDeNascimento = reader.GetDateTime( "dat_nascimento" ); } catch { }
+				try { cliente.rg = reader.GetString( "txt_rg" ); } catch { }
+				try { cliente.cpf = reader.GetString( "txt_cpf" ); } catch { }
+				try { cliente.observacoes = reader.GetString( "txt_observacoes" ); } catch { }
+				try { cliente.ativo = reader.GetBoolean( "flg_ativo" ); } catch { }
+				try { cliente.dataDeCadastro = reader.GetDateTime( "dat_cadastro" ); } catch { }
+				try { cliente.dataDeAtualizacao = reader.GetDateTime( "dat_atualizacao" ); } catch { }
 
-			MySqlDataReader readerCliente = cmdCliente.ExecuteReader();
-			if( readerCliente.Read() ) {
-				cliente = getCliente( readerCliente );
-			} else {
-				cliente = new Cliente();
+				preencherMeiosDeContato( ref cliente );
+				preencherEnderecos( ref cliente );
 			}
-			readerCliente.Close(); readerCliente.Dispose(); cmdCliente.Dispose();
-			connCliente.Close(); connCliente.Dispose();
+
+			reader.Close(); reader.Dispose(); cmd.Dispose();
+			conn.Close(); conn.Dispose();
+		}
+
+		public static Cliente getCliente( UInt32 codigo ) {
+			Cliente cliente = new Cliente();
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			conn.Open();
+			fillCliente( codigo, ref cliente, conn );
+			conn.Close(); conn.Dispose();
 
 			return cliente;
 		}

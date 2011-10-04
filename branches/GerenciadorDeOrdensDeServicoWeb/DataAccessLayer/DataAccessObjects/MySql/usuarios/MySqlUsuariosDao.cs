@@ -27,34 +27,26 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return qtd;
 		}
 
-		public static Usuario getUsuario( UInt32 codigo ) {
-			StringBuilder sql = new StringBuilder();
-			Usuario usuario;
+		public static void fillUsuario( UInt32 codigo, ref Usuario usuario, MySqlConnection conn ) {
+			
+			MySqlCommand cmd = new MySqlCommand( "SELECT cod_usuario, nom_usuario, txt_senha FROM tb_usuarios WHERE cod_usuario = @codUsuario", conn );
+			cmd.Parameters.Add( "@codUsuario", MySqlDbType.UInt32 ).Value = codigo;
+			MySqlDataReader reader = cmd.ExecuteReader();
+			if( reader.Read() ) {
+				usuario.codigo = reader.GetUInt32( 0 );
+				usuario.nome = reader.GetString( 1 );
+				usuario.senha = reader.GetString( 2 );
+			}
+			reader.Close(); reader.Dispose();
+			cmd.Dispose();
+		}
 
-			sql.AppendLine( "SELECT " );
-			sql.AppendLine( "	 cod_usuario " );
-			sql.AppendLine( "	,nom_usuario " );
-			sql.AppendLine( "	,txt_senha " );
-			sql.AppendLine( "FROM tb_usuarios " );
-			sql.AppendLine( "WHERE " );
-			sql.AppendLine( "	cod_usuario = @codUsuario " );
+		public static Usuario getUsuario( UInt32 codigo ) {
+			Usuario usuario = new Usuario();
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			conn.Open();
-
-			MySqlCommand cmd = new MySqlCommand( sql.ToString(), conn );
-			cmd.Parameters.Add( "@codUsuario", MySqlDbType.UInt32 ).Value = codigo;
-
-			MySqlDataReader reader = cmd.ExecuteReader();
-
-			if( reader.Read() ) {
-				usuario = new Usuario( reader.GetUInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ) );
-			} else {
-				usuario = new Usuario();
-			}
-
-			reader.Close(); reader.Dispose();
-			cmd.Dispose();
+			fillUsuario( codigo, ref usuario, conn );
 			conn.Close(); conn.Dispose();
 
 			return usuario;
@@ -195,7 +187,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			return erros;
 		}
-
 
 		public static List<Erro> excluirListaDeUsuarios( List<Usuario> usuarios ) {
 			List<Erro> erros = new List<Erro>();

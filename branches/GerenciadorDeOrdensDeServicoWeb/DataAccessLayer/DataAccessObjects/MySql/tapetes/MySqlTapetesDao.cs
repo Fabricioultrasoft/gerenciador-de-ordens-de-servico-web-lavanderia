@@ -11,6 +11,13 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.tapetes {
 	public class MySqlTapetesDao {
 
+		private static const String SELECT_TAPETES = 
+			"SELECT cod_tapete "
+			+ "	,nom_tapete "
+			+ "	,txt_descricao "
+			+ "	,flg_ativo "
+			+ "FROM tb_tapetes ";
+
 		public static long countTapetes() {
 			String sql = "SELECT COUNT(cod_tapete) FROM tb_tapetes";
 			long qtd = 0;
@@ -27,6 +34,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return qtd;
 		}
 
+		public static void fillTapete( UInt32 codigo, ref Tapete tapete, MySqlConnection conn ) {
+			MySqlCommand cmd = new MySqlCommand( SELECT_TAPETES + " WHERE cod_tapete = @codTapete", conn );
+			cmd.Parameters.Add( "@codTapete", MySqlDbType.UInt32 ).Value = codigo;
+			MySqlDataReader reader = cmd.ExecuteReader();
+			if( reader.Read() ) {
+				tapete.codigo = codigo;
+				tapete.nome = reader.GetString( "nom_tapete" );
+				tapete.ativo = reader.GetBoolean( "flg_ativo" );
+				try { tapete.descricao = reader.GetString( "txt_descricao" ); } catch { }
+			}
+			reader.Close(); reader.Dispose(); cmd.Dispose();
+		}
+
 		public static List<Tapete> getTapetes() {
 			return getTapetes( 0, 0 );
 		}
@@ -36,12 +56,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			StringBuilder sql = new StringBuilder();
 
-			sql.AppendLine( "SELECT " );
-			sql.AppendLine( "	 cod_tapete " );
-			sql.AppendLine( "	,nom_tapete " );
-			sql.AppendLine( "	,txt_descricao " );
-			sql.AppendLine( "	,flg_ativo " );
-			sql.AppendLine( "FROM tb_tapetes " );
+			sql.AppendLine( SELECT_TAPETES );
 			sql.AppendLine( "ORDER BY nom_tapete " );
 			if( limit > 0 )
 				sql.AppendFormat( "LIMIT {0},{1}", start, limit );
@@ -128,7 +143,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			return erros;
 		}
-
 
 		public static List<Erro> excluirListaDeTapetes( List<Tapete> tapetes ) {
 			List<Erro> erros = new List<Erro>();
