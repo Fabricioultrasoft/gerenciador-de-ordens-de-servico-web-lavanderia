@@ -12,7 +12,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 	public class MySqlServicosDao {
 
 		#region SQL
-		private static const String SELECT_SERVICOS
+		private const String SELECT_SERVICOS
  			= "SELECT "
 			+ "	 nom_servico "
 			+ "	,int_cobrado_por "
@@ -103,55 +103,16 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 		}
-
-		public static Servico getServico( UInt32 codigoServico ) {
-			return getServico( codigoServico, false );
-		}
-
-		public static Servico getServico( UInt32 codigoServico, bool apenasDadosBasicos ) {
-			Servico servico = new Servico( codigoServico );
-
-			MySqlConnection conn = MySqlConnectionWizard.getConnection();
-			MySqlCommand cmd = new MySqlCommand( SELECT_SERVICO + " WHERE cod_servico = @codServico", conn );
-			cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = codigoServico;
-
-			conn.Open();
-
-			MySqlDataReader reader = cmd.ExecuteReader();
-			if( reader.Read() ) {
-				servico.nome = reader.GetString( "nom_servico" );
-				servico.cobradoPor = (CobradoPor) Enum.Parse( typeof( CobradoPor ), reader.GetUInt32( "int_cobrado_por" ).ToString(), true );
-				try { servico.descricao = reader.GetString( "txt_descricao" ); } catch { }
-			}
-
-			if( !apenasDadosBasicos ) {
-				preencherValores( ref servico );
-			}
-
-			reader.Close(); reader.Dispose(); cmd.Dispose();
-			conn.Close(); conn.Dispose();
-
-			return servico;
-		}
-
-		public static List<Servico> getServicos( UInt32 start, UInt32 limit ) {
-			return getServicos( start, limit, false );
-		}
-
-		public static List<Servico> getServicos( UInt32 start, UInt32 limit, bool apenasDadosBasicos ) {
-			List<Servico> servicos = new List<Servico>();
+		public static void fillServicos( UInt32 start, UInt32 limit, ref List<Servico> servicos, MySqlConnection conn, bool apenasDadosBasicos ) {
 			StringBuilder sqlServicos = new StringBuilder();
-
 			sqlServicos.AppendLine( SELECT_SERVICOS );
 			sqlServicos.AppendLine( " ORDER BY nom_servico " );
 			if( limit > 0 )
 				sqlServicos.AppendLine( " LIMIT " + start + "," + limit );
 
-			MySqlConnection connServicos = MySqlConnectionWizard.getConnection();
-			connServicos.Open();
-			MySqlCommand cmdServicos = new MySqlCommand( sqlServicos.ToString(), connServicos );
+			MySqlCommand cmd = new MySqlCommand( sqlServicos.ToString(), conn );
 
-			MySqlDataReader reader = cmdServicos.ExecuteReader();
+			MySqlDataReader reader = cmd.ExecuteReader();
 			while( reader.Read() ) {
 				Servico servico = new Servico();
 
@@ -166,16 +127,43 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 				servicos.Add( servico );
 			}
-			reader.Close(); reader.Dispose(); cmdServicos.Dispose();
-			connServicos.Close(); connServicos.Dispose();
+			reader.Close(); reader.Dispose(); cmd.Dispose();
+		}
+
+		public static Servico getServico( UInt32 codigoServico ) {
+			return getServico( codigoServico, false );
+		}
+		public static Servico getServico( UInt32 codigoServico, bool apenasDadosBasicos ) {
+			Servico servico = new Servico( codigoServico );
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			conn.Open();
+
+			fillServico( codigoServico, ref servico, conn, apenasDadosBasicos );
+
+			conn.Close(); conn.Dispose();
+
+			return servico;
+		}
+
+		public static List<Servico> getServicos( UInt32 start, UInt32 limit ) {
+			return getServicos( start, limit, false );
+		}
+		public static List<Servico> getServicos( UInt32 start, UInt32 limit, bool apenasDadosBasicos ) {
+			List<Servico> servicos = new List<Servico>();
+			
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			conn.Open();
+
+			fillServicos( start, limit, ref servicos, conn, apenasDadosBasicos );
+
+			conn.Close(); conn.Dispose();
 
 			return servicos;
 		}
 
-		public static List<Servico> getServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
-			List<Servico> servicos = new List<Servico>();
+		public static void fillServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente, ref List<Servico> servicosEspecificos, MySqlConnection conn ) {
 			StringBuilder sql = new StringBuilder();
-
 			sql.AppendLine( "SELECT" );
 			sql.AppendLine( "     tb_servicos.cod_servico" );
 			sql.AppendLine( "    ,tb_servicos.nom_servico" );
@@ -222,13 +210,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			sql.AppendLine( "   )" );
 			sql.AppendLine( "ORDER BY nom_servico" );
 
-
-			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			MySqlCommand cmd = new MySqlCommand( sql.ToString(), conn );
-			cmd.Parameters.Add("@codTapete",MySqlDbType.UInt32).Value = codigoTapete;
+			cmd.Parameters.Add( "@codTapete", MySqlDbType.UInt32 ).Value = codigoTapete;
 			cmd.Parameters.Add( "@codTipoCliente", MySqlDbType.UInt32 ).Value = codigoTipoDeCliente;
-
-			conn.Open();
 
 			MySqlDataReader reader = cmd.ExecuteReader();
 			while( reader.Read() ) {
@@ -247,9 +231,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				servico.valores[0].tapete.nome = reader.GetString( "nom_tapete" );
 				try { servico.valores[0].tipoDeCliente.codigo = reader.GetUInt32( "cod_tipo_cliente" ); } catch { }
 				try { servico.valores[0].tipoDeCliente.nome = reader.GetString( "nom_tipo_cliente" ); } catch { }
-				servicos.Add( servico );
+				servicosEspecificos.Add( servico );
 			}
 			reader.Close(); reader.Dispose(); cmd.Dispose();
+		}
+
+
+		public static List<Servico> getServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
+			List<Servico> servicos = new List<Servico>();
+			
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			
+			conn.Open();
+			fillServicosEspecificos( codigoTapete, codigoTipoDeCliente, ref servicos, conn );
 			conn.Close(); conn.Dispose();
 
 			return servicos;

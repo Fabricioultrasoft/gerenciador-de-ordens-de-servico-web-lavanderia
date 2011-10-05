@@ -5,12 +5,13 @@ using System.Web;
 using System.Web.Security;
 using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.usuarios;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.usuarios;
+using System.Web.SessionState;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 	/// <summary>
 	/// Summary description for Login
 	/// </summary>
-	public class Login : IHttpHandler {
+	public class Login : IHttpHandler, IRequiresSessionState {
 
 		public void ProcessRequest( HttpContext context ) {
 			Usuario usuario = new Usuario();
@@ -21,6 +22,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 
 			if( GerenciadorDeUsuarios.autenticar( ref usuario ) ) {
 				FormsAuthentication.SetAuthCookie( usuario.nome, false );
+				
+				// adiciona o usuariologado na sessao do servidor
+				context.Session["usuario"] = usuario;
 
 				HttpCookie nomeUsuarioCookie = new HttpCookie( "nomeUsuario", usuario.nome );
 				nomeUsuarioCookie.Expires = DateTime.MinValue;

@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.clientes;
+using System.Linq;
 using System.Text;
-using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
+using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.clientes;
+using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.enderecos;
 using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes;
 using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer;
-using System.Web.SessionState;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.sql;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.clientes {
 	/// <summary>
 	/// Summary description for ClientesHandler
 	/// </summary>
-	public class ClientesHandler : IHttpHandler, IRequiresSessionState {
+	public class ClientesHandler : IHttpHandler {
 
 		public void ProcessRequest( HttpContext context ) {
 			String action = String.Empty;// metodos CRUD

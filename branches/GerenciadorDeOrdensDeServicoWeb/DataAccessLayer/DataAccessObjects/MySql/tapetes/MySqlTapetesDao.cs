@@ -11,8 +11,8 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.tapetes {
 	public class MySqlTapetesDao {
 
-		private static const String SELECT_TAPETES = 
-			"SELECT cod_tapete "
+		private const String SELECT_TAPETES 
+			= "SELECT cod_tapete "
 			+ "	,nom_tapete "
 			+ "	,txt_descricao "
 			+ "	,flg_ativo "

@@ -206,7 +206,7 @@ Ext.define('App.controller.clientes.ClientesAddController', {
                 },
                 failure: function(record, operation) {
                     btn.scope.mainPanel.setLoading( false, true );
-                    genericErrorAlert('Erro ao cadastrar', 'Erro inesperado, contate o fornecedor');
+                    genericErrorAlert('Erro ao cadastrar', (operation.error) ? operation.error : 'Erro inesperado, contate o fornecedor');
                 }
             });
         }

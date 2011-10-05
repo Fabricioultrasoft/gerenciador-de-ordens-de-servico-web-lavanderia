@@ -11,7 +11,7 @@ Ext.define('App.model.ordensDeServico.OrdemDeServicoModel',{
         { name: 'nomeStatus', type: 'string' },
         { name: 'dataDeAbertura', type: 'string' },
         { name: 'previsaoDeConclusao', type: 'string' },
-        { name: 'dataDeEncerramento', type: 'string' },
+        { name: 'dataDeFechamento', type: 'string' },
         { name: 'observacoes', type: 'string' },
         { name: 'codigoCliente', type: 'int' },
         { name: 'nomeCliente', type: 'string' },

@@ -12,10 +12,10 @@
 <%
     OrdemDeServico os;
     List<Erro> erros;
-    List<Filter> filters = new List<Filter>();
-    filters.Add( new Filter("numero", Request.QueryString["numero"]));
+    UInt32 numero;
+    UInt32.TryParse( Request.QueryString["numero"], out numero );
     
-    erros = GerenciadorDeOrdensDeServico.preencher( out os, filters);
+    erros = GerenciadorDeOrdensDeServico.preencher( out os, numero);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,6 +27,9 @@
         .center { text-align: center; }
         .tableOS  
         {
+            background-color: White;
+            font-family: Arial;
+            font-size: 12;
             border-top: 1px solid #781A28;
             border-left: 1px solid #781A28;
             width: 100%;
@@ -36,8 +39,7 @@
             border-right: 1px solid #781A28;
             border-bottom: 1px solid #781A28;
             color: #781A28;
-            font-family:Arial;
-            padding: 5px;
+            padding: 3px;
         }
     </style>
 </head>
@@ -50,7 +52,7 @@
 <%     
         }
     } else if( os.codigo == 0 ) { %>
-        <p>Ordem de Servi&ccedil;o de n&uacute;mero <%= Request.QueryString["numero"] %> n&atilde;o foi encontrada.</p>
+        <p>Ordem de Servi&ccedil;o de n&uacute;mero <%= numero %> n&atilde;o foi encontrada.</p>
 <% 
     } else {
         StringBuilder fones = new StringBuilder();
@@ -85,7 +87,7 @@
             </td>
             <td>
                 <p class="center" style=" color: Red; margin: 5px;" >N&ordm; <%= os.numero %></p>
-                <p class="center" style="margin: 0px;" >DATA: <%= os.dataDeAbertura %></p>
+                <p class="center" style="margin: 0px;" >DATA: <%= os.dataDeAbertura.ToString( "dd/MM/yyyy" ) %></p>
             </td>
         </tr>
         <tr><td colspan="6" >NOME: <%= os.cliente.nome %></td></tr>
@@ -103,7 +105,7 @@
                 servicos.Remove( servicos.Length - 2, 2 );// remove a ultima virgula
             } 
 %>            
-        <tr><td><%= item.tapete.nome %></td><td><%= item.comprimento %></td><td><%= item.largura %></td><td><%= item.area %></td><td><%= servicos %></td><td>R$<%= item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) %></td></tr>
+        <tr><td><%= item.tapete.nome %></td><td class="center" ><%= item.comprimento %></td><td class="center" ><%= item.largura %></td><td class="center" ><%= item.area %></td><td class="center" ><%= servicos %></td><td class="center" >R$<%= item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) %></td></tr>
 <%      } %>
         
         <tr><td colspan="6" >OBS.: <%= os.observacoes %></td></tr>

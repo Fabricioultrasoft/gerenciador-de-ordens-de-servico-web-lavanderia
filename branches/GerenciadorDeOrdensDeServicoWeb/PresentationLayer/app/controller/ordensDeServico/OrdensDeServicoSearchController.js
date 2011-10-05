@@ -57,7 +57,7 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
         arrFilters[3] = new Ext.util.Filter({property: 'valorFinal',value: filtros.valorFinal});
         arrFilters[4] = new Ext.util.Filter({property: 'dataDeAbertura',value: filtros.dataDeAbertura});
         arrFilters[5] = new Ext.util.Filter({property: 'previsaoDeConclusao',value: filtros.previsaoDeConclusao});
-        arrFilters[6] = new Ext.util.Filter({property: 'dataDeEncerramento',value: filtros.dataDeEncerramento});
+        arrFilters[6] = new Ext.util.Filter({property: 'dataDeFechamento',value: filtros.dataDeFechamento});
         arrFilters[7] = new Ext.util.Filter({property: 'codigoCliente',value: filtros.codigoCliente});
         arrFilters[8] = new Ext.util.Filter({property: 'nomeCliente',value: filtros.nomeCliente});
         

@@ -30,6 +30,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 		public static List<Erro> cadastrar( ref List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
+				foreach( OrdemDeServico os in ordensDeServico ) {
+					if( os.status.codigo == 0 ) {
+						os.status.codigo = 1; // Status "Aberto"
+					}
+				}
+
 				listaDeErros.AddRange( MySqlOrdensDeServicoDao.insert( ref ordensDeServico ) );
 			} catch( MySqlException ex ) {
 
@@ -44,10 +50,29 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 			return listaDeErros;
 		}
 
-		public static List<Erro> preencher( out OrdemDeServico ordemDeServico, List<Filter> filters ) {
+		public static List<Erro> preencher( UInt32 codigo, out OrdemDeServico ordemDeServico ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				ordemDeServico = MySqlOrdensDeServicoDao.select( filters );
+				ordemDeServico = MySqlOrdensDeServicoDao.selectByCod( codigo );
+			} catch( MySqlException ex ) {
+				// se houver um erro, preenche um Objeto vazio
+				ordemDeServico = new OrdemDeServico();
+
+				if( ex.Number == 1042 ) {
+					listaDeErros.Add( new Erro( 1042 ) );
+				} else {
+					Erro erro = new Erro( 0 );
+					erro.mensagem = ex.Message;
+					listaDeErros.Add( erro );
+				}
+			}
+			return listaDeErros;
+		}
+
+		public static List<Erro> preencher( out OrdemDeServico ordemDeServico, UInt32 numero ) {
+			List<Erro> listaDeErros = new List<Erro>();
+			try {
+				ordemDeServico = MySqlOrdensDeServicoDao.selectByNum( numero );
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche um Objeto vazio
 				ordemDeServico = new OrdemDeServico();

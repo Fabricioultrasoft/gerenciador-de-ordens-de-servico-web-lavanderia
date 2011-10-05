@@ -44,7 +44,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.ordensDeServico {
 			_valorFinal = 0;
 			_dataDeAbertura = datAux;
 			_previsaoDeConclusao = datAux;
-			_dataDeFechamento = datAux;
+			_dataDeFechamento = DateTime.MinValue;
 		}
 
 		public OrdemDeServico( UInt32 codigo, UInt32 numero, Cliente cliente, Usuario usuario, Status status, String observacoes,

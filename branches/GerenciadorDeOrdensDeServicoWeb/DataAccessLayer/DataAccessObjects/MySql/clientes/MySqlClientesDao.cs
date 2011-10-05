@@ -304,7 +304,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			}
 
 			reader.Close(); reader.Dispose(); cmd.Dispose();
-			conn.Close(); conn.Dispose();
 		}
 
 		public static Cliente getCliente( UInt32 codigo ) {

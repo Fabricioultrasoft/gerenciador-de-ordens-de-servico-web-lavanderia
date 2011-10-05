@@ -21,8 +21,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 	public class MySqlOrdensDeServicoDao {
 
 		#region INSERT
-		private static const String INSERT_OS =
-			"INSERT INTO tb_ordens_de_servico ("
+		private const String INSERT_OS
+			= "INSERT INTO tb_ordens_de_servico ("
 			+ "	cod_cliente "
 			+ "	,cod_usuario "
 			+ "	,cod_status_os "
@@ -30,7 +30,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,val_original "
 			+ "	,val_final "
 			+ "	,dat_abertura "
-			+ "	,dat_prev_entrega "
+			+ "	,dat_prev_conclusao "
 			+ "	,txt_observacoes "
 			+ "	,dat_atualizacao "
 			+ ") VALUES ( "
@@ -41,13 +41,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,@valOriginal "
 			+ "	,@valFinal "
 			+ "	,@datAbertura "
-			+ "	,@datPrevEntrega "
+			+ "	,@datPrevConclusao "
 			+ "	,@txtObservacoes "
 			+ "	,NOW()); "
 			+ "SELECT LAST_INSERT_ID() ";
 
-		private static const String INSERT_ITENS =
-			"INSERT INTO tb_itens_os ( "
+		private const String INSERT_ITENS
+			= "INSERT INTO tb_itens_os ( "
 			+ "	cod_tapete "
 			+ "	,cod_ordem_de_servico "
 			+ "	,flt_comprimento "
@@ -63,8 +63,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,@txtObservacoes); "
 			+ "SELECT LAST_INSERT_ID() ";
 
-		private static const String INSERT_ITENS_SERVICOS = 
-			"INSERT INTO tb_itens_servicos ( "
+		private const String INSERT_ITENS_SERVICOS 
+			= "INSERT INTO tb_itens_servicos ( "
 			+ "	cod_item_os "
 			+ "	,cod_servico "
 			+ "	,qtd_m_m2 "
@@ -78,10 +78,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 		#endregion
 
 		#region SELECT
-		private static const String SELECT_OS =
-			"SELECT "
+		private const String SELECT_OS
+			= "SELECT "
 			+ "	cod_ordem_de_servico "
-			+ "	,cod_cliente "
+			+ "	,tb_clientes.cod_cliente "
 			+ "	,cod_usuario "
 			+ "	,tb_status_os.cod_status_os "
 			+ "	,tb_status_os.nom_status_os "
@@ -89,16 +89,17 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,val_original "
 			+ "	,val_final "
 			+ "	,dat_abertura "
-			+ "	,dat_prev_entrega "
-			+ "	,data_fechamento "
-			+ "	,txt_observacoes "
-			+ "	,dat_cadastro "
-			+ "	,dat_atualizacao "
+			+ "	,dat_prev_conclusao "
+			+ "	,dat_fechamento "
+			+ "	,tb_ordens_de_servico.txt_observacoes "
+			+ "	,tb_ordens_de_servico.dat_cadastro "
+			+ "	,tb_ordens_de_servico.dat_atualizacao "
 			+ "FROM tb_ordens_de_servico "
-			+ "INNER JOIN tb_status_os ON tb_status_os.cod_status_os = tb_ordens_de_servico.cod_status_os ";
+			+ "INNER JOIN tb_status_os ON tb_status_os.cod_status_os = tb_ordens_de_servico.cod_status_os "
+			+ "INNER JOIN tb_clientes ON tb_clientes.cod_cliente = tb_ordens_de_servico.cod_cliente ";
 
-		private static const String SELECT_ITEM =
-			"SELECT "
+		private const String SELECT_ITEM
+			= "SELECT "
 			+ "	cod_item_os "
 			+ "	,cod_tapete "
 			+ "	,cod_ordem_de_servico "
@@ -108,8 +109,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,txt_observacoes "
 			+ "FROM tb_itens_os ";
 
-		private static const String SELECT_ITENS_SERVICOS =
-			"SELECT "
+		private const String SELECT_ITENS_SERVICOS
+			= "SELECT "
 			+ "	cod_item_servico "
 			+ "	,cod_item_os "
 			+ "	,cod_servico "
@@ -179,7 +180,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				cmd.Parameters.Add( "@valOriginal", MySqlDbType.Double ).Value = os.valorOriginal;
 				cmd.Parameters.Add( "@valFinal", MySqlDbType.Double ).Value = os.valorFinal;
 				cmd.Parameters.Add( "@datAbertura", MySqlDbType.DateTime ).Value = os.dataDeAbertura;
-				cmd.Parameters.Add( "@datPrevEntrega", MySqlDbType.DateTime ).Value = os.previsaoDeConclusao;
+				cmd.Parameters.Add( "@datPrevConclusao", MySqlDbType.DateTime ).Value = os.previsaoDeConclusao;
 				cmd.Parameters.Add( "@txtObservacoes", MySqlDbType.VarChar ).Value = os.observacoes;
 				os.codigo = UInt32.Parse( cmd.ExecuteScalar().ToString() );
 				cmd.Dispose();
@@ -229,56 +230,84 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static OrdemDeServico select( List<Filter> filters ) {
-			OrdemDeServico ordemDeServico = new OrdemDeServico();
+		public static OrdemDeServico selectByCod( UInt32 codigo ) {
+			List<Filter> filters = new List<Filter>();
+			filters.Add( new Filter( "codigo", codigo.ToString() ) );
 
-			MySqlFilter mySqlFilter = getFilter( filters );
+			List<OrdemDeServico> osAux = select( filters );
+			if( osAux.Count > 0 ) {
+				return osAux[0];
+			} else {
+				return new OrdemDeServico();
+			}
+		}
 
+		public static OrdemDeServico selectByNum( UInt32 numero ) {
+			List<Filter> filters = new List<Filter>();
+			filters.Add( new Filter( "numero", numero.ToString() ) );
+
+			List<OrdemDeServico> osAux = select( filters );
+			if( osAux.Count > 0 ) {
+				return osAux[0];
+			} else {
+				return new OrdemDeServico();
+			}
+		}
+
+		public static List<OrdemDeServico> select( List<Filter> filters ) {
+			return select( 0, 0, filters, new List<Sorter>() );
+		}
+
+		public static List<OrdemDeServico> select( UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
+			List<OrdemDeServico> ordensDeServico = new List<OrdemDeServico>();
+			Cliente cliAux;
+			Usuario usuAux;
+			
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			MySqlConnection connAux = MySqlConnectionWizard.getConnection();
 
 			conn.Open();
 			connAux.Open();
 
-			MySqlCommand cmd = new MySqlCommand( SELECT_OS + mySqlFilter.whereClause, conn );
+			MySqlFilter mySqlFilter = getFilter( filters );
+
+			MySqlCommand cmd = new MySqlCommand( SELECT_OS + mySqlFilter.whereClause + getSort(sorters) 
+				+ ((limit > 0) ? " LIMIT " + start + "," + limit : ""), conn );
+			
 			if( mySqlFilter.parametersList.Count > 0 ) {
 				cmd.Parameters.AddRange( mySqlFilter.parametersList.ToArray() );
 			}
 
 			MySqlDataReader reader = cmd.ExecuteReader();
-			if( reader.Read() ) {
+			while( reader.Read() ) {
+				OrdemDeServico os = new OrdemDeServico();
 
-				ordemDeServico.codigo = reader.GetUInt32( "cod_ordem_de_servico" );
-				ordemDeServico.status.codigo = reader.GetUInt32( "cod_status_os" );
-				ordemDeServico.status.nome = reader.GetString( "nom_status_os" );
-				ordemDeServico.numero = reader.GetUInt32( "num_os" );
-				ordemDeServico.valorOriginal = reader.GetDouble( "val_original" );
-				ordemDeServico.valorFinal = reader.GetDouble( "val_final" );
-				ordemDeServico.dataDeAbertura = reader.GetDateTime( "dat_abertura" );
-				ordemDeServico.previsaoDeConclusao = reader.GetDateTime( "dat_prev_entrega" );
-				try { ordemDeServico.dataDeFechamento = reader.GetDateTime( "data_fechamento" ); } catch { }
-				try { ordemDeServico.observacoes = reader.GetString( "txt_observacoes" ); } catch { }
+				os.codigo = reader.GetUInt32( "cod_ordem_de_servico" );
+				os.status.codigo = reader.GetUInt32( "cod_status_os" );
+				os.status.nome = reader.GetString( "nom_status_os" );
+				os.numero = reader.GetUInt32( "num_os" );
+				os.valorOriginal = reader.GetDouble( "val_original" );
+				os.valorFinal = reader.GetDouble( "val_final" );
+				os.dataDeAbertura = reader.GetDateTime( "dat_abertura" );
+				os.previsaoDeConclusao = reader.GetDateTime( "dat_prev_conclusao" );
+				try { os.dataDeFechamento = reader.GetDateTime( "data_fechamento" ); } catch { }
+				try { os.observacoes = reader.GetString( "txt_observacoes" ); } catch { }
 
-				ordemDeServico.dataDeCadastro = reader.GetDateTime( "dat_cadastro" );
-				ordemDeServico.dataDeAtualizacao = reader.GetDateTime( "dat_atualizacao" );
+				os.dataDeCadastro = reader.GetDateTime( "dat_cadastro" );
+				os.dataDeAtualizacao = reader.GetDateTime( "dat_atualizacao" );
 
-				Cliente cliAux = ordemDeServico.cliente;
+				cliAux = os.cliente;
 				MySqlClientesDao.fillCliente( reader.GetUInt32( "cod_cliente" ), ref cliAux, connAux );
-				Usuario usuAux = ordemDeServico.usuario;
+				usuAux = os.usuario;
 				MySqlUsuariosDao.fillUsuario( reader.GetUInt32( "cod_usuario" ), ref usuAux, connAux );
-				List<Item> itensAux = ordemDeServico.itens;
-				MySqlOrdensDeServicoDao.fillItens( ordemDeServico.codigo, ref itensAux, connAux );
+				List<Item> itensAux = os.itens;
+				MySqlOrdensDeServicoDao.fillItens( os.codigo, ref itensAux, connAux );
+
+				ordensDeServico.Add( os );
 			}
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 			conn.Close(); conn.Dispose();
 			connAux.Close(); connAux.Dispose();
-
-			return ordemDeServico;
-		}
-
-		public static List<OrdemDeServico> select( UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
-			List<OrdemDeServico> ordensDeServico = new List<OrdemDeServico>();
-			StringBuilder sql = new StringBuilder();
 
 			return ordensDeServico;
 		}
@@ -303,7 +332,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
 				cmd.Parameters.Add( "@codOrdemDeServico", MySqlDbType.UInt32 ).Value = ordem.codigo;
 				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir a Ordem de Servi&ccedil;o: " + ordem.numero, "Tente excluí-la novamente" ) );
+					erros.Add( new Erro( 0, "Não foi possível excluir a Ordem de Servi&ccedil;o: " + ordem.numero, "Tente excluí-la novamente, mas lembre-se que n&atilde;o &eacute; poss&iacute;vel excluir ordens de servi&ccedil;o que j&aacute; foram <b>canceladas</b> ou <b>finalizadas</b>" ) );
 				}
 				cmd.Dispose();
 			}
@@ -386,20 +415,186 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach(ServicoDoItem servicoDoItem in servicosDoItem) {
 				Servico servAux = servicoDoItem.servico;
-				MySqlServicosDao.fillServico( servicoDoItem.servico.codigo, ref servAux, conn );
+				MySqlServicosDao.fillServico( servicoDoItem.servico.codigo, ref servAux, conn, false );
 			}
 		}
 
 		private static MySqlFilter getFilter( List<Filter> filters ) {
 
+			// clausula WHERE SQL
+			StringBuilder whereClause = new StringBuilder();
+			List<String> filterList = new List<String>();
 			MySqlFilter mySqlfilter = new MySqlFilter();
+
+			// se nao houver filtros, retorna uma string vazia
+			if( filters.Count <= 0 ) return mySqlfilter;
+
+			#region filtros
+
+			foreach( Filter filter in filters ) {
+
+				switch( filter.property ) {
+					case "codigo":
+						UInt32 codigo = 0;
+						UInt32.TryParse( filter.value, out codigo );
+						if( codigo > 0 ) {
+							filterList.Add( "tb_ordens_de_servico.cod_ordem_de_servico = @codOS" );
+							MySqlParameter codOS = new MySqlParameter( "@codOS", MySqlDbType.UInt32 );
+							codOS.Value = codigo;
+							mySqlfilter.parametersList.Add( codOS );
+						}
+						break;
+
+					case "numero":
+						UInt32 numero = 0;
+						UInt32.TryParse( filter.value, out numero );
+						if( numero > 0 ) {
+							filterList.Add( "tb_ordens_de_servico.num_os = @numOS" );
+							MySqlParameter numOS = new MySqlParameter( "@numOS", MySqlDbType.UInt32 );
+							numOS.Value = numero;
+							mySqlfilter.parametersList.Add( numOS );
+						}
+						break;
+
+					case "codigoStatus":
+						UInt32 codigoStatus = 0;
+						UInt32.TryParse( filter.value, out codigoStatus );
+						if( codigoStatus > 0 ) {
+							filterList.Add( "tb_status_os.cod_status_os = @codStatusOS" );
+							MySqlParameter codStatus = new MySqlParameter( "@codStatusOS", MySqlDbType.UInt32 );
+							codStatus.Value = codigoStatus;
+							mySqlfilter.parametersList.Add( codStatus );
+						}
+						break;
+
+					case "valorOriginal":
+						Double valorOriginal = 0;
+						Double.TryParse( filter.value, out valorOriginal );
+						if( valorOriginal >= 0 ) {
+							filterList.Add( "tb_ordens_de_servico.val_original = @val_original" );
+							MySqlParameter valOriginal = new MySqlParameter( "@val_original", MySqlDbType.Double );
+							valOriginal.Value = valorOriginal;
+							mySqlfilter.parametersList.Add( valOriginal );
+						}
+						break;
+
+					case "valorFinal":
+						Double valorFinal = 0;
+						Double.TryParse( filter.value, out valorFinal );
+						if( valorFinal > 0 ) {
+							filterList.Add( "tb_ordens_de_servico.val_final = @valFinal" );
+							MySqlParameter valFinal = new MySqlParameter( "@valFinal", MySqlDbType.Double );
+							valFinal.Value = valorFinal;
+							mySqlfilter.parametersList.Add( valFinal );
+						}
+						break;
+
+					case "dataDeAbertura":
+						try {
+							DateTime dataDeAbertura = DateTime.Parse( filter.value );
+							filterList.Add( "tb_ordens_de_servico.dat_abertura = @datAbertura" );
+							MySqlParameter datAbertura = new MySqlParameter( "@datAbertura", MySqlDbType.Timestamp );
+							datAbertura.Value = dataDeAbertura;
+							mySqlfilter.parametersList.Add( datAbertura );
+						} catch { }
+						break;
+
+					case "previsaoDeConclusao":
+						try {
+							DateTime previsaoDeConclusao = DateTime.Parse( filter.value );
+							filterList.Add( "tb_ordens_de_servico.dat_prev_conclusao = @datPrevConclusao" );
+							MySqlParameter prevConclusao = new MySqlParameter( "@datPrevConclusao", MySqlDbType.Timestamp );
+							prevConclusao.Value = previsaoDeConclusao;
+							mySqlfilter.parametersList.Add( prevConclusao );
+						} catch { }
+						break;
+
+					case "dataDeFechamento":
+						try {
+							DateTime dataDeFechamento = DateTime.Parse( filter.value );
+							filterList.Add( "tb_ordens_de_servico.dat_fechamento = @datFechamento" );
+							MySqlParameter datFechamento = new MySqlParameter( "@datFechamento", MySqlDbType.Timestamp );
+							datFechamento.Value = dataDeFechamento;
+							mySqlfilter.parametersList.Add( datFechamento );
+						} catch { }
+						break;
+
+					case "codigoCliente":
+						UInt32 codigoCliente = 0;
+						UInt32.TryParse( filter.value, out codigoCliente );
+						if( codigoCliente > 0 ) {
+							filterList.Add( "tb_clientes.cod_cliente = @codCliente" );
+							MySqlParameter codCliente = new MySqlParameter( "@codCliente", MySqlDbType.UInt32 );
+							codCliente.Value = codigoCliente;
+							mySqlfilter.parametersList.Add( codCliente );
+						}
+						break;
+
+					case "nomeCliente":
+						if( !String.IsNullOrEmpty( filter.value ) ) {
+							filterList.Add( "tb_clientes.nom_cliente LIKE @nomCliente" );
+							MySqlParameter nomCliente = new MySqlParameter( "@nomCliente", MySqlDbType.VarChar );
+							nomCliente.Value = filter.value;
+							mySqlfilter.parametersList.Add( nomCliente );
+						}
+						break;
+				}
+			}
+			#endregion
+
+			#region constroi a clausula WHERE
+			for( int i = 0; i < filterList.Count; i++ ) {
+				whereClause.Append( filterList[i] );
+				// adiciona o condicional AND caso tenha mais filtros
+				if( i < ( filterList.Count - 1 ) ) whereClause.Append( " AND " );
+			}
+
+			if( filterList.Count > 0 ) {
+				// adiciona o conteudo do stringBuilder dentro do objeto sqlFilter
+				mySqlfilter.whereClause = " WHERE " + whereClause.ToString() + " ";
+			}
+			#endregion
 
 			return mySqlfilter;
 		}
 
 		private static String getSort( List<Sorter> sorters ) {
+			StringBuilder sortSql = new StringBuilder();
 
-			return "";
+			foreach( Sorter sorter in sorters ) {
+				switch( sorter.property ) {
+					case "codigo":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.cod_ordem_de_servico", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "numero":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.num_os", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "valorOriginal":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.val_original", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "valorFinal":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.val_final", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "dataDeAbertura":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.dat_abertura", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "previsaoDeConclusao":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.dat_prev_conclusao", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "dataDeFechamento":
+						sortSql.AppendFormat( "{0} {1},", "tb_ordens_de_servico.dat_fechamento", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "nomeStatus":
+						sortSql.AppendFormat( "{0} {1},", "tb_status_os.nom_status_os", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "nomeCliente":
+						sortSql.AppendFormat( "{0} {1},", "tb_clientes.nom_cliente", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+				}
+			}
+			if( sorters.Count > 0 ) sortSql.Remove( sortSql.Length - 1, 1 );
+
+			return ( ( sortSql.ToString().Trim().Length > 0 ) ? " ORDER BY " + sortSql.ToString() : "" );
 		}
 	}
 }

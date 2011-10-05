@@ -398,7 +398,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			json.AppendFormat(" \"nomeTapete\": \"{0}\", ", servicoEspecifico.valores[0].tapete.nome);
 			json.AppendFormat(" \"codigoTipoDeCliente\": {0}, ", servicoEspecifico.valores[0].tipoDeCliente.codigo);
 			json.AppendFormat(" \"nomeTipoDeCliente\": \"{0}\", ", servicoEspecifico.valores[0].tipoDeCliente.nome);
-			json.AppendFormat(" \"valor\": {0} ", servicoEspecifico.valores[0].valorInicial.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+			json.AppendFormat(" \"valor\": {0}, ", servicoEspecifico.valores[0].valorInicial.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
 			json.AppendFormat(" \"valorAcima10m2\": {0} ", servicoEspecifico.valores[0].valorAcima10m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
 			json.Append("}");
 

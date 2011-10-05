@@ -10,14 +10,21 @@ using System.Web.Script.Serialization;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.sql;
 using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servicos;
 using System.Globalization;
+using System.Web.SessionState;
+using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.usuarios;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensDeServico {
 	/// <summary>
 	/// Summary description for Handler1
 	/// </summary>
-	public class OrdensDeServicoHandler : IHttpHandler {
+	public class OrdensDeServicoHandler : IHttpHandler, IRequiresSessionState {
+
+		private HttpContext thisContext;
 
 		public void ProcessRequest( HttpContext context ) {
+
+			thisContext = context;
+			
 			String action = String.Empty;// metodos CRUD
 			String response = String.Empty;
 
@@ -61,6 +68,14 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 		private String createOrdensDeServico( String records ) {
 			List<OrdemDeServico> ordensDeServico = jsonToOrdensDeServico( records );
+
+			Usuario usu = (Usuario) thisContext.Session["usuario"];
+			foreach(OrdemDeServico os in ordensDeServico) {
+				if( os.usuario.codigo == 0 ) {
+					os.usuario.codigo = usu.codigo;
+				}
+			}
+
 			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeOrdensDeServico.cadastrar( ref ordensDeServico );
 
@@ -244,9 +259,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			json.AppendFormat(" \"valorFinal\": {0}, ", os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
 			json.AppendFormat(" \"codigoStatus\": {0}, ", os.status.codigo);
 			json.AppendFormat(" \"nomeStatus\": \"{0}\", ", os.status.nome);
-			json.AppendFormat(" \"dataDeAbertura\": \"{0}\", ", os.dataDeAbertura);
-			json.AppendFormat(" \"previsaoDeConclusao\": \"{0}\", ", os.previsaoDeConclusao);
-			json.AppendFormat(" \"dataDeEncerramento\": \"{0}\", ", os.dataDeEncerramento);
+			json.AppendFormat( " \"dataDeAbertura\": \"{0}\", ", os.dataDeAbertura.ToString( "dd/MM/yyyy" ) );
+			json.AppendFormat( " \"previsaoDeConclusao\": \"{0}\", ", os.previsaoDeConclusao.ToString( "dd/MM/yyyy" ) );
+			json.AppendFormat( " \"dataDeFechamento\": \"{0}\", ", ( os.dataDeFechamento.CompareTo( DateTime.MinValue ) > 0 ) ? os.dataDeFechamento.ToString( "dd/MM/yyyy" ) : "---" );
 			json.AppendFormat(" \"observacoes\": \"{0}\", ", os.observacoes);
 			json.AppendFormat(" \"codigoCliente\": {0}, ", os.cliente.codigo);
 			json.AppendFormat(" \"nomeCliente\": \"{0}\", ", os.cliente.nome);
@@ -306,7 +321,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 				} catch {}
 				ordem.dataDeAbertura = DateTime.Parse( ordemTemp["dataDeAbertura"].ToString() );
 				ordem.previsaoDeConclusao = DateTime.Parse( ordemTemp["previsaoDeConclusao"].ToString() );
-				try { ordem.dataDeEncerramento = DateTime.Parse( ordemTemp["dataDeEncerramento"].ToString() ); } catch{}
+				try { ordem.dataDeFechamento = DateTime.Parse( ordemTemp["dataDeFechamento"].ToString() ); } catch{}
 				ordem.observacoes = ordemTemp["observacoes"].ToString();
 				
 				ordem.cliente.codigo = UInt32.Parse( ordemTemp["codigoCliente"].ToString() );

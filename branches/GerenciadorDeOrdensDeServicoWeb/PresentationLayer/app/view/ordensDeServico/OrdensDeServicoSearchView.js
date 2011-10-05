@@ -38,11 +38,12 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
             win = desktop.createWindow({
                 id: 'win-viewOS-' + ordemDeServico.numero,
                 title: 'Ordens de Serviço - Numero: <span style="color:red;">' + ordemDeServico.numero + '</span>',
-                width: 700,
-                height: 580,
+                width: 600,
+                height: 400,
                 iconCls: 'os-thumb',
                 animCollapse: false,
                 constrainHeader: true,
+                autoScroll: true,
                 loader: {
                     autoLoad: true,
                     url: '/PresentationLayer/app/view/ordensDeServico/OrdemDeServicoViewTpl.aspx',
@@ -94,7 +95,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                     items: [
                         { xtype: 'datefield', flex : 1, name: 'dataDeAbertura', fieldLabel: 'Abertura', emptyText: 'Data de Abertura', format: 'd/m/Y' },
                         { xtype: 'datefield', flex : 1, name: 'previsaoDeConclusao', fieldLabel: 'Prev. Conclus&atilde;o', emptyText: 'Previsão de Conclusão', format: 'd/m/Y', margins: '0 4' },
-                        { xtype: 'datefield', flex : 1, name: 'dataDeEncerramento', fieldLabel: 'Encerramento', emptyText: 'Encerramento', format: 'd/m/Y' }
+                        { xtype: 'datefield', flex : 1, name: 'dataDeFechamento', fieldLabel: 'Fechamento', emptyText: 'Fechamento', format: 'd/m/Y' }
                     ]
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true },
@@ -135,7 +136,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                 { header: 'Status', dataIndex: 'nomeStatus', renderer: Ext.String.htmlEncode },  
                 { header: 'Abertura', dataIndex: 'dataDeAbertura' }, 
                 { header: 'Prev. Conclus&atilde;o', dataIndex: 'previsaoDeConclusao' }, 
-                { header: 'Encerramento', dataIndex: 'dataDeEncerramento' }
+                { header: 'Fechamento', dataIndex: 'dataDeFechamento' }
             ],
             tbar: [
                 { itemId: 'btnAddOS', text: 'Adicionar', iconCls: 'os-add', scope: this },

@@ -100,7 +100,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoClienteSearchView', {
             height: 40,
             bodyPadding: 4,
             region: 'south',
-            html:'Ap&oacute;s fitrar os clientes, clique sobre o registro correspondente ao cliente para selecion&aacute;-lo e em seguida, clique no bot&atilde;o abaixo para inclu&iacute;-lo na Ordem de Servi&ccedil;o.'
+            html:'Ap&oacute;s filtrar os clientes, clique sobre o registro correspondente ao cliente para selecion&aacute;-lo e em seguida, clique no bot&atilde;o abaixo para inclu&iacute;-lo na Ordem de Servi&ccedil;o.'
         });
 
         //--------------------------------------------------------------------
