@@ -53,6 +53,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,flt_comprimento "
 			+ "	,flt_largura "
 			+ "	,dbl_area "
+			+ "	,val_item "
 			+ "	,txt_observacoes "
 			+ ") VALUES ( "
 			+ "	@codTapete "
@@ -60,6 +61,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,@fltComprimento "
 			+ "	,@fltLargura "
 			+ "	,@dblArea "
+			+ "	,@valItem "
 			+ "	,@txtObservacoes); "
 			+ "SELECT LAST_INSERT_ID() ";
 
@@ -106,6 +108,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,flt_comprimento "
 			+ "	,flt_largura "
 			+ "	,dbl_area "
+			+ " ,val_item "
 			+ "	,txt_observacoes "
 			+ "FROM tb_itens_os ";
 
@@ -118,7 +121,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,val_item_servico "
 			+ "FROM tb_itens_servicos ";
 		#endregion
-
 
 		public static long count() {
 			long count = 0;
@@ -198,6 +200,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 					cmd2.Parameters.Add( "@fltComprimento", MySqlDbType.Float ).Value = item.comprimento;
 					cmd2.Parameters.Add( "@fltLargura", MySqlDbType.Float ).Value = item.largura;
 					cmd2.Parameters.Add( "@dblArea", MySqlDbType.Double ).Value = item.area;
+					cmd2.Parameters.Add( "@valItem", MySqlDbType.Double ).Value = item.valor;
 					cmd2.Parameters.Add( "@txtObservacoes", MySqlDbType.VarChar ).Value = item.observacoes;
 					item.codigo = UInt32.Parse( cmd2.ExecuteScalar().ToString() );
 					cmd2.Dispose();
@@ -378,7 +381,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				item.codigoOrdemDeServico = codigoOrdemDeServico;
 				item.tapete.codigo = reader.GetUInt32("cod_tapete");
 				item.comprimento = reader.GetFloat("flt_comprimento");
-				item.comprimento = reader.GetFloat("flt_largura");
+				item.largura = reader.GetFloat("flt_largura");
+				item.valor = reader.GetDouble( "val_item" );
 				try { item.observacoes = reader.GetString("txt_observacoes"); } catch{}
 				
 				itens.Add(item);
@@ -417,6 +421,30 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				Servico servAux = servicoDoItem.servico;
 				MySqlServicosDao.fillServico( servicoDoItem.servico.codigo, ref servAux, conn, false );
 			}
+		}
+
+		public static bool numeroJaExiste( UInt32 numero ) {
+			bool existe = false;
+			
+			String sql = "SELECT num_os FROM tb_ordens_de_servico WHERE num_os = @numOS LIMIT 1";
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			MySqlCommand cmd = new MySqlCommand( sql, conn );
+			cmd.Parameters.Add( "@numOS", MySqlDbType.UInt32 ).Value = numero;
+
+			conn.Open();
+
+			MySqlDataReader reader = cmd.ExecuteReader();
+			if( reader.Read() ) {
+				existe = true;
+			}
+			reader.Close(); reader.Dispose();
+			cmd.Dispose();
+
+			conn.Close();
+			conn.Dispose();
+			
+			return existe;
 		}
 
 		private static MySqlFilter getFilter( List<Filter> filters ) {
@@ -470,7 +498,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 					case "valorOriginal":
 						Double valorOriginal = 0;
 						Double.TryParse( filter.value, out valorOriginal );
-						if( valorOriginal >= 0 ) {
+						if( valorOriginal > 0 ) {
 							filterList.Add( "tb_ordens_de_servico.val_original = @val_original" );
 							MySqlParameter valOriginal = new MySqlParameter( "@val_original", MySqlDbType.Double );
 							valOriginal.Value = valorOriginal;

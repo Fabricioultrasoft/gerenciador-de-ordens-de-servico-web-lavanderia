@@ -97,7 +97,7 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
                + '<br />Valor Orig.: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorOriginal)
                + '<br />Valor Final: ' + Ext.util.Format.brMoney(sm.getSelection()[0].data.valorFinal)
                + '<br />Todas os dados ser&atilde;o apagados. Caso deseje consultar esta Ordem de Serviço posteriormente, '
-               + 'opte pela op&ccedil;&atilde;o de [Cancelar] a Ordem de Servi&ccedil;o.',
+               + 'opte pela op&ccedil;&atilde;o de <b>[Cancelar]</b> a Ordem de Servi&ccedil;o.',
             buttons: Ext.Msg.YESNO,
             fn: function (buttonId) {
                 if (buttonId == 'yes') {
@@ -106,7 +106,7 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
                     btn.scope.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
                 }
             },
-            icon: Ext.Msg.QUESTION
+            icon: Ext.Msg.WARNING
         });
     },
 

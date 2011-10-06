@@ -44,6 +44,13 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                 animCollapse: false,
                 constrainHeader: true,
                 autoScroll: true,
+                tools:[
+                    { type: 'refresh', handler: function(event, toolEl, header, tool) { win.loader.load(); } },
+                    { type: 'print', handler: function(event, toolEl, header, tool) {
+                        var newWindow = window.open('/PresentationLayer/app/view/ordensDeServico/OrdemDeServicoViewTpl.aspx?print=true&numero=' + ordemDeServico.numero);
+	                    if (window.focus) {newWindow.focus()} 
+                    }}
+                ],
                 loader: {
                     autoLoad: true,
                     url: '/PresentationLayer/app/view/ordensDeServico/OrdemDeServicoViewTpl.aspx',
@@ -130,9 +137,10 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
             columns: [
                 { header: 'Cod', dataIndex: 'codigo', xtype: 'numbercolumn', format: '0', hidden: true},
                 { header: 'Numero', dataIndex: 'numero', xtype: 'numbercolumn', format: '0'},
+                { header: 'Cod Cliente', dataIndex: 'codigoCliente', xtype: 'numbercolumn', format: '0', hidden: true},
                 { header: 'Cliente', dataIndex: 'nomeCliente', minWidth: 200, flex: 1, renderer: Ext.String.htmlEncode },
-                { header: 'Val. Orig.', dataIndex: 'valorOriginal', xtype: 'numbercolumn', renderer: Ext.util.Format.brMoney },
-                { header: 'Val. Final', dataIndex: 'valorFinal', xtype: 'numbercolumn', renderer: Ext.util.Format.brMoney },
+                { header: 'Val. Orig.', dataIndex: 'valorOriginal', renderer: Ext.util.Format.brMoney },
+                { header: 'Val. Final', dataIndex: 'valorFinal', renderer: Ext.util.Format.brMoney },
                 { header: 'Status', dataIndex: 'nomeStatus', renderer: Ext.String.htmlEncode },  
                 { header: 'Abertura', dataIndex: 'dataDeAbertura' }, 
                 { header: 'Prev. Conclus&atilde;o', dataIndex: 'previsaoDeConclusao' }, 

@@ -34,9 +34,15 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 					if( os.status.codigo == 0 ) {
 						os.status.codigo = 1; // Status "Aberto"
 					}
+
+					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero ) ) {
+						listaDeErros.Add( new Erro( 1, String.Format("N&uacute;mero <b>{0}</b> da Ordem de Servi&ccedil;o j&aacute; est&aacute; sendo usado",os.numero), "Informe um novo n&uacute;mero para a Ordem de Servi&ccedil;o" ) );
+					}
 				}
 
-				listaDeErros.AddRange( MySqlOrdensDeServicoDao.insert( ref ordensDeServico ) );
+				if( listaDeErros.Count == 0 ) {
+					listaDeErros.AddRange( MySqlOrdensDeServicoDao.insert( ref ordensDeServico ) );
+				}
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

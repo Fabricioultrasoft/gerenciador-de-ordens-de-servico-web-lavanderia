@@ -341,9 +341,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 					item.valor = Double.Parse( itensTemp["valor"].ToString() );
 					item.observacoes = itensTemp["observacoes"].ToString();
 
-
 					item.servicosDoItem.AddRange( jsonToServicosDoItem( itensTemp["servicosDoItem"], js ) );
-					
+
 					ordem.itens.Add( item );
 				}
 

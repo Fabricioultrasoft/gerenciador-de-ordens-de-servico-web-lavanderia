@@ -13,6 +13,9 @@ Ext.define('App.store.ordensDeServico.OrdensDeServicoStore', {
                     Ext.notification.msg("Exclus&atilde;o de Ordem de Servi&ccedil;o", operation.resultSet.message.join("<br />"));
                 }
             }
+            try {
+                this.onWriteCallback(proxy, operation);
+            } catch(e){}
         }
     },
     proxy: {
@@ -40,6 +43,9 @@ Ext.define('App.store.ordensDeServico.OrdensDeServicoStore', {
                 element: this,
                 fn: function(thisProxy, response, operation, options) {
                     genericExceptionHandler(thisProxy, response, operation, options);
+                    try {
+                        this.onRequestFailureCallback(thisProxy, response, operation, options);
+                    } catch(e){}
                 }
             }
         }

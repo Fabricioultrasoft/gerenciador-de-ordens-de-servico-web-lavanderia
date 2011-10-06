@@ -106,8 +106,8 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
             return false;
         }
 
-        if(values.valorFinal < 0) {
-            genericErrorAlert("Dados inv&aacute;lidos", "O <b>valor final</b> da Ordem de Servi&ccedil;o n&atilde;o pode ser negativo!");
+        if(values.valorFinal <= 0) {
+            genericErrorAlert("Dados inv&aacute;lidos", "O <b>valor final</b> da Ordem de Servi&ccedil;o n&atilde;o pode ser menor ou igual a zero!");
             return false;
         }
 
@@ -132,13 +132,15 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
         btn.scope.mainPanel.setLoading( "Cadastrando...", true );
 
         var ordensDeServicoStore = null;
-        try { ordensDeServicoStore = btn.scope.app.getModule("module-ordensDeServico-clientesSearch").ordensDeServicoStore; }catch(e){}
+        try { ordensDeServicoStore = btn.scope.app.getModule("module-ordensDeServico-search").ordensDeServicoStore; }catch(e){}
 
         if(ordensDeServicoStore) {
+            ordensDeServicoStore.onWriteCallback = function() { btn.up('window').close(); }
+            ordensDeServicoStore.proxy.onRequestFailureCallback = function() { btn.scope.mainPanel.setLoading( false ); }
+
             ordensDeServicoStore.insert(0, r);
             ordensDeServicoStore.sync();
             ordensDeServicoStore.module.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-            btn.up('window').close();
         }
         else {
             r.setProxy( Ext.create('App.store.ordensDeServico.OrdensDeServicoStore',{}).getProxy() );
@@ -148,7 +150,7 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoAddController', {
                     Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Ordem de Servi&ccedil;o cadastrada!');
                 },
                 failure: function(record, operation) {
-                    btn.scope.mainPanel.setLoading( false, true );
+                    btn.scope.mainPanel.setLoading( false );
                     genericErrorAlert('Erro ao cadastrar', (operation.error) ? operation.error : 'Erro inesperado, contate o fornecedor');
                 }
             });

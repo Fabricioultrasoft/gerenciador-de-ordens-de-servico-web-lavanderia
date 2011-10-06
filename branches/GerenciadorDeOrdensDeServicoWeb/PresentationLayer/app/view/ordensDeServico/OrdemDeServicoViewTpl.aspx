@@ -13,23 +13,25 @@
     OrdemDeServico os;
     List<Erro> erros;
     UInt32 numero;
-    UInt32.TryParse( Request.QueryString["numero"], out numero );
+    Boolean print;
+    UInt32.TryParse( Request["numero"], out numero );
+    Boolean.TryParse( Request["print"], out print );
     
     erros = GerenciadorDeOrdensDeServico.preencher( out os, numero);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head>
     <title>Ordem de Servi&ccedil;o - numero: </title>
     <style type="text/css">
         .bold { font-weight: bold;}
-        .center { text-align: center; }
+        .left { text-align: left !important; }
         .tableOS  
         {
             background-color: White;
             font-family: Arial;
-            font-size: 12;
+            font-size: 10px;
             border-top: 1px solid #781A28;
             border-left: 1px solid #781A28;
             width: 100%;
@@ -40,12 +42,24 @@
             border-bottom: 1px solid #781A28;
             color: #781A28;
             padding: 3px;
+            text-align: center;
         }
+        .innerTableOS, .innerTableOS td {
+            border: none; width: 100%; font: inherit;
+        }
+        
     </style>
+
+<%  if( print ) { %>
+    <script type="text/javascript">
+        window.print();
+    </script>
+<%  } %>
+
 </head>
 <body>
 
-<% 
+<%
     if( erros.Count > 0 ) {
         foreach( Erro err in erros ) { %>
             <p>Erro: <%=err.mensagem %><br />Solu&ccedil;&atilde;o: <%= err.solucao %></p>
@@ -76,25 +90,43 @@
     <table class="tableOS" cellspacing="0">
     <tbody>
         <tr>
-            <td style="border-right: none; text-align:center;"><img src="/PresentationLayer/resources/images/gabbeh.jpg" alt="Gabbeh" /></td>
-            <td colspan="4">
-                <p class="center" style="font: normal 12px times; margin: 0px;" >
-                    Rua Cel. Francisco Andrade Coutinho, 132<br />
-                    Cambu&iacute; - Campinas - SP<br />
-                    e-mail: gabbeh@uol.com.br<br />
-                    <span class="bold">Fone (19) 3294-6711 / 3294-2495 - Fax: 3294-8786</span>    
-                </p>
+            <td colspan="5">
+                <table class="innerTableOS" cellspacing="0" ><tbody><tr>
+                    <td style="width: 110px; "><img src="/PresentationLayer/resources/images/gabbeh.jpg" alt="Gabbeh" /></td>
+                    <td>
+                        <p style="font-family:Times New Roman; margin: 0px;" >
+                            Rua Cel. Francisco Andrade Coutinho, 132<br />
+                            Cambu&iacute; - Campinas - SP<br />
+                            e-mail: gabbeh@uol.com.br<br />
+                            <span class="bold">Fone (19) 3294-6711 / 3294-2495 - Fax: 3294-8786</span>    
+                        </p>
+                    </td>
+                </tr></tbody></table>
             </td>
             <td>
-                <p class="center" style=" color: Red; margin: 5px;" >N&ordm; <%= os.numero %></p>
-                <p class="center" style="margin: 0px;" >DATA: <%= os.dataDeAbertura.ToString( "dd/MM/yyyy" ) %></p>
+                <p style=" color: Red; margin: 5px;" >N&ordm; <%= os.numero %></p>
+                <p style="margin: 0px;" >DATA: <%= os.dataDeAbertura.ToString( "dd/MM/yyyy" ) %></p>
             </td>
         </tr>
-        <tr><td colspan="6" >NOME: <%= os.cliente.nome %></td></tr>
-        <tr><td colspan="6" >ENDERE&Ccedil;O: <%= enderecos %></td></tr>
-        <tr><td colspan="3" >FONE: <%= fones %></td><td colspan="3" >E-MAIL: <%= emails %></td></tr>
-        <tr><td colspan="4" class="center" >TAPETES</td><td rowspan="2" class="center" >SERVI&Ccedil;OS</td><td rowspan="2" class="center" >TOTAL</td></tr>
-        <tr><td class="center" >NOME</td><td class="center" >COMPR.</td><td class="center" >LARG.</td><td class="center" >&Aacute;REA</td></tr>
+        <tr><td colspan="6" class="left" >NOME: <%= os.cliente.nome %></td></tr>
+        <tr><td colspan="6" class="left" >ENDERE&Ccedil;O: <%= enderecos %></td></tr>
+        
+        
+        
+        <tr>
+            <td colspan="6" style="padding: 0px;">
+                <table cellspacing="0" class="innerTableOS" style="table-layout: fixed;" >
+                    <tbody>
+                        <tr><td class="left" >FONE: <%= fones %></td><td class="left" >E-MAIL: <%= emails %></td></tr>                
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        
+        
+        <tr><td colspan="4" >TAPETES</td><td rowspan="2" >SERVI&Ccedil;OS</td><td rowspan="2" >VALORES</td></tr>
+        <tr><td >NOME</td><td style="width: 50px;">COMPR.</td><td style="width: 50px;">LARG.</td><td style="width: 50px;">&Aacute;REA</td></tr>
 <%
         foreach( Item item in os.itens ) {
             StringBuilder servicos = new StringBuilder();
@@ -105,10 +137,12 @@
                 servicos.Remove( servicos.Length - 2, 2 );// remove a ultima virgula
             } 
 %>            
-        <tr><td><%= item.tapete.nome %></td><td class="center" ><%= item.comprimento %></td><td class="center" ><%= item.largura %></td><td class="center" ><%= item.area %></td><td class="center" ><%= servicos %></td><td class="center" >R$<%= item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) %></td></tr>
+        <tr><td><%= item.tapete.nome %></td><td><%= item.comprimento %></td><td><%= item.largura %></td><td><%= item.area %></td><td><%= servicos %></td><td>R$<%= item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) %></td></tr>
 <%      } %>
         
-        <tr><td colspan="6" >OBS.: <%= os.observacoes %></td></tr>
+        <%-- <tr><td colspan="4" style="border-bottom: none;" ></td><td>VALOR ORIGINAL</td><td>R$<%= os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) )%></td></tr> --%>
+        <tr><td colspan="4" ></td><td class="bold" >TOTAL</td><td class="bold" >R$<%= os.valorFinal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) )%></td></tr>
+        <tr><td colspan="6" class="left" >OBS.: <%= os.observacoes %></td></tr>
     </tbody>
     </table>
 
