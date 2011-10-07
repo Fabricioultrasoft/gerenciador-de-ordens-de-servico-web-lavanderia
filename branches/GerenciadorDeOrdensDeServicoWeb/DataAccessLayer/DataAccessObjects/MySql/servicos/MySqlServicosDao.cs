@@ -14,7 +14,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 		#region SQL
 		private const String SELECT_SERVICOS
  			= "SELECT "
-			+ "	 nom_servico "
+			+ "	cod_servico "
+			+ "	,nom_servico "
 			+ "	,int_cobrado_por "
 			+ "	,txt_descricao "
 			+ "FROM tb_servicos ";
@@ -61,7 +62,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,val_acima_10m2 = @valAcima10m2 "
 			+ "WHERE cod_valor_servico = @codValorServico ";
 		#endregion
-
 
 		public static long countServicos() {
 			long count = 0;
@@ -235,7 +235,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			}
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 		}
-
 
 		public static List<Servico> getServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
 			List<Servico> servicos = new List<Servico>();

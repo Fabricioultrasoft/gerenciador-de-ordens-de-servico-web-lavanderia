@@ -100,7 +100,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "INNER JOIN tb_status_os ON tb_status_os.cod_status_os = tb_ordens_de_servico.cod_status_os "
 			+ "INNER JOIN tb_clientes ON tb_clientes.cod_cliente = tb_ordens_de_servico.cod_cliente ";
 
-		private const String SELECT_ITEM
+		private const String SELECT_ITENS
 			= "SELECT "
 			+ "	cod_item_os "
 			+ "	,cod_tapete "
@@ -120,6 +120,40 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,qtd_m_m2 "
 			+ "	,val_item_servico "
 			+ "FROM tb_itens_servicos ";
+		#endregion
+
+		#region UPDATE
+		private const String UPDATE_OS
+			= "UPDATE tb_ordens_de_servico SET "
+			+ "	cod_cliente = @codCliente "
+			+ "	,cod_usuario = @codUsuario "
+			+ "	,cod_status_os = @codStatusOS "
+			+ "	,num_os = @numOS "
+			+ "	,val_original = @valOriginal "
+			+ "	,val_final = @valFinal "
+			+ "	,dat_abertura = @datAbertura "
+			+ "	,dat_prev_conclusao = @datPrevConclusao "
+			+ "	,dat_fechamento = @datFechamento "
+			+ "	,txt_observacoes = @txtObservacoes "
+			+ "	,dat_atualizacao = NOW() "
+			+ "WHERE cod_ordem_de_servico = @codOrdemDeServico ";
+
+		private const String UPDATE_ITENS
+			= "UPDATE tb_itens_os SET "
+			+ "	cod_tapete = @codTapete "
+			+ "	,flt_comprimento = @fltComprimento "
+			+ "	,flt_largura = @fltLargura "
+			+ "	,dbl_area = @dblArea "
+			+ "	,val_item = @valItem "
+			+ "	,txt_observacoes = @txtObservacoes "
+			+ "WHERE cod_item_os = @codItemOS AND cod_ordem_de_servico = @codOrdemDeServico ";
+
+		private const String UPDATE_ITENS_SERVICOS
+			= "UPDATE tb_itens_servicos SET "
+			+ "	,cod_servico = @codServico "
+			+ "	,qtd_m_m2 = @qtdMm2 "
+			+ "	,val_item_servico = @valItemServico "
+			+ "WHERE cod_item_servico = @codItemServico AND cod_item_os = @codItemOS ";
 		#endregion
 
 		public static long count() {
@@ -317,7 +351,155 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 		public static List<Erro> update( ref List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> erros = new List<Erro>();
-			StringBuilder sql = new StringBuilder();
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			// abre a conexao
+			conn.Open();
+
+			foreach( OrdemDeServico os in ordensDeServico ) {
+
+				#region ATUALIZA OS
+				// so atualiza OS com status ATIVO
+				MySqlCommand cmd1 = new MySqlCommand( UPDATE_OS + " AND cod_status_os = 1", conn );
+				cmd1.Parameters.Add( "@codOrdemDeServico", MySqlDbType.UInt32 ).Value = os.codigo;
+				cmd1.Parameters.Add( "@codCliente", MySqlDbType.UInt32 ).Value = os.cliente.codigo;
+				cmd1.Parameters.Add( "@codUsuario", MySqlDbType.UInt32 ).Value = os.usuario.codigo;
+				cmd1.Parameters.Add( "@codStatusOS", MySqlDbType.UInt32 ).Value = os.status.codigo;
+				cmd1.Parameters.Add( "@numOS", MySqlDbType.UInt32 ).Value = os.numero;
+				cmd1.Parameters.Add( "@valOriginal", MySqlDbType.Double ).Value = os.valorOriginal;
+				cmd1.Parameters.Add( "@valFinal", MySqlDbType.Double ).Value = os.valorFinal;
+				cmd1.Parameters.Add( "@datAbertura", MySqlDbType.Timestamp ).Value = os.dataDeAbertura;
+				cmd1.Parameters.Add( "@datPrevConclusao", MySqlDbType.Timestamp ).Value = os.previsaoDeConclusao;
+				if(os.dataDeFechamento.CompareTo(DateTime.MinValue) > 0) {
+					cmd1.Parameters.Add( "@datFechamento", MySqlDbType.Timestamp ).Value = os.dataDeFechamento;
+				} else {
+					cmd1.Parameters.Add( "@datFechamento", MySqlDbType.Timestamp ).Value = DBNull.Value;
+				}
+				cmd1.Parameters.Add( "@txtObservacoes", MySqlDbType.VarChar ).Value = os.observacoes;
+
+				if( cmd1.ExecuteNonQuery() == 0 ) {
+					erros.Add( new Erro( 0, "Não foi possível atualizar a Ordem de Servi&ccedil;o: " + os.numero, "Tente atualiza-la novamente, mas lembre-se que n&atilde;o &eacute; poss&iacute;vel alterar Ordens de Servi&ccedil;o com Status <b>Finalizado</b> ou <b>Cancelado</b>" ) );
+					continue;
+				}
+				cmd1.Dispose();
+				#endregion
+
+				#region ATUALIZA ITENS
+
+				List<UInt32> codItens = new List<UInt32>();
+
+				foreach( Item item in os.itens ) {
+
+					MySqlCommand cmd2 = new MySqlCommand();
+					cmd2.Connection = conn;
+
+					cmd2.Parameters.Add( "@codTapete", MySqlDbType.UInt32 ).Value = item.tapete.codigo;
+					cmd2.Parameters.Add( "@codOrdemDeServico", MySqlDbType.UInt32 ).Value = os.codigo;
+					cmd2.Parameters.Add( "@fltComprimento", MySqlDbType.Float ).Value = item.comprimento;
+					cmd2.Parameters.Add( "@fltLargura", MySqlDbType.Float ).Value = item.largura;
+					cmd2.Parameters.Add( "@dblArea", MySqlDbType.Double ).Value = item.area;
+					cmd2.Parameters.Add( "@valItem", MySqlDbType.Double ).Value = item.valor;
+					cmd2.Parameters.Add( "@txtObservacoes", MySqlDbType.Double ).Value = item.observacoes;
+
+					if( item.codigo == 0 ) {
+						cmd2.CommandText = INSERT_ITENS;
+						item.codigo = UInt32.Parse( cmd2.ExecuteScalar().ToString() );
+					} else {
+						cmd2.Parameters.Add( "@codItemOS", MySqlDbType.UInt32 ).Value = item.codigo;
+						cmd2.CommandText = UPDATE_ITENS;
+						cmd2.ExecuteNonQuery();
+					}
+					cmd2.Dispose();
+
+
+					if( item.codigo == 0 ) {
+						erros.Add( new Erro( 0, "Não foi possível atualizar o item de tapete: " + item.tapete.nome + " da Ordem de Servi&ccedil;o: " + os.numero, "Tente atualiza-lo novamente" ) );
+						continue;
+					} else {
+						codItens.Add( item.codigo );
+					}
+
+					#region ATUALIZA SERVICOS DOS ITENS
+
+					List<UInt32> codServItens = new List<UInt32>();
+
+					foreach( ServicoDoItem servItem in item.servicosDoItem ) {
+						MySqlCommand cmd3 = new MySqlCommand();
+						cmd3.Connection = conn;
+
+						cmd3.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servItem.servico.codigo;
+						cmd3.Parameters.Add( "@codItemOS", MySqlDbType.UInt32 ).Value = item.codigo;
+						cmd3.Parameters.Add( "@qtdMm2", MySqlDbType.Double ).Value = servItem.quantidade_m_m2;
+						cmd3.Parameters.Add( "@valItemServico", MySqlDbType.Double ).Value = servItem.valor;
+
+						if( servItem.codigo == 0 ) {
+							cmd3.CommandText = INSERT_ITENS_SERVICOS;
+							servItem.codigo = UInt32.Parse( cmd3.ExecuteScalar().ToString() );
+						} else {
+							cmd3.Parameters.Add( "@codItemServico", MySqlDbType.UInt32 ).Value = servItem.codigo;
+							cmd3.CommandText = UPDATE_ITENS_SERVICOS;
+							cmd3.ExecuteNonQuery();
+						}
+						cmd3.Dispose();
+
+
+						if( servItem.codigo == 0 ) {
+							erros.Add( new Erro( 0, "Não foi possível atualizar o servi&ccedil;o: " + servItem.servico.nome + " do item de tapete: " + item.tapete.nome + " da Ordem de Servi&ccedil;o: " + os.numero, "Tente atualiza-lo novamente" ) );
+						} else {
+							codServItens.Add( servItem.codigo );
+						}
+					}
+
+					#region EXCLUI SERVICOS NAO USADOS
+					MySqlCommand cmdDelServ = new MySqlCommand();
+					cmdDelServ.Connection = conn;
+					cmdDelServ.Parameters.Add( "@codItemOS", MySqlDbType.UInt32 ).Value = item.codigo;
+					if( codServItens.Count > 0 ) {
+						StringBuilder codigos = new StringBuilder();
+						for( int i = 0; i < codServItens.Count; i++ ) {
+							String param = "@codItemServico_" + i;
+							codigos.Append( param + "," );
+							cmdDelServ.Parameters.Add( new MySqlParameter( param, MySqlDbType.UInt32 ) ).Value = codServItens[i];
+						}
+						codigos.Replace( ",", "", codigos.Length - 1, 1 );// remove a ultima virgula
+
+						cmdDelServ.CommandText = "DELETE FROM tb_itens_servicos WHERE cod_item_os = @codItemOS AND cod_item_servico NOT IN ( " + codigos.ToString() + " )";
+					} else {
+						cmdDelServ.CommandText = "DELETE FROM tb_itens_servicos WHERE cod_item_os = @codItemOS";
+					}
+					cmdDelServ.ExecuteNonQuery();
+					cmdDelServ.Dispose();
+					#endregion
+
+					#endregion
+				}
+
+				#region EXCLUI ITENS NAO USADOS
+				MySqlCommand cmdDelItens = new MySqlCommand();
+				cmdDelItens.Connection = conn;
+				cmdDelItens.Parameters.Add( "@codOrdemDeServico", MySqlDbType.UInt32 ).Value = os.codigo;
+				if( codItens.Count > 0 ) {
+					StringBuilder codigos = new StringBuilder();
+					for( int i = 0; i < codItens.Count; i++ ) {
+						String param = "@codItemOS_" + i;
+						codigos.Append( param + "," );
+						cmdDelItens.Parameters.Add( new MySqlParameter( param, MySqlDbType.UInt32 ) ).Value = codItens[i];
+					}
+					codigos.Replace( ",", "", codigos.Length - 1, 1 );// remove a ultima virgula
+
+					cmdDelItens.CommandText = "DELETE FROM tb_itens_os WHERE cod_ordem_de_servico = @codOrdemDeServico AND cod_item_os NOT IN ( " + codigos.ToString() + " )";
+				} else {
+					cmdDelItens.CommandText = "DELETE FROM tb_itens_os WHERE cod_ordem_de_servico = @codOrdemDeServico";
+				}
+				cmdDelItens.ExecuteNonQuery();
+				cmdDelItens.Dispose();
+				#endregion
+
+				#endregion
+			}
+
+			// fecha a conexao e libera recursos
+			conn.Close(); conn.Dispose();
 
 			return erros;
 		}
@@ -372,7 +554,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 		public static void fillItens( UInt32 codigoOrdemDeServico, ref List<Item> itens, MySqlConnection conn ) {
 
-			MySqlCommand cmd = new MySqlCommand( SELECT_ITEM + " WHERE cod_ordem_de_servico = @codOrdemDeServico", conn );
+			MySqlCommand cmd = new MySqlCommand( SELECT_ITENS + " WHERE cod_ordem_de_servico = @codOrdemDeServico", conn );
 			cmd.Parameters.Add( "@codOrdemDeServico", MySqlDbType.UInt32 ).Value = codigoOrdemDeServico;
 			MySqlDataReader reader = cmd.ExecuteReader();
 			while( reader.Read() ) {
