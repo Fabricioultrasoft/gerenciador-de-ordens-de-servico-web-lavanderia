@@ -1,20 +1,20 @@
 ﻿
-Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
+Ext.define('App.view.ordensDeServico.OrdensDeServicoEditView', {
     extend: 'App.webDesktop.Module',
     requires: ['App.ux.PreviewPlugin'],
-    id: 'module-ordensDeServico-add',
+    id: 'module-ordensDeServico-edit',
     init: function () {
     },
 
     createWindow: function (options) {
 
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('win-ordensDeServico-add');
+        var win = desktop.getWindow('win-ordensDeServico-edit');
         if (!win) {
             var panel = this.createPanel(options);
             win = desktop.createWindow({
-                id: 'win-ordensDeServico-add',
-                title: 'Adicionar Nova Ordem de Serviço',
+                id: 'win-ordensDeServico-edit',
+                title: 'Editar Ordem de Serviço',
                 width: 600,
                 height: 480,
                 iconCls: 'os-add',
@@ -30,10 +30,12 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
     },
 
     createPanel: function (options) {
+        var record = options.record;
         this.options = options;
-        this.cliente = null;
+        this.cliente = record.data.cliente;
+        var itens = record.data.itens;
 
-        var itensStore = Ext.create('App.store.ordensDeServico.ItensStore', {});
+        var itensStore = Ext.create('App.store.ordensDeServico.ItensStore', { data: itens });
         itensStore.on({ add: this.atualizarValorOS, update: this.atualizarValorOS, remove: this.atualizarValorOS, scope: this });
         this.itensStore = itensStore;
 
@@ -50,15 +52,15 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 { xtype: 'numberfield', name: 'numero', fieldLabel: 'Numero', emptyText: 'Numero da Ordem de Serviço', allowBlank: false, minValue: 0, hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
                 { xtype: 'fieldcontainer', fieldLabel: 'Cliente', layout: 'hbox', defaults: { hideLabel: true, allowBlank: false, blankText: 'Para adicionar um Cliente, clique no bot&atilde;o [Add]' },
                     items: [
-                        { xtype: 'numberfield', itemId:'moduleAddOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, cls: 'inputDisabled', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
-                        { xtype: 'textfield', itemId:'moduleAddOS_nomeCliente', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', readOnly: true, cls: 'inputDisabled', margins: '0 4' },
-                        { xtype: 'button', text: 'Add', itemId: 'btnAddClienteOS', iconCls: 'clientes-add-thumb', scope: this }
+                        { xtype: 'numberfield', itemId:'moduleEditOS_codigoCliente', width: 60, name: 'codigoCliente', emptyText: 'Codigo', editable: false, cls: 'inputDisabled', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false },
+                        { xtype: 'textfield', itemId:'moduleEditOS_nomeCliente', flex : 1, name : 'nomeCliente', emptyText: 'Nome do Cliente', readOnly: true, cls: 'inputDisabled', margins: '0 4' },
+                        { xtype: 'button', text: 'Add', itemId: 'btnEditClienteOS', iconCls: 'clientes-add-thumb', scope: this }
                     ]
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Valor R$', layout: 'hbox', defaults: { labelAlign: 'top', allowBlank: false },
                     items: [
-                        { xtype: 'numberfield', flex : 1, itemId: 'osAddValOriginal', name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0', editable: false, cls: 'inputDisabled' },
-                        { xtype: 'numberfield', flex : 1, itemId: 'osAddValFinal', name: 'valorFinal', fieldLabel: 'Valor Final/Com Desconto', emptyText: 'Final/Com Desconto', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
+                        { xtype: 'numberfield', flex : 1, itemId: 'osEditValOriginal', name: 'valorOriginal', fieldLabel: 'Valor Original', emptyText: 'Valor Original', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4 0 0', editable: false, cls: 'inputDisabled' },
+                        { xtype: 'numberfield', flex : 1, itemId: 'osEditValFinal', name: 'valorFinal', fieldLabel: 'Valor Final/Com Desconto', emptyText: 'Final/Com Desconto', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false }
                     ]
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Datas', layout: 'hbox', defaults: { labelAlign: 'top',allowBlank: false },
@@ -70,7 +72,9 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 { xtype: 'textarea', name: 'observacoes', fieldLabel: 'Observa&ccedil;&otilde;es', emptyText: 'Observações gerais', height: 50 }
             ]
         });
+        form.loadRecord(record);
         this.form = form;
+
 
         var renderServicosDoItem = function(servicos) {
             var nomes = new Array(), i;
@@ -79,7 +83,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
         };
 
         var grid = Ext.create('Ext.grid.Panel', {
-            id: 'grid-itensOS',
+            id: 'grid-itensEditOS',
             border: false,
             title: 'Itens da Ordem de Servi&ccedil;o',
             iconCls: 'itens',
@@ -100,11 +104,11 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
                 { text: 'Servi&ccedil;os', dataIndex: 'servicosDoItem', flex: 1, renderer: renderServicosDoItem }
             ],
             tbar: [
-                { itemId: 'module-ordensDeServico-add_btnAddItemOS', text: 'Adicionar', iconCls: 'itens-add', scope: this },
-                { itemId: 'module-ordensDeServico-add_btnEditItemOS', text: 'Editar', iconCls: 'itens-edit', scope: this, disabled: true },
-                { itemId: 'module-ordensDeServico-add_btnDelItemOS', text: 'Remover', iconCls: 'itens-del', scope: this, disabled: true },
+                { itemId: 'module-ordensDeServico-edit_btnAddItemOS', text: 'Adicionar', iconCls: 'itens-add', scope: this },
+                { itemId: 'module-ordensDeServico-edit_btnEditItemOS', text: 'Editar', iconCls: 'itens-edit', scope: this, disabled: true },
+                { itemId: 'module-ordensDeServico-edit_btnDelItemOS', text: 'Remover', iconCls: 'itens-del', scope: this, disabled: true },
                 {
-                    itemId: 'btnShowDescricaoOrdensDeServicoAdd',
+                    itemId: 'btnShowDescricaoOrdensDeServicoEdit',
                     iconCls: 'btn-detalhes',
                     scope: this,
                     pressed: false,
@@ -118,8 +122,8 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
             ],
             listeners: {
                 'selectionchange': function (view, records) {
-                    grid.down('#module-ordensDeServico-add_btnEditItemOS').setDisabled(!records.length);
-                    grid.down('#module-ordensDeServico-add_btnDelItemOS').setDisabled(!records.length);
+                    grid.down('#module-ordensDeServico-edit_btnEditItemOS').setDisabled(!records.length);
+                    grid.down('#module-ordensDeServico-edit_btnDelItemOS').setDisabled(!records.length);
                 }
             },
             viewConfig: {
@@ -142,7 +146,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
             layout: 'border',
             items: [form,grid],
             buttonAlign: 'center',
-            buttons: [{ text: 'Adicionar OS', itemId: 'btnConfirmAddOS', iconCls: 'os-add', padding: '10', scope: this}]
+            buttons: [{ text: 'Alterar OS', itemId: 'btnAlterarOS', iconCls: 'os-add', padding: '10', scope: this}]
         });
         this.mainPanel = mainPanel;
 
@@ -166,13 +170,13 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoAddView', {
         }
 
         this.cliente = cliente;
-        this.form.down('#moduleAddOS_codigoCliente').setValue(cliente.codigo);
-        this.form.down('#moduleAddOS_nomeCliente').setValue(cliente.nome);
+        this.form.down('#moduleEditOS_codigoCliente').setValue(cliente.codigo);
+        this.form.down('#moduleEditOS_nomeCliente').setValue(cliente.nome);
     },
 
     atualizarValorOS: function() {
-        var valOriginal = this.form.down('#osAddValOriginal');
-        var valFinal = this.form.down('#osAddValFinal');
+        var valOriginal = this.form.down('#osEditValOriginal');
+        var valFinal = this.form.down('#osEditValFinal');
 
         var valorOS = 0;
         this.itensStore.each(function(record){

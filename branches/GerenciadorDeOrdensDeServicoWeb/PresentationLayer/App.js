@@ -26,6 +26,7 @@ Ext.application({
         'usuarios.UsuariosEditController',
         'usuarios.UsuariosSearchController',
         'ordensDeServico.OrdensDeServicoAddController',
+        'ordensDeServico.OrdensDeServicoEditController',
         'ordensDeServico.OrdensDeServicoSearchController',
         'ordensDeServico.OrdensDeServicoClienteSearchController',
         'ordensDeServico.ItensController'

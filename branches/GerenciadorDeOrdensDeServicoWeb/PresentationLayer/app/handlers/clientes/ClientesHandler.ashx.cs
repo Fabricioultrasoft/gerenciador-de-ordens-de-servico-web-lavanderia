@@ -58,38 +58,24 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 		private String createClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeClientes.cadastrarListaDeClientes( ref clientes );
 
-			#region CONSTROI O JSON
 			formatarSaida( ref clientes );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + clientes.Count + "," );
-
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", clientes.Count );
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Dados cadastrados com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados cadastrados com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( "    \"data\": [" );
-			foreach( Cliente cliente in clientes ) {
-				jsonResposta.Append( "{" );
-				construirParteDoJsonDadosPrimarios( ref jsonResposta, cliente );
-				construirParteDoJsonMeiosDeContato( ref jsonResposta, cliente.meiosDeContato ); jsonResposta.Append( ", " );
-				construirParteDoJsonEnderecos( ref jsonResposta, cliente.enderecos );
-				jsonResposta.Append( " }\n," );
-			}
-			if( clientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
+			json.AppendFormat( "    \"data\": {0}", clientesToJson( clientes ) );
+			json.Append( "}" );
 
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String readClientes( UInt32 start, UInt32 limit, String jsonFilters, String jsonSorters ) {
@@ -111,100 +97,105 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 				sorters = new List<Sorter>();
 			}
 
-
 			erros = GerenciadorDeClientes.preencherListaDeClientes( out clientes, start, limit, filters, sorters );
 			long qtdRegistros = GerenciadorDeClientes.countClientes( filters );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 
-			#region CONSTROI O JSON
 			formatarSaida( ref clientes );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + qtdRegistros + "," );
-
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", qtdRegistros );
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Foram encontrados " + qtdRegistros + " registros\"]," );
+				json.Append( " \"success\": true," );
+				json.AppendFormat( " \"message\": [\"Foram encontrados {0} registros\"],", qtdRegistros );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
+			json.AppendFormat( " \"data\": {0}", clientesToJson( clientes ) );
+			json.AppendLine( "}" );
 
-			jsonResposta.AppendLine( "    \"data\": [" );
-			foreach( Cliente cliente in clientes ) {
-				jsonResposta.Append( "{" );
-				construirParteDoJsonDadosPrimarios( ref jsonResposta, cliente );
-				construirParteDoJsonMeiosDeContato( ref jsonResposta, cliente.meiosDeContato ); jsonResposta.Append( ", " );
-				construirParteDoJsonEnderecos( ref jsonResposta, cliente.enderecos );
-				jsonResposta.Append( " }\n," );
-			}
-			if( clientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
-
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String updateClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeClientes.atualizarListaDeClientes( ref clientes );
 
-			#region CONSTROI O JSON
 			formatarSaida( ref clientes );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + clientes.Count + "," );
-
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", clientes.Count );
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Dados atualizados com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados atualizados com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( "    \"data\": [" );
-			foreach( Cliente cliente in clientes ) {
-				jsonResposta.Append( "{" );
-				construirParteDoJsonDadosPrimarios( ref jsonResposta, cliente );
-				construirParteDoJsonMeiosDeContato( ref jsonResposta, cliente.meiosDeContato ); jsonResposta.Append( ", " );
-				construirParteDoJsonEnderecos( ref jsonResposta, cliente.enderecos );
-				jsonResposta.Append( " }\n," );
-			}
-			if( clientes.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
+			json.AppendFormat( " \"data\": {0}", clientesToJson( clientes ) );
+			json.Append( "}" );
 
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String destroyClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeClientes.excluirListaDeClientes( clientes );
 
-			#region CONSTROI O JSON
 			formatarSaida( ref clientes );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + clientes.Count + "," );
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", clientes.Count );
 
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Dados excluidos com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados excluidos com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( "    \"data\": [] }" );
-			#endregion
+			json.Append( " \"data\": [] }" );
 
-			return jsonResposta.ToString();
+			return json.ToString();
+		}
+
+		public static String clienteToJson( Cliente cliente ) {
+			StringBuilder json = new StringBuilder();
+
+			json.Append( "{" );
+			construirParteDoJsonDadosPrimarios( ref json, cliente );
+			construirParteDoJsonMeiosDeContato( ref json, cliente.meiosDeContato ); json.Append( ", " );
+			construirParteDoJsonEnderecos( ref json, cliente.enderecos );
+			json.Append( "}" );
+
+			return json.ToString();
+		}
+
+		public static String clientesToJson( List<Cliente> clientes ) {
+			StringBuilder json = new StringBuilder();
+
+			json.Append( "[" );
+			foreach( Cliente cliente in clientes ) {
+				json.AppendFormat( "{0},", clienteToJson( cliente ) );
+			}
+			if( clientes.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
+			json.Append( "]" );
+
+			return json.ToString();
+		}
+
+		public static Cliente jsonToCliente( String json ) {
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			Cliente cliente = new Cliente();
+
+			Dictionary<String, Object> clienteTemp = js.Deserialize<Dictionary<String, Object>>( json );
+
+			auxJsonToCliente( ref cliente, ref clienteTemp, ref js );
+			
+			return cliente;
 		}
 
 		public static List<Cliente> jsonToClientes( String json ) {
@@ -213,78 +204,81 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 			List<Dictionary<String, Object>> list = js.Deserialize<List<Dictionary<String, Object>>>( json );
 
-			foreach( Dictionary<String, Object> clienteTemp in list ) {
+			foreach( Dictionary<String, Object> dic in list ) {
 				Cliente cliente = new Cliente();
-
-				cliente.codigo = UInt32.Parse( clienteTemp["codigo"].ToString() );
-				cliente.ativo = bool.Parse( clienteTemp["ativo"].ToString() );
-				cliente.nome = clienteTemp["nome"].ToString();
-				cliente.conjuge = clienteTemp["conjuge"].ToString();
-				cliente.tipoDeCliente.codigo = UInt32.Parse( clienteTemp["codigoTipoDeCliente"].ToString() );
-				cliente.tipoDeCliente.nome = clienteTemp["nomeTipoDeCliente"].ToString();
-				cliente.tipoDeCliente.ativo = bool.Parse( clienteTemp["ativoTipoDeCliente"].ToString() );
-				cliente.sexo = (Sexo) Enum.Parse( typeof( Sexo ), clienteTemp["sexo"].ToString(), true );
-				try { cliente.dataDeNascimento = DateTime.Parse( clienteTemp["dataDeNascimento"].ToString() ); } catch { }
-				cliente.rg = clienteTemp["rg"].ToString();
-				cliente.cpf = clienteTemp["cpf"].ToString();
-				cliente.observacoes = clienteTemp["observacoes"].ToString();
-				try { cliente.dataDeCadastro = DateTime.Parse( clienteTemp["dataDeCadastro"].ToString() ); } catch { }
-				try { cliente.dataDeAtualizacao = DateTime.Parse( clienteTemp["dataDeAtualizacao"].ToString() ); } catch { }
-
-
-				StringBuilder meiosDeContatoJson = new StringBuilder();
-				js.Serialize( clienteTemp["meiosDeContato"], meiosDeContatoJson );
-				foreach( Dictionary<String, String> meioDeContatoTemp in js.Deserialize<List<Dictionary<String, String>>>( meiosDeContatoJson.ToString() ) ) {
-					MeioDeContato meioDeContato = new MeioDeContato();
-
-					meioDeContato.codigo = UInt32.Parse(meioDeContatoTemp["codigo"]);
-					meioDeContato.contato = meioDeContatoTemp["contato"];
-					meioDeContato.intContato = (UInt32) Util.getNumeros( meioDeContato.contato );
-					meioDeContato.descricao = meioDeContatoTemp["descricao"];
-					meioDeContato.tipoDeContato = new TipoDeContato(UInt32.Parse(meioDeContatoTemp["codigoTipoDeContato"]), meioDeContatoTemp["nomeTipoDeContato"]);
-
-					cliente.meiosDeContato.Add(meioDeContato);
-				}
-
-				StringBuilder enderecosJson = new StringBuilder();
-				js.Serialize( clienteTemp["enderecos"], enderecosJson );
-				foreach( Dictionary<String, String> enderecoTemp in js.Deserialize<List<Dictionary<String, String>>>( enderecosJson.ToString() ) ) {
-					Endereco endereco = new Endereco();
-
-					endereco.codigo = UInt32.Parse( enderecoTemp["codigo"] );
-					endereco.numero = UInt32.Parse( enderecoTemp["numero"] );
-					endereco.complemento = enderecoTemp["complemento"];
-					endereco.pontoDeReferencia = enderecoTemp["pontoDeReferencia"];
-
-					endereco.logradouro.codigo = UInt32.Parse( enderecoTemp["codigoLogradouro"] );
-					endereco.logradouro.nome = enderecoTemp["nomeLogradouro"];
-					endereco.logradouro.cep = enderecoTemp["cep"];
-					endereco.logradouro.tipoDeLogradouro.codigo = UInt32.Parse( enderecoTemp["codigoTipoDeLogradouro"] );
-					endereco.logradouro.tipoDeLogradouro.nome = enderecoTemp["nomeTipoDeLogradouro"];
-					endereco.logradouro.bairro.codigo = UInt32.Parse( enderecoTemp["codigoBairro"] );
-					endereco.logradouro.bairro.nome = enderecoTemp["nomeBairro"];
-					endereco.logradouro.bairro.cidade.codigo = UInt32.Parse( enderecoTemp["codigoCidade"] );
-					endereco.logradouro.bairro.cidade.nome = enderecoTemp["nomeCidade"];
-					endereco.logradouro.bairro.cidade.estado.codigo = UInt32.Parse( enderecoTemp["codigoEstado"] );
-					endereco.logradouro.bairro.cidade.estado.nome = enderecoTemp["nomeEstado"];
-					endereco.logradouro.bairro.cidade.estado.pais.codigo = UInt32.Parse( enderecoTemp["codigoPais"] );
-					endereco.logradouro.bairro.cidade.estado.pais.nome = enderecoTemp["nomePais"];
-
-					endereco.bairro = endereco.logradouro.bairro;
-					endereco.cidade = endereco.logradouro.bairro.cidade;
-					endereco.estado = endereco.logradouro.bairro.cidade.estado;
-					endereco.pais = endereco.logradouro.bairro.cidade.estado.pais;
-
-					cliente.enderecos.Add(endereco);
-				}
-				
+				Dictionary<String, Object> clienteTemp = dic;
+				auxJsonToCliente( ref cliente, ref clienteTemp, ref js );
 				clientes.Add( cliente );
 			}
 
 			return clientes;
 		}
 
-		public static void construirParteDoJsonDadosPrimarios( ref StringBuilder json, Cliente cliente ) {
+		private static void auxJsonToCliente( ref Cliente cliente, ref Dictionary<String, Object> clienteTemp, ref JavaScriptSerializer js ) {
+			cliente.codigo = UInt32.Parse( clienteTemp["codigo"].ToString() );
+			cliente.ativo = bool.Parse( clienteTemp["ativo"].ToString() );
+			cliente.nome = clienteTemp["nome"].ToString();
+			cliente.conjuge = clienteTemp["conjuge"].ToString();
+			cliente.tipoDeCliente.codigo = UInt32.Parse( clienteTemp["codigoTipoDeCliente"].ToString() );
+			cliente.tipoDeCliente.nome = clienteTemp["nomeTipoDeCliente"].ToString();
+			cliente.tipoDeCliente.ativo = bool.Parse( clienteTemp["ativoTipoDeCliente"].ToString() );
+			cliente.sexo = (Sexo) Enum.Parse( typeof( Sexo ), clienteTemp["sexo"].ToString(), true );
+			try { cliente.dataDeNascimento = DateTime.Parse( clienteTemp["dataDeNascimento"].ToString() ); } catch { }
+			cliente.rg = clienteTemp["rg"].ToString();
+			cliente.cpf = clienteTemp["cpf"].ToString();
+			cliente.observacoes = clienteTemp["observacoes"].ToString();
+			try { cliente.dataDeCadastro = DateTime.Parse( clienteTemp["dataDeCadastro"].ToString() ); } catch { }
+			try { cliente.dataDeAtualizacao = DateTime.Parse( clienteTemp["dataDeAtualizacao"].ToString() ); } catch { }
+
+
+			StringBuilder meiosDeContatoJson = new StringBuilder();
+			js.Serialize( clienteTemp["meiosDeContato"], meiosDeContatoJson );
+			foreach( Dictionary<String, String> meioDeContatoTemp in js.Deserialize<List<Dictionary<String, String>>>( meiosDeContatoJson.ToString() ) ) {
+				MeioDeContato meioDeContato = new MeioDeContato();
+
+				meioDeContato.codigo = UInt32.Parse( meioDeContatoTemp["codigo"] );
+				meioDeContato.contato = meioDeContatoTemp["contato"];
+				meioDeContato.intContato = (UInt32) Util.getNumeros( meioDeContato.contato );
+				meioDeContato.descricao = meioDeContatoTemp["descricao"];
+				meioDeContato.tipoDeContato = new TipoDeContato( UInt32.Parse( meioDeContatoTemp["codigoTipoDeContato"] ), meioDeContatoTemp["nomeTipoDeContato"] );
+
+				cliente.meiosDeContato.Add( meioDeContato );
+			}
+
+			StringBuilder enderecosJson = new StringBuilder();
+			js.Serialize( clienteTemp["enderecos"], enderecosJson );
+			foreach( Dictionary<String, String> enderecoTemp in js.Deserialize<List<Dictionary<String, String>>>( enderecosJson.ToString() ) ) {
+				Endereco endereco = new Endereco();
+
+				endereco.codigo = UInt32.Parse( enderecoTemp["codigo"] );
+				endereco.numero = UInt32.Parse( enderecoTemp["numero"] );
+				endereco.complemento = enderecoTemp["complemento"];
+				endereco.pontoDeReferencia = enderecoTemp["pontoDeReferencia"];
+
+				endereco.logradouro.codigo = UInt32.Parse( enderecoTemp["codigoLogradouro"] );
+				endereco.logradouro.nome = enderecoTemp["nomeLogradouro"];
+				endereco.logradouro.cep = enderecoTemp["cep"];
+				endereco.logradouro.tipoDeLogradouro.codigo = UInt32.Parse( enderecoTemp["codigoTipoDeLogradouro"] );
+				endereco.logradouro.tipoDeLogradouro.nome = enderecoTemp["nomeTipoDeLogradouro"];
+				endereco.logradouro.bairro.codigo = UInt32.Parse( enderecoTemp["codigoBairro"] );
+				endereco.logradouro.bairro.nome = enderecoTemp["nomeBairro"];
+				endereco.logradouro.bairro.cidade.codigo = UInt32.Parse( enderecoTemp["codigoCidade"] );
+				endereco.logradouro.bairro.cidade.nome = enderecoTemp["nomeCidade"];
+				endereco.logradouro.bairro.cidade.estado.codigo = UInt32.Parse( enderecoTemp["codigoEstado"] );
+				endereco.logradouro.bairro.cidade.estado.nome = enderecoTemp["nomeEstado"];
+				endereco.logradouro.bairro.cidade.estado.pais.codigo = UInt32.Parse( enderecoTemp["codigoPais"] );
+				endereco.logradouro.bairro.cidade.estado.pais.nome = enderecoTemp["nomePais"];
+
+				endereco.bairro = endereco.logradouro.bairro;
+				endereco.cidade = endereco.logradouro.bairro.cidade;
+				endereco.estado = endereco.logradouro.bairro.cidade.estado;
+				endereco.pais = endereco.logradouro.bairro.cidade.estado.pais;
+
+				cliente.enderecos.Add( endereco );
+			}
+		}
+
+		private static void construirParteDoJsonDadosPrimarios( ref StringBuilder json, Cliente cliente ) {
 			json.AppendFormat( " \"codigo\": {0}, ", cliente.codigo );
 			json.AppendFormat( " \"nome\": \"{0}\", ", cliente.nome );
 			json.AppendFormat( " \"conjuge\": \"{0}\", ", cliente.conjuge );
@@ -301,11 +295,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			json.AppendFormat( " \"dataDeCadastro\": \"{0}\", ", cliente.dataDeCadastro.ToString() );
 			json.AppendFormat( " \"dataDeAtualizacao\": \"{0}\", ", cliente.dataDeAtualizacao.ToString() );
 		}
-
-		public static void construirParteDoJsonMeiosDeContato( ref StringBuilder json, List<MeioDeContato> meiosDeContato ) {
+		private static void construirParteDoJsonMeiosDeContato( ref StringBuilder json, List<MeioDeContato> meiosDeContato ) {
 			json.AppendLine( " \"meiosDeContato\": [" );
 			foreach( MeioDeContato meioDeContato in meiosDeContato ) {
-				json.Append(" { ");
+				json.Append( " { " );
 				json.AppendFormat( " \"codigo\": {0}, ", meioDeContato.codigo );
 				json.AppendFormat( " \"codigoTipoDeContato\": {0}, ", meioDeContato.tipoDeContato.codigo );
 				json.AppendFormat( " \"nomeTipoDeContato\": \"{0}\", ", meioDeContato.tipoDeContato.nome );
@@ -316,8 +309,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			if( meiosDeContato.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
 			json.AppendLine( "]" );
 		}
-
-		public static void construirParteDoJsonEnderecos( ref StringBuilder json, List<Endereco> enderecos ) {
+		private static void construirParteDoJsonEnderecos( ref StringBuilder json, List<Endereco> enderecos ) {
 			json.AppendLine( " \"enderecos\": [" );
 			foreach( Endereco endereco in enderecos ) {
 				json.Append( " { " );

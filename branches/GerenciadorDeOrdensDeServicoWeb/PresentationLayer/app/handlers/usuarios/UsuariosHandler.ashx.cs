@@ -17,6 +17,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 	/// </summary>
 	public class UsuariosHandler : IHttpHandler, IRequiresSessionState {
 
+		private static SHA1 sha1 = new SHA1CryptoServiceProvider();
+
 		public void ProcessRequest( HttpContext context ) {
 			String action = String.Empty;// metodos CRUD
 			String response = String.Empty;
@@ -52,7 +54,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		}
 
 		private String createUsuarios( String records ) {
-			SHA1 sha1 = new SHA1CryptoServiceProvider();
+			
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.cadastrarListaDeUsuarios( ref usuarios );
@@ -70,17 +72,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
 			}
 
-			jsonResposta.AppendLine( "    \"data\": [" );
-			foreach( Usuario usu in usuarios ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.AppendFormat( " \"codigo\": {0}, ", usu.codigo );
-				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", usu.nome );
-				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usu.senha ) ) ) );
-				jsonResposta.Append( "}," );
-			}
-			if( usuarios.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
-
+			jsonResposta.AppendFormat( " \"data\": {0}", usuariosToJson(usuarios) );
 			// fim do json
 			jsonResposta.AppendLine( "}" );
 			#endregion
@@ -93,98 +85,93 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 			List<Usuario> usuarios;
 			List<Erro> erros = GerenciadorDeUsuarios.preencherListaDeUsuarios( out usuarios, start, limit );
 			long qtdRegistros = GerenciadorDeUsuarios.countUsuarios();
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 
-			#region CONSTROI O JSON
 			formatarSaida( ref usuarios );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + qtdRegistros + "," );
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", qtdRegistros );
 
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Foram encontrados " + qtdRegistros + " registros\"]," );
+				json.Append( " \"success\": true," );
+				json.AppendFormat( " \"message\": [\"Foram encontrados {0} registros\"],", qtdRegistros );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
-
-			jsonResposta.AppendLine( "    \"data\": [" );
-			foreach( Usuario usu in usuarios ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.AppendFormat( " \"codigo\": {0}, ", usu.codigo );
-				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", usu.nome );
-				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", usu.senha );
-				jsonResposta.Append( "}," );
-			}
-			if( usuarios.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
-
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			json.AppendFormat( " \"data\": {0}", usuariosToJson(usuarios) );
+			json.AppendLine( "}" );
+			
+			return json.ToString();
 		}
 
 		private String updateUsuarios( String records ) {
-			SHA1 sha1 = new SHA1CryptoServiceProvider();
 			List<Usuario> usuarios = jsonToUsuarios( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.atualizarListaDeUsuarios( usuarios );
 
-			#region CONSTROI O JSON
 			formatarSaida( ref usuarios );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + usuarios.Count + "," );
-
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", usuarios.Count );
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Dados atualizados com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados atualizados com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
-
-			jsonResposta.AppendLine( "    \"data\": [" );
-			foreach( Usuario usu in usuarios ) {
-				jsonResposta.Append( "{" );
-				jsonResposta.AppendFormat( " \"codigo\": {0}, ", usu.codigo );
-				jsonResposta.AppendFormat( " \"nome\": \"{0}\", ", usu.nome );
-				jsonResposta.AppendFormat( " \"senha\": \"{0}\", ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usu.senha ) ) ) );
-				jsonResposta.Append( "}," );
-			}
-			if( usuarios.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
-
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			json.AppendFormat( " \"data\": {0}", usuariosToJson(usuarios) );
+			json.Append( "}" );
+			
+			return json.ToString();
 		}
 
 		private String destroyUsuarios( String records ) {
 			List<Usuario> usuarios = jsonToUsuarios( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.excluirListaDeUsuarios( usuarios );
 
-			#region CONSTROI O JSON
 			formatarSaida( ref usuarios );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( "    \"total\": " + usuarios.Count + "," );
-
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", usuarios.Count );
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( "    \"success\": true," );
-				jsonResposta.AppendLine( "    \"message\": [\"Dados excluidos com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados excluidos com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( "    \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
+			json.Append( " \"data\": [] }" );
+			
+			return json.ToString();
+		}
 
-			jsonResposta.AppendLine( "    \"data\": [] }" );
-			#endregion
+		public static String usuarioToJson( Usuario usuario ) {
+			StringBuilder json = new StringBuilder();
+			json.Append( "{" );
+			json.AppendFormat( " \"codigo\": {0}, ", usuario.codigo );
+			json.AppendFormat( " \"nome\": \"{0}\", ", usuario.nome );
+			json.AppendFormat( " \"senha\": \"{0}\", ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usuario.senha ) ) ) );
+			json.Append( "}" );
+			return json.ToString();
+		}
 
-			return jsonResposta.ToString();
+		public static String usuariosToJson(List<Usuario> usuarios ) {
+			StringBuilder json = new StringBuilder();
+
+			json.Append( "[" );
+			foreach( Usuario usu in usuarios ) {
+				json.AppendFormat( "{0},", usuarioToJson( usu ) );
+			}
+			if( usuarios.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
+			json.Append( "]" );
+
+			return json.ToString();
+		}
+
+		public static Usuario jsonToUsuario( String json ) {
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			Usuario usuario = js.Deserialize<Usuario>( json );
+			return usuario;
 		}
 
 		public static List<Usuario> jsonToUsuarios( String json ) {

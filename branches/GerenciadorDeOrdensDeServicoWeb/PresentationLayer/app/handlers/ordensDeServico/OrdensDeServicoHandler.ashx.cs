@@ -12,6 +12,8 @@ using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servicos;
 using System.Globalization;
 using System.Web.SessionState;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.usuarios;
+using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.clientes;
+using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuarios;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensDeServico {
 	/// <summary>
@@ -24,7 +26,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 		public void ProcessRequest( HttpContext context ) {
 
 			thisContext = context;
-			
+
 			String action = String.Empty;// metodos CRUD
 			String response = String.Empty;
 
@@ -70,40 +72,32 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			List<OrdemDeServico> ordensDeServico = jsonToOrdensDeServico( records );
 
 			Usuario usu = (Usuario) thisContext.Session["usuario"];
-			foreach(OrdemDeServico os in ordensDeServico) {
+			foreach( OrdemDeServico os in ordensDeServico ) {
 				if( os.usuario.codigo == 0 ) {
 					os.usuario.codigo = usu.codigo;
 				}
 			}
 
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeOrdensDeServico.cadastrar( ref ordensDeServico );
 
-			#region CONSTROI O JSON
 			formatarSaida( ordensDeServico );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( " \"total\": " + ordensDeServico.Count + "," );
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", ordensDeServico.Count );
 
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( " \"success\": true," );
-				jsonResposta.AppendLine( " \"message\": [\"Dados cadastrados com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados cadastrados com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( " \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( " \"data\": [" );
-			foreach( OrdemDeServico os in ordensDeServico ) {
-				jsonResposta.Append( ordemDeServicoToJson(os) ).Append( "," );
-			}
-			if( ordensDeServico.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
+			json.AppendFormat( " \"data\": {0}", ordensDeServicoToJson( ordensDeServico ) );
 
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
+			json.Append( "}" );
 
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String readOrdensDeServico( UInt32 start, UInt32 limit, String jsonFilters, String jsonSorters ) {
@@ -128,89 +122,69 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 			erros = GerenciadorDeOrdensDeServico.preencher( out ordensDeServico, start, limit, filters, sorters );
 			long qtdRegistros = GerenciadorDeOrdensDeServico.count( filters );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 
-			#region CONSTROI O JSON
 			formatarSaida( ordensDeServico );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( " \"total\": " + qtdRegistros + "," );
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", qtdRegistros );
 
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( " \"success\": true," );
-				jsonResposta.AppendLine( " \"message\": [\"Foram encontrados " + qtdRegistros + " registros\"]," );
+				json.Append( " \"success\": true," );
+				json.AppendFormat( " \"message\": [\"Foram encontrados {0} registros\"],", qtdRegistros );
 			} else {
-				jsonResposta.AppendLine( " \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( " \"data\": [" );
-			foreach( OrdemDeServico os in ordensDeServico ) {
-				jsonResposta.Append( ordemDeServicoToJson(os) ).Append( "," );
-			}
-			if( ordensDeServico.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
+			json.AppendFormat( " \"data\": {0}", ordensDeServicoToJson( ordensDeServico ) );
+			json.Append( "}" );
 
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String updateOrdensDeServico( String records ) {
 			List<OrdemDeServico> ordensDeServico = jsonToOrdensDeServico( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeOrdensDeServico.atualizar( ref ordensDeServico );
 
-			#region CONSTROI O JSON
 			formatarSaida( ordensDeServico );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( " \"total\": " + ordensDeServico.Count + "," );
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", ordensDeServico.Count );
 
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( " \"success\": true," );
-				jsonResposta.AppendLine( " \"message\": [\"Dados atualizados com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados atualizados com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( " \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( " \"data\": [" );
-			foreach( OrdemDeServico os in ordensDeServico ) {
-				jsonResposta.Append( ordemDeServicoToJson(os) ).Append( "," );
-			}
-			if( ordensDeServico.Count > 0 ) jsonResposta.Remove( jsonResposta.Length - 1, 1 );// remove a ultima virgula
-			jsonResposta.Append( "]" );
+			json.AppendFormat( " \"data\": {0}", ordensDeServicoToJson( ordensDeServico ) );
+			json.Append( "}" );
 
-			// fim do json
-			jsonResposta.AppendLine( "}" );
-			#endregion
-
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String destroyOrdensDeServico( String records ) {
 			List<OrdemDeServico> ordensDeServico = jsonToOrdensDeServico( records );
-			StringBuilder jsonResposta = new StringBuilder();
+			StringBuilder json = new StringBuilder();
 			List<Erro> erros = GerenciadorDeOrdensDeServico.excluir( ordensDeServico );
 
-			#region CONSTROI O JSON
 			formatarSaida( ordensDeServico );
-			jsonResposta.AppendLine( "{" );
-			jsonResposta.AppendLine( " \"total\": " + ordensDeServico.Count + "," );
+			json.Append( "{" );
+			json.AppendFormat( " \"total\": {0}, ", ordensDeServico.Count );
 
 			if( erros.Count == 0 ) {
-				jsonResposta.AppendLine( " \"success\": true," );
-				jsonResposta.AppendLine( " \"message\": [\"Dados excluidos com sucesso\"]," );
+				json.Append( " \"success\": true," );
+				json.Append( " \"message\": [\"Dados excluidos com sucesso\"]," );
 			} else {
-				jsonResposta.AppendLine( " \"success\": false," );
-				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
+				json.Append( " \"success\": false," );
+				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 
-			jsonResposta.AppendLine( " \"data\": [] }" );
-			#endregion
+			json.Append( " \"data\": [] }" );
 
-			return jsonResposta.ToString();
+			return json.ToString();
 		}
 
 		private String readStatus() {
@@ -252,44 +226,47 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			StringBuilder json = new StringBuilder();
 			formatarSaida( os.itens );
 
-			json.Append("{");
-			json.AppendFormat(" \"codigo\": {0}, ", os.codigo);
-			json.AppendFormat(" \"numero\": {0}, ", os.numero);
-			json.AppendFormat(" \"valorOriginal\": {0}, ", os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-			json.AppendFormat(" \"valorFinal\": {0}, ", os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-			json.AppendFormat(" \"codigoStatus\": {0}, ", os.status.codigo);
-			json.AppendFormat(" \"nomeStatus\": \"{0}\", ", os.status.nome);
+			json.Append( "{" );
+			json.AppendFormat( " \"codigo\": {0}, ", os.codigo );
+			json.AppendFormat( " \"numero\": {0}, ", os.numero );
+			json.AppendFormat( " \"valorOriginal\": {0}, ", os.valorOriginal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+			json.AppendFormat( " \"valorFinal\": {0}, ", os.valorFinal.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+			json.AppendFormat( " \"codigoStatus\": {0}, ", os.status.codigo );
+			json.AppendFormat( " \"nomeStatus\": \"{0}\", ", os.status.nome );
 			json.AppendFormat( " \"dataDeAbertura\": \"{0}\", ", os.dataDeAbertura.ToString( "dd/MM/yyyy" ) );
 			json.AppendFormat( " \"previsaoDeConclusao\": \"{0}\", ", os.previsaoDeConclusao.ToString( "dd/MM/yyyy" ) );
 			json.AppendFormat( " \"dataDeFechamento\": \"{0}\", ", ( os.dataDeFechamento.CompareTo( DateTime.MinValue ) > 0 ) ? os.dataDeFechamento.ToString( "dd/MM/yyyy" ) : "---" );
-			json.AppendFormat(" \"observacoes\": \"{0}\", ", os.observacoes);
-			json.AppendFormat(" \"codigoCliente\": {0}, ", os.cliente.codigo);
-			json.AppendFormat(" \"nomeCliente\": \"{0}\", ", os.cliente.nome);
-			
-			json.Append(" \"itens\": [" );
-			foreach(Item item in os.itens) {
+			json.AppendFormat( " \"observacoes\": \"{0}\", ", os.observacoes );
+			json.AppendFormat( " \"codigoCliente\": {0}, ", os.cliente.codigo );
+			json.AppendFormat( " \"nomeCliente\": \"{0}\", ", os.cliente.nome );
+			json.AppendFormat( " \"cliente\": {0}, ", ClientesHandler.clienteToJson( os.cliente ) );
+			json.AppendFormat( " \"usuario\": {0}, ", UsuariosHandler.usuarioToJson( os.usuario ) );
+
+
+			json.Append( " \"itens\": [" );
+			foreach( Item item in os.itens ) {
 
 				json.Append( "{" );
-				json.AppendFormat(" \"codigo\": {0}, ", item.codigo);
-				json.AppendFormat(" \"codigoOrdemDeServico\": {0}, ", os.codigo);
-				json.AppendFormat(" \"codigoTapete\": {0}, ", item.tapete.codigo);
-				json.AppendFormat(" \"nomeTapete\": \"{0}\", ", item.tapete.nome);
-				json.AppendFormat(" \"comprimento\": {0}, ", item.comprimento.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-				json.AppendFormat(" \"largura\": {0}, ", item.largura.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-				json.AppendFormat(" \"area\": {0}, ", item.area.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-				json.AppendFormat(" \"valor\": {0}, ", item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-				json.AppendFormat(" \"observacoes\": \"{0}\", ", item.observacoes);
+				json.AppendFormat( " \"codigo\": {0}, ", item.codigo );
+				json.AppendFormat( " \"codigoOrdemDeServico\": {0}, ", os.codigo );
+				json.AppendFormat( " \"codigoTapete\": {0}, ", item.tapete.codigo );
+				json.AppendFormat( " \"nomeTapete\": \"{0}\", ", item.tapete.nome );
+				json.AppendFormat( " \"comprimento\": {0}, ", item.comprimento.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				json.AppendFormat( " \"largura\": {0}, ", item.largura.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				json.AppendFormat( " \"area\": {0}, ", item.area.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				json.AppendFormat( " \"valor\": {0}, ", item.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+				json.AppendFormat( " \"observacoes\": \"{0}\", ", item.observacoes );
 
-				json.Append(" \"servicosDoItem\": [" );
+				json.Append( " \"servicosDoItem\": [" );
 				foreach( ServicoDoItem servicoDoItem in item.servicosDoItem ) {
 					json.Append( "{" );
-					json.AppendFormat(" \"codigo\": {0}, ", servicoDoItem.codigo);
-					json.AppendFormat(" \"codigoItem\": {0}, ", item.codigo);
-					json.AppendFormat(" \"codigoServico\": {0}, ", servicoDoItem.servico.codigo);
-					json.AppendFormat(" \"nomeServico\": \"{0}\", ", servicoDoItem.servico.nome);
+					json.AppendFormat( " \"codigo\": {0}, ", servicoDoItem.codigo );
+					json.AppendFormat( " \"codigoItem\": {0}, ", item.codigo );
+					json.AppendFormat( " \"codigoServico\": {0}, ", servicoDoItem.servico.codigo );
+					json.AppendFormat( " \"nomeServico\": \"{0}\", ", servicoDoItem.servico.nome );
 					json.AppendFormat( " \"servico\": {0}, ", ServicosHandler.servicoEspecificoToJson( servicoDoItem.servico ) );
-					json.AppendFormat(" \"quantidade_m_m2\": {0}, ", servicoDoItem.quantidade_m_m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
-					json.AppendFormat(" \"valor\": {0} ", servicoDoItem.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ));
+					json.AppendFormat( " \"quantidade_m_m2\": {0}, ", servicoDoItem.quantidade_m_m2.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
+					json.AppendFormat( " \"valor\": {0} ", servicoDoItem.valor.ToString( "F", CultureInfo.CreateSpecificCulture( "en-US" ) ) );
 					json.Append( "}," );
 				}
 				if( item.servicosDoItem.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
@@ -297,7 +274,20 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 			}
 			if( os.itens.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
-			json.Append("]}");
+			json.Append( "]}" );
+
+			return json.ToString();
+		}
+
+		public String ordensDeServicoToJson( List<OrdemDeServico> ordensDeServico ) {
+			StringBuilder json = new StringBuilder();
+
+			json.Append( "[" );
+			foreach( OrdemDeServico os in ordensDeServico ) {
+				json.AppendFormat( "{0},", ordemDeServicoToJson( os ) );
+			}
+			if( ordensDeServico.Count > 0 ) json.Remove( json.Length - 1, 1 );// remove a ultima virgula
+			json.Append( "]" );
 
 			return json.ToString();
 		}
@@ -315,17 +305,29 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 				ordem.numero = UInt32.Parse( ordemTemp["numero"].ToString() );
 				ordem.valorOriginal = Double.Parse( ordemTemp["valorOriginal"].ToString() );
 				ordem.valorFinal = Double.Parse( ordemTemp["valorFinal"].ToString() );
-				try { 
-					ordem.status.codigo = UInt32.Parse(ordemTemp["codigoStatus"].ToString());
+				try {
+					ordem.status.codigo = UInt32.Parse( ordemTemp["codigoStatus"].ToString() );
 					ordem.status.nome = ordemTemp["nomeStatus"].ToString();
-				} catch {}
+				} catch { }
 				ordem.dataDeAbertura = DateTime.Parse( ordemTemp["dataDeAbertura"].ToString() );
 				ordem.previsaoDeConclusao = DateTime.Parse( ordemTemp["previsaoDeConclusao"].ToString() );
-				try { ordem.dataDeFechamento = DateTime.Parse( ordemTemp["dataDeFechamento"].ToString() ); } catch{}
+				try { ordem.dataDeFechamento = DateTime.Parse( ordemTemp["dataDeFechamento"].ToString() ); } catch { }
 				ordem.observacoes = ordemTemp["observacoes"].ToString();
-				
-				ordem.cliente.codigo = UInt32.Parse( ordemTemp["codigoCliente"].ToString() );
-				ordem.cliente.nome = ordemTemp["nomeCliente"].ToString();
+
+				try {
+					StringBuilder cliTemp = new StringBuilder();
+					js.Serialize( ordemTemp["cliente"], cliTemp );
+					ordem.cliente = ClientesHandler.jsonToCliente( cliTemp.ToString() );
+				} catch {
+					ordem.cliente.codigo = UInt32.Parse( ordemTemp["codigoCliente"].ToString() );
+					ordem.cliente.nome = ordemTemp["nomeCliente"].ToString();
+				}
+
+				try {
+					StringBuilder usuTemp = new StringBuilder();
+					js.Serialize(ordemTemp["usuario"],usuTemp);
+					ordem.usuario = UsuariosHandler.jsonToUsuario( usuTemp.ToString() );
+				} catch { }
 
 				StringBuilder itensJson = new StringBuilder();
 				js.Serialize( ordemTemp["itens"], itensJson );
@@ -362,10 +364,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 			foreach( Dictionary<String, Object> servicosDoItemTemp in list ) {
 				ServicoDoItem servicoDoItem = new ServicoDoItem();
 
-				servicoDoItem.codigo = UInt32.Parse(servicosDoItemTemp["codigo"].ToString());
-				servicoDoItem.quantidade_m_m2 = UInt32.Parse(servicosDoItemTemp["quantidade_m_m2"].ToString());
-				servicoDoItem.valor = Double.Parse(servicosDoItemTemp["valor"].ToString());
-				servicoDoItem.servico = ServicosHandler.jsonToServicoEspecifico(servicosDoItemTemp["servico"],js);
+				servicoDoItem.codigo = UInt32.Parse( servicosDoItemTemp["codigo"].ToString() );
+				servicoDoItem.quantidade_m_m2 = UInt32.Parse( servicosDoItemTemp["quantidade_m_m2"].ToString() );
+				servicoDoItem.valor = Double.Parse( servicosDoItemTemp["valor"].ToString() );
+				servicoDoItem.servico = ServicosHandler.jsonToServicoEspecifico( servicosDoItemTemp["servico"], js );
 
 				itensServicos.Add( servicoDoItem );
 			}

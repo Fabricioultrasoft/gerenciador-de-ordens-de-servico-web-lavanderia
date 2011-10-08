@@ -11,6 +11,8 @@ using MySql.Data.MySqlClient;
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 	public class GerenciadorDeOrdensDeServico {
 
+		private static Dictionary<int, Erro> erros = getDicErros();
+
 		public static long count() {
 			try {
 				return MySqlOrdensDeServicoDao.count();
@@ -36,7 +38,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 					}
 
 					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero ) ) {
-						listaDeErros.Add( new Erro( 1, String.Format("N&uacute;mero <b>{0}</b> da Ordem de Servi&ccedil;o j&aacute; est&aacute; sendo usado",os.numero), "Informe um novo n&uacute;mero para a Ordem de Servi&ccedil;o" ) );
+						listaDeErros.Add( erros[1] );
+					}
+						// SE Status diferente de "Aberto"
+						// ENTAO nao pode atualizar OS
+					else if( os.status.codigo != 1 ) {
+						listaDeErros.Add( erros[2] );
 					}
 				}
 
@@ -135,7 +142,22 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 		public static List<Erro> atualizar( ref List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlOrdensDeServicoDao.update( ref ordensDeServico ) );
+
+				foreach( OrdemDeServico os in ordensDeServico ) {
+
+					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero, os.codigo ) ) {
+						listaDeErros.Add( erros[1] );
+					}
+						// SE Status diferente de "Aberto"
+						// ENTAO nao pode atualizar OS
+					else if( os.status.codigo != 1 ) {
+						listaDeErros.Add( erros[2] );
+					}
+				}
+
+				if( listaDeErros.Count == 0 ) {
+					listaDeErros.AddRange( MySqlOrdensDeServicoDao.update( ref ordensDeServico ) );
+				}
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -164,6 +186,16 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 				}
 			}
 			return listaDeErros;
+		}
+
+
+		public static Dictionary<int, Erro> getDicErros() {
+			Dictionary<int, Erro> erros = new Dictionary<int, Erro>();
+
+			erros.Add( 1, new Erro( 1, "O N&uacute;mero desta Ordem de Servi&ccedil;o j&aacute; est&aacute; sendo usado por outro registro", "Informe um novo n&uacute;mero para a Ordem de Servi&ccedil;o" ) );
+			erros.Add( 2, new Erro( 2, "Status da Ordem de Servi&ccedil;o n&atilde;o permite altera&ccedil;&oatilde;es", "Somente Ordens de Servi&ccedil;o com o status <b>Aberto</b> podem ser alteradas" ) );
+
+			return erros;
 		}
 	}
 }

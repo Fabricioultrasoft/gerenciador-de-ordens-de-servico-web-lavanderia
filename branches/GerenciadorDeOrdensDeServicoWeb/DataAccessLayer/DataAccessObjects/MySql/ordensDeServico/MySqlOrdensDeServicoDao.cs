@@ -150,7 +150,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 		private const String UPDATE_ITENS_SERVICOS
 			= "UPDATE tb_itens_servicos SET "
-			+ "	,cod_servico = @codServico "
+			+ "	cod_servico = @codServico "
 			+ "	,qtd_m_m2 = @qtdMm2 "
 			+ "	,val_item_servico = @valItemServico "
 			+ "WHERE cod_item_servico = @codItemServico AND cod_item_os = @codItemOS ";
@@ -399,7 +399,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 					cmd2.Parameters.Add( "@fltLargura", MySqlDbType.Float ).Value = item.largura;
 					cmd2.Parameters.Add( "@dblArea", MySqlDbType.Double ).Value = item.area;
 					cmd2.Parameters.Add( "@valItem", MySqlDbType.Double ).Value = item.valor;
-					cmd2.Parameters.Add( "@txtObservacoes", MySqlDbType.Double ).Value = item.observacoes;
+					cmd2.Parameters.Add( "@txtObservacoes", MySqlDbType.VarChar ).Value = item.observacoes;
 
 					if( item.codigo == 0 ) {
 						cmd2.CommandText = INSERT_ITENS;
@@ -606,13 +606,18 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 		}
 
 		public static bool numeroJaExiste( UInt32 numero ) {
+			return numeroJaExiste( numero, 0 );
+		}
+
+		public static bool numeroJaExiste( UInt32 numero, UInt32 codOSDesconsiderado ) {
 			bool existe = false;
-			
-			String sql = "SELECT num_os FROM tb_ordens_de_servico WHERE num_os = @numOS LIMIT 1";
+
+			String sql = "SELECT num_os FROM tb_ordens_de_servico WHERE num_os = @numOS AND cod_ordem_de_servico <> @codOS LIMIT 1";
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			MySqlCommand cmd = new MySqlCommand( sql, conn );
 			cmd.Parameters.Add( "@numOS", MySqlDbType.UInt32 ).Value = numero;
+			cmd.Parameters.Add( "@codOS", MySqlDbType.UInt32 ).Value = codOSDesconsiderado;
 
 			conn.Open();
 
@@ -625,7 +630,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			conn.Close();
 			conn.Dispose();
-			
+
 			return existe;
 		}
 

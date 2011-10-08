@@ -65,6 +65,7 @@
     <Content Include="PresentationLayer\app\controller\enderecos\TiposDeLogradourosController.js" />
     <Content Include="PresentationLayer\app\controller\ordensDeServico\ItensController.js" />
     <Content Include="PresentationLayer\app\controller\ordensDeServico\OrdensDeServicoAddController.js" />
+    <Content Include="PresentationLayer\app\controller\ordensDeServico\OrdensDeServicoEditController.js" />
     <Content Include="PresentationLayer\app\controller\ordensDeServico\OrdensDeServicoSearchController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosAddController.js" />
     <Content Include="PresentationLayer\app\controller\servicos\ServicosEditController.js" />
@@ -130,6 +131,7 @@
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdemDeServicoViewTpl.aspx" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoAddView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoClienteSearchView.js" />
+    <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoEditView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />
