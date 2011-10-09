@@ -30,6 +30,9 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoEditController', {
             },
             '#btnAlterarOS': {
                 click: this.onAlterarOSClick
+            },
+            '#win-ordensDeServico-edit': {
+                destroy: this.onEditOSWindowDestroy
             }
         });
     },
@@ -125,5 +128,9 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoEditController', {
         record.store.onWriteCallback = function() { btn.up('window').close(); }
         record.store.proxy.onRequestFailureCallback = function() { btn.scope.mainPanel.setLoading( false ); }
         record.store.sync();
+    },
+
+    onEditOSWindowDestroy: function( component, opts ) {
+        component.module.form.getRecord().reject();
     }
 });

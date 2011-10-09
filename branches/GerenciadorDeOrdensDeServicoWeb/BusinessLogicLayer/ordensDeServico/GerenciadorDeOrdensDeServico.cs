@@ -150,7 +150,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 					}
 						// SE Status diferente de "Aberto"
 						// ENTAO nao pode atualizar OS
-					else if( os.status.codigo != 1 ) {
+					else if( MySqlOrdensDeServicoDao.selectStatus( os.codigo ).codigo != 1 ) {
 						listaDeErros.Add( erros[2] );
 					}
 				}
@@ -193,7 +193,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 			Dictionary<int, Erro> erros = new Dictionary<int, Erro>();
 
 			erros.Add( 1, new Erro( 1, "O N&uacute;mero desta Ordem de Servi&ccedil;o j&aacute; est&aacute; sendo usado por outro registro", "Informe um novo n&uacute;mero para a Ordem de Servi&ccedil;o" ) );
-			erros.Add( 2, new Erro( 2, "Status da Ordem de Servi&ccedil;o n&atilde;o permite altera&ccedil;&oatilde;es", "Somente Ordens de Servi&ccedil;o com o status <b>Aberto</b> podem ser alteradas" ) );
+			erros.Add( 2, new Erro( 2, "Status da Ordem de Servi&ccedil;o n&atilde;o permite altera&ccedil;&otilde;es", "Somente Ordens de Servi&ccedil;o com o status <b>Aberto</b> podem ser alteradas" ) );
 
 			return erros;
 		}

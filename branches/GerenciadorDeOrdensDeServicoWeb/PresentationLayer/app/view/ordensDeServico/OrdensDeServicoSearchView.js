@@ -69,9 +69,11 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
         var ordensDeServicoStore = Ext.create('App.store.ordensDeServico.OrdensDeServicoStore', { remoteFilter:true, remoteSort: true});
         this.ordensDeServicoStore = ordensDeServicoStore;
         this.ordensDeServicoStore.module = this;
-        ordensDeServicoStore.load({ params: { codigoStatus: 1} });
+        ordensDeServicoStore.load();
+        //ordensDeServicoStore.load({ params: { filter: '[{"property":"codigoStatus","value":1}]' } });
 
         var statusStore = Ext.create('App.store.ordensDeServico.StatusStore', { pageSize: 0 });
+        this.statusStore = statusStore;
         statusStore.load();
 
         var form = Ext.create('Ext.form.Panel', {
@@ -128,6 +130,16 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
         });
         this.form = form;
 
+        var renderStatusOS = function(v) {
+            var formato = '<span style="color: {0};" >{1}</span>';
+            switch(v) {
+                case "Aberto": return Ext.String.format(formato,'green', v);
+                case "Finalizado": return Ext.String.format(formato, 'darkBlue', v);
+                case "Cancelado": return Ext.String.format(formato, 'red', v);
+                default: return v;
+            }
+        }
+
         var grid = Ext.create('Ext.grid.Panel',{
             id: 'grid-ordensDeServico',
             border: false,
@@ -141,7 +153,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                 { header: 'Cliente', dataIndex: 'nomeCliente', minWidth: 200, flex: 1, renderer: Ext.String.htmlEncode },
                 { header: 'Val. Orig.', dataIndex: 'valorOriginal', renderer: Ext.util.Format.brMoney },
                 { header: 'Val. Final', dataIndex: 'valorFinal', renderer: Ext.util.Format.brMoney },
-                { header: 'Status', dataIndex: 'nomeStatus', renderer: Ext.String.htmlEncode },  
+                { header: 'Status', dataIndex: 'nomeStatus', renderer: renderStatusOS },
                 { header: 'Abertura', dataIndex: 'dataDeAbertura' }, 
                 { header: 'Prev. Conclus&atilde;o', dataIndex: 'previsaoDeConclusao' }, 
                 { header: 'Fechamento', dataIndex: 'dataDeFechamento' }
@@ -167,8 +179,19 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                     grid.down('#btnEditOS').setDisabled(!records.length);
                     grid.down('#btnDelOS').setDisabled(!records.length);
                     grid.down('#btnViewOS').setDisabled(!records.length);
-                    grid.down('#btnFinalizarOS').setDisabled(!records.length);
-                    grid.down('#btnCancelarOS').setDisabled(!records.length);
+
+                    var codStatus = 0;
+                    try {
+                        codStatus = records[0].data.codigoStatus;
+                    } catch(ex){}
+
+                    if( codStatus == 1 ) {
+                        grid.down('#btnFinalizarOS').enable();
+                        grid.down('#btnCancelarOS').enable();
+                    } else {
+                        grid.down('#btnFinalizarOS').disable();
+                        grid.down('#btnCancelarOS').disable();
+                    }
                 }
             },
             viewConfig: { itemId: 'view', plugins: [{ pluginId: 'preview', ptype: 'preview', bodyField: 'observacoes', previewExpanded: false, labelField: '<b>Observa&ccedil;&otilde;es:</b> ' }] } 

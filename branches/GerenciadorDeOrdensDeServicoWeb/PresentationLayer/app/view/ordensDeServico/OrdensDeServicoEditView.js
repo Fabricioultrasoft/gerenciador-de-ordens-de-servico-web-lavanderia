@@ -24,6 +24,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoEditView', {
                 border: false,
                 items: [panel]
             });
+            win.module = this;
         }
         win.show();
         return win;

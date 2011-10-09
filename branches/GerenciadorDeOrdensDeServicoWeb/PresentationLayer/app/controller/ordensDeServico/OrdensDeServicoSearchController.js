@@ -138,9 +138,10 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
             buttons: Ext.Msg.YESNO,
             fn: function (buttonId) {
                 if (buttonId == 'yes') {
+                    var store = btn.scope.statusStore;
                     var record = sm.getSelection()[0];
-                    record.set({status:2});// status FINALIZADO
-                    record.set(values);
+                    var cod = 2;// status FINALIZADO
+                    record.set({codigoStatus: cod, nomeStatus: store.getAt(store.find('codigo', cod)).get('nome') });
                     record.store.sync();
                 }
             },
@@ -163,9 +164,10 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
             buttons: Ext.Msg.YESNO,
             fn: function (buttonId) {
                 if (buttonId == 'yes') {
+                    var store = btn.scope.statusStore;
                     var record = sm.getSelection()[0];
-                    record.set({status:3});// status CANCELADO
-                    record.set(values);
+                    var cod = 3;// status CANCELADO
+                    record.set({codigoStatus: cod, nomeStatus: store.getAt(store.find('codigo', cod)).get('nome') });
                     record.store.sync();
                 }
             },

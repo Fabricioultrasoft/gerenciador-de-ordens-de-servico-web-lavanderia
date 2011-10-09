@@ -337,20 +337,20 @@ Ext.onReady(function(){
 
     if(Ext.grid.column.Boolean){
         Ext.apply(Ext.grid.column.Boolean.prototype, {
-            trueText: 'sim',
-            falseText: 'n&atilde;o'
+            trueText: 'Sim',
+            falseText: 'N&atilde;o'
        });
     }
 
     // MessageBox
     if(Ext.Msg.msgButtons.yes){
-        Ext.apply(Ext.Msg.msgButtons.yes, { text: 'sim' });
+        Ext.apply(Ext.Msg.msgButtons.yes, { text: 'Sim' });
     }
     if(Ext.Msg.msgButtons.no){
-        Ext.apply(Ext.Msg.msgButtons.no, { text: 'n&atilde;o' });
+        Ext.apply(Ext.Msg.msgButtons.no, { text: 'N&atilde;o' });
     }
     if(Ext.Msg.msgButtons.cancel){
-        Ext.apply(Ext.Msg.msgButtons.cancel, { text: 'cancelar' });
+        Ext.apply(Ext.Msg.msgButtons.cancel, { text: 'Cancelar' });
     }
 
 });

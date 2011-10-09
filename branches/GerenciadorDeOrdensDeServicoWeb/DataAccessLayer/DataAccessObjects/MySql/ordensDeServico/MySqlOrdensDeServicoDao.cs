@@ -552,6 +552,36 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return statusList;
 		}
 
+		public static Status selectStatus(UInt32 codigoOS ) {
+			Status status = new Status();
+			StringBuilder sql = new StringBuilder();
+
+			sql.Append( "SELECT " );
+			sql.Append( "	tb_status_os.cod_status_os " );
+			sql.Append( "	,tb_status_os.nom_status_os " );
+			sql.Append( "FROM tb_status_os " );
+			sql.Append( "INNER JOIN tb_ordens_de_servico ON tb_ordens_de_servico.cod_status_os = tb_status_os.cod_status_os " );
+			sql.Append( "WHERE tb_ordens_de_servico.cod_ordem_de_servico = @codOS " );
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			MySqlCommand cmd = new MySqlCommand( sql.ToString(), conn );
+			cmd.Parameters.Add( "@codOS", MySqlDbType.UInt32 ).Value = codigoOS;
+
+			conn.Open();
+			MySqlDataReader reader = cmd.ExecuteReader();
+
+			while( reader.Read() ) {
+				status.codigo = reader.GetUInt32( 0 );
+				status.nome = reader.GetString( 1 );
+			}
+
+			reader.Close(); reader.Dispose();
+			cmd.Dispose();
+			conn.Close(); conn.Dispose();
+
+			return status;
+		}
+
 		public static void fillItens( UInt32 codigoOrdemDeServico, ref List<Item> itens, MySqlConnection conn ) {
 
 			MySqlCommand cmd = new MySqlCommand( SELECT_ITENS + " WHERE cod_ordem_de_servico = @codOrdemDeServico", conn );
