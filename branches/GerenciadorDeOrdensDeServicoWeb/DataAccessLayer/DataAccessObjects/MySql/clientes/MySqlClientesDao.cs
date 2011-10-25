@@ -80,7 +80,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 		public static long countClientes( List<Filter> filters ) {
 			long count = 0;
-			MySqlFilter mySqlFilter = createMySqlFilter( filters );
+			MySqlFilter mySqlFilter = getFilter( filters );
 
 			String sql = " SELECT COUNT(cod_cliente) "
 					+ " FROM tb_clientes "+ mySqlFilter.whereClause; // Filtro
@@ -344,8 +344,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			List<Cliente> clientes = new List<Cliente>();
 			StringBuilder sqlClientes = new StringBuilder();
 
-			MySqlFilter mySqlFilter = createMySqlFilter( filters );
-			String sortClause = construirSortClause( sorters );
+			MySqlFilter mySqlFilter = getFilter( filters );
+			String sortClause = getSort( sorters );
 
 
 			sqlClientes.AppendLine( "SELECT" );
@@ -675,7 +675,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			connEnderecos.Close(); connEnderecos.Dispose();
 		}
 
-		private static MySqlFilter createMySqlFilter( List<Filter> filters ) {
+		public static MySqlFilter getFilter( List<Filter> filters ) {
 			// clausula WHERE SQL
 			StringBuilder whereClause = new StringBuilder();
 			List<String> filterList = new List<String>();
@@ -798,7 +798,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return mySqlfilter;
 		}
 
-		private static String construirSortClause( List<Sorter> sorters ) {
+		private static String getSort( List<Sorter> sorters ) {
 
 			StringBuilder sortSql = new StringBuilder();
 

@@ -65,7 +65,7 @@ Ext.define('App.view.clientes.ClientesSearchView', {
             items: [
                 { xtype: 'fieldcontainer', fieldLabel: '', layout: 'hbox', defaults: { labelAlign: 'top' },
                     items: [
-                        { xtype: 'checkbox', name: 'ativo', fieldLabel: 'Ativo', width: 50, inputValue: 1, checked: true },
+                        { xtype: 'checkbox', name: 'ativo', fieldLabel: 'Ativo', width: 50, inputValue: 'true', uncheckedValue: 'false', checked: true },
                         { xtype: 'numberfield', name: 'codigo', minValue: 0, flex: 1, fieldLabel: 'Codigo', emptyText: '0000', hideTrigger: true, keyNavEnabled: false, mouseWheelEnabled: false, margins: '0 4' },
                         { xtype: 'combobox', name: 'codigoTipoDeCliente', flex: 1, fieldLabel: 'Tipo de cliente', store: tiposDeClientesStore, queryMode: 'local', valueField: 'codigo', displayField: 'nome', emptyText: 'Selecione o tipo de cliente', selectOnFocus: true, forceSelection: true }
                     ]

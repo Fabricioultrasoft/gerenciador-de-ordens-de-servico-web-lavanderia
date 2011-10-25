@@ -22,27 +22,17 @@ Ext.define('App.view.tapetes.TapetesView', {
 
             var formTapetes = Ext.create('Ext.form.Panel',{
                 id: 'form-tapetes',
-                height: 150,
+                height: 120,
+                bodyPadding: 5,
+                border: false,
+                layout: 'anchor',
                 region: 'north',
-                buttonAlign: 'center',
-                style: {
-                    background:'#fff',
-                    padding: '5px'
-                },
-                bodyStyle: {
-                    background: '#D3E1F1',
-                    padding: '5px'
-                },
-                fieldDefaults: {
+                defaults: {
                     labelAlign: 'right',
                     labelWidth: 60,
                     anchor: '100%'
                 },
                 items: [
-                    {
-                        xtype: 'hiddenfield',
-                        name: 'codigo'
-                    },
                     {
                         xtype: 'textfield',
                         name: 'nome',
@@ -57,25 +47,13 @@ Ext.define('App.view.tapetes.TapetesView', {
                         fieldLabel: 'Descri&ccedil;&atilde;o',
                         emptyText: 'Digite uma descrição para o tapete',
                         height: 50
-                    }, {
-                        xtype: 'checkbox',
-                        name: 'ativo',
-                        fieldLabel: 'Ativo',
-                        inputValue: 1,
-                        checked: true
                     }
                 ],
-                buttons: [{
-                    itemId: 'btnAddTapete',
-                    text: 'Adicionar', 
-                    iconCls: 'btn-add',
-                    scope: this
-                }, { 
-                    itemId: 'btnLimparTapete',
-                    text: 'Limpar',
-                    iconCls: 'btn-limpar',
-                    scope: this
-                }]
+                buttonAlign: 'center',
+                buttons: [
+                    { itemId: 'btnAddTapete', text: 'Adicionar', iconCls: 'btn-add', scope: this },
+                    { itemId: 'btnLimparTapete', text: 'Limpar', iconCls: 'btn-limpar', scope: this }
+                ]
             });
             this.formTapetes = formTapetes;
 

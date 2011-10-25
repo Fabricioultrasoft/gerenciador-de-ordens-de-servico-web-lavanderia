@@ -55,7 +55,7 @@ Ext.define('App.controller.tapetes.TapetesController', {
             codigo: 0,
             nome: values.nome,
             descricao: values.descricao,
-            ativo: ((values.ativo == 1) ? true : false)
+            ativo: true
         }, 'App.model.tapetes.TapeteModel');
         btn.scope.gridTapetes.getStore().insert(0, r);
         btn.scope.gridTapetes.getStore().sync();

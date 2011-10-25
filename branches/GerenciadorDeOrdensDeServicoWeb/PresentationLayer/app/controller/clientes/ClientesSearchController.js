@@ -33,19 +33,13 @@ Ext.define('App.controller.clientes.ClientesSearchController', {
 
     onSearchClienteClick:  function(btn, eventObject, options) {
 
-        var filtros = btn.scope.formFiltros.getValues();
-
+        var values = btn.scope.formFiltros.getValues();
         var arrFilters = new Array();
-        arrFilters[0] = new Ext.util.Filter({property: 'codigo',value: filtros.codigo});
-        arrFilters[1] = new Ext.util.Filter({property: 'ativo',value: filtros.ativo});
-        arrFilters[2] = new Ext.util.Filter({property: 'nome',value: filtros.nome});
-        arrFilters[3] = new Ext.util.Filter({property: 'conjuge',value: filtros.conjuge});
-        arrFilters[4] = new Ext.util.Filter({property: 'codigoTipoDeCliente',value: filtros.codigoTipoDeCliente});
-        arrFilters[5] = new Ext.util.Filter({property: 'dataDeNascimento',value: filtros.dataDeNascimento});
-        arrFilters[6] = new Ext.util.Filter({property: 'sexo',value: filtros.sexo});
-        arrFilters[7] = new Ext.util.Filter({property: 'rg',value: filtros.rg});
-        arrFilters[8] = new Ext.util.Filter({property: 'cpf',value: filtros.cpf});
-        
+
+        for(var member in values) {
+            arrFilters.push(new Ext.util.Filter({ property: member, value: values[member] }));
+        }
+
         btn.scope.clientesStore.currentPage = 1;
         btn.scope.clientesStore.filters = Ext.create('Ext.util.MixedCollection',{});
         btn.scope.clientesStore.filter(arrFilters);

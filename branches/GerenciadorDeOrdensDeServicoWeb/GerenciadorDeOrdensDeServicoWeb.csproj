@@ -134,6 +134,8 @@
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoEditView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoView.js" />
+    <Content Include="PresentationLayer\app\view\relatorios\Clientes.js" />
+    <Content Include="PresentationLayer\app\view\relatorios\RelatoriosView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosEditView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosSearchView.js" />
@@ -1804,9 +1806,12 @@
     <Content Include="PresentationLayer\funcoesComuns.js" />
     <Content Include="PresentationLayer\index.html" />
     <Content Include="PresentationLayer\login.html" />
+    <Content Include="PresentationLayer\rel_cliente.aspx" />
+    <Content Include="PresentationLayer\rel_os.aspx" />
     <Content Include="PresentationLayer\resources\css\app.css" />
     <Content Include="PresentationLayer\resources\css\icons.css" />
     <Content Include="PresentationLayer\resources\css\login.css" />
+    <Content Include="PresentationLayer\resources\css\relatorios.css" />
     <Content Include="PresentationLayer\resources\css\webDesktop.css" />
     <Content Include="PresentationLayer\resources\images\add-thumb.png" />
     <Content Include="PresentationLayer\resources\images\app-go.png" />
@@ -1845,6 +1850,7 @@
     <Content Include="PresentationLayer\resources\images\favorite.png" />
     <Content Include="PresentationLayer\resources\images\filtro.png" />
     <Content Include="PresentationLayer\resources\images\gabbeh.jpg" />
+    <Content Include="PresentationLayer\resources\images\html.png" />
     <Content Include="PresentationLayer\resources\images\itens-add.png" />
     <Content Include="PresentationLayer\resources\images\itens-del.png" />
     <Content Include="PresentationLayer\resources\images\itens-edit.png" />
@@ -1858,6 +1864,7 @@
     <Content Include="PresentationLayer\resources\images\os-del.png" />
     <Content Include="PresentationLayer\resources\images\os-search.png" />
     <Content Include="PresentationLayer\resources\images\os-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\report.png" />
     <Content Include="PresentationLayer\resources\images\save-add.png" />
     <Content Include="PresentationLayer\resources\images\save-edit.png" />
     <Content Include="PresentationLayer\resources\images\save.gif" />
@@ -1882,6 +1889,7 @@
     <Content Include="PresentationLayer\resources\images\user-edit.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
     <Content Include="PresentationLayer\resources\images\servicos-add.png" />
+    <Content Include="PresentationLayer\resources\images\xls.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1999,6 +2007,23 @@
     <Compile Include="PresentationLayer\app\view\ordensDeServico\OrdemDeServicoViewTpl.aspx.designer.cs">
       <DependentUpon>OrdemDeServicoViewTpl.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\app\view\relatorios\ClientesTpl.ashx.cs">
+      <DependentUpon>ClientesTpl.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\rel_cliente.aspx.cs">
+      <DependentUpon>rel_cliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PresentationLayer\rel_cliente.aspx.designer.cs">
+      <DependentUpon>rel_cliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\rel_os.aspx.cs">
+      <DependentUpon>rel_os.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PresentationLayer\rel_os.aspx.designer.cs">
+      <DependentUpon>rel_os.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -2017,6 +2042,7 @@
     <Content Include="PresentationLayer\app\handlers\Logout.ashx" />
     <Content Include="PresentationLayer\app\handlers\usuarios\UsuariosHandler.ashx" />
     <Content Include="PresentationLayer\app\handlers\ordensDeServico\OrdensDeServicoHandler.ashx" />
+    <Content Include="PresentationLayer\app\view\relatorios\ClientesTpl.ashx" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\config.rb" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-access.scss" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-gray.scss" />
