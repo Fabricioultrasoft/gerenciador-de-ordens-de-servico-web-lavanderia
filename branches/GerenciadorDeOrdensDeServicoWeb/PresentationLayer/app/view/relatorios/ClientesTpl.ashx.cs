@@ -13,6 +13,14 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.cl
 using MySql.Data.MySqlClient;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DatabaseConnections;
 using System.Data;
+using System.Web.UI.HtmlControls;
+using System.IO;
+using System.Web.UI;
+using iTextSharp.text.pdf;
+using iTextSharp;
+using iTextSharp.text.html;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios {
 	/// <summary>
@@ -62,6 +70,135 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 				// relatorio em html
 				context.Response.ContentType = "text/html";
 			}
+            if (context.Request.QueryString["reportView"] == "xls")
+            {
+                // relatorio em excel
+
+                string strex = "";
+                #region data
+
+                StringBuilder sql2 = new StringBuilder();
+                MySqlFilter filter2 = MySqlClientesDao.getFilter(filters);
+
+                sql2.AppendFormat("SELECT {0} FROM tb_clientes ", construirColunasSql(colunas));
+                sql2.AppendLine("INNER JOIN tb_tipos_clientes ON tb_tipos_clientes.cod_tipo_cliente = tb_clientes.cod_tipo_cliente ");
+                sql2.AppendLine(filter2.whereClause);
+                if (limit > 0)
+                    sql2.AppendLine(" LIMIT " + start + "," + limit);
+
+                MySqlConnection conn2 = MySqlConnectionWizard.getConnection();
+                conn2.Open();
+                MySqlCommand cmd2 = new MySqlCommand(sql2.ToString(), conn2);
+                if (filter2.parametersList.Count > 0)
+                {
+                    cmd2.Parameters.AddRange(filter2.parametersList.ToArray());
+                }
+
+                MySqlDataReader reader2 = cmd2.ExecuteReader();
+
+
+                 //dll itextsharp
+
+
+
+              strex += "<html><head></head><body>";  
+              strex += "<table width=100% border=0 cellspacing=1 ><caption id='caption'>Gerando...</caption><thead><tr>";
+
+                // escreve o NOME das colunas de acordo com os ALIAS DO SELECT
+                for (int i = 0; i < reader2.FieldCount; i++)
+                {
+                    strex +="<th>" + reader2.GetName(i) + "</th>";
+                }
+                strex +="</tr></thead><tbody>";
+
+                // escreve os DADOS de cada registro
+                while (reader2.Read())
+                {
+                     strex +="<tr>";
+                    for (int i = 0; i < reader2.FieldCount; i++)
+                    {
+                         strex +="<td>" + reader2[i] + "</td>";
+                    }
+                     strex +="</tr>";
+                    count++;
+                }
+                strex +="</tbody></table>";
+                strex += " Total: " + count + " registro(s) encontrado(s)'";
+
+                strex +="</body></html>";
+
+                reader2.Close(); reader2.Dispose(); cmd2.Dispose();
+                conn2.Close(); conn2.Dispose();
+
+
+                #endregion
+
+                string attachment = "attachment; filename=Article.pdf";
+
+               context.Response.ClearContent();
+
+               context.Response.AddHeader("content-disposition", attachment);
+
+               context.Response.ContentType = "application/pdf";
+
+                //StringWriter stw = new StringWriter();
+
+                //HtmlTextWriter htextw = new HtmlTextWriter(stw);
+
+                //dvText.RenderControl(htextw);
+
+                Document document = new Document();
+
+                PdfWriter.GetInstance(document, context.Response.OutputStream);
+
+                document.Open();
+
+                string strHTML = strex.ToString();
+
+                HTMLWorker htmlWorker = new HTMLWorker(document);
+
+                htmlWorker.Parse(new StringReader(strHTML));
+
+                document.Close();
+
+                //StringReader str = new StringReader(stw.ToString());
+
+                       context.Response.Write(document);
+
+                context.Response.End();
+
+
+                //context.Response.Clear();
+                //context.Response.Buffer = true;
+                //context.Response.ContentType = "application/vnd.ms-excel";
+                //context.Response.AddHeader("content-disposition", "attachment; filename=excelData.xls");
+                //context.Response.ContentType = "application/ms-excel";
+                //context.Response.Charset = "";
+                //HttpRequest request = context.Request;
+                //HttpResponse response = context.Response;
+
+
+
+                //System.IO.StringWriter oStringWriter = new System.IO.StringWriter();
+                //oStringWriter.Write(strex.ToString());
+                //System.Web.UI.HtmlTextWriter oHtmlTextWriter = new System.Web.UI.HtmlTextWriter(oStringWriter);
+
+                //context.Response.Write(oStringWriter.ToString());
+                //context.Response.End();
+
+                
+                
+               // string exportContent = strex.ToString();
+                //response.Write(exportContent);
+
+
+            }
+
+            else
+            {
+                // relatorio em html
+                context.Response.ContentType = "text/html";
+            }
 
 
 			StringBuilder sql = new StringBuilder();
@@ -113,6 +250,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			conn.Close(); conn.Dispose();
 
 		}
+
+
+
+
 
 		private String construirColunasSql( String colunasAlias ) {
 
