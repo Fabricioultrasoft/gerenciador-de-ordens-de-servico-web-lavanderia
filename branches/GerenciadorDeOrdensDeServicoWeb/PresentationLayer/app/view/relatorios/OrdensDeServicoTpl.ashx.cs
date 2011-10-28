@@ -3,22 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
-using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.clientes;
-using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.sql;
-using GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes;
 using System.Text;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql;
-using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.clientes;
+using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.ordensDeServico;
 using MySql.Data.MySqlClient;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DatabaseConnections;
-using System.Data;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios {
 	/// <summary>
-	/// Summary description for ClientesTpl
+	/// Summary description for OrdensDeServicoTpl
 	/// </summary>
-	public class ClientesTpl : IHttpHandler {
+	public class OrdensDeServicoTpl : IHttpHandler {
 
 		public void ProcessRequest( HttpContext context ) {
 
@@ -40,7 +36,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 			// trata o problema de indice comecar em 0 no mysql
 			if( start > 0 ) start--;
-			
+
 			// filtros
 			if( String.IsNullOrEmpty( context.Request.QueryString["filter"] ) == false ) {
 				filters = js.Deserialize<List<Filter>>( context.Request.QueryString["filter"] );
@@ -65,13 +61,14 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 
 			StringBuilder sql = new StringBuilder();
-			MySqlFilter filter = MySqlClientesDao.getFilter( filters );
-			String sortClause = MySqlClientesDao.getSort( sorters );
+			MySqlFilter filter = MySqlOrdensDeServicoDao.getFilter( filters );
+			String sortClause = MySqlOrdensDeServicoDao.getSort( sorters );
 
-			sql.AppendFormat( "SELECT {0} FROM tb_clientes ", construirColunasSql( colunas ) );
-			sql.AppendLine( "INNER JOIN tb_tipos_clientes ON tb_tipos_clientes.cod_tipo_cliente = tb_clientes.cod_tipo_cliente " );
+			sql.AppendFormat( "SELECT {0} FROM tb_ordens_de_servico ", construirColunasSql( colunas ) );
+			sql.AppendLine( "INNER JOIN tb_clientes ON tb_clientes.cod_cliente = tb_ordens_de_servico.cod_cliente " );
+			sql.AppendLine( "INNER JOIN tb_status_os ON tb_status_os.cod_status_os = tb_ordens_de_servico.cod_status_os " );
 			sql.AppendLine( filter.whereClause );
-			sql.AppendLine( ( sortClause.Trim().Length > 0 ) ? sortClause : " ORDER BY cod_cliente " );
+			sql.AppendLine( ( sortClause.Trim().Length > 0 ) ? sortClause : " ORDER BY num_os " );
 			if( limit > 0 )
 				sql.AppendLine( " LIMIT " + start + "," + limit );
 
@@ -84,7 +81,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 			MySqlDataReader reader = cmd.ExecuteReader();
 
-			context.Response.Write( "<html><head><title>Relatório de Clientes</title>"
+			context.Response.Write( "<html><head><title>Relatório de Ordens de Serviço</title>"
 				+ "<link rel='icon' href='/PresentationLayer/resources/images/favicon.png' />"
 				+ "<link rel='stylesheet' type='text/css' href='/PresentationLayer/resources/css/relatorios.css' /></head><body>" );
 
@@ -118,43 +115,56 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 			List<String> colunasSql = new List<String>();
 			String[] cols = colunasAlias.Split( new char[] { ',' } );
-
+			
 			for( int i = 0; i < cols.Length; i++ ) {
 				switch( cols[i] ) {
-					case "codigo":
-						colunasSql.Add( "tb_clientes.cod_cliente AS 'Cod.' " );
+					case "numero":
+						colunasSql.Add( "num_os AS 'Num.' " );
 						break;
-					case "nome":
-						colunasSql.Add( "nom_cliente AS Nome" );
+					case "codigoCliente":
+						colunasSql.Add( "tb_clientes.cod_cliente AS 'Cod. Cliente' " );
 						break;
-					case "conjuge":
-						colunasSql.Add( "nom_conjuge AS Conjuge" );
+					case "nomeCliente":
+						colunasSql.Add( "tb_clientes.nom_cliente AS 'Cliente' " );
 						break;
-					case "tipoCliente":
-						colunasSql.Add( "nom_tipo_cliente AS Tipo" );
+					case "valorOriginal":
+						colunasSql.Add( "val_original AS 'Val. Orig.' " );
 						break;
-					case "nascimento":
-						colunasSql.Add( "dat_nascimento AS 'Nasc.' " );
+					case "valorFinal":
+						colunasSql.Add( "val_final AS 'Val. Final' " );
 						break;
-					case "sexo":
-						colunasSql.Add( "( CASE WHEN int_sexo = 1 THEN 'Masc.' ELSE 'Femi.' END ) AS Sexo" );
+					case "status":
+						colunasSql.Add( "tb_status_os.nom_status_os AS Status" );
 						break;
-					case "rg":
-						colunasSql.Add( "txt_rg AS RG" );
+					case "dataAbertura":
+						colunasSql.Add( "dat_abertura AS Abertura" );
 						break;
-					case "cpf":
-						colunasSql.Add( "txt_cpf AS CPF" );
+					case "previsaoConclusao":
+						colunasSql.Add( "dat_prev_conclusao AS 'Prev. Concl.' " );
+						break;
+					case "dataFechamento":
+						colunasSql.Add( "dat_fechamento AS Fechamento " );
 						break;
 					case "observacoes":
-						colunasSql.Add( "txt_observacoes AS 'Obs.' " );
+						colunasSql.Add( "tb_ordens_de_servico.txt_observacoes AS 'Obs.' " );
 						break;
-					case "meiosDeContato":
-						colunasSql.Add( "( SELECT GROUP_CONCAT(CONCAT(nom_tipo_meio_de_contato,': ',txt_meio_de_contato, '; ')) FROM tb_meios_de_contato A INNER JOIN tb_tipos_meios_de_contato B ON A.cod_tipo_meio_de_contato = B.cod_tipo_meio_de_contato WHERE A.cod_cliente = tb_clientes.cod_cliente ) AS 'Meios Cont.' " );
+					case "tapetes":
+						colunasSql.Add( "( SELECT GROUP_CONCAT(nom_tapete) FROM tb_tapetes A INNER JOIN tb_itens_os B ON B.cod_tapete = A.cod_tapete WHERE B.cod_ordem_de_servico = tb_ordens_de_servico.cod_ordem_de_servico ) AS Tapetes " );
 						break;
-					case "Endereco":
-						colunasSql.Add( "( SELECT GROUP_CONCAT(CONCAT(nom_logradouro,', ', CAST(int_numero AS CHAR), '. ', nom_bairro, ' - ', nom_cidade, '; ')) FROM tb_enderecos A INNER JOIN tb_logradouros B ON A.cod_logradouro = B.cod_logradouro INNER JOIN tb_bairros C ON B.cod_bairro = C.cod_bairro INNER JOIN tb_cidades D ON C.cod_cidade = D.cod_cidade WHERE A.cod_cliente = tb_clientes.cod_cliente ) AS 'Ends.' " );
+					case "itens":
+						colunasSql.Add(
+							"( SELECT GROUP_CONCAT(CONCAT( 'Tap:', nom_tapete, ', Compr:', CAST(flt_comprimento AS CHAR), ', Larg:', CAST(flt_largura AS CHAR), ', Area:', CAST(dbl_area AS CHAR), ', R$', CAST(val_item AS CHAR), "
+							+ " ', Serv:',( "
+							+ "     SELECT GROUP_CONCAT(nom_servico) FROM tb_servicos C "
+							+ "     INNER JOIN tb_itens_servicos D ON D.cod_servico = C.cod_servico "
+							+ "     WHERE D.cod_item_os = A.cod_item_os "
+							+ " ))) "
+							+ " FROM tb_itens_os A "
+							+ " INNER JOIN tb_tapetes B ON B.cod_tapete = A.cod_tapete "
+							+ " WHERE A.cod_ordem_de_servico = tb_ordens_de_servico.cod_ordem_de_servico) AS Itens"
+						);
 						break;
-				}
+					}
 			}
 
 			return String.Join( ",", colunasSql.ToArray() );

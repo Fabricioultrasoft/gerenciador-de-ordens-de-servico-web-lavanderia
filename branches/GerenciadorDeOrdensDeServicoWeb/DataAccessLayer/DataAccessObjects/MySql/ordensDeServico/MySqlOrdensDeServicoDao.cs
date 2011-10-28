@@ -664,7 +664,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return existe;
 		}
 
-		private static MySqlFilter getFilter( List<Filter> filters ) {
+		public static MySqlFilter getFilter( List<Filter> filters ) {
 
 			// clausula WHERE SQL
 			StringBuilder whereClause = new StringBuilder();
@@ -803,7 +803,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return mySqlfilter;
 		}
 
-		private static String getSort( List<Sorter> sorters ) {
+		public static String getSort( List<Sorter> sorters ) {
 			StringBuilder sortSql = new StringBuilder();
 
 			foreach( Sorter sorter in sorters ) {
@@ -831,6 +831,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 						break;
 					case "nomeStatus":
 						sortSql.AppendFormat( "{0} {1},", "tb_status_os.nom_status_os", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
+						break;
+					case "codigoCliente":
+						sortSql.AppendFormat( "{0} {1},", "tb_clientes.cod_cliente", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );
 						break;
 					case "nomeCliente":
 						sortSql.AppendFormat( "{0} {1},", "tb_clientes.nom_cliente", ( sorter.direction == "DESC" ) ? "DESC" : "ASC" );

@@ -135,6 +135,7 @@
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoSearchView.js" />
     <Content Include="PresentationLayer\app\view\ordensDeServico\OrdensDeServicoView.js" />
     <Content Include="PresentationLayer\app\view\relatorios\Clientes.js" />
+    <Content Include="PresentationLayer\app\view\relatorios\OrdensDeServico.js" />
     <Content Include="PresentationLayer\app\view\relatorios\RelatoriosView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosAddView.js" />
     <Content Include="PresentationLayer\app\view\servicos\ServicosEditView.js" />
@@ -2010,6 +2011,9 @@
     <Compile Include="PresentationLayer\app\view\relatorios\ClientesTpl.ashx.cs">
       <DependentUpon>ClientesTpl.ashx</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\app\view\relatorios\OrdensDeServicoTpl.ashx.cs">
+      <DependentUpon>OrdensDeServicoTpl.ashx</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\rel_cliente.aspx.cs">
       <DependentUpon>rel_cliente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2043,6 +2047,7 @@
     <Content Include="PresentationLayer\app\handlers\usuarios\UsuariosHandler.ashx" />
     <Content Include="PresentationLayer\app\handlers\ordensDeServico\OrdensDeServicoHandler.ashx" />
     <Content Include="PresentationLayer\app\view\relatorios\ClientesTpl.ashx" />
+    <Content Include="PresentationLayer\app\view\relatorios\OrdensDeServicoTpl.ashx" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\config.rb" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-access.scss" />
     <None Include="PresentationLayer\ext-4.0\resources\sass\ext-all-gray.scss" />

@@ -65,16 +65,47 @@ Ext.define('App.view.relatorios.Clientes', {
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Qtd Registros', layout: 'hbox', defaults: { labelAlign: 'top' },
                     items: [
-                        { xtype: 'numberfield', name: 'start', minValue: 0, value: 0, flex: 1, fieldLabel: 'Inicio', emptyText: 'Digite o indice inicial', margins: '0 4 0 0' },
+                        { xtype: 'numberfield', name: 'start', minValue: 1, value: 1, flex: 1, fieldLabel: 'Inicio', emptyText: 'Digite o indice inicial', margins: '0 4 0 0' },
                         { xtype: 'numberfield', name: 'limit', minValue: 0, value: 0, flex: 1, fieldLabel: 'Limite', emptyText: 'Digite o indice final' }
+                    ]
+                },
+                { xtype: 'fieldcontainer', fieldLabel: '', layout: 'hbox', defaults: { labelAlign: 'top' },
+                    items: [
+                        { xtype: 'combobox', fieldLabel: 'Ordenar por', name: 'sort', flex : 1, queryMode: 'local', valueField: 'value', displayField: 'label', emptyText: 'Selecione o a coluna que será ordenada', selectOnFocus: true, forceSelection: true, margins: '0 4 0 0', 
+                            store: Ext.create('Ext.data.Store', {
+                                fields: ['label', 'value'],
+                                data : [
+                                    {"label":"Ativo", "value":"ativo"},
+                                    {"label":"Codigo", "value":"codigo"},
+                                    {"label":"Nome", "value":"nome"},
+                                    {"label":"Conjuge", "value":"conjuge"},
+                                    {"label":"Tipo", "value":"nomeTipoDeCliente"},
+                                    {"label":"Data de Nascimento", "value":"dataDeNascimento"},
+                                    {"label":"Sexo", "value":"strSexo"},
+                                    {"label":"RG", "value":"rg"},
+                                    {"label":"CPF", "value":"cpf"}
+                                ]
+                            })
+                        },
+                        { xtype: 'combobox', fieldLabel: 'Dire&ccedil;&atilde;o', name: 'direction', flex : 1, queryMode: 'local', valueField: 'value', displayField: 'label', emptyText: 'Selecione a direção da ordem', selectOnFocus: true, forceSelection: true,
+                            store: Ext.create('Ext.data.Store', {
+                                fields: ['label', 'value'],
+                                data : [
+                                    {"label":"Crescente", "value":"ASC"},
+                                    {"label":"Decrescente", "value":"DESC"}
+                                ]
+                            })
+                        }
                     ]
                 },
                 { xtype: 'fieldcontainer', fieldLabel: 'Colunas', defaults: { xtype: 'checkboxfield', name: 'colunas', checked: true, margins: '0 15 0 0' },
                     items: [
+                        { boxLabel: 'Ativo', inputValue : 'ativo' },
+                        { boxLabel: 'Codigo', inputValue : 'codigo' },
                         { boxLabel: 'Nome', inputValue : 'nome' }, 
                         { boxLabel: 'Conjuge', inputValue: 'conjuge' }, 
                         { boxLabel: 'Tipo', inputValue: 'tipoCliente' },
-                        { boxLabel: 'Nascimento', inputValue: 'nascimento' },
+                        { boxLabel: 'Data de Nascimento', inputValue: 'nascimento' },
                         { boxLabel: 'Sexo', inputValue: 'sexo' },
                         { boxLabel: 'RG', inputValue: 'rg' },
                         { boxLabel: 'CPF', inputValue: 'cpf' },
@@ -111,13 +142,16 @@ Ext.define('App.view.relatorios.Clientes', {
 
         var values = this.form.getValues();
         var arrFilters = new Array();
+        var sort = new Array();
 
         for(var member in values) {
-            if(member != "colunas" && member != "start" && member != "limit")
+            if(member != "colunas" && member != "start" && member != "limit" && member != "sort" && member != "direction" )
                 arrFilters.push(new Ext.util.Filter({ property: member, value: values[member] }));
         }
 
-        var param = Ext.String.format('filter={0}&colunas={1}&start={2}&limit={3}&reportView={4}', Ext.encode(arrFilters), values.colunas.join(','), values.start, values.limit, btn.reportView);
+        sort.push(new Ext.util.Sorter({ property : (values.sort) ? values.sort : 'codigo' , direction: (values.direction) ? values.direction : 'ASC' }));
+
+        var param = Ext.String.format('filter={0}&colunas={1}&start={2}&limit={3}&sort={4}&reportView={5}', Ext.encode(arrFilters), values.colunas.join(','), values.start, values.limit, Ext.encode(sort), btn.reportView);
         var newWindow = window.open('/PresentationLayer/app/view/relatorios/ClientesTpl.ashx?' + param);
 	    if (window.focus) {newWindow.focus()}
     }

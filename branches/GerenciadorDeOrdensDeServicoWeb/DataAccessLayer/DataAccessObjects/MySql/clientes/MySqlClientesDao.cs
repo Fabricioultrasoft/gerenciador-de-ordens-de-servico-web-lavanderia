@@ -798,7 +798,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return mySqlfilter;
 		}
 
-		private static String getSort( List<Sorter> sorters ) {
+		public static String getSort( List<Sorter> sorters ) {
 
 			StringBuilder sortSql = new StringBuilder();
 

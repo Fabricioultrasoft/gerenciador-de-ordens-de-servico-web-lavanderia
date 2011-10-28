@@ -122,7 +122,7 @@
                         { xtype: 'combo', name: 'codigoCidade', store: cidadesStore, id: 'win-add-logradouro-combo-cidade', fieldLabel: 'Cidade', emptyText: 'Selecione a cidade', displayField: 'nome', valueField: 'codigo', allowBlank: false, blankText: 'Uma Cidade deve ser selecionada', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true },
                         { xtype: 'combo', name: 'codigoBairro', store: bairrosStore, id: 'win-add-logradouro-combo-bairro', fieldLabel: 'Bairro', emptyText: 'Selecione o bairro', displayField: 'nome', valueField: 'codigo', allowBlank: false, blankText: 'Um Bairro deve ser selecionado', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true },
                         { xtype: 'combo', name: 'codigoTipoDeLogradouro', store: tiposDeLogradourosStore, fieldLabel: 'Tipo', emptyText: 'Selecione o tipo de logradouro', displayField: 'nome', valueField: 'codigo', allowBlank: false, blankText: 'Um tipo de logradouro deve ser selecionado', typeAhead: true, queryMode: 'local', triggerAction: 'all', selectOnFocus: true, forceSelection: true },
-                        { xtype: 'textfield', name: 'cep', fieldLabel: 'CEP', emptyText: '00000-000' },
+                        { xtype: 'textfield', name: 'cep', fieldLabel: 'CEP', emptyText: '00000-000', maxLength:10 },
                         { xtype: 'textfield', name: 'nome', fieldLabel: 'Logradouro' }
                     ]
                 }],

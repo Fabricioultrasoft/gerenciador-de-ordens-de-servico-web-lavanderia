@@ -28,7 +28,7 @@ Ext.define('App.view.relatorios.RelatoriosView', {
             text: 'Ordens de Servi&ccedil;o',
             iconCls: 'report',
             handler : function() {
-                this.app.getModule("module-report-ordensDeServico").createWindow();
+                this.app.getModule("module-report-os").createWindow();
             },
             scope: this
         });
