@@ -80,7 +80,7 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         return Ext.apply(ret, {
 
             contextMenuItems: [
-                { text: 'Alterar configurações', handler: me.onSettings, scope: me }
+                { text: 'Alterar Caracter&iacute;sticas', handler: me.onSettings, scope: me }
             ],
 
             shortcuts: Ext.create('Ext.data.Store', {
@@ -104,20 +104,20 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
 
         return Ext.apply(ret, {
             title: Ext.util.Cookies.get('nomeUsuario'),
-            height: 300,
+            height: 320,
             toolConfig: {
-                width: 100,
+                width: 110,
                 items: [
                     {
-                        text: 'Settings',
-                        iconCls: 'btn-settings',
+                        text: 'Caracter&iacute;sticas',
+                        iconCls: 'settings',
                         handler: me.onSettings,
                         scope: me
                     },
                     '-',
                     {
                         text: 'Sair',
-                        iconCls: 'btn-logout',
+                        iconCls: 'logout',
                         handler: me.onLogout,
                         scope: me
                     }

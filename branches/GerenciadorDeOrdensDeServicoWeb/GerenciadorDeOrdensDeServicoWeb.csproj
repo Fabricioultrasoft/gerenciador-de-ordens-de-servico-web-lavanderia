@@ -1806,9 +1806,8 @@
     <Content Include="PresentationLayer\ext-4.0\src\ZIndexManager.js" />
     <Content Include="PresentationLayer\funcoesComuns.js" />
     <Content Include="PresentationLayer\index.html" />
+    <Content Include="PresentationLayer\inicialConfig.js" />
     <Content Include="PresentationLayer\login.html" />
-    <Content Include="PresentationLayer\rel_cliente.aspx" />
-    <Content Include="PresentationLayer\rel_os.aspx" />
     <Content Include="PresentationLayer\resources\css\app.css" />
     <Content Include="PresentationLayer\resources\css\icons.css" />
     <Content Include="PresentationLayer\resources\css\login.css" />
@@ -1818,8 +1817,8 @@
     <Content Include="PresentationLayer\resources\images\app-go.png" />
     <Content Include="PresentationLayer\resources\images\btn-add.png" />
     <Content Include="PresentationLayer\resources\images\btn-del.png" />
-    <Content Include="PresentationLayer\resources\images\btn-logout.png" />
-    <Content Include="PresentationLayer\resources\images\btn-settings.png" />
+    <Content Include="PresentationLayer\resources\images\logout.png" />
+    <Content Include="PresentationLayer\resources\images\settings.png" />
     <Content Include="PresentationLayer\resources\images\btn-limpar.png" />
     <Content Include="PresentationLayer\resources\images\btn-detalhes.gif" />
     <Content Include="PresentationLayer\resources\images\cancel.png" />
@@ -1865,6 +1864,7 @@
     <Content Include="PresentationLayer\resources\images\os-del.png" />
     <Content Include="PresentationLayer\resources\images\os-search.png" />
     <Content Include="PresentationLayer\resources\images\os-thumb.png" />
+    <Content Include="PresentationLayer\resources\images\picture.png" />
     <Content Include="PresentationLayer\resources\images\report.png" />
     <Content Include="PresentationLayer\resources\images\save-add.png" />
     <Content Include="PresentationLayer\resources\images\save-edit.png" />
@@ -1888,8 +1888,14 @@
     <Content Include="PresentationLayer\resources\images\user-add.png" />
     <Content Include="PresentationLayer\resources\images\user-del.png" />
     <Content Include="PresentationLayer\resources\images\user-edit.png" />
+    <Content Include="PresentationLayer\resources\images\wallpapers\Another-Poppy.png" />
+    <Content Include="PresentationLayer\resources\images\wallpapers\Aquarius.png" />
     <Content Include="PresentationLayer\resources\images\wallpapers\desk.jpg" />
     <Content Include="PresentationLayer\resources\images\servicos-add.png" />
+    <Content Include="PresentationLayer\resources\images\wallpapers\Foresight.png" />
+    <Content Include="PresentationLayer\resources\images\wallpapers\Happy.png" />
+    <Content Include="PresentationLayer\resources\images\wallpapers\Is-Doodle-Orange.png" />
+    <Content Include="PresentationLayer\resources\images\wallpapers\Sunergos-Grey.png" />
     <Content Include="PresentationLayer\resources\images\xls.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2013,20 +2019,6 @@
     </Compile>
     <Compile Include="PresentationLayer\app\view\relatorios\OrdensDeServicoTpl.ashx.cs">
       <DependentUpon>OrdensDeServicoTpl.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="PresentationLayer\rel_cliente.aspx.cs">
-      <DependentUpon>rel_cliente.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PresentationLayer\rel_cliente.aspx.designer.cs">
-      <DependentUpon>rel_cliente.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="PresentationLayer\rel_os.aspx.cs">
-      <DependentUpon>rel_os.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PresentationLayer\rel_os.aspx.designer.cs">
-      <DependentUpon>rel_os.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

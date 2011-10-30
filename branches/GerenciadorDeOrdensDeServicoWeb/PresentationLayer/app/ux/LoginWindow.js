@@ -26,8 +26,8 @@ Ext.define('App.ux.LoginWindow', {
             },
             defaultType: 'textfield',
             items: [
-            { name: 'nome', fieldLabel: 'Nome', emptyText: 'Digite o nome do usuário' }, 
-            { name: 'senha', fieldLabel: 'Senha', emptyText: 'Digite a senha do usuário', inputType: 'password' }
+            { name: 'nome', fieldLabel: 'Nome', emptyText: 'Digite o nome do usuário', enableKeyEvents: true, listeners: { 'keyup': this.onTxtKeyUp, scope: this} }, 
+            { name: 'senha', fieldLabel: 'Senha', emptyText: 'Digite a senha do usuário', inputType: 'password', enableKeyEvents: true, listeners: { 'keyup': this.onTxtKeyUp, scope: this}  }
             ],
             buttons: [{ xtype: 'button', text: 'Entrar', iconCls: 'app-go', handler: this.onBtnEntrarClick, scope: this }]
         });
@@ -35,6 +35,13 @@ Ext.define('App.ux.LoginWindow', {
         this.items = form;
 
         this.callParent(arguments);
+    },
+
+    onTxtKeyUp: function (field, e) {
+        if (e.getKey() === e.ENTER) {
+            e.stopEvent();
+            this.onBtnEntrarClick();
+        }
     },
 
     onBtnEntrarClick: function () {

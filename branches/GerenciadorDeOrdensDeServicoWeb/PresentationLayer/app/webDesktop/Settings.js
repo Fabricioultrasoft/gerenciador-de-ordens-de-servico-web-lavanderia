@@ -14,54 +14,56 @@ Ext.define('App.webDesktop.Settings', {
     ],
 
     layout: 'anchor',
-    title: 'Alterar Settings',
+    title: 'Alterar Características',
+    iconCls: 'settings',
     modal: true,
-    width: 640,
-    height: 480,
+    width: 700,
+    height: 540,
     border: false,
 
     initComponent: function () {
-//        var me = this;
+        var me = this;
 
-//        me.selected = me.desktop.getWallpaper();
-//        me.stretch = me.desktop.wallpaper.stretch;
+        me.selected = me.desktop.getWallpaper();
+        me.stretch = me.desktop.wallpaper.stretch;
 
-//        me.preview = Ext.create('widget.wallpaper');
-//        me.preview.setWallpaper(me.selected);
-//        me.tree = me.createTree();
+        me.preview = Ext.create('widget.wallpaper');
+        me.preview.setWallpaper(me.selected);
+        me.tree = me.createTree();
 
-//        me.buttons = [
-//            { text: 'OK', handler: me.onOK, scope: me },
-//            { text: 'Cancelar', handler: me.close, scope: me }
-//        ];
+        me.buttons = [
+            { text: 'OK', handler: me.onOK, scope: me },
+            { text: 'Cancelar', handler: me.close, scope: me }
+        ];
 
-//        me.items = [
-//            {
-//                anchor: '0 -30',
-//                border: false,
-//                layout: 'border',
-//                items: [
-//                    me.tree,
-//                    {
-//                        xtype: 'panel',
-//                        title: 'Preview',
-//                        region: 'center',
-//                        layout: 'fit',
-//                        items: [me.preview]
-//                    }
-//                ]
-//            },
-//            {
-//                xtype: 'checkbox',
-//                boxLabel: 'Ajustar à tela',
-//                checked: me.stretch,
-//                listeners: {
-//                    change: function (comp) {
-//                        me.stretch = comp.checked;
-//                    }
-//                }
-//            }
-//        ];
+        me.items = [
+            {
+                anchor: '0 -30',
+                border: false,
+                layout: 'border',
+                items: [
+                    me.tree,
+                    {
+                        xtype: 'panel',
+                        title: 'Preview',
+                        iconCls: 'lupa',
+                        region: 'center',
+                        layout: 'fit',
+                        items: [me.preview]
+                    }
+                ]
+            },
+            {
+                xtype: 'checkbox',
+                boxLabel: 'Ajustar à tela',
+                checked: me.stretch,
+                listeners: {
+                    change: function (comp) {
+                        me.stretch = comp.checked;
+                    }
+                }
+            }
+        ];
 
         me.callParent();
     },
@@ -70,11 +72,12 @@ Ext.define('App.webDesktop.Settings', {
         var me = this;
 
         function child(img) {
-            return { img: img, text: me.getTextOfWallpaper(img), iconCls: '', leaf: true };
+            return { img: img, text: me.getTextOfWallpaper(img), iconCls: 'picture', leaf: true };
         }
 
         var tree = new Ext.tree.Panel({
-            title: 'Desktop Background',
+            title: 'Planos de Fundo',
+            iconCls: 'picture',
             rootVisible: false,
             lines: false,
             autoScroll: true,
@@ -93,15 +96,14 @@ Ext.define('App.webDesktop.Settings', {
                     text: 'Wallpaper',
                     expanded: true,
                     children: [
-                        { text: "None", iconCls: '', leaf: true },
-                        child('Blue-Sencha.jpg'),
-                        child('Dark-Sencha.jpg'),
-                        child('Wood-Sencha.jpg'),
-                        child('blue.jpg'),
+                        { text: "None", iconCls: 'picture', leaf: true },
+                        child('Another-Poppy.png'),
+                        child('Aquarius.png'),
                         child('desk.jpg'),
-                        child('desktop.jpg'),
-                        child('desktop2.jpg'),
-                        child('sky.jpg')
+                        child('Foresight.png'),
+                        child('Happy.png'),
+                        child('Is-Doodle-Orange.png'),
+                        child('Sunergos-Grey.png')
                     ]
                 }
             })
@@ -133,7 +135,7 @@ Ext.define('App.webDesktop.Settings', {
         var me = this;
 
         if (record.data.img) {
-            me.selected = 'wallpapers/' + record.data.img;
+            me.selected = 'resources/images/wallpapers/' + record.data.img;
         } else {
             me.selected = Ext.BLANK_IMAGE_URL;
         }
@@ -144,7 +146,7 @@ Ext.define('App.webDesktop.Settings', {
     setInitialSelection: function () {
         var s = this.desktop.getWallpaper();
         if (s) {
-            var path = '/Wallpaper/' + this.getTextOfWallpaper(s);
+            var path = 'resources/images/wallpapers/' + this.getTextOfWallpaper(s);
             this.tree.selectPath(path, 'text');
         }
     }

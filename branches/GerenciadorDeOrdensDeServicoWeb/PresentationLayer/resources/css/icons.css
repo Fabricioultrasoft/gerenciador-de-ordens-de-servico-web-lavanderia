@@ -11,8 +11,8 @@
 .btn-del {background-image: url("../images/btn-del.png") !important;}
 .add-thumb {background-image: url("../images/add-thumb.png") !important;}
 .del-thumb {background-image: url("../images/del-thumb.png") !important;}
-.btn-logout {background-image: url("../images/btn-logout.png") !important;}
-.btn-settings {background-image: url("../images/btn-settings.png") !important;}
+.logout {background-image: url("../images/logout.png") !important;}
+.settings {background-image: url("../images/settings.png") !important;}
 .btn-limpar {background-image: url("../images/btn-limpar.png") !important;}
 .btn-detalhes {background-image: url("../images/btn-detalhes.gif") !important;}
 .save {background-image: url("../images/save.png") !important;}
@@ -74,6 +74,7 @@
 .report{ background-image:url("/PresentationLayer/resources/images/report.png") !important; }
 .html{ background-image:url("/PresentationLayer/resources/images/html.png") !important; }
 .xls{ background-image:url("/PresentationLayer/resources/images/xls.png") !important; }
+.picture{ background-image:url("/PresentationLayer/resources/images/picture.png") !important; }
 
 .x-action-col-cell img.act-dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
 .x-action-col-cell img.act-dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}
