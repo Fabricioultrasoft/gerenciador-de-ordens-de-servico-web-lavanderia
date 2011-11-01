@@ -48,7 +48,7 @@ Ext.define('App.view.usuarios.UsuariosSearchView', {
             tbar: [
                 { itemId: 'btnAddUsuario', text: 'Adicionar', iconCls: 'user-add', scope: this, handler : function() { this.app.getModule("module-usuarios-add").createWindow({store:usuariosStore}); } },
                 { itemId: 'btnEditUsuario', text: 'Editar', iconCls: 'user-edit', scope: this, disabled: true },
-                { itemId: 'btnDelUsuario', text: 'Remover', iconCls: 'user-del', scope: this, disabled: true }, 
+                { itemId: 'btnDelUsuario', text: 'Remover', iconCls: 'user-del', scope: this, disabled: true } 
             ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: usuariosStore,

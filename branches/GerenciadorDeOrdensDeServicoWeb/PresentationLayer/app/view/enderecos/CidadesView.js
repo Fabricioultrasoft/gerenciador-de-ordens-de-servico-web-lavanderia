@@ -84,14 +84,17 @@ Ext.define('App.view.enderecos.CidadesView', {
                 title: 'Adicionar Cidade',
                 layout: 'fit',
                 id: 'win-add-cidade',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 60,
                         margin: '2 2 2 2'
                     },
                     items: [
@@ -163,14 +166,17 @@ Ext.define('App.view.enderecos.CidadesView', {
                 title: 'Editar Cidade',
                 layout: 'fit',
                 id: 'win-edit-cidade',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 60,
                         margin: '2 2 2 2'
                     },
                     items: [

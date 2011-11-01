@@ -34,5 +34,5 @@ function genericErrorAlert(title, message) {
 };
 
 function isArray(o){
-	return(typeof(o.length)=="undefined")?false:true;
+	return(typeof(o.length) == "undefined" || typeof(o) == "string" || typeof(o) == "number") ? false : true;
 }

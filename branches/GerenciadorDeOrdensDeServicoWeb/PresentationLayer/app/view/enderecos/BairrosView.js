@@ -93,14 +93,17 @@ Ext.define('App.view.enderecos.BairrosView', {
                 title: 'Adicionar Bairro',
                 layout: 'fit',
                 id: 'win-add-bairro',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 50,
                         margin: '2 2 2 2'
                     },
                     items: [
@@ -189,14 +192,17 @@ Ext.define('App.view.enderecos.BairrosView', {
                 title: 'Editar Bairro',
                 layout: 'fit',
                 id: 'win-edit-bairro',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 60,
                         margin: '2 2 2 2'
                     },
                     items: [

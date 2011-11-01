@@ -74,14 +74,17 @@ Ext.define('App.view.enderecos.EstadosView', {
                 title: 'Adicionar Estado',
                 layout: 'fit',
                 id: 'win-add-estado',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 60,
                         margin: '2 2 2 2'
                     },
                     items: [
@@ -137,14 +140,17 @@ Ext.define('App.view.enderecos.EstadosView', {
                 title: 'Editar Estado',
                 layout: 'fit',
                 id: 'win-edit-estado',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 60,
                         margin: '2 2 2 2'
                     },
                     items: [

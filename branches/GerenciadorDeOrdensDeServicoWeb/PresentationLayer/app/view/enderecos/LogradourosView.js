@@ -106,13 +106,13 @@
                 id: 'win-add-logradouro',
                 modal: true,
                 resizable: false,
-                width: 300,
+                width: 310,
                 items: [{
                     xtype: 'form',
                     border: false,
                     fieldDefaults: {
                         labelAlign: 'right',
-                        labelWidth: 65,
+                        labelWidth: 70,
                         anchor: '100%',
                         margin: '2 2 2 2'
                     },
@@ -155,13 +155,13 @@
                 id: 'win-edit-logradouro',
                 modal: true,
                 resizable: false,
-                width: 300,
+                width: 310,
                 items: [{
                     xtype: 'form',
                     border: false,
                     fieldDefaults: {
                         labelAlign: 'right',
-                        labelWidth: 65,
+                        labelWidth: 70,
                         anchor: '100%',
                         margin: '2 2 2 2'
                     },

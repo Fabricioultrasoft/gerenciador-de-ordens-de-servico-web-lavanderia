@@ -20,4 +20,12 @@ Ext.notification = function () {
         },
         init: function () {}
     };
-} (); 
+} ();
+
+if( Ext.data.proxy.Server.prototype.timeout ) {
+    Ext.data.proxy.Server.prototype.timeout = 60000 * 60;
+}
+
+if( Ext.data.proxy.Ajax.prototype.timeout ) {
+    Ext.data.proxy.Server.prototype.timeout = 60000 * 60;
+}

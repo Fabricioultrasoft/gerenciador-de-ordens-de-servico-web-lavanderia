@@ -94,6 +94,7 @@ Ext.define('App.view.clientes.TiposDeClientesView', {
                 layout: 'fit',
                 id: 'win-tiposDeClientes-add',
                 iconCls: 'clientes-tipos-add',
+                width: 230,
                 modal: true,
                 resizable: false,
                 items: [{
@@ -102,7 +103,7 @@ Ext.define('App.view.clientes.TiposDeClientesView', {
                     bodyPadding: 5,
                     fieldDefaults: {
                         labelAlign: 'left',
-                        labelWidth: 40
+                        labelWidth: 50
                     },
                     defaults: {
                         allowBlank: false, 
@@ -128,7 +129,7 @@ Ext.define('App.view.clientes.TiposDeClientesView', {
                 layout: 'fit',
                 id: 'win-tiposDeClientes-edit',
                 iconCls: 'clientes-tipos-edit',
-                width: 220,
+                width: 230,
                 height: 150,
                 modal: true,
                 resizable: false,
@@ -138,7 +139,7 @@ Ext.define('App.view.clientes.TiposDeClientesView', {
                     bodyPadding: 5,
                     fieldDefaults: {
                         labelAlign: 'left',
-                        labelWidth: 40
+                        labelWidth: 50
                     },
                     items: [
                         { xtype: 'textfield', name: 'codigo', fieldLabel: 'C&oacute;digo', readOnly: true },

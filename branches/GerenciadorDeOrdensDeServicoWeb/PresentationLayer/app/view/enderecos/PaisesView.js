@@ -61,14 +61,17 @@ Ext.define('App.view.enderecos.PaisesView', {
                 title: 'Adicionar Pa&iacute;s',
                 layout: 'fit',
                 id: 'win-add-pais',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40
+                        labelWidth: 60
                     },
                     items: [
                         {
@@ -103,14 +106,17 @@ Ext.define('App.view.enderecos.PaisesView', {
                 title: 'Editar Pa&iacute;s',
                 layout: 'fit',
                 id: 'win-edit-pais',
+                width: 310,
                 modal: true,
                 resizable: false,
                 items: [{
                     xtype: 'form',
                     border: false,
+                    layout: 'anchor',
                     fieldDefaults: {
+                        anchor: '100%',
                         labelAlign: 'left',
-                        labelWidth: 40,
+                        labelWidth: 60,
                         margin: '2 2 2 2'
                     },
                     items: [

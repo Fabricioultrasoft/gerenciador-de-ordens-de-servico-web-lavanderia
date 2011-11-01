@@ -83,7 +83,7 @@ Ext.define('App.view.servicos.ServicosEditView', {
                 { xtype: 'treecolumn', dataIndex: 'nomeTapete', text: 'Tapete', flex: 2, sortable: true },
                 { xtype: 'templatecolumn', dataIndex: 'nomeTipoDeCliente', text: 'Tipo de cliente', flex: 1, align: 'center', sortable: false, tpl: Ext.create('Ext.XTemplate', '{nomeTipoDeCliente:this.formatCondEspec}', { formatCondEspec: function(v) { if (v != 'Todos') { return '<b>' + v + '</b>'; } else { return v; } } }) },
                 { xtype: 'numbercolumn', dataIndex: 'valor', text: 'Valor', align: 'center', width: 70, sortable: false },
-                { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: false },
+                { xtype: 'numbercolumn', dataIndex: 'valorAcima10m2', text: 'Acima 10m&sup2;', align: 'center', width: 70, sortable: false }
             ],
             listeners: {
                 'selectionchange': function (treeModel, selectedRecords) {

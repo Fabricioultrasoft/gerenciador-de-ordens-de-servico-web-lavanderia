@@ -1,53 +1,24 @@
 ﻿
 Ext.define('App.controller.ordensDeServico.ItensController', {
     extend: 'Ext.app.Controller',
-
     models: ['ordensDeServico.ItemModel','ordensDeServico.ServicoDoItemModel','servicos.ServicoEspecificoModel'],
-
     views: ['ordensDeServico.ItensView'],
-
     stores: ['ordensDeServico.ItensStore','ordensDeServico.ServicosDoItemStore','servicos.ServicosEspecificosStore'],
 
     init: function () {
         this.control({
-            '#cboTapetes-itensOS': {
-                select: this.onTapeteSelect
-            },
-            '#grid-servicosDoItemOS': {
-                itemdblclick: this.editServico
-            },
-            '#btnAddServicos-ItemOS': {
-                click: this.onAddServicoClick
-            },
-            '#btnEditServicos-ItemOS': {
-                click: this.onEditServicoClick
-            },
-            '#btnDelServicos-ItemOS': {
-                click: this.onDelServicoClick
-            },
-            '#module-itensOS-comprimento': {
-                keyup: this.calcularArea
-            },
-            '#module-itensOS-largura': {
-                keyup: this.calcularArea
-            },
-            //--------------------------------
-            '#cboValoresEspecificos-itemOS': {
-                select: this.onValorEspecificoSelect   
-            },
-            '#qtdMm2-itemOS': {
-                keyup: this.onQtdMm2KeyUp
-            },
-            '#btnConfirmServicoOS':{
-                click: this.confirmServicoOSClick
-            },
-            '#win-servicoNoItemOS': {
-                destroy: this.onServicosWindowDestroy
-            },
-            //--------------------------------
-            '#btnConfirmItemOS':{
-                click: this.confirmItemOSClick
-            },
+            '#cboTapetes-itensOS': { select: this.onTapeteSelect },
+            '#grid-servicosDoItemOS': { itemdblclick: this.editServico },
+            '#btnAddServicos-ItemOS': { click: this.onAddServicoClick },
+            '#btnEditServicos-ItemOS': { click: this.onEditServicoClick },
+            '#btnDelServicos-ItemOS': { click: this.onDelServicoClick },
+            '#module-itensOS-comprimento': { keyup: this.calcularArea },
+            '#module-itensOS-largura': { keyup: this.calcularArea },
+            '#cboValoresEspecificos-itemOS': { select: this.onValorEspecificoSelect },
+            '#qtdMm2-itemOS': { keyup: this.onQtdMm2KeyUp },
+            '#btnConfirmServicoOS':{ click: this.confirmServicoOSClick },
+            '#win-servicoNoItemOS': { destroy: this.onServicosWindowDestroy },
+            '#btnConfirmItemOS':{ click: this.confirmItemOSClick }
         });
     },
 

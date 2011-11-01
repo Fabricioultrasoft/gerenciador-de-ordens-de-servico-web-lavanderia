@@ -23,7 +23,6 @@ Ext.define('App.view.relatorios.OrdensDeServico', {
                 items: [panel]
             });
         }
-        console.log(win);
         win.show();
 
         return win;
@@ -136,7 +135,6 @@ Ext.define('App.view.relatorios.OrdensDeServico', {
     },
 
     gerarRelatorio: function (btn, eventObject, options) {
-        console.log(this);
         if (!this.form.getForm().isValid()) {
             genericErrorAlert("Erro", "Preencha os campos corretamente");
             return false; 

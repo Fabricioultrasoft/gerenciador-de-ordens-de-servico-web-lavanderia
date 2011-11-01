@@ -23,7 +23,6 @@ Ext.define('App.view.relatorios.Clientes', {
                 items: [panel]
             });
         }
-        console.log(win);
         win.show();
 
         return win;
@@ -134,7 +133,6 @@ Ext.define('App.view.relatorios.Clientes', {
     },
 
     gerarRelatorio: function (btn, eventObject, options) {
-        console.log(this);
         if (!this.form.getForm().isValid()) {
             genericErrorAlert("Erro", "Preencha os campos corretamente");
             return false; 

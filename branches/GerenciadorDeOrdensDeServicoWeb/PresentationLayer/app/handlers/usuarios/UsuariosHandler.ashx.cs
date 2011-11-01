@@ -150,7 +150,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 			json.Append( "{" );
 			json.AppendFormat( " \"codigo\": {0}, ", usuario.codigo );
 			json.AppendFormat( " \"nome\": \"{0}\", ", usuario.nome );
-			json.AppendFormat( " \"senha\": \"{0}\", ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usuario.senha ) ) ) );
+			json.AppendFormat( " \"senha\": \"{0}\" ", Util.bytesToHex( sha1.ComputeHash( Util.stringToBytes( usuario.senha ) ) ) );
 			json.Append( "}" );
 			return json.ToString();
 		}
