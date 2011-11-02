@@ -34,10 +34,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			String colunas = context.Request.QueryString["colunas"];
 			UInt32 start = 0;
 			UInt32 limit = 0;
-			long count = 0;
 			List<Filter> filters;
 			List<Sorter> sorters;
 
+			#region DADOS DA REQUISICAO
 			if( String.IsNullOrEmpty( colunas ) ) {
 				context.Response.Write( "Nenhuma coluna do relat&oacute;rio foi selecionada!" );
 				return;
@@ -48,7 +48,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 			// trata o problema de indice comecar em 0 no mysql
 			if( start > 0 ) start--;
-			
+
 			// filtros
 			if( String.IsNullOrEmpty( context.Request.QueryString["filter"] ) == false ) {
 				filters = js.Deserialize<List<Filter>>( context.Request.QueryString["filter"] );
@@ -62,144 +62,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			} else {
 				sorters = new List<Sorter>();
 			}
-
-			if( context.Request.QueryString["reportView"] == "xls" ) {
-				// relatorio em excel
-				context.Response.ContentType = "application/vnd.ms-excel";
-			} else {
-				// relatorio em html
-				context.Response.ContentType = "text/html";
-			}
-            if (context.Request.QueryString["reportView"] == "xls")
-            {
-                // relatorio em excel
-
-                string strex = "";
-                #region data
-
-                StringBuilder sql2 = new StringBuilder();
-                MySqlFilter filter2 = MySqlClientesDao.getFilter(filters);
-
-                sql2.AppendFormat("SELECT {0} FROM tb_clientes ", construirColunasSql(colunas));
-                sql2.AppendLine("INNER JOIN tb_tipos_clientes ON tb_tipos_clientes.cod_tipo_cliente = tb_clientes.cod_tipo_cliente ");
-                sql2.AppendLine(filter2.whereClause);
-                if (limit > 0)
-                    sql2.AppendLine(" LIMIT " + start + "," + limit);
-
-                MySqlConnection conn2 = MySqlConnectionWizard.getConnection();
-                conn2.Open();
-                MySqlCommand cmd2 = new MySqlCommand(sql2.ToString(), conn2);
-                if (filter2.parametersList.Count > 0)
-                {
-                    cmd2.Parameters.AddRange(filter2.parametersList.ToArray());
-                }
-
-                MySqlDataReader reader2 = cmd2.ExecuteReader();
-
-
-                 //dll itextsharp
-
-
-
-              strex += "<html><head></head><body>";  
-              strex += "<table width=100% border=0 cellspacing=1 ><caption id='caption'>Gerando...</caption><thead><tr>";
-
-                // escreve o NOME das colunas de acordo com os ALIAS DO SELECT
-                for (int i = 0; i < reader2.FieldCount; i++)
-                {
-                    strex +="<th>" + reader2.GetName(i) + "</th>";
-                }
-                strex +="</tr></thead><tbody>";
-
-                // escreve os DADOS de cada registro
-                while (reader2.Read())
-                {
-                     strex +="<tr>";
-                    for (int i = 0; i < reader2.FieldCount; i++)
-                    {
-                         strex +="<td>" + reader2[i] + "</td>";
-                    }
-                     strex +="</tr>";
-                    count++;
-                }
-                strex +="</tbody></table>";
-                strex += " Total: " + count + " registro(s) encontrado(s)'";
-
-                strex +="</body></html>";
-
-                reader2.Close(); reader2.Dispose(); cmd2.Dispose();
-                conn2.Close(); conn2.Dispose();
-
-
-                #endregion
-
-                string attachment = "attachment; filename=Article.pdf";
-
-               context.Response.ClearContent();
-
-               context.Response.AddHeader("content-disposition", attachment);
-
-               context.Response.ContentType = "application/pdf";
-
-                //StringWriter stw = new StringWriter();
-
-                //HtmlTextWriter htextw = new HtmlTextWriter(stw);
-
-                //dvText.RenderControl(htextw);
-
-                Document document = new Document();
-
-                PdfWriter.GetInstance(document, context.Response.OutputStream);
-
-                document.Open();
-
-                string strHTML = strex.ToString();
-
-                HTMLWorker htmlWorker = new HTMLWorker(document);
-
-                htmlWorker.Parse(new StringReader(strHTML));
-
-                document.Close();
-
-                //StringReader str = new StringReader(stw.ToString());
-
-                       context.Response.Write(document);
-
-                context.Response.End();
-
-
-                //context.Response.Clear();
-                //context.Response.Buffer = true;
-                //context.Response.ContentType = "application/vnd.ms-excel";
-                //context.Response.AddHeader("content-disposition", "attachment; filename=excelData.xls");
-                //context.Response.ContentType = "application/ms-excel";
-                //context.Response.Charset = "";
-                //HttpRequest request = context.Request;
-                //HttpResponse response = context.Response;
-
-
-
-                //System.IO.StringWriter oStringWriter = new System.IO.StringWriter();
-                //oStringWriter.Write(strex.ToString());
-                //System.Web.UI.HtmlTextWriter oHtmlTextWriter = new System.Web.UI.HtmlTextWriter(oStringWriter);
-
-                //context.Response.Write(oStringWriter.ToString());
-                //context.Response.End();
-
-                
-                
-               // string exportContent = strex.ToString();
-                //response.Write(exportContent);
-
-
-            }
-
-            else
-            {
-                // relatorio em html
-                context.Response.ContentType = "text/html";
-            }
-
+			#endregion
 
 			StringBuilder sql = new StringBuilder();
 			MySqlFilter filter = MySqlClientesDao.getFilter( filters );
@@ -221,6 +84,26 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 			MySqlDataReader reader = cmd.ExecuteReader();
 
+			switch( context.Request.QueryString["reportView"] ) {
+				case "html":
+					gerarHtml( context, reader );
+					break;
+				case "xls":
+					gerarExcel( context, reader );
+					break;
+				case "pdf":
+					gerarPdf( context, reader );
+					break;
+			}
+
+			reader.Close(); reader.Dispose(); cmd.Dispose();
+			conn.Close(); conn.Dispose();
+		}
+
+		private static void gerarHtml( HttpContext context, MySqlDataReader reader ) {
+
+			context.Response.ContentType = "text/html";
+
 			context.Response.Write( "<html><head><title>Relatório de Clientes</title>"
 				+ "<link rel='icon' href='/PresentationLayer/resources/images/favicon.png' />"
 				+ "<link rel='stylesheet' type='text/css' href='/PresentationLayer/resources/css/relatorios.css' /></head><body>" );
@@ -234,6 +117,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			context.Response.Write( "</tr></thead><tbody>" );
 
 			// escreve os DADOS de cada registro
+			long count = 0;
 			while( reader.Read() ) {
 				context.Response.Write( "<tr>" );
 				for( int i = 0; i < reader.FieldCount; i++ ) {
@@ -246,16 +130,88 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			context.Response.Write( "<script type='text/javascript'>document.getElementById('caption').innerHTML = 'Total: "+ count +" registro(s) encontrado(s)';window.print();</script>" );
 			context.Response.Write( "</body></html>" );
 
-			reader.Close(); reader.Dispose(); cmd.Dispose();
-			conn.Close(); conn.Dispose();
-
 		}
 
+		private static void gerarExcel( HttpContext context, MySqlDataReader reader ) {
 
+			StringBuilder html = new StringBuilder();
 
+			context.Response.ClearContent();
+			context.Response.ContentType = "application/vnd.ms-excel";
+			context.Response.AddHeader( "content-disposition", "attachment; filename=relatorio.xls" );
 
+			html.Append( "<html><head><title>Relatório de Clientes</title></head><body>" );
 
-		private String construirColunasSql( String colunasAlias ) {
+			html.Append( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>[QTD_RECORDS]</caption><thead><tr>" );
+
+			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
+			for( int i = 0; i < reader.FieldCount; i++ ) {
+				html.Append( "<th>" + reader.GetName( i ) + "</th>" );
+			}
+			html.Append( "</tr></thead><tbody>" );
+
+			// escreve os DADOS de cada registro
+			long count = 0;
+			while( reader.Read() ) {
+				html.Append( "<tr>" );
+				for( int i = 0; i < reader.FieldCount; i++ ) {
+					html.Append( "<td>" + reader[i] + "</td>" );
+				}
+				html.Append( "</tr>" );
+				count++;
+			}
+			html.Append( "</tbody></table>" );
+			html.Append( "</body></html>" );
+			html.Replace( "[QTD_RECORDS]", "Total: "+ count +" registro(s) encontrado(s)" );
+
+			context.Response.Write( html.ToString() );
+			context.Response.End();
+		}
+
+		private static void gerarPdf( HttpContext context, MySqlDataReader reader ) {
+
+			StringBuilder html = new StringBuilder();
+
+			context.Response.ClearContent();
+			context.Response.ContentType = "application/pdf";
+			context.Response.AddHeader( "content-disposition", "attachment; filename=relatorio.pdf" );
+
+			html.Append( "<html><head><title>Relatório de Clientes</title></head><body>" );
+
+			html.Append( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>[QTD_RECORDS]</caption><thead><tr>" );
+
+			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
+			for( int i = 0; i < reader.FieldCount; i++ ) {
+				html.Append( "<th>" + reader.GetName( i ) + "</th>" );
+			}
+			html.Append( "</tr></thead><tbody>" );
+
+			// escreve os DADOS de cada registro
+			long count = 0;
+			while( reader.Read() ) {
+				html.Append( "<tr>" );
+				for( int i = 0; i < reader.FieldCount; i++ ) {
+					html.Append( "<td>" + reader[i] + "</td>" );
+				}
+				html.Append( "</tr>" );
+				count++;
+			}
+			html.Append( "</tbody></table>" );
+			html.Append( "</body></html>" );
+
+			html.Replace( "[QTD_RECORDS]", "Total: "+ count +" registro(s) encontrado(s)" );
+
+			Document document = new Document();
+			PdfWriter.GetInstance( document, context.Response.OutputStream );
+			document.Open();
+			HTMLWorker htmlWorker = new HTMLWorker( document );
+			htmlWorker.Parse( new StringReader( html.ToString() ) );
+			document.Close();
+			context.Response.Write( document );
+			context.Response.End();
+		}
+
+		private static String construirColunasSql( String colunasAlias ) {
 
 			List<String> colunasSql = new List<String>();
 			String[] cols = colunasAlias.Split( new char[] { ',' } );
