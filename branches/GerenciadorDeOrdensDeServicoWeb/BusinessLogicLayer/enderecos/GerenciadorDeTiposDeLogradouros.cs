@@ -10,7 +10,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.en
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 	public class GerenciadorDeTiposDeLogradouros {
 
-		public static List<Erro> preencherListaDeTiposDeLogradouros( out List<TipoDeLogradouro> tiposDeLogradouros, UInt32 start, UInt32 limit ) {
+		public static List<Erro> preencher( out List<TipoDeLogradouro> tiposDeLogradouros, UInt32 start, UInt32 limit ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				tiposDeLogradouros = MySqlTiposDeLogradourosDao.getTiposDeLogradouros( start, limit );
@@ -29,10 +29,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeTiposDeLogradouros( ref List<TipoDeLogradouro> tiposDeLogradouros ) {
+		public static List<Erro> cadastrar( ref List<TipoDeLogradouro> tiposDeLogradouros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.inserirListaDeTiposDeLogradouros( ref tiposDeLogradouros ) );
+				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.inserir( ref tiposDeLogradouros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -46,10 +46,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeTiposDeLogradouros( List<TipoDeLogradouro> tiposDeLogradouros ) {
+		public static List<Erro> atualizar( List<TipoDeLogradouro> tiposDeLogradouros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.atualizarListaDeTiposDeLogradouros( tiposDeLogradouros ) );
+				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.atualizar( tiposDeLogradouros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -63,10 +63,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeTiposDeLogradouros( List<TipoDeLogradouro> tiposDeLogradouros ) {
+		public static List<Erro> excluir( List<TipoDeLogradouro> tiposDeLogradouros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.excluirListaDeTiposDeLogradouros( tiposDeLogradouros ) );
+				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.excluir( tiposDeLogradouros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

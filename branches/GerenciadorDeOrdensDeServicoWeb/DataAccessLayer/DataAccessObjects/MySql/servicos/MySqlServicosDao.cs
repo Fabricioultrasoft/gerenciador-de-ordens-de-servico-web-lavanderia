@@ -83,7 +83,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return count;
 		}
 
-		public static void fillServico( UInt32 codigo,ref Servico servico, MySqlConnection conn, bool apenasDadosBasicos ) {
+		public static void preencherServico( UInt32 codigo,ref Servico servico, MySqlConnection conn, bool apenasDadosBasicos ) {
 			
 			MySqlCommand cmd = new MySqlCommand( SELECT_SERVICOS + " WHERE cod_servico = @codServico", conn );
 			cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = codigo;
@@ -103,7 +103,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 		}
-		public static void fillServicos( UInt32 start, UInt32 limit, ref List<Servico> servicos, MySqlConnection conn, bool apenasDadosBasicos ) {
+		public static void preencherServicos( UInt32 start, UInt32 limit, ref List<Servico> servicos, MySqlConnection conn, bool apenasDadosBasicos ) {
 			StringBuilder sqlServicos = new StringBuilder();
 			sqlServicos.AppendLine( SELECT_SERVICOS );
 			sqlServicos.AppendLine( " ORDER BY nom_servico " );
@@ -139,7 +139,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			conn.Open();
 
-			fillServico( codigoServico, ref servico, conn, apenasDadosBasicos );
+			preencherServico( codigoServico, ref servico, conn, apenasDadosBasicos );
 
 			conn.Close(); conn.Dispose();
 
@@ -155,14 +155,14 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			conn.Open();
 
-			fillServicos( start, limit, ref servicos, conn, apenasDadosBasicos );
+			preencherServicos( start, limit, ref servicos, conn, apenasDadosBasicos );
 
 			conn.Close(); conn.Dispose();
 
 			return servicos;
 		}
 
-		public static void fillServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente, ref List<Servico> servicosEspecificos, MySqlConnection conn ) {
+		public static void preencherServicosEspecificos( UInt32 codigoTapete, UInt32 codigoTipoDeCliente, ref List<Servico> servicosEspecificos, MySqlConnection conn ) {
 			StringBuilder sql = new StringBuilder();
 			sql.AppendLine( "SELECT" );
 			sql.AppendLine( "     tb_servicos.cod_servico" );
@@ -242,7 +242,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			
 			conn.Open();
-			fillServicosEspecificos( codigoTapete, codigoTipoDeCliente, ref servicos, conn );
+			preencherServicosEspecificos( codigoTapete, codigoTipoDeCliente, ref servicos, conn );
 			conn.Close(); conn.Dispose();
 
 			return servicos;
@@ -273,13 +273,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				valoresAux.Add( val );
 			}
 
-			servico.valores.AddRange( estreturarValores( valoresAux ) );
+			servico.valores.AddRange( estruturarValores( valoresAux ) );
 
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 			conn.Close(); conn.Dispose();
 		}
 
-		public static List<Erro> inserirListaDeServicos( ref List<Servico> servicos ) {
+		public static List<Erro> inserir( ref List<Servico> servicos ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sqlServico = new StringBuilder();
 			StringBuilder sqlValor = new StringBuilder();
@@ -327,7 +327,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeServicos( ref List<Servico> servicos ) {
+		public static List<Erro> atualizar( ref List<Servico> servicos ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sqlServico = new StringBuilder();
 
@@ -395,6 +395,28 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
+		public static List<Erro> excluir( List<Servico> servicos ) {
+			List<Erro> erros = new List<Erro>();
+			String sql = "DELETE FROM tb_servicos WHERE cod_servico = @codServico ";
+
+			MySqlConnection conn = MySqlConnectionWizard.getConnection();
+			// abre a conexao
+			conn.Open();
+
+			foreach( Servico servico in servicos ) {
+				MySqlCommand cmd = new MySqlCommand( sql, conn );
+				cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servico.codigo;
+				if( cmd.ExecuteNonQuery() <= 0 ) {
+					erros.Add( new Erro( 0, "Não foi possível excluir o servi&ccedil;o: " + servico.nome, "Tente excluí-lo novamente" ) );
+				}
+				cmd.Dispose();
+			}
+			// fecha a conexao e libera recursos
+			conn.Close(); conn.Dispose();
+
+			return erros;
+		}
+		
 		public static void inserirValor( ValorDeServico val, UInt32 codigoServico, MySqlConnection conn, ref List<Erro> erros ) {
 			MySqlCommand cmdValor = new MySqlCommand( SQL_INSERT_VALOR, conn );
 
@@ -479,29 +501,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeServicos( List<Servico> servicos ) {
-			List<Erro> erros = new List<Erro>();
-			String sql = "DELETE FROM tb_servicos WHERE cod_servico = @codServico ";
-
-			MySqlConnection conn = MySqlConnectionWizard.getConnection();
-			// abre a conexao
-			conn.Open();
-
-			foreach( Servico servico in servicos ) {
-				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servico.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir o servi&ccedil;o: " + servico.nome, "Tente excluí-lo novamente" ) );
-				}
-				cmd.Dispose();
-			}
-			// fecha a conexao e libera recursos
-			conn.Close(); conn.Dispose();
-
-			return erros;
-		}
-
-		public static List<ValorDeServico> estreturarValores( List<ValorDeServico> valores ) {
+		public static List<ValorDeServico> estruturarValores( List<ValorDeServico> valores ) {
 
 			List<ValorDeServico> valFilhos = valores.FindAll( delegate( ValorDeServico val ) { return val.codigo != 0 && val.codigoPai != 0; } );
 			if( valFilhos == null ) { return valores; }

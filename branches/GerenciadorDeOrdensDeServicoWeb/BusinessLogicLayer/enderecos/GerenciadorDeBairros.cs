@@ -10,15 +10,15 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.en
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 	public class GerenciadorDeBairros {
 
-		public static long countBairros() {
+		public static long count() {
 			try {
-				return MySqlBairrosDao.countBairros();
+				return MySqlBairrosDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> preencherListaDeBairros( out List<Bairro> bairros, UInt32 start, UInt32 limit, UInt32 codigoCidade ) {
+		public static List<Erro> preencher( out List<Bairro> bairros, UInt32 start, UInt32 limit, UInt32 codigoCidade ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				bairros = MySqlBairrosDao.getBairros( start, limit, codigoCidade);
@@ -37,10 +37,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeBairros( ref List<Bairro> bairros ) {
+		public static List<Erro> cadastrar( ref List<Bairro> bairros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlBairrosDao.inserirListaDeBairros( ref bairros ) );
+				listaDeErros.AddRange( MySqlBairrosDao.inserir( ref bairros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -54,10 +54,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeBairros( List<Bairro> bairros ) {
+		public static List<Erro> atualizar( List<Bairro> bairros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlBairrosDao.atualizarListaDeBairros( bairros ) );
+				listaDeErros.AddRange( MySqlBairrosDao.atualizar( bairros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -71,10 +71,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeBairros( List<Bairro> bairros ) {
+		public static List<Erro> excluir( List<Bairro> bairros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlBairrosDao.excluirListaDeBairros( bairros ) );
+				listaDeErros.AddRange( MySqlBairrosDao.excluir( bairros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

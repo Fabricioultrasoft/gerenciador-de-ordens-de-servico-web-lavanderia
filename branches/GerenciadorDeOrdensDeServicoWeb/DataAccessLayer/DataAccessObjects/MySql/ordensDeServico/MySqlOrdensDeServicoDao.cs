@@ -334,11 +334,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				os.dataDeAtualizacao = reader.GetDateTime( "dat_atualizacao" );
 
 				cliAux = os.cliente;
-				MySqlClientesDao.fillCliente( reader.GetUInt32( "cod_cliente" ), ref cliAux, connAux );
+				MySqlClientesDao.preencherCliente( reader.GetUInt32( "cod_cliente" ), ref cliAux, connAux );
 				usuAux = os.usuario;
-				MySqlUsuariosDao.fillUsuario( reader.GetUInt32( "cod_usuario" ), ref usuAux, connAux );
+				MySqlUsuariosDao.preencherUsuario( reader.GetUInt32( "cod_usuario" ), ref usuAux, connAux );
 				List<Item> itensAux = os.itens;
-				MySqlOrdensDeServicoDao.fillItens( os.codigo, ref itensAux, connAux );
+				MySqlOrdensDeServicoDao.preencherItens( os.codigo, ref itensAux, connAux );
 
 				ordensDeServico.Add( os );
 			}
@@ -582,7 +582,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return status;
 		}
 
-		public static void fillItens( UInt32 codigoOrdemDeServico, ref List<Item> itens, MySqlConnection conn ) {
+		public static void preencherItens( UInt32 codigoOrdemDeServico, ref List<Item> itens, MySqlConnection conn ) {
 
 			MySqlCommand cmd = new MySqlCommand( SELECT_ITENS + " WHERE cod_ordem_de_servico = @codOrdemDeServico", conn );
 			cmd.Parameters.Add( "@codOrdemDeServico", MySqlDbType.UInt32 ).Value = codigoOrdemDeServico;
@@ -603,15 +603,15 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach(Item item in itens) {
 				Tapete tapAux = item.tapete;
-				MySqlTapetesDao.fillTapete( item.tapete.codigo, ref tapAux, conn );
+				MySqlTapetesDao.preencherTapete( item.tapete.codigo, ref tapAux, conn );
 
 				List<ServicoDoItem> servicosDoItemAux = item.servicosDoItem;
-				fillServicosDoItem( item.codigo, ref servicosDoItemAux, conn);
+				preencherServicosDoItem( item.codigo, ref servicosDoItemAux, conn);
 			}
 
 		}
 
-		public static void fillServicosDoItem( UInt32 codigoItem, ref List<ServicoDoItem> servicosDoItem, MySqlConnection conn ) {
+		public static void preencherServicosDoItem( UInt32 codigoItem, ref List<ServicoDoItem> servicosDoItem, MySqlConnection conn ) {
 
 			MySqlCommand cmd = new MySqlCommand( SELECT_ITENS_SERVICOS + " WHERE cod_item_os = @codItemOS", conn );
 			cmd.Parameters.Add( "@codItemOS", MySqlDbType.UInt32 ).Value = codigoItem;
@@ -631,7 +631,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach(ServicoDoItem servicoDoItem in servicosDoItem) {
 				Servico servAux = servicoDoItem.servico;
-				MySqlServicosDao.fillServico( servicoDoItem.servico.codigo, ref servAux, conn, false );
+				MySqlServicosDao.preencherServico( servicoDoItem.servico.codigo, ref servAux, conn, false );
 			}
 		}
 

@@ -48,7 +48,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String createPaises( String records ) {
 			List<Pais> paises = jsonToPaises( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDePaises.cadastrarListaDePaises( ref paises );
+			List<Erro> erros = GerenciadorDePaises.cadastrar( ref paises );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -82,8 +82,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String readPaises(UInt32 start, UInt32 limit) {
 			List<Pais> paises;
 			List<Erro> erros;
-			erros = GerenciadorDePaises.preencherListaDePaises( out paises, start, limit );
-			long qtdRegistros = GerenciadorDePaises.countPaises();
+			erros = GerenciadorDePaises.preencher( out paises, start, limit );
+			long qtdRegistros = GerenciadorDePaises.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -121,7 +121,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String updatePaises( String records ) {
 			List<Pais> paises = jsonToPaises( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDePaises.atualizarListaDePaises( paises );
+			List<Erro> erros = GerenciadorDePaises.atualizar( paises );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -155,7 +155,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String destroyPaises( String records ) {
 			List<Pais> paises = jsonToPaises( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDePaises.excluirListaDePaises( paises );
+			List<Erro> erros = GerenciadorDePaises.excluir( paises );
 			
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );

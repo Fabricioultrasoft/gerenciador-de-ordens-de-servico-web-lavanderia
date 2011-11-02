@@ -50,7 +50,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String createBairros( String records ) {
 			List<Bairro> bairros = jsonToBairros( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeBairros.cadastrarListaDeBairros( ref bairros );
+			List<Erro> erros = GerenciadorDeBairros.cadastrar( ref bairros );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -90,8 +90,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String readBairros( UInt32 start, UInt32 limit, UInt32 codigoCidade ) {
 			List<Bairro> bairros;
 			List<Erro> erros;
-			erros = GerenciadorDeBairros.preencherListaDeBairros( out bairros, start, limit, codigoCidade );
-			long qtdRegistros = GerenciadorDeBairros.countBairros();
+			erros = GerenciadorDeBairros.preencher( out bairros, start, limit, codigoCidade );
+			long qtdRegistros = GerenciadorDeBairros.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -135,7 +135,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String updateBairros( String records ) {
 			List<Bairro> bairros = jsonToBairros( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeBairros.atualizarListaDeBairros( bairros );
+			List<Erro> erros = GerenciadorDeBairros.atualizar( bairros );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -175,7 +175,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String destroyBairros( String records ) {
 			List<Bairro> bairros = jsonToBairros( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeBairros.excluirListaDeBairros( bairros );
+			List<Erro> erros = GerenciadorDeBairros.excluir( bairros );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );

@@ -10,18 +10,18 @@ using MySql.Data.MySqlClient;
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 	public class GerenciadorDeTiposDeClientes {
 
-		public static long countTiposDeClientes() {
+		public static long count() {
 			try {
-				return MySqlTiposDeClientesDao.countTiposDeClientes();
+				return MySqlTiposDeClientesDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> cadastrarListaDeTiposDeClientes( ref List<TipoDeCliente> tiposDeClientes ) {
+		public static List<Erro> cadastrar( ref List<TipoDeCliente> tiposDeClientes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTiposDeClientesDao.inserirListaDeTiposDeClientes( ref tiposDeClientes ) );
+				listaDeErros.AddRange( MySqlTiposDeClientesDao.inserir( ref tiposDeClientes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -35,7 +35,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> preencherListaDeTiposDeClientes( out List<TipoDeCliente> tiposDeClientes, UInt32 start, UInt32 limit, bool? ativo ) {
+		public static List<Erro> preencher( out List<TipoDeCliente> tiposDeClientes, UInt32 start, UInt32 limit, bool? ativo ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				tiposDeClientes = MySqlTiposDeClientesDao.getTiposDeClientes( start, limit, ativo );
@@ -54,10 +54,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeTiposDeClientes( List<TipoDeCliente> tiposDeClientes ) {
+		public static List<Erro> atualizar( List<TipoDeCliente> tiposDeClientes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTiposDeClientesDao.atualizarListaDeTiposDeClientes( tiposDeClientes ) );
+				listaDeErros.AddRange( MySqlTiposDeClientesDao.atualizar( tiposDeClientes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -71,10 +71,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeTiposDeClientes( List<TipoDeCliente> tiposDeClientes ) {
+		public static List<Erro> excluir( List<TipoDeCliente> tiposDeClientes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTiposDeClientesDao.excluirListaDeTiposDeClientes( tiposDeClientes ) );
+				listaDeErros.AddRange( MySqlTiposDeClientesDao.excluir( tiposDeClientes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

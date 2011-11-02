@@ -11,7 +11,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.enderecos {
 	public class MySqlCidadesDao {
 
-		public static long countCidades() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_cidade) FROM tb_cidades";
 			long qtd = 0;
 
@@ -79,7 +79,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return cidades;
 		}
 
-		public static List<Erro> inserirListaDeCidades( ref List<Cidade> cidades ) {
+		public static List<Erro> inserir( ref List<Cidade> cidades ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -107,7 +107,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeCidades( List<Cidade> cidades ) {
+		public static List<Erro> atualizar( List<Cidade> cidades ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "UPDATE tb_cidades SET nom_cidade = @nom_cidade, cod_estado = @cod_estado WHERE cod_cidade = @cod_cidade ";
 
@@ -131,7 +131,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeCidades( List<Cidade> cidades ) {
+		public static List<Erro> excluir( List<Cidade> cidades ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_cidades WHERE cod_cidade = @cod_cidade ";
 

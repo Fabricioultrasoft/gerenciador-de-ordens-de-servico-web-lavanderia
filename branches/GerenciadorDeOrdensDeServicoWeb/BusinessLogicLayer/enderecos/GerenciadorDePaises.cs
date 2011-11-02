@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 	public class GerenciadorDePaises {
 
-		public static long countPaises() {
+		public static long count() {
 			try {
-				return MySqlPaisesDao.countPaises();
+				return MySqlPaisesDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> preencherListaDePaises( out List<Pais> paises, UInt32 start, UInt32 limit ) {
+		public static List<Erro> preencher( out List<Pais> paises, UInt32 start, UInt32 limit ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				paises = MySqlPaisesDao.getPaises( start, limit );
@@ -37,10 +37,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDePaises( ref List<Pais> paises ) {
+		public static List<Erro> cadastrar( ref List<Pais> paises ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlPaisesDao.inserirListaDePaises( ref paises));
+				listaDeErros.AddRange( MySqlPaisesDao.inserir( ref paises));
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -54,10 +54,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDePaises( List<Pais> paises ) {
+		public static List<Erro> atualizar( List<Pais> paises ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlPaisesDao.atualizarListaDePaises( paises ) );
+				listaDeErros.AddRange( MySqlPaisesDao.atualizar( paises ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -71,10 +71,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDePaises( List<Pais> paises ) {
+		public static List<Erro> excluir( List<Pais> paises ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlPaisesDao.excluirListaDePaises( paises ) );
+				listaDeErros.AddRange( MySqlPaisesDao.excluir( paises ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

@@ -59,7 +59,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String createClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
 			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeClientes.cadastrarListaDeClientes( ref clientes );
+			List<Erro> erros = GerenciadorDeClientes.cadastrar( ref clientes );
 
 			formatarSaida( ref clientes );
 			json.Append( "{" );
@@ -97,8 +97,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 				sorters = new List<Sorter>();
 			}
 
-			erros = GerenciadorDeClientes.preencherListaDeClientes( out clientes, start, limit, filters, sorters );
-			long qtdRegistros = GerenciadorDeClientes.countClientes( filters );
+			erros = GerenciadorDeClientes.preencher( out clientes, start, limit, filters, sorters );
+			long qtdRegistros = GerenciadorDeClientes.count( filters );
 			StringBuilder json = new StringBuilder();
 
 			formatarSaida( ref clientes );
@@ -120,7 +120,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String updateClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
 			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeClientes.atualizarListaDeClientes( ref clientes );
+			List<Erro> erros = GerenciadorDeClientes.atualizar( ref clientes );
 
 			formatarSaida( ref clientes );
 			json.Append( "{" );
@@ -142,7 +142,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String destroyClientes( String records ) {
 			List<Cliente> clientes = jsonToClientes( records );
 			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeClientes.excluirListaDeClientes( clientes );
+			List<Erro> erros = GerenciadorDeClientes.excluir( clientes );
 
 			formatarSaida( ref clientes );
 			json.Append( "{" );

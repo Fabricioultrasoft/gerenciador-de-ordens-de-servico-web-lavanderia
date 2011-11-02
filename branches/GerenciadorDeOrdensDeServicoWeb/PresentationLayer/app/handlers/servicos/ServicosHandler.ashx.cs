@@ -71,7 +71,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 
 		private String createServicos( String records ) {
 			List<Servico> servicos = jsonToServicos( records );
-			List<Erro> erros = GerenciadorDeServicos.cadastrarListaDeServicos( ref servicos );
+			List<Erro> erros = GerenciadorDeServicos.cadastrar( ref servicos );
 
 			StringBuilder jsonResposta = new StringBuilder();
 
@@ -112,8 +112,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			List<Servico> servicos;
 			List<Erro> erros;
 
-			erros = GerenciadorDeServicos.preencherListaDeServicos( out servicos, start, limit, apenasDadosBasicos );
-			long qtdRegistros = GerenciadorDeServicos.countServicos();
+			erros = GerenciadorDeServicos.preencher( out servicos, start, limit, apenasDadosBasicos );
+			long qtdRegistros = GerenciadorDeServicos.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -153,7 +153,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			Servico servico;
 			List<Erro> erros;
 
-			erros = GerenciadorDeServicos.preencherServico( codigoServico, out servico );
+			erros = GerenciadorDeServicos.preencher( codigoServico, out servico );
 
 			StringBuilder jsonResposta = new StringBuilder();
 
@@ -190,7 +190,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 			List<Servico> servicos;
 			List<Erro> erros;
 
-			erros = GerenciadorDeServicos.preencherListaDeServicosEspecificos( out servicos, codigoTapete, codigoTipoDeCliente );
+			erros = GerenciadorDeServicos.preencher( codigoTapete, codigoTipoDeCliente, out servicos );
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -235,7 +235,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 		private String updateServicos( String records ) {
 			List<Servico> servicos = jsonToServicos( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeServicos.atualizarListaDeServicos( ref servicos );
+			List<Erro> erros = GerenciadorDeServicos.atualizar( ref servicos );
 
 			#region CONSTROI O JSON
 			formatarSaida( servicos );
@@ -273,7 +273,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.servico
 		private String destroyServicos( String records ) {
 			List<Servico> servicos = jsonToServicos( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeServicos.excluirListaDeServicos( servicos );
+			List<Erro> erros = GerenciadorDeServicos.excluir( servicos );
 
 			#region CONSTROI O JSON
 			formatarSaida( servicos );

@@ -48,7 +48,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.tapetes
 		private String createTapetes( String records ) {
 			List<Tapete> tapetes = jsonToTapetes( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeTapetes.cadastrarListaDeTapetes( ref tapetes );
+			List<Erro> erros = GerenciadorDeTapetes.cadastrar( ref tapetes );
 
 			#region CONSTROI O JSON
 			formatarSaida( ref tapetes );
@@ -85,8 +85,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.tapetes
 		private String readTapetes( UInt32 start, UInt32 limit ) {
 			List<Tapete> tapetes;
 			List<Erro> erros;
-			erros = GerenciadorDeTapetes.preencherListaDeTapetes( out tapetes, start, limit );
-			long qtdRegistros = GerenciadorDeTapetes.countTapetes();
+			erros = GerenciadorDeTapetes.preencher( out tapetes, start, limit );
+			long qtdRegistros = GerenciadorDeTapetes.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -127,7 +127,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.tapetes
 		private String updateTapetes( String records ) {
 			List<Tapete> tapetes = jsonToTapetes( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeTapetes.atualizarListaDeTapetes( tapetes );
+			List<Erro> erros = GerenciadorDeTapetes.atualizar( tapetes );
 
 			#region CONSTROI O JSON
 			formatarSaida( ref tapetes );
@@ -164,7 +164,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.tapetes
 		private String destroyTapetes( String records ) {
 			List<Tapete> tapetes = jsonToTapetes( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeTapetes.excluirListaDeTapetes( tapetes );
+			List<Erro> erros = GerenciadorDeTapetes.excluir( tapetes );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );

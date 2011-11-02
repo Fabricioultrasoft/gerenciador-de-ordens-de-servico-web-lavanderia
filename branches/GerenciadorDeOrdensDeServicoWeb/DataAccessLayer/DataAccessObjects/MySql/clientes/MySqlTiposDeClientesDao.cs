@@ -11,7 +11,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.clientes {
 	public class MySqlTiposDeClientesDao {
 
-		public static long countTiposDeClientes() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_tipo_cliente) FROM tb_tipos_clientes";
 			long qtd = 0;
 
@@ -65,7 +65,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return tiposDeClientes;
 		}
 
-		public static List<Erro> inserirListaDeTiposDeClientes( ref List<TipoDeCliente> tiposDeClientes ) {
+		public static List<Erro> inserir( ref List<TipoDeCliente> tiposDeClientes ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -94,7 +94,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeTiposDeClientes( List<TipoDeCliente> tiposDeClientes ) {
+		public static List<Erro> atualizar( List<TipoDeCliente> tiposDeClientes ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "UPDATE tb_tipos_clientes SET nom_tipo_cliente=@nomTipoCliente, flg_ativo=@ativo WHERE cod_tipo_cliente = @codTipoCliente ";
 
@@ -118,7 +118,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeTiposDeClientes( List<TipoDeCliente> tiposDeClientes ) {
+		public static List<Erro> excluir( List<TipoDeCliente> tiposDeClientes ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_tipos_clientes WHERE cod_tipo_cliente = @codTipoCliente ";
 

@@ -50,7 +50,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String createCidades( String records ) {
 			List<Cidade> cidades = jsonToCidades( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeCidades.cadastrarListaDeCidades( ref cidades );
+			List<Erro> erros = GerenciadorDeCidades.cadastrar( ref cidades );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -88,8 +88,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String readCidades( UInt32 start, UInt32 limit, UInt32 codigoEstado ) {
 			List<Cidade> cidades;
 			List<Erro> erros;
-			erros = GerenciadorDeCidades.preencherListaDeCidades( out cidades, start, limit, codigoEstado );
-			long qtdRegistros = GerenciadorDeCidades.countCidades();
+			erros = GerenciadorDeCidades.preencher( out cidades, start, limit, codigoEstado );
+			long qtdRegistros = GerenciadorDeCidades.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -131,7 +131,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String updateCidades( String records ) {
 			List<Cidade> cidades = jsonToCidades( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeCidades.atualizarListaDeCidades( cidades );
+			List<Erro> erros = GerenciadorDeCidades.atualizar( cidades );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -169,7 +169,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String destroyCidades( String records ) {
 			List<Cidade> cidades = jsonToCidades( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeCidades.excluirListaDeCidades( cidades );
+			List<Erro> erros = GerenciadorDeCidades.excluir( cidades );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );

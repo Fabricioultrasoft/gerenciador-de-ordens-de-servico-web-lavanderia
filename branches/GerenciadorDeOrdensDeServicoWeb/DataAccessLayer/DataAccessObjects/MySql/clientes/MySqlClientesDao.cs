@@ -58,7 +58,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 		#endregion
 
-		public static long countClientes() {
+		public static long count() {
 			long count = 0;
 
 			String sql = " SELECT COUNT(cod_cliente) "
@@ -78,7 +78,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return count;
 		}
 
-		public static long countClientes( List<Filter> filters ) {
+		public static long count( List<Filter> filters ) {
 			long count = 0;
 			MySqlFilter mySqlFilter = getFilter( filters );
 
@@ -101,7 +101,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return count;
 		}
 
-		public static List<Erro> inserirListaDeClientes( ref List<Cliente> clientes ) {
+		public static List<Erro> inserir( ref List<Cliente> clientes ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sqlCliente = new StringBuilder();
 			StringBuilder sqlMeioDeContato = new StringBuilder();
@@ -278,7 +278,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static void fillCliente( UInt32 codigo, ref Cliente cliente, MySqlConnection conn ) {
+		public static void preencherCliente( UInt32 codigo, ref Cliente cliente, MySqlConnection conn ) {
 
 			MySqlCommand cmd = new MySqlCommand( SQL_CLIENTE, conn );
 			cmd.Parameters.Add( "@codCliente", MySqlDbType.UInt32 ).Value = codigo;
@@ -311,7 +311,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			conn.Open();
-			fillCliente( codigo, ref cliente, conn );
+			preencherCliente( codigo, ref cliente, conn );
 			conn.Close(); conn.Dispose();
 
 			return cliente;
@@ -385,7 +385,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return clientes;
 		}
 
-		public static List<Erro> atualizarListaDeClientes( ref List<Cliente> clientes ) {
+		public static List<Erro> atualizar( ref List<Cliente> clientes ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sqlCliente = new StringBuilder();
 			StringBuilder sqlUpdateMeioDeContato = new StringBuilder();
@@ -601,7 +601,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeClientes( List<Cliente> clientes ) {
+		public static List<Erro> excluir( List<Cliente> clientes ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_clientes WHERE cod_cliente = @cod_cliente ";
 
@@ -662,7 +662,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				try { endereco.pontoDeReferencia = readerEnderecos.GetString( "txt_ponto_referencia" ); } catch { }
 				try { endereco.numero = readerEnderecos.GetUInt32( "int_numero" ); } catch { }
 
-				MySqlLogradourosDao.fillLogradouro( codLogradouro, endereco.logradouro );
+				MySqlLogradourosDao.preencherLogradouro( codLogradouro, endereco.logradouro );
 				endereco.bairro = endereco.logradouro.bairro;
 				endereco.cidade = endereco.logradouro.bairro.cidade;
 				endereco.estado = endereco.logradouro.bairro.cidade.estado;

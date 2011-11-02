@@ -50,7 +50,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String createLogradouros( String records ) {
 			List<Logradouro> logradouros = jsonToLogradouros( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeLogradouros.cadastrarListaDeLogradouros( ref logradouros );
+			List<Erro> erros = GerenciadorDeLogradouros.cadastrar( ref logradouros );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -95,8 +95,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String readLogradouros( UInt32 start, UInt32 limit, UInt32 codigoBairro ) {
 			List<Logradouro> logradouros;
 			List<Erro> erros;
-			erros = GerenciadorDeLogradouros.preencherListaDeLogradouros( out logradouros, start, limit, codigoBairro );
-			long qtdRegistros = GerenciadorDeLogradouros.countLogradouros();
+			erros = GerenciadorDeLogradouros.preencher( out logradouros, start, limit, codigoBairro );
+			long qtdRegistros = GerenciadorDeLogradouros.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -145,7 +145,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String updateLogradouros( String records ) {
 			List<Logradouro> logradouros = jsonToLogradouros( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeLogradouros.atualizarListaDeLogradouros( logradouros );
+			List<Erro> erros = GerenciadorDeLogradouros.atualizar( logradouros );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );
@@ -190,7 +190,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.enderec
 		private String destroyLogradouros( String records ) {
 			List<Logradouro> logradouros = jsonToLogradouros( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeLogradouros.excluirListaDeLogradouros( logradouros );
+			List<Erro> erros = GerenciadorDeLogradouros.excluir( logradouros );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );

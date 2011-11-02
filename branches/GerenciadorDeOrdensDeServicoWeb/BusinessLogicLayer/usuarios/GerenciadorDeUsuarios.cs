@@ -19,15 +19,15 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.usuarios {
 			}
 		}
 
-		public static long countUsuarios() {
+		public static long count() {
 			try {
-				return MySqlUsuariosDao.countUsuarios();
+				return MySqlUsuariosDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> preencherListaDeUsuarios( out List<Usuario> usuarios, UInt32 start, UInt32 limit ) {
+		public static List<Erro> preencher( out List<Usuario> usuarios, UInt32 start, UInt32 limit ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				usuarios = MySqlUsuariosDao.getUsuarios( start, limit );
@@ -46,10 +46,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.usuarios {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeUsuarios( ref List<Usuario> usuarios ) {
+		public static List<Erro> cadastrar( ref List<Usuario> usuarios ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlUsuariosDao.inserirListaDeUsuarios( ref usuarios ) );
+				listaDeErros.AddRange( MySqlUsuariosDao.inserir( ref usuarios ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -63,10 +63,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.usuarios {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeUsuarios( List<Usuario> usuarios ) {
+		public static List<Erro> atualizar( List<Usuario> usuarios ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlUsuariosDao.atualizarListaDeUsuarios( usuarios ) );
+				listaDeErros.AddRange( MySqlUsuariosDao.atualizar( usuarios ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -80,10 +80,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.usuarios {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeUsuarios( List<Usuario> usuarios ) {
+		public static List<Erro> excluir( List<Usuario> usuarios ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlUsuariosDao.excluirListaDeUsuarios( usuarios ) );
+				listaDeErros.AddRange( MySqlUsuariosDao.excluir( usuarios ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

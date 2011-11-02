@@ -53,7 +53,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String createTiposDeClientes( String records ) {
 			List<TipoDeCliente> tiposDeClientes = jsonToTiposDeClientes( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeTiposDeClientes.cadastrarListaDeTiposDeClientes( ref tiposDeClientes );
+			List<Erro> erros = GerenciadorDeTiposDeClientes.cadastrar( ref tiposDeClientes );
 
 			#region CONSTROI O JSON
 			jsonResposta.Append( "{" );
@@ -88,8 +88,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String readTiposDeClientes( UInt32 start, UInt32 limit, bool? ativo ) {
 			List<TipoDeCliente> tiposDeClientes;
 			List<Erro> erros;
-			erros = GerenciadorDeTiposDeClientes.preencherListaDeTiposDeClientes( out tiposDeClientes, start, limit, ativo );
-			long qtdRegistros = GerenciadorDeTiposDeClientes.countTiposDeClientes();
+			erros = GerenciadorDeTiposDeClientes.preencher( out tiposDeClientes, start, limit, ativo );
+			long qtdRegistros = GerenciadorDeTiposDeClientes.count();
 			StringBuilder jsonResposta = new StringBuilder();
 
 			#region CONSTROI O JSON
@@ -128,7 +128,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String updateTiposDeClientes( String records ) {
 			List<TipoDeCliente> tiposDeClientes = jsonToTiposDeClientes( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeTiposDeClientes.atualizarListaDeTiposDeClientes( tiposDeClientes );
+			List<Erro> erros = GerenciadorDeTiposDeClientes.atualizar( tiposDeClientes );
 
 			#region CONSTROI O JSON
 			jsonResposta.Append( "{" );
@@ -163,7 +163,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 		private String destroyTiposDeClientes( String records ) {
 			List<TipoDeCliente> tiposDeClientes = jsonToTiposDeClientes( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeTiposDeClientes.excluirListaDeTiposDeClientes( tiposDeClientes );
+			List<Erro> erros = GerenciadorDeTiposDeClientes.excluir( tiposDeClientes );
 
 			#region CONSTROI O JSON
 			jsonResposta.AppendLine( "{" );

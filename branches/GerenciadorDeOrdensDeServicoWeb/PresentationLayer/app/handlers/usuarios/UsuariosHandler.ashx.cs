@@ -57,7 +57,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 			
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder jsonResposta = new StringBuilder();
-			List<Erro> erros = GerenciadorDeUsuarios.cadastrarListaDeUsuarios( ref usuarios );
+			List<Erro> erros = GerenciadorDeUsuarios.cadastrar( ref usuarios );
 
 			#region CONSTROI O JSON
 			formatarSaida( ref usuarios );
@@ -83,8 +83,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		private String readUsuarios( UInt32 start, UInt32 limit ) {
 
 			List<Usuario> usuarios;
-			List<Erro> erros = GerenciadorDeUsuarios.preencherListaDeUsuarios( out usuarios, start, limit );
-			long qtdRegistros = GerenciadorDeUsuarios.countUsuarios();
+			List<Erro> erros = GerenciadorDeUsuarios.preencher( out usuarios, start, limit );
+			long qtdRegistros = GerenciadorDeUsuarios.count();
 			StringBuilder json = new StringBuilder();
 
 			formatarSaida( ref usuarios );
@@ -107,7 +107,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		private String updateUsuarios( String records ) {
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeUsuarios.atualizarListaDeUsuarios( usuarios );
+			List<Erro> erros = GerenciadorDeUsuarios.atualizar( usuarios );
 
 			formatarSaida( ref usuarios );
 			json.Append( "{" );
@@ -128,7 +128,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		private String destroyUsuarios( String records ) {
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeUsuarios.excluirListaDeUsuarios( usuarios );
+			List<Erro> erros = GerenciadorDeUsuarios.excluir( usuarios );
 
 			formatarSaida( ref usuarios );
 			json.Append( "{" );

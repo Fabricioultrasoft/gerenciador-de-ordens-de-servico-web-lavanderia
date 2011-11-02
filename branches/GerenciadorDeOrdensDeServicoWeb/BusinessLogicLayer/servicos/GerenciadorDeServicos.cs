@@ -12,7 +12,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.tapetes;
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 	public class GerenciadorDeServicos {
 
-		public static long countServicos() {
+		public static long count() {
 			try {
 				return MySqlServicosDao.countServicos();
 			} catch {
@@ -20,11 +20,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			}
 		}
 
-		public static List<Erro> preencherListaDeServicos( out List<Servico> servicos, UInt32 start, UInt32 limit ) {
-			return preencherListaDeServicos( out servicos, start, limit, false );
+		public static List<Erro> preencher( out List<Servico> servicos, UInt32 start, UInt32 limit ) {
+			return preencher( out servicos, start, limit, false );
 		}
 
-		public static List<Erro> preencherListaDeServicos( out List<Servico> servicos, UInt32 start, UInt32 limit, bool apenasDadosBasicos ) {
+		public static List<Erro> preencher( out List<Servico> servicos, UInt32 start, UInt32 limit, bool apenasDadosBasicos ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				servicos = MySqlServicosDao.getServicos( start, limit, apenasDadosBasicos );
@@ -43,7 +43,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> preencherListaDeServicosEspecificos( out List<Servico> servicos, UInt32 codigoTapete, UInt32 codigoTipoDeCliente ) {
+		public static List<Erro> preencher( UInt32 codigoTapete, UInt32 codigoTipoDeCliente, out List<Servico> servicos ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				servicos = MySqlServicosDao.getServicosEspecificos( codigoTapete, codigoTipoDeCliente );
@@ -62,7 +62,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> preencherServico( UInt32 codigoServico, out Servico servico ) {
+		public static List<Erro> preencher( UInt32 codigoServico, out Servico servico ) {
 			List<Erro> listaDeErros = new List<Erro>();
 
 			try {
@@ -93,10 +93,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeServicos( ref List<Servico> servicos ) {
+		public static List<Erro> cadastrar( ref List<Servico> servicos ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlServicosDao.inserirListaDeServicos( ref servicos ) );
+				listaDeErros.AddRange( MySqlServicosDao.inserir( ref servicos ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -110,10 +110,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeServicos( ref List<Servico> servicos ) {
+		public static List<Erro> atualizar( ref List<Servico> servicos ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlServicosDao.atualizarListaDeServicos( ref servicos ) );
+				listaDeErros.AddRange( MySqlServicosDao.atualizar( ref servicos ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -127,10 +127,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.servicos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeServicos( List<Servico> servicos ) {
+		public static List<Erro> excluir( List<Servico> servicos ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlServicosDao.excluirListaDeServicos( servicos ) );
+				listaDeErros.AddRange( MySqlServicosDao.excluir( servicos ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

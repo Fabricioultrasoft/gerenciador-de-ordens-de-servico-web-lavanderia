@@ -10,15 +10,15 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.en
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 	public class GerenciadorDeEstados {
 
-		public static long countEstados() {
+		public static long count() {
 			try {
-				return MySqlEstadosDao.countEstados();
+				return MySqlEstadosDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> preencherListaDeEstados( out List<Estado> estados, UInt32 start, UInt32 limit, UInt32 codigoPais ) {
+		public static List<Erro> preencher( out List<Estado> estados, UInt32 start, UInt32 limit, UInt32 codigoPais ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				estados = MySqlEstadosDao.getEstados( start, limit, codigoPais );
@@ -37,10 +37,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeEstados( ref List<Estado> estados ) {
+		public static List<Erro> cadastrar( ref List<Estado> estados ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlEstadosDao.inserirListaDeEstados( ref estados ) );
+				listaDeErros.AddRange( MySqlEstadosDao.inserir( ref estados ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -54,10 +54,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeEstados( List<Estado> estados ) {
+		public static List<Erro> atualizar( List<Estado> estados ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlEstadosDao.atualizarListaDeEstados( estados ) );
+				listaDeErros.AddRange( MySqlEstadosDao.atualizar( estados ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -71,10 +71,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeEstados( List<Estado> estados ) {
+		public static List<Erro> excluir( List<Estado> estados ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlEstadosDao.excluirListaDeEstados( estados ) );
+				listaDeErros.AddRange( MySqlEstadosDao.excluir( estados ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

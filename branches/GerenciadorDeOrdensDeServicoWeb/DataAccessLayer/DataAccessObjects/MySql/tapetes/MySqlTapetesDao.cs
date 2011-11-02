@@ -18,7 +18,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			+ "	,flg_ativo "
 			+ "FROM tb_tapetes ";
 
-		public static long countTapetes() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_tapete) FROM tb_tapetes";
 			long qtd = 0;
 
@@ -34,7 +34,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return qtd;
 		}
 
-		public static void fillTapete( UInt32 codigo, ref Tapete tapete, MySqlConnection conn ) {
+		public static void preencherTapete( UInt32 codigo, ref Tapete tapete, MySqlConnection conn ) {
 			MySqlCommand cmd = new MySqlCommand( SELECT_TAPETES + " WHERE cod_tapete = @codTapete", conn );
 			cmd.Parameters.Add( "@codTapete", MySqlDbType.UInt32 ).Value = codigo;
 			MySqlDataReader reader = cmd.ExecuteReader();
@@ -84,7 +84,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return tapetes;
 		}
 
-		public static List<Erro> inserirListaDeTapetes( ref List<Tapete> tapetes ) {
+		public static List<Erro> inserir( ref List<Tapete> tapetes ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -114,7 +114,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeTapetes( List<Tapete> tapetes ) {
+		public static List<Erro> atualizar( List<Tapete> tapetes ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 			sql.AppendLine( "UPDATE tb_tapetes SET ");
@@ -144,7 +144,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeTapetes( List<Tapete> tapetes ) {
+		public static List<Erro> excluir( List<Tapete> tapetes ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_tapetes WHERE cod_tapete = @cod_tapete ";
 

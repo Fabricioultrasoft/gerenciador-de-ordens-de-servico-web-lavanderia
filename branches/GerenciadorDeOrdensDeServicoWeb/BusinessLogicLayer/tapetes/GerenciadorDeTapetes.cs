@@ -10,15 +10,15 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.ta
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.tapetes {
 	public class GerenciadorDeTapetes {
 
-		public static long countTapetes() {
+		public static long count() {
 			try {
-				return MySqlTapetesDao.countTapetes();
+				return MySqlTapetesDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> preencherListaDeTapetes( out List<Tapete> tapetes, UInt32 start, UInt32 limit ) {
+		public static List<Erro> preencher( out List<Tapete> tapetes, UInt32 start, UInt32 limit ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				tapetes = MySqlTapetesDao.getTapetes( start, limit );
@@ -37,10 +37,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.tapetes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeTapetes( ref List<Tapete> tapetes ) {
+		public static List<Erro> cadastrar( ref List<Tapete> tapetes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTapetesDao.inserirListaDeTapetes( ref tapetes ) );
+				listaDeErros.AddRange( MySqlTapetesDao.inserir( ref tapetes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -54,10 +54,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.tapetes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeTapetes( List<Tapete> tapetes ) {
+		public static List<Erro> atualizar( List<Tapete> tapetes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTapetesDao.atualizarListaDeTapetes( tapetes ) );
+				listaDeErros.AddRange( MySqlTapetesDao.atualizar( tapetes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -71,10 +71,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.tapetes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeTapetes( List<Tapete> tapetes ) {
+		public static List<Erro> excluir( List<Tapete> tapetes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlTapetesDao.excluirListaDeTapetes( tapetes ) );
+				listaDeErros.AddRange( MySqlTapetesDao.excluir( tapetes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

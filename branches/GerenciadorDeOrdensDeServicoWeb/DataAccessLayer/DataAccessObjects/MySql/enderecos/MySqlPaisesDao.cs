@@ -9,7 +9,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.enderecos {
 	public class MySqlPaisesDao {
 
-		public static long countPaises() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_pais) FROM tb_paises";
 			long qtd = 0;
 
@@ -60,7 +60,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return paises;
 		}
 
-		public static bool inserirPais(ref Pais pais) {
+		public static bool inserir(ref Pais pais) {
 			StringBuilder sql = new StringBuilder();
 			sql.AppendLine("INSERT INTO tb_paises(nom_pais) VALUES(@nom_pais); ");
 			sql.AppendLine("SELECT LAST_INSERT_ID()");
@@ -81,7 +81,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 				return false;
 		}
 
-		public static List<Erro> inserirListaDePaises( ref List<Pais> paises ) {
+		public static List<Erro> inserir( ref List<Pais> paises ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -108,7 +108,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDePaises( List<Pais> paises ) {
+		public static List<Erro> atualizar( List<Pais> paises ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "UPDATE tb_paises SET nom_pais = @nom_pais WHERE cod_pais = @cod_pais ";
 
@@ -131,8 +131,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-
-		public static List<Erro> excluirListaDePaises( List<Pais> paises ) {
+		public static List<Erro> excluir( List<Pais> paises ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_paises WHERE cod_pais = @cod_pais ";
 

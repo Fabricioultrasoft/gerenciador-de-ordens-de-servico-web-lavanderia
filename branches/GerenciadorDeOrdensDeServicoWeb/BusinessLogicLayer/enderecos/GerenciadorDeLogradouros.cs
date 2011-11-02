@@ -10,15 +10,15 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.en
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 	public class GerenciadorDeLogradouros {
 
-		public static long countLogradouros() {
+		public static long count() {
 			try {
-				return MySqlLogradourosDao.countLogradouros();
+				return MySqlLogradourosDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> preencherListaDeLogradouros( out List<Logradouro> logradouros, UInt32 start, UInt32 limit, UInt32 codigoBairro ) {
+		public static List<Erro> preencher( out List<Logradouro> logradouros, UInt32 start, UInt32 limit, UInt32 codigoBairro ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				logradouros = MySqlLogradourosDao.getLogradouros( start, limit, codigoBairro );
@@ -37,10 +37,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> cadastrarListaDeLogradouros( ref List<Logradouro> logradouros ) {
+		public static List<Erro> cadastrar( ref List<Logradouro> logradouros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlLogradourosDao.inserirListaDeLogradouros( ref logradouros ) );
+				listaDeErros.AddRange( MySqlLogradourosDao.inserir( ref logradouros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -54,10 +54,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeLogradouros( List<Logradouro> logradouros ) {
+		public static List<Erro> atualizar( List<Logradouro> logradouros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlLogradourosDao.atualizarListaDeLogradouros( logradouros ) );
+				listaDeErros.AddRange( MySqlLogradourosDao.atualizar( logradouros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -71,10 +71,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeLogradouros( List<Logradouro> logradouros ) {
+		public static List<Erro> excluir( List<Logradouro> logradouros ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlLogradourosDao.excluirListaDeLogradouros( logradouros ) );
+				listaDeErros.AddRange( MySqlLogradourosDao.excluir( logradouros ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

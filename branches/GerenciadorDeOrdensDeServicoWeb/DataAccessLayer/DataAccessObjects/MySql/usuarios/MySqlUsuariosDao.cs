@@ -11,7 +11,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DatabaseConnections;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.usuarios {
 	public class MySqlUsuariosDao {
 
-		public static long countUsuarios() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_usuario) FROM tb_usuarios";
 			long qtd = 0;
 
@@ -27,7 +27,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return qtd;
 		}
 
-		public static void fillUsuario( UInt32 codigo, ref Usuario usuario, MySqlConnection conn ) {
+		public static void preencherUsuario( UInt32 codigo, ref Usuario usuario, MySqlConnection conn ) {
 			
 			MySqlCommand cmd = new MySqlCommand( "SELECT cod_usuario, nom_usuario, txt_senha FROM tb_usuarios WHERE cod_usuario = @codUsuario", conn );
 			cmd.Parameters.Add( "@codUsuario", MySqlDbType.UInt32 ).Value = codigo;
@@ -46,7 +46,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
 			conn.Open();
-			fillUsuario( codigo, ref usuario, conn );
+			preencherUsuario( codigo, ref usuario, conn );
 			conn.Close(); conn.Dispose();
 
 			return usuario;
@@ -125,7 +125,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return usuarios;
 		}
 
-		public static List<Erro> inserirListaDeUsuarios( ref List<Usuario> usuarios ) {
+		public static List<Erro> inserir( ref List<Usuario> usuarios ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -160,7 +160,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeUsuarios( List<Usuario> usuarios ) {
+		public static List<Erro> atualizar( List<Usuario> usuarios ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 			sql.AppendLine( "UPDATE tb_usuarios SET " );
@@ -188,7 +188,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeUsuarios( List<Usuario> usuarios ) {
+		public static List<Erro> excluir( List<Usuario> usuarios ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_usuarios WHERE cod_usuario = @codUsuario ";
 

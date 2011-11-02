@@ -11,26 +11,26 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects.sql;
 namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 	public class GerenciadorDeClientes {
 
-		public static long countClientes() {
+		public static long count() {
 			try {
-				return MySqlClientesDao.countClientes();
+				return MySqlClientesDao.count();
 			} catch {
 				return 0;
 			}
 		}
 
-		public static long countClientes( List<Filter> filters ) {
+		public static long count( List<Filter> filters ) {
 			try {
-				return MySqlClientesDao.countClientes( filters );
+				return MySqlClientesDao.count( filters );
 			} catch {
 				return 0;
 			}
 		}
 
-		public static List<Erro> cadastrarListaDeClientes( ref List<Cliente> clientes ) {
+		public static List<Erro> cadastrar( ref List<Cliente> clientes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlClientesDao.inserirListaDeClientes( ref clientes ) );
+				listaDeErros.AddRange( MySqlClientesDao.inserir( ref clientes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -44,7 +44,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> preencherListaDeClientes( out List<Cliente> clientes, UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
+		public static List<Erro> preencher( out List<Cliente> clientes, UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
 				clientes = MySqlClientesDao.getClientes( start, limit, filters, sorters );
@@ -63,10 +63,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> atualizarListaDeClientes( ref List<Cliente> clientes ) {
+		public static List<Erro> atualizar( ref List<Cliente> clientes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlClientesDao.atualizarListaDeClientes( ref clientes ) );
+				listaDeErros.AddRange( MySqlClientesDao.atualizar( ref clientes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {
@@ -80,10 +80,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 			return listaDeErros;
 		}
 
-		public static List<Erro> excluirListaDeClientes( List<Cliente> clientes ) {
+		public static List<Erro> excluir( List<Cliente> clientes ) {
 			List<Erro> listaDeErros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlClientesDao.excluirListaDeClientes( clientes ) );
+				listaDeErros.AddRange( MySqlClientesDao.excluir( clientes ) );
 			} catch( MySqlException ex ) {
 
 				if( ex.Number == 1042 ) {

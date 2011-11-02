@@ -46,7 +46,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return tiposDeLogradouros;
 		}
 
-		public static List<Erro> inserirListaDeTiposDeLogradouros( ref List<TipoDeLogradouro> tiposDeLogradouros ) {
+		public static List<Erro> inserir( ref List<TipoDeLogradouro> tiposDeLogradouros ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -73,7 +73,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeTiposDeLogradouros( List<TipoDeLogradouro> tiposDeLogradouros ) {
+		public static List<Erro> atualizar( List<TipoDeLogradouro> tiposDeLogradouros ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "UPDATE tb_tipos_logradouros SET nom_tipo_logradouro = @nom_tipo_logradouro WHERE cod_tipo_logradouro = @cod_tipo_logradouro ";
 
@@ -96,8 +96,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-
-		public static List<Erro> excluirListaDeTiposDeLogradouros( List<TipoDeLogradouro> tiposDeLogradouros ) {
+		public static List<Erro> excluir( List<TipoDeLogradouro> tiposDeLogradouros ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_tipos_logradouros WHERE cod_tipo_logradouro = @cod_tipo_logradouro ";
 

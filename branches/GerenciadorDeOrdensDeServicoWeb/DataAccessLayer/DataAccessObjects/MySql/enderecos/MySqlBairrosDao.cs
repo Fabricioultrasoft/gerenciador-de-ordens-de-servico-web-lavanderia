@@ -11,7 +11,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.enderecos {
 	public class MySqlBairrosDao {
 
-		public static long countBairros() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_bairro) FROM tb_bairros";
 			long qtd = 0;
 
@@ -83,7 +83,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return bairros;
 		}
 
-		public static List<Erro> inserirListaDeBairros( ref List<Bairro> bairros ) {
+		public static List<Erro> inserir( ref List<Bairro> bairros ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -111,7 +111,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeBairros( List<Bairro> bairros ) {
+		public static List<Erro> atualizar( List<Bairro> bairros ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "UPDATE tb_bairros SET nom_bairro = @nom_bairro, cod_cidade = @cod_cidade WHERE cod_bairro = @cod_bairro ";
 
@@ -135,7 +135,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeBairros( List<Bairro> bairros ) {
+		public static List<Erro> excluir( List<Bairro> bairros ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_bairros WHERE cod_bairro = @cod_bairro ";
 

@@ -11,7 +11,7 @@ using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.enderecos {
 	public class MySqlEstadosDao {
 
-		public static long countEstados() {
+		public static long count() {
 			String sql = "SELECT COUNT(cod_estado) FROM tb_estados";
 			long qtd = 0;
 
@@ -27,7 +27,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return qtd;
 		}
 
-		public static List<Estado> getEstados() {
+		public static List<Estado> getEstado() {
 			return getEstados( 0, 0, 0 );
 		}
 
@@ -74,7 +74,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return estados;
 		}
 
-		public static List<Erro> inserirListaDeEstados( ref List<Estado> estados ) {
+		public static List<Erro> inserir( ref List<Estado> estados ) {
 			List<Erro> erros = new List<Erro>();
 			StringBuilder sql = new StringBuilder();
 
@@ -102,7 +102,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> atualizarListaDeEstados( List<Estado> estados ) {
+		public static List<Erro> atualizar( List<Estado> estados ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "UPDATE tb_estados SET nom_estado = @nom_estado, cod_pais = @cod_pais WHERE cod_estado = @cod_estado ";
 
@@ -126,7 +126,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> excluirListaDeEstados( List<Estado> estados ) {
+		public static List<Erro> excluir( List<Estado> estados ) {
 			List<Erro> erros = new List<Erro>();
 			String sql = "DELETE FROM tb_estados WHERE cod_estado = @cod_estado ";
 
