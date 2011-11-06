@@ -20,44 +20,18 @@
     erros = GerenciadorDeOrdensDeServico.preencher( out os, numero);
 %>
 
+<%  if( print ) { %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Ordem de Servi&ccedil;o - numero: </title>
-    <style type="text/css">
-        .bold { font-weight: bold;}
-        .left { text-align: left !important; }
-        .tableOS  
-        {
-            background-color: White;
-            font-family: Arial;
-            font-size: 10px;
-            border-top: 1px solid #781A28;
-            border-left: 1px solid #781A28;
-            width: 100%;
-        }
-        .tableOS td
-        {
-            border-right: 1px solid #781A28;
-            border-bottom: 1px solid #781A28;
-            color: #781A28;
-            padding: 3px;
-            text-align: center;
-        }
-        .innerTableOS, .innerTableOS td {
-            border: none; width: 100%; font: inherit;
-        }
-        
-    </style>
-
-<%  if( print ) { %>
+    <link href="/PresentationLayer/resources/css/app.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         window.print();
     </script>
-<%  } %>
-
 </head>
 <body>
+<%  } %>
 
 <%
     if( erros.Count > 0 ) {
@@ -92,9 +66,9 @@
         <tr>
             <td colspan="5">
                 <table class="innerTableOS" cellspacing="0" ><tbody><tr>
-                    <td style="width: 110px; "><img src="/PresentationLayer/resources/images/gabbeh.jpg" alt="Gabbeh" /></td>
+                    <td id="tdImg"><img src="/PresentationLayer/resources/images/gabbeh.jpg" alt="Gabbeh" /></td>
                     <td>
-                        <p style="font-family:Times New Roman; margin: 0px;" >
+                        <p id="infoContato" >
                             Rua Cel. Francisco Andrade Coutinho, 132<br />
                             Cambu&iacute; - Campinas - SP<br />
                             e-mail: gabbeh@uol.com.br<br />
@@ -104,8 +78,8 @@
                 </tr></tbody></table>
             </td>
             <td>
-                <p style=" color: Red; margin: 5px;" >N&ordm; <%= os.numero %></p>
-                <p style="margin: 0px;" >DATA: <%= os.dataDeAbertura.ToString( "dd/MM/yyyy" ) %></p>
+                <p id="numOS">N&ordm; <%= os.numero %></p>
+                <p id="dataOS">DATA: <%= os.dataDeAbertura.ToString( "dd/MM/yyyy" ) %></p>
             </td>
         </tr>
         <tr><td colspan="6" class="left" >NOME: <%= os.cliente.nome %></td></tr>
@@ -114,8 +88,8 @@
         
         
         <tr>
-            <td colspan="6" style="padding: 0px;">
-                <table cellspacing="0" class="innerTableOS" style="table-layout: fixed;" >
+            <td colspan="6" id="parentfoneMailOS" >
+                <table cellspacing="0" class="innerTableOS" id="foneMailOS" >
                     <tbody>
                         <tr><td class="left" >FONE: <%= fones %></td><td class="left" >E-MAIL: <%= emails %></td></tr>                
                     </tbody>
@@ -126,7 +100,7 @@
         
         
         <tr><td colspan="4" >TAPETES</td><td rowspan="2" >SERVI&Ccedil;OS</td><td rowspan="2" >VALORES</td></tr>
-        <tr><td >NOME</td><td style="width: 50px;">COMPR.</td><td style="width: 50px;">LARG.</td><td style="width: 50px;">&Aacute;REA</td></tr>
+        <tr><td >NOME</td><td class="comprLargAreaOS">COMPR.</td><td class="comprLargAreaOS">LARG.</td><td class="comprLargAreaOS">&Aacute;REA</td></tr>
 <%
         foreach( Item item in os.itens ) {
             StringBuilder servicos = new StringBuilder();
@@ -148,5 +122,7 @@
 
 <%  } %>
 
+<%  if( print ) { %>
 </body>
 </html>
+<%  } %>

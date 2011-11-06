@@ -163,6 +163,7 @@ Ext.define('App.view.ordensDeServico.OrdensDeServicoSearchView', {
                 { itemId: 'btnEditOS', text: 'Editar', iconCls: 'os-thumb', scope: this, disabled: true },
                 { itemId: 'btnDelOS', text: 'Remover', iconCls: 'os-del', scope: this, disabled: true },
                 { itemId: 'btnShowDescricaoOS', iconCls: 'btn-detalhes', scope: this, pressed: false, enableToggle: true, text: 'Observa&ccedil;&otilde;es', tooltip: { title: 'Observa&ccedil;&otilde;es das Ordens de Servi&ccedil;o', text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem' } },
+                { itemId: 'btnRelOS', text: 'Relat&oacute;rio', iconCls: 'report', scope: this },
                 '->',
                 { itemId: 'btnViewOS', text: 'Visualizar', iconCls: 'lupa', scope: this, disabled: true },
                 { itemId: 'btnFinalizarOS', text: 'Finalizar', iconCls: 'concluido', scope: this, disabled: true },

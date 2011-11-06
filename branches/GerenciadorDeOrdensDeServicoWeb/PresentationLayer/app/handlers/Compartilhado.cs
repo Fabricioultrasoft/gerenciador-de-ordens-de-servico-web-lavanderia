@@ -5,6 +5,8 @@ using System.Web;
 using System.Text;
 using GerenciadorDeOrdensDeServicoWeb.DataTransferObjects;
 using System.Reflection;
+using System.IO;
+using MySql.Data.MySqlClient;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 	public class Compartilhado {
@@ -50,6 +52,117 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 			}
 
 			return obj;
+		}
+
+		public static void gerarRelatorioTxt( String title, HttpContext context, MySqlDataReader reader ) {
+
+			context.Response.ContentType = "text/html";
+
+			context.Response.Write( "<html><head><title>" + title + "</title>"
+				+ "<link rel='icon' href='/PresentationLayer/resources/images/favicon.png' />"
+				+ "<link rel='stylesheet' type='text/css' href='/PresentationLayer/resources/css/relatorios.css' /></head><body>" );
+
+			context.Response.Write( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>Gerando...</caption><thead><tr>" );
+
+			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
+			for( int i = 0; i < reader.FieldCount; i++ ) {
+				context.Response.Write( "<th>" + reader.GetName( i ) + "</th>" );
+			}
+			context.Response.Write( "</tr></thead><tbody>" );
+
+			// escreve os DADOS de cada registro
+			long count = 0;
+			while( reader.Read() ) {
+				context.Response.Write( "<tr>" );
+				for( int i = 0; i < reader.FieldCount; i++ ) {
+					context.Response.Write( "<td>" + reader[i] + "</td>" );
+				}
+				context.Response.Write( "</tr>" );
+				count++;
+			}
+			context.Response.Write( "</tbody></table>" );
+			context.Response.Write( "<script type='text/javascript'>document.getElementById('caption').innerHTML = 'Total: "+ count +" registro(s) encontrado(s)';window.print();</script>" );
+			context.Response.Write( "</body></html>" );
+
+		}
+
+		public static void gerarRelatorioExcel( String title, HttpContext context, MySqlDataReader reader ) {
+
+			StringBuilder html = new StringBuilder();
+
+			context.Response.ClearContent();
+			context.Response.ContentType = "application/vnd.ms-excel";
+			context.Response.AddHeader( "content-disposition", "attachment; filename=" + title.Replace(" ","_") + ".xls" );
+
+			html.Append( "<html><head><title>" + title + "</title></head><body>" );
+
+			html.Append( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>[QTD_RECORDS]</caption><thead><tr>" );
+
+			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
+			for( int i = 0; i < reader.FieldCount; i++ ) {
+				html.Append( "<th>" + reader.GetName( i ) + "</th>" );
+			}
+			html.Append( "</tr></thead><tbody>" );
+
+			// escreve os DADOS de cada registro
+			long count = 0;
+			while( reader.Read() ) {
+				html.Append( "<tr>" );
+				for( int i = 0; i < reader.FieldCount; i++ ) {
+					html.Append( "<td>" + reader[i] + "</td>" );
+				}
+				html.Append( "</tr>" );
+				count++;
+			}
+			html.Append( "</tbody></table>" );
+			html.Append( "</body></html>" );
+			html.Replace( "[QTD_RECORDS]", "Total: "+ count +" registro(s) encontrado(s)" );
+
+			context.Response.Write( html.ToString() );
+			context.Response.End();
+		}
+
+		public static void gerarRelatorioPdf( String title, HttpContext context, MySqlDataReader reader ) {
+
+			StringBuilder html = new StringBuilder();
+
+			context.Response.ClearContent();
+			context.Response.ContentType = "application/pdf";
+			context.Response.AddHeader( "content-disposition", "attachment; filename=" + title.Replace( " ", "_" ) + ".pdf" );
+
+			html.Append( "<html><head><title>" + title + "</title></head><body>" );
+
+			html.Append( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>[QTD_RECORDS]</caption><thead><tr>" );
+
+			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
+			for( int i = 0; i < reader.FieldCount; i++ ) {
+				html.Append( "<th>" + reader.GetName( i ) + "</th>" );
+			}
+			html.Append( "</tr></thead><tbody>" );
+
+			// escreve os DADOS de cada registro
+			long count = 0;
+			while( reader.Read() ) {
+				html.Append( "<tr>" );
+				for( int i = 0; i < reader.FieldCount; i++ ) {
+					html.Append( "<td>" + reader[i] + "</td>" );
+				}
+				html.Append( "</tr>" );
+				count++;
+			}
+			html.Append( "</tbody></table>" );
+			html.Append( "</body></html>" );
+
+			html.Replace( "[QTD_RECORDS]", "Total: "+ count +" registro(s) encontrado(s)" );
+
+			iTextSharp.text.Document document = new iTextSharp.text.Document();
+			iTextSharp.text.pdf.PdfWriter.GetInstance( document, context.Response.OutputStream );
+			document.Open();
+			iTextSharp.text.html.simpleparser.HTMLWorker htmlWorker = new iTextSharp.text.html.simpleparser.HTMLWorker( document );
+			htmlWorker.Parse( new StringReader( html.ToString() ) );
+			document.Close();
+			context.Response.Write( document );
+			context.Response.End();
 		}
 	}
 }

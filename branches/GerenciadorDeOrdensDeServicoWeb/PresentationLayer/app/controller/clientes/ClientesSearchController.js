@@ -27,6 +27,9 @@ Ext.define('App.controller.clientes.ClientesSearchController', {
             },
             '#btnShowDescricaoCliente': {
                 click: this.onShowDescricaoClienteClick
+            },
+            '#btnRelClientes': {
+                click: this.onRelClientesClick
             }
         });
     },
@@ -85,5 +88,9 @@ Ext.define('App.controller.clientes.ClientesSearchController', {
 
     onShowDescricaoClienteClick: function (btn, event, options) {
         btn.scope.gridClientes.getComponent('view').getPlugin('preview').toggleExpanded(btn.pressed);
+    },
+
+    onRelClientesClick: function (btn, event, options) {
+        btn.scope.app.getModule("module-report-clientes").createWindow();
     }
 });

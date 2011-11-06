@@ -4,6 +4,17 @@ Ext.define('App.store.enderecos.TiposDeLogradourosStore', {
     autoDestroy: false,
     model: 'App.model.enderecos.TipoDeLogradouroModel',
     storeId: 'tiposDeLogradourosStore',
+    listeners: {
+        write: function(proxy, operation){
+            if (operation.action == 'destroy') {
+                if(operation.resultSet.success) {
+                    Ext.notification.msg("Exclus&atilde;o de Tipo de Logradouro", "Os registros foram exclu&iacute;dos com sucesso");
+                } else {
+                    Ext.notification.msg("Exclus&atilde;o de Tipo de Logradouro", operation.resultSet.message.join("<br />"));
+                }
+            }
+        }
+    },
     proxy: {
         type: 'ajax',
         api: {

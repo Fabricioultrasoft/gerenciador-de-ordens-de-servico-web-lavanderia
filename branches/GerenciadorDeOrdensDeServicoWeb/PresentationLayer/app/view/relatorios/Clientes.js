@@ -124,9 +124,9 @@ Ext.define('App.view.relatorios.Clientes', {
             items: [form],
             buttonAlign: 'center',
             buttons: [
-                { itemId: 'btnGerarRelatorioDeClientes_html', padding: '10', text: 'Texto', iconCls: 'txt', reportView: 'html', handler: this.gerarRelatorio, scope: this },
-                { itemId: 'btnGerarRelatorioDeClientes_excel', padding: '10', text: 'Excel', iconCls: 'xls', reportView: 'xls', handler: this.gerarRelatorio, scope: this },
-                { itemId: 'btnGerarRelatorioDeClientes_pdf', padding: '10', text: 'PDF', iconCls: 'pdf', reportView: 'pdf', handler: this.gerarRelatorio, scope: this }
+                { padding: '10', text: 'Texto', iconCls: 'txt', reportView: 'txt', handler: this.gerarRelatorio, scope: this },
+                { padding: '10', text: 'Excel', iconCls: 'xls', reportView: 'xls', handler: this.gerarRelatorio, scope: this },
+                { padding: '10', text: 'PDF', iconCls: 'pdf', reportView: 'pdf', handler: this.gerarRelatorio, scope: this }
             ]
         });
 

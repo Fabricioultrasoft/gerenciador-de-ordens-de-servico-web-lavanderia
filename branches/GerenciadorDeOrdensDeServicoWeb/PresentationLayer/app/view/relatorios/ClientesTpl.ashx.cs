@@ -21,12 +21,15 @@ using iTextSharp;
 using iTextSharp.text.html;
 using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
+using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios {
 	/// <summary>
 	/// Summary description for ClientesTpl
 	/// </summary>
 	public class ClientesTpl : IHttpHandler {
+
+		private const String TITLE = "Relatório de Clientes";
 
 		public void ProcessRequest( HttpContext context ) {
 
@@ -85,130 +88,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			MySqlDataReader reader = cmd.ExecuteReader();
 
 			switch( context.Request.QueryString["reportView"] ) {
-				case "html":
-					gerarHtml( context, reader );
+				case "txt":
+					Compartilhado.gerarRelatorioTxt( TITLE, context, reader );
 					break;
 				case "xls":
-					gerarExcel( context, reader );
+					Compartilhado.gerarRelatorioExcel( TITLE, context, reader );
 					break;
 				case "pdf":
-					gerarPdf( context, reader );
+					Compartilhado.gerarRelatorioPdf( TITLE, context, reader );
 					break;
 			}
 
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 			conn.Close(); conn.Dispose();
-		}
-
-		private static void gerarHtml( HttpContext context, MySqlDataReader reader ) {
-
-			context.Response.ContentType = "text/html";
-
-			context.Response.Write( "<html><head><title>Relatório de Clientes</title>"
-				+ "<link rel='icon' href='/PresentationLayer/resources/images/favicon.png' />"
-				+ "<link rel='stylesheet' type='text/css' href='/PresentationLayer/resources/css/relatorios.css' /></head><body>" );
-
-			context.Response.Write( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>Gerando...</caption><thead><tr>" );
-
-			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
-			for( int i = 0; i < reader.FieldCount; i++ ) {
-				context.Response.Write( "<th>" + reader.GetName( i ) + "</th>" );
-			}
-			context.Response.Write( "</tr></thead><tbody>" );
-
-			// escreve os DADOS de cada registro
-			long count = 0;
-			while( reader.Read() ) {
-				context.Response.Write( "<tr>" );
-				for( int i = 0; i < reader.FieldCount; i++ ) {
-					context.Response.Write( "<td>" + reader[i] + "</td>" );
-				}
-				context.Response.Write( "</tr>" );
-				count++;
-			}
-			context.Response.Write( "</tbody></table>" );
-			context.Response.Write( "<script type='text/javascript'>document.getElementById('caption').innerHTML = 'Total: "+ count +" registro(s) encontrado(s)';window.print();</script>" );
-			context.Response.Write( "</body></html>" );
-
-		}
-
-		private static void gerarExcel( HttpContext context, MySqlDataReader reader ) {
-
-			StringBuilder html = new StringBuilder();
-
-			context.Response.ClearContent();
-			context.Response.ContentType = "application/vnd.ms-excel";
-			context.Response.AddHeader( "content-disposition", "attachment; filename=relatorio.xls" );
-
-			html.Append( "<html><head><title>Relatório de Clientes</title></head><body>" );
-
-			html.Append( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>[QTD_RECORDS]</caption><thead><tr>" );
-
-			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
-			for( int i = 0; i < reader.FieldCount; i++ ) {
-				html.Append( "<th>" + reader.GetName( i ) + "</th>" );
-			}
-			html.Append( "</tr></thead><tbody>" );
-
-			// escreve os DADOS de cada registro
-			long count = 0;
-			while( reader.Read() ) {
-				html.Append( "<tr>" );
-				for( int i = 0; i < reader.FieldCount; i++ ) {
-					html.Append( "<td>" + reader[i] + "</td>" );
-				}
-				html.Append( "</tr>" );
-				count++;
-			}
-			html.Append( "</tbody></table>" );
-			html.Append( "</body></html>" );
-			html.Replace( "[QTD_RECORDS]", "Total: "+ count +" registro(s) encontrado(s)" );
-
-			context.Response.Write( html.ToString() );
-			context.Response.End();
-		}
-
-		private static void gerarPdf( HttpContext context, MySqlDataReader reader ) {
-
-			StringBuilder html = new StringBuilder();
-
-			context.Response.ClearContent();
-			context.Response.ContentType = "application/pdf";
-			context.Response.AddHeader( "content-disposition", "attachment; filename=relatorio.pdf" );
-
-			html.Append( "<html><head><title>Relatório de Clientes</title></head><body>" );
-
-			html.Append( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>[QTD_RECORDS]</caption><thead><tr>" );
-
-			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
-			for( int i = 0; i < reader.FieldCount; i++ ) {
-				html.Append( "<th>" + reader.GetName( i ) + "</th>" );
-			}
-			html.Append( "</tr></thead><tbody>" );
-
-			// escreve os DADOS de cada registro
-			long count = 0;
-			while( reader.Read() ) {
-				html.Append( "<tr>" );
-				for( int i = 0; i < reader.FieldCount; i++ ) {
-					html.Append( "<td>" + reader[i] + "</td>" );
-				}
-				html.Append( "</tr>" );
-				count++;
-			}
-			html.Append( "</tbody></table>" );
-			html.Append( "</body></html>" );
-
-			html.Replace( "[QTD_RECORDS]", "Total: "+ count +" registro(s) encontrado(s)" );
-
-			Document document = new Document();
-			PdfWriter.GetInstance( document, context.Response.OutputStream );
-			document.Open();
-			HTMLWorker htmlWorker = new HTMLWorker( document );
-			htmlWorker.Parse( new StringReader( html.ToString() ) );
-			document.Close();
-			context.Response.Write( document );
-			context.Response.End();
 		}
 
 		private static String construirColunasSql( String colunasAlias ) {

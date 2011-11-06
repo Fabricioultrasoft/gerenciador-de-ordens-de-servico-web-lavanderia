@@ -9,12 +9,15 @@ using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySql.ordensDeServico;
 using MySql.Data.MySqlClient;
 using GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DatabaseConnections;
+using GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers;
 
 namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios {
 	/// <summary>
 	/// Summary description for OrdensDeServicoTpl
 	/// </summary>
 	public class OrdensDeServicoTpl : IHttpHandler {
+
+		private const String TITLE = "Relatório de Ordens de Serviço";
 
 		public void ProcessRequest( HttpContext context ) {
 
@@ -26,6 +29,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			List<Filter> filters;
 			List<Sorter> sorters;
 
+			#region DADOS DA REQUISICAO
 			if( String.IsNullOrEmpty( colunas ) ) {
 				context.Response.Write( "Nenhuma coluna do relat&oacute;rio foi selecionada!" );
 				return;
@@ -50,15 +54,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			} else {
 				sorters = new List<Sorter>();
 			}
-
-			if( context.Request.QueryString["reportView"] == "xls" ) {
-				// relatorio em excel
-				context.Response.ContentType = "application/vnd.ms-excel";
-			} else {
-				// relatorio em html
-				context.Response.ContentType = "text/html";
-			}
-
+			#endregion
 
 			StringBuilder sql = new StringBuilder();
 			MySqlFilter filter = MySqlOrdensDeServicoDao.getFilter( filters );
@@ -81,30 +77,17 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 
 			MySqlDataReader reader = cmd.ExecuteReader();
 
-			context.Response.Write( "<html><head><title>Relatório de Ordens de Serviço</title>"
-				+ "<link rel='icon' href='/PresentationLayer/resources/images/favicon.png' />"
-				+ "<link rel='stylesheet' type='text/css' href='/PresentationLayer/resources/css/relatorios.css' /></head><body>" );
-
-			context.Response.Write( "<table width=100% border=0 cellspacing=1 ><caption id='caption'>Gerando...</caption><thead><tr>" );
-
-			// escreve o NOME das colunas de acordo com os ALIAS DO SELECT
-			for( int i = 0; i < reader.FieldCount; i++ ) {
-				context.Response.Write( "<th>" + reader.GetName( i ) + "</th>" );
+			switch( context.Request.QueryString["reportView"] ) {
+				case "txt":
+					Compartilhado.gerarRelatorioTxt( TITLE, context, reader );
+					break;
+				case "xls":
+					Compartilhado.gerarRelatorioExcel( TITLE, context, reader );
+					break;
+				case "pdf":
+					Compartilhado.gerarRelatorioPdf( TITLE, context, reader );
+					break;
 			}
-			context.Response.Write( "</tr></thead><tbody>" );
-
-			// escreve os DADOS de cada registro
-			while( reader.Read() ) {
-				context.Response.Write( "<tr>" );
-				for( int i = 0; i < reader.FieldCount; i++ ) {
-					context.Response.Write( "<td>" + reader[i] + "</td>" );
-				}
-				context.Response.Write( "</tr>" );
-				count++;
-			}
-			context.Response.Write( "</tbody></table>" );
-			context.Response.Write( "<script type='text/javascript'>document.getElementById('caption').innerHTML = 'Total: "+ count +" registro(s) encontrado(s)';window.print();</script>" );
-			context.Response.Write( "</body></html>" );
 
 			reader.Close(); reader.Dispose(); cmd.Dispose();
 			conn.Close(); conn.Dispose();

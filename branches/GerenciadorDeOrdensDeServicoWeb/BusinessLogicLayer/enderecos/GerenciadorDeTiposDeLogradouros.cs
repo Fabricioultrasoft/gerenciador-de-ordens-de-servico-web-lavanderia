@@ -69,7 +69,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 				listaDeErros.AddRange( MySqlTiposDeLogradourosDao.excluir( tiposDeLogradouros ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
+				if( ex.Number == 1451 ) {
+					listaDeErros.Add( new Erro( 1451, "N&atilde;o foi poss&iacute;vel excluir este registro, ele est&aacute; sendo usado por um <i>Logradouro</i>",
+						"Exclua ou altere todos os Logradouros que fazem uso deste <i>Tipo de Logradouro</i> para que ele possa ser exclu&iacute;do" ) );
+				} else if( ex.Number == 1042 ) {
 					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
 					Erro erro = new Erro( 0 );

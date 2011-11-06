@@ -126,8 +126,9 @@ Ext.define('App.view.relatorios.OrdensDeServico', {
             items: [form],
             buttonAlign: 'center',
             buttons: [
-                { text: 'HTML', iconCls: 'html', reportView: 'html', handler: this.gerarRelatorio, scope: this },
-                { text: 'Excel', iconCls: 'xls', reportView: 'xls', handler: this.gerarRelatorio, scope: this }
+                { padding: '10', text: 'Texto', iconCls: 'txt', reportView: 'txt', handler: this.gerarRelatorio, scope: this },
+                { padding: '10', text: 'Excel', iconCls: 'xls', reportView: 'xls', handler: this.gerarRelatorio, scope: this },
+                { padding: '10', text: 'PDF', iconCls: 'pdf', reportView: 'pdf', handler: this.gerarRelatorio, scope: this }
             ]
         });
 

@@ -77,7 +77,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 				listaDeErros.AddRange( MySqlCidadesDao.excluir( cidades ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
+				if( ex.Number == 1451 ) {
+					listaDeErros.Add( new Erro( 1451, "N&atilde;o foi poss&iacute;vel excluir este registro, ele est&aacute; sendo usado por um <i>Bairro</i>",
+						"Exclua ou altere todos os Bairros que fazem uso desta <i>Cidade</i> para que ela possa ser exclu&iacute;da" ) );
+				} else if( ex.Number == 1042 ) {
 					listaDeErros.Add( new Erro( 1042 ) );
 				} else {
 					Erro erro = new Erro( 0 );

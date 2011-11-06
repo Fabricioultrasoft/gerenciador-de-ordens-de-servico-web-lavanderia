@@ -70,17 +70,22 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 		private String createOrdensDeServico( String records ) {
 			List<OrdemDeServico> ordensDeServico = jsonToOrdensDeServico( records );
+			List<Erro> erros = new List<Erro>();
 
-			Usuario usu = (Usuario) thisContext.Session["usuario"];
-			foreach( OrdemDeServico os in ordensDeServico ) {
-				if( os.usuario.codigo == 0 ) {
-					os.usuario.codigo = usu.codigo;
+			try {
+				Usuario usu = (Usuario) thisContext.Session["usuario"];
+				foreach( OrdemDeServico os in ordensDeServico ) {
+					if( os.usuario.codigo == 0 ) {
+						os.usuario.codigo = usu.codigo;
+					}
 				}
+				erros.AddRange( GerenciadorDeOrdensDeServico.cadastrar( ref ordensDeServico ));
+			} catch {
+				erros.Add(new Erro(0,"Os dados do usuario não foram encontrados na sessão do servidor",
+					"Tente sair da aplicação e entrar novamente, se o erro persistir, contate o administrador do sistema."));
 			}
 
 			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeOrdensDeServico.cadastrar( ref ordensDeServico );
-
 			formatarSaida( ordensDeServico );
 			json.Append( "{" );
 			json.AppendFormat( " \"total\": {0}, ", ordensDeServico.Count );
@@ -325,7 +330,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 
 				try {
 					StringBuilder usuTemp = new StringBuilder();
-					js.Serialize(ordemTemp["usuario"],usuTemp);
+					js.Serialize( ordemTemp["usuario"], usuTemp );
 					ordem.usuario = UsuariosHandler.jsonToUsuario( usuTemp.ToString() );
 				} catch { }
 

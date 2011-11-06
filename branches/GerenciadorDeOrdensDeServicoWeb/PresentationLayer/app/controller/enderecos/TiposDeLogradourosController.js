@@ -61,7 +61,6 @@ Ext.define('App.controller.enderecos.TiposDeLogradourosController', {
                     tiposDeLogradourosView.grid.getStore().remove(sm.getSelection());
                     tiposDeLogradourosView.grid.getStore().sync();
                     tiposDeLogradourosView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O tipo de logradouro selecionado foi excluido');
                     if (tiposDeLogradourosView.grid.getStore().getCount() > 0) {
                         sm.select(0);
                     }

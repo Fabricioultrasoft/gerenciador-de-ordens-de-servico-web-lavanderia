@@ -37,6 +37,9 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
             '#btnViewOS': {
                 click: this.onViewOSClick
             },
+            '#btnRelOS': {
+                click: this.onRelOSClick
+            },
             '#btnFinalizarOS': {
                 click: this.onFinalizarOSClick
             },
@@ -106,6 +109,10 @@ Ext.define('App.controller.ordensDeServico.OrdensDeServicoSearchController', {
 
     onShowDescricaoOSClick: function (btn, event, options) {
         btn.scope.grid.getComponent('view').getPlugin('preview').toggleExpanded(btn.pressed);
+    },
+
+    onRelOSClick: function (btn, event, options) {
+        btn.scope.app.getModule("module-report-os").createWindow();
     },
 
     onClienteSearchOSClick: function(btn, event, options) {

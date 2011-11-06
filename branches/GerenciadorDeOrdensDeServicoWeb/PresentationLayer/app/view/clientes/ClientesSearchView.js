@@ -120,21 +120,12 @@ Ext.define('App.view.clientes.ClientesSearchView', {
                 { header: 'Atualiza&ccedil;&atilde;o', dataIndex: 'dataDeAtualizacao'}
             ],
             tbar: [
-            { itemId: 'btnAddCliente', text: 'Adicionar', iconCls: 'clientes-add-thumb', scope: this, handler : function() { this.app.getModule("module-clientes-add").createWindow({store:clientesStore}); } },
-            { itemId: 'btnEditCliente', text: 'Editar', iconCls: 'clientes-edit-thumb', scope: this, disabled: true },
-            { itemId: 'btnDelCliente', text: 'Remover', iconCls: 'clientes-del-thumb', scope: this, disabled: true }, 
-            {
-                itemId: 'btnShowDescricaoCliente',
-                iconCls: 'btn-detalhes',
-                scope: this,
-                pressed: false,
-                enableToggle: true,
-                text: 'Observa&ccedil;&otilde;es',
-                tooltip: {
-                    title: 'Observa&ccedil;&otilde;es dos clientes',
-                    text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem'
-                }
-            }],
+                { itemId: 'btnAddCliente', text: 'Adicionar', iconCls: 'clientes-add-thumb', scope: this, handler : function() { this.app.getModule("module-clientes-add").createWindow({store:clientesStore}); } },
+                { itemId: 'btnEditCliente', text: 'Editar', iconCls: 'clientes-edit-thumb', scope: this, disabled: true },
+                { itemId: 'btnDelCliente', text: 'Remover', iconCls: 'clientes-del-thumb', scope: this, disabled: true }, 
+                { itemId: 'btnShowDescricaoCliente', iconCls: 'btn-detalhes', scope: this, pressed: false, enableToggle: true, text: 'Observa&ccedil;&otilde;es', tooltip: { title: 'Observa&ccedil;&otilde;es dos clientes', text: 'Visualizar a descri&ccedil;&atilde;o de cada registro na listagem' } },
+                { itemId: 'btnRelClientes', text: 'Relat&oacute;rio', iconCls: 'report', scope: this }
+            ],
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: clientesStore,
                 displayInfo: true,
