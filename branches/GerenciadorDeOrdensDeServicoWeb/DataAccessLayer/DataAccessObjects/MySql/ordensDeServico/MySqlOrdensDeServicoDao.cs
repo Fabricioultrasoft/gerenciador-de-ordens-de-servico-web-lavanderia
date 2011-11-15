@@ -199,7 +199,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return count;
 		}
 
-		public static List<Erro> insert( ref List<OrdemDeServico> ordensDeServico ) {
+		public static List<Erro> cadastrar( ref List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> erros = new List<Erro>();
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
@@ -267,11 +267,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static OrdemDeServico selectByCod( UInt32 codigo ) {
+		public static OrdemDeServico getOrdemDeServicoByCod( UInt32 codigo ) {
 			List<Filter> filters = new List<Filter>();
 			filters.Add( new Filter( "codigo", codigo.ToString() ) );
 
-			List<OrdemDeServico> osAux = select( filters );
+			List<OrdemDeServico> osAux = getOrdensDeServico( filters );
 			if( osAux.Count > 0 ) {
 				return osAux[0];
 			} else {
@@ -279,11 +279,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			}
 		}
 
-		public static OrdemDeServico selectByNum( UInt32 numero ) {
+		public static OrdemDeServico getOrdemDeServicoByNum( UInt32 numero ) {
 			List<Filter> filters = new List<Filter>();
 			filters.Add( new Filter( "numero", numero.ToString() ) );
 
-			List<OrdemDeServico> osAux = select( filters );
+			List<OrdemDeServico> osAux = getOrdensDeServico( filters );
 			if( osAux.Count > 0 ) {
 				return osAux[0];
 			} else {
@@ -291,11 +291,11 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			}
 		}
 
-		public static List<OrdemDeServico> select( List<Filter> filters ) {
-			return select( 0, 0, filters, new List<Sorter>() );
+		public static List<OrdemDeServico> getOrdensDeServico( List<Filter> filters ) {
+			return getOrdensDeServico( 0, 0, filters, new List<Sorter>() );
 		}
 
-		public static List<OrdemDeServico> select( UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
+		public static List<OrdemDeServico> getOrdensDeServico( UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
 			List<OrdemDeServico> ordensDeServico = new List<OrdemDeServico>();
 			Cliente cliAux;
 			Usuario usuAux;
@@ -349,7 +349,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return ordensDeServico;
 		}
 
-		public static List<Erro> update( ref List<OrdemDeServico> ordensDeServico ) {
+		public static List<Erro> atualizar( ref List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> erros = new List<Erro>();
 
 			MySqlConnection conn = MySqlConnectionWizard.getConnection();
@@ -504,7 +504,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Erro> delete( List<OrdemDeServico> ordensDeServico ) {
+		public static List<Erro> excluir( List<OrdemDeServico> ordensDeServico ) {
 			List<Erro> erros = new List<Erro>();
 			// so podem ser excluidas as ordens de servico que nao foram canceladas ou finalizadas
 			String sql = "DELETE FROM tb_ordens_de_servico WHERE cod_ordem_de_servico = @codOrdemDeServico AND cod_status_os = 1 ";
@@ -527,7 +527,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return erros;
 		}
 
-		public static List<Status> selectStatus() {
+		public static List<Status> getStatus() {
 			List<Status> statusList = new List<Status>();
 			StringBuilder sql = new StringBuilder();
 
@@ -552,7 +552,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 			return statusList;
 		}
 
-		public static Status selectStatus(UInt32 codigoOS ) {
+		public static Status getStatus(UInt32 codigoOS ) {
 			Status status = new Status();
 			StringBuilder sql = new StringBuilder();
 

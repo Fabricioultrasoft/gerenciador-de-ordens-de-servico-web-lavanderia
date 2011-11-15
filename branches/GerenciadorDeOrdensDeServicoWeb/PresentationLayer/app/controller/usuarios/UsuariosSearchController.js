@@ -37,8 +37,8 @@ Ext.define('App.controller.usuarios.UsuariosSearchController', {
         var sm = btn.scope.gridUsuarios.getSelectionModel();
 
         Ext.Msg.show({
-            title: 'Excluir usuario',
-            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Cod: ' + sm.getSelection()[0].data.codigo + '<br />Usuario: ' + sm.getSelection()[0].data.nome,
+            title: 'Excluir usu&aacute;rio',
+            msg: '<b>Tem certeza de que deseja excluir este registro?</b><br />Cod: ' + sm.getSelection()[0].data.codigo + '<br />Usu&aacute;rio: ' + sm.getSelection()[0].data.nome,
             buttons: Ext.Msg.YESNO,
             fn: function (buttonId) {
                 if (buttonId == 'yes') {

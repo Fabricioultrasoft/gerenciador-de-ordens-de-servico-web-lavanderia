@@ -5,12 +5,17 @@ Ext.define('App.store.clientes.ClientesStore', {
     model: 'App.model.clientes.ClienteModel',
     storeId: 'clientesStore',
     listeners: {
+        load: function( store, records, successful, eOpts ) {
+            if (records.length == 0) {
+                Ext.notification.msg("Consulta de Clientes", "Nenhum registro encontrado!");
+            }
+        },
         write: function(proxy, operation){
             if (operation.action == 'destroy') {
                 if(operation.resultSet.success) {
-                    Ext.notification.msg("Exclus&atilde;o de Cliente", "Os registros foram exclu&iacute;dos com sucesso");
+                    Ext.notification.msg("Exclus&atilde;o de Clientes", "Os registros foram exclu&iacute;dos com sucesso");
                 } else {
-                    Ext.notification.msg("Exclus&atilde;o de Cliente", operation.resultSet.message.join("<br />"));
+                    Ext.notification.msg("Exclus&atilde;o de Clientes", operation.resultSet.message.join("<br />"));
                 }
             }
         }

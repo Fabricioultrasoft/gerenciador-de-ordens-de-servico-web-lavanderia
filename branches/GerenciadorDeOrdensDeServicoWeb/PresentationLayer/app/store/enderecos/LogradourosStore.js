@@ -4,6 +4,22 @@ Ext.define('App.store.enderecos.LogradourosStore', {
     autoDestroy: false,
     model: 'App.model.enderecos.LogradouroModel',
     storeId: 'logradourosStore',
+    listeners: {
+        load: function( store, records, successful, operation, eOpts ) {
+            if (records.length == 0) {
+                Ext.notification.msg("Consulta de Logradouros", "Nenhum registro encontrado!");
+            }
+        },
+        write: function(proxy, operation){
+            if (operation.action == 'destroy') {
+                if(operation.resultSet.success) {
+                    Ext.notification.msg("Exclus&atilde;o de Logradouros", "Os registros foram exclu&iacute;dos com sucesso");
+                } else {
+                    Ext.notification.msg("Exclus&atilde;o de Logradouros", operation.resultSet.message.join("<br />"));
+                }
+            }
+        }
+    },
     proxy: {
         type: 'ajax',
         api: {

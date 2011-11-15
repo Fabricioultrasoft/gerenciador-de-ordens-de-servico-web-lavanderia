@@ -5,7 +5,7 @@ Ext.define('App.view.usuarios.UsuariosView', {
     init: function () {
 
         this.launcher = {
-            text: 'Usuarios',
+            text: 'Usu&aacute;rios',
             iconCls: 'user-silhouette',
             handler: function () {
                 return false;
@@ -16,7 +16,7 @@ Ext.define('App.view.usuarios.UsuariosView', {
         };
 
         this.launcher.menu.items.push({
-            text: 'Adicionar Usuario',
+            text: 'Adicionar Usu&aacute;rio',
             iconCls: 'user-add',
             handler : function() {
                 this.app.getModule("module-usuarios-add").createWindow();
@@ -24,7 +24,7 @@ Ext.define('App.view.usuarios.UsuariosView', {
             scope: this
         },
         {
-            text: 'Consultar Usuarios',
+            text: 'Consultar Usu&aacute;rios',
             iconCls: 'user-search',
             handler : function() {
                 this.app.getModule("module-usuarios-search").createWindow();

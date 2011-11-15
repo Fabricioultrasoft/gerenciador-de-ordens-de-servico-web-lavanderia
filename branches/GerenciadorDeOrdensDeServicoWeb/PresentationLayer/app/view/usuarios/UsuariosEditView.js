@@ -13,7 +13,7 @@ Ext.define('App.view.usuarios.UsuariosEditView', {
             var usuariosPanel = this.createPanel(options);
             win = desktop.createWindow({
                 id: 'win-usuarios-edit',
-                title: 'Alterar Usuario',
+                title: 'Alterar Usuário',
                 width: 300,
                 height: 190,
                 iconCls: 'user-edit',
@@ -56,7 +56,7 @@ Ext.define('App.view.usuarios.UsuariosEditView', {
             layout: 'fit',
             items: [form],
             buttonAlign: 'center',
-            buttons: [{ text: 'Alterar Usuario', itemId: 'btn-atualizar-usuario', iconCls: 'user-edit', padding: '10', scope: this}]
+            buttons: [{ text: 'Alterar Usu&aacute;rio', itemId: 'btn-atualizar-usuario', iconCls: 'user-edit', padding: '10', scope: this}]
         });
         this.mainPanel = mainPanel;
 

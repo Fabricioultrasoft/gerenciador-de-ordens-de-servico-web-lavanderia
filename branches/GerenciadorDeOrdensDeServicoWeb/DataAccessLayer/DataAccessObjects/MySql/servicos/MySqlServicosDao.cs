@@ -405,11 +405,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach( Servico servico in servicos ) {
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servico.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir o servi&ccedil;o: " + servico.nome, "Tente excluí-lo novamente" ) );
+				try {
+					cmd.Parameters.Add( "@codServico", MySqlDbType.UInt32 ).Value = servico.codigo;
+					if( cmd.ExecuteNonQuery() <= 0 ) {
+						erros.Add( new Erro( 0, "Não foi possível excluir o servi&ccedil;o: " + servico.nome, "Tente excluí-lo novamente" ) );
+					}
+				} catch( MySqlException ex ) {
+					if( ex.Number == (int) MySqlErrorCode.RowIsReferenced2 ) {
+						erros.Add( new Erro( ex.Number, "N&atilde;o foi poss&iacute;vel excluir o servi&ccedil;o: " + servico.nome + ", ele est&aacute; sendo usado por uma <i>Ordem de servi&ccedil;o</i>",
+							"Exclua ou altere todos as Ordens de Servi&ccedil;o que fazem uso deste <i>Servi&ccedil;o</i> para que ele possa ser exclu&iacute;do" ) );
+					}
+				} finally {
+					cmd.Dispose();
 				}
-				cmd.Dispose();
 			}
 			// fecha a conexao e libera recursos
 			conn.Close(); conn.Dispose();

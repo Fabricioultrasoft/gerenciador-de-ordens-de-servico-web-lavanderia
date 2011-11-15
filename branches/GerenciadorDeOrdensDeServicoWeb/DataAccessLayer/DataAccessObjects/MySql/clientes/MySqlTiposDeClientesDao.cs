@@ -128,11 +128,20 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach( TipoDeCliente tipoDeCliente in tiposDeClientes ) {
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@codTipoCliente", MySqlDbType.UInt32 ).Value = tipoDeCliente.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir o tipo de cliente: " + tipoDeCliente.nome, "Tente excluí-lo novamente" ) );
+				try {
+					cmd.Parameters.Add( "@codTipoCliente", MySqlDbType.UInt32 ).Value = tipoDeCliente.codigo;
+					if( cmd.ExecuteNonQuery() <= 0 ) {
+						erros.Add( new Erro( 0, "N&atilde;o foi poss&iacute;vel excluir o tipo de cliente: " + tipoDeCliente.nome, "Tente excluí-lo novamente" ) );
+					}
+				} catch( MySqlException ex ) {
+					if( ex.Number == (int) MySqlErrorCode.RowIsReferenced2 ) {
+						erros.Add( new Erro( ex.Number, "N&atilde;o foi poss&iacute;vel excluir o tipo de cliente: " + tipoDeCliente.nome +", ele est&aacute; sendo usado por um <i>Cliente</i>",
+							"Exclua ou altere todos os Clientes que fazem uso deste <i>Tipo de Cliente</i> para que ele possa ser exclu&iacute;do" ) );
+					}
 				}
-				cmd.Dispose();
+				finally {
+					cmd.Dispose();
+				}
 			}
 			// fecha a conexao e libera recursos
 			conn.Close(); conn.Dispose();

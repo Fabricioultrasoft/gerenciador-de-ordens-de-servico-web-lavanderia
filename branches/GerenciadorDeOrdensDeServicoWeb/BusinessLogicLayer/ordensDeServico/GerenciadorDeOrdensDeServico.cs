@@ -30,7 +30,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 		}
 
 		public static List<Erro> cadastrar( ref List<OrdemDeServico> ordensDeServico ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
 				foreach( OrdemDeServico os in ordensDeServico ) {
 					if( os.status.codigo == 0 ) {
@@ -38,154 +38,140 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 					}
 
 					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero ) ) {
-						listaDeErros.Add( erros[1] );
+						erros.Add( erros[1] );
 					}
 						// SE Status diferente de "Aberto"
 						// ENTAO nao pode atualizar OS
 					else if( os.status.codigo != 1 ) {
-						listaDeErros.Add( erros[2] );
+						erros.Add( erros[2] );
 					}
 				}
 
-				if( listaDeErros.Count == 0 ) {
-					listaDeErros.AddRange( MySqlOrdensDeServicoDao.insert( ref ordensDeServico ) );
+				if( erros.Count == 0 ) {
+					erros.AddRange( MySqlOrdensDeServicoDao.cadastrar( ref ordensDeServico ) );
 				}
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> preencher( UInt32 codigo, out OrdemDeServico ordemDeServico ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				ordemDeServico = MySqlOrdensDeServicoDao.selectByCod( codigo );
+				ordemDeServico = MySqlOrdensDeServicoDao.getOrdemDeServicoByCod( codigo );
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche um Objeto vazio
 				ordemDeServico = new OrdemDeServico();
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> preencher( out OrdemDeServico ordemDeServico, UInt32 numero ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				ordemDeServico = MySqlOrdensDeServicoDao.selectByNum( numero );
+				ordemDeServico = MySqlOrdensDeServicoDao.getOrdemDeServicoByNum( numero );
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche um Objeto vazio
 				ordemDeServico = new OrdemDeServico();
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> preencher( out List<OrdemDeServico> ordensDeServico, UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				ordensDeServico = MySqlOrdensDeServicoDao.select( start, limit, filters, sorters );
+				ordensDeServico = MySqlOrdensDeServicoDao.getOrdensDeServico( start, limit, filters, sorters );
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche uma lista vazia
 				ordensDeServico = new List<OrdemDeServico>();
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> preencher( out List<Status> statusList ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				statusList = MySqlOrdensDeServicoDao.selectStatus();
+				statusList = MySqlOrdensDeServicoDao.getStatus();
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche uma lista vazia
 				statusList = new List<Status>();
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> atualizar( ref List<OrdemDeServico> ordensDeServico ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
 
 				foreach( OrdemDeServico os in ordensDeServico ) {
 
 					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero, os.codigo ) ) {
-						listaDeErros.Add( erros[1] );
+						erros.Add( erros[1] );
 					}
 						// SE Status diferente de "Aberto"
 						// ENTAO nao pode atualizar OS
-					else if( MySqlOrdensDeServicoDao.selectStatus( os.codigo ).codigo != 1 ) {
-						listaDeErros.Add( erros[2] );
+					else if( MySqlOrdensDeServicoDao.getStatus( os.codigo ).codigo != 1 ) {
+						erros.Add( erros[2] );
 					}
 				}
 
-				if( listaDeErros.Count == 0 ) {
-					listaDeErros.AddRange( MySqlOrdensDeServicoDao.update( ref ordensDeServico ) );
+				if( erros.Count == 0 ) {
+					erros.AddRange( MySqlOrdensDeServicoDao.atualizar( ref ordensDeServico ) );
 				}
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> excluir( List<OrdemDeServico> ordensDeServico ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlOrdensDeServicoDao.delete( ordensDeServico ) );
+				erros.AddRange( MySqlOrdensDeServicoDao.excluir( ordensDeServico ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 

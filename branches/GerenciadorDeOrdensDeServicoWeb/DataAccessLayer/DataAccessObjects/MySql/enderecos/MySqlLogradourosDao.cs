@@ -227,11 +227,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach( Logradouro logradouro in logradouros ) {
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@cod_logradouro", MySqlDbType.UInt32 ).Value = logradouro.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir o logradouro: " + logradouro.nome, "Tente excluí-lo novamente" ) );
+				try {
+					cmd.Parameters.Add( "@cod_logradouro", MySqlDbType.UInt32 ).Value = logradouro.codigo;
+					if( cmd.ExecuteNonQuery() <= 0 ) {
+						erros.Add( new Erro( 0, "Não foi possível excluir o logradouro: " + logradouro.nome, "Tente excluí-lo novamente" ) );
+					}
+				} catch( MySqlException ex ) {
+					if( ex.Number == (int) MySqlErrorCode.RowIsReferenced2 ) {
+						erros.Add( new Erro( ex.Number, "N&atilde;o foi poss&iacute;vel excluir o logradouro: " + logradouro.nome + ", ele est&aacute; sendo usado por um <i>Cliente</i>",
+							"Exclua ou altere todos os endere&ccedil;os de clientes que fazem uso deste <i>Logradouro</i> para que ele possa ser exclu&iacute;do" ) );
+					}
+				} finally {
+					cmd.Dispose();
 				}
-				cmd.Dispose();
 			}
 			// fecha a conexao e libera recursos
 			conn.Close(); conn.Dispose();

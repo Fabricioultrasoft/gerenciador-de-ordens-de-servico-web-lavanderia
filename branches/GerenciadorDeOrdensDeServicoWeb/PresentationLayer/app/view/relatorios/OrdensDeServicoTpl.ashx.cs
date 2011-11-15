@@ -25,7 +25,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.view.relatorios 
 			String colunas = context.Request.QueryString["colunas"];
 			UInt32 start = 0;
 			UInt32 limit = 0;
-			long count = 0;
 			List<Filter> filters;
 			List<Sorter> sorters;
 

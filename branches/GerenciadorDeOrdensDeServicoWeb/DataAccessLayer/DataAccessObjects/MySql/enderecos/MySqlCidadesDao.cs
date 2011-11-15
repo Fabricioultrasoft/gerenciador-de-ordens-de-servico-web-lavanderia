@@ -141,11 +141,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach( Cidade cidade in cidades ) {
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@cod_cidade", MySqlDbType.UInt32 ).Value = cidade.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir a cidade: " + cidade.nome, "Tente excluí-la novamente" ) );
+				try {
+					cmd.Parameters.Add( "@cod_cidade", MySqlDbType.UInt32 ).Value = cidade.codigo;
+					if( cmd.ExecuteNonQuery() <= 0 ) {
+						erros.Add( new Erro( 0, "Não foi possível excluir a cidade: " + cidade.nome, "Tente excluí-la novamente" ) );
+					}
+				} catch( MySqlException ex ) {
+					if( ex.Number == (int) MySqlErrorCode.RowIsReferenced2 ) {
+						erros.Add( new Erro( ex.Number, "N&atilde;o foi poss&iacute;vel excluir a cidade: " + cidade.nome + ", ela est&aacute; sendo usada por um <i>Bairro</i>",
+							"Exclua ou altere todos os Bairros que fazem uso desta <i>Cidade</i> para que ela possa ser exclu&iacute;da" ) );
+					}
+				} finally {
+					cmd.Dispose();
 				}
-				cmd.Dispose();
 			}
 			// fecha a conexao e libera recursos
 			conn.Close(); conn.Dispose();

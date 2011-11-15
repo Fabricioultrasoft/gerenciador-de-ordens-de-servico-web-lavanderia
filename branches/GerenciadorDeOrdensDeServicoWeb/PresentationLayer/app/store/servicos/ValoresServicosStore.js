@@ -6,13 +6,9 @@ Ext.define('App.store.servicos.ValoresServicosStore', {
     model: 'App.model.servicos.ValorServicoModel',
     storeId: 'valoresServicosStore',
     listeners: {
-        write: function(proxy, operation){
-            if (operation.action == 'destroy') {
-                if(operation.resultSet.success) {
-                    Ext.notification.msg("Exclus&atilde;o de Servi&ccedil;o", "Os registros foram exclu&iacute;dos com sucesso");
-                } else {
-                    Ext.notification.msg("Exclus&atilde;o de Servi&ccedil;o", operation.resultSet.message.join("<br />"));
-                }
+        load: function( store, records, successful, eOpts ) {
+            if (records.length == 0) {
+                Ext.notification.msg("Consulta de Valores de Servi&ccedil;os", "Nenhum registro encontrado!");
             }
         }
     },

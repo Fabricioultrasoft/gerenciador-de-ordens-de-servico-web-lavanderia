@@ -14,7 +14,7 @@ Ext.define('App.view.usuarios.UsuariosSearchView', {
             var usuariosPanel = this.createPanel();
             win = desktop.createWindow({
                 id: 'win-usuarios-search',
-                title: 'Consultar Usuarios',
+                title: 'Consultar Usuários',
                 width: 400,
                 height: 300,
                 iconCls: 'user-search',
@@ -53,8 +53,8 @@ Ext.define('App.view.usuarios.UsuariosSearchView', {
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: usuariosStore,
                 displayInfo: true,
-                displayMsg: 'usuarios {0} - {1} de {2}',
-                emptyMsg: "Nenhum usuario"
+                displayMsg: 'usu&aacute;rios {0} - {1} de {2}',
+                emptyMsg: "Nenhum usu&aacute;rio"
             }),
             listeners: {
                 'selectionchange': function (view, records) {

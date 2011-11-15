@@ -28,76 +28,64 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.clientes {
 		}
 
 		public static List<Erro> cadastrar( ref List<Cliente> clientes ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlClientesDao.inserir( ref clientes ) );
+				erros.AddRange( MySqlClientesDao.inserir( ref clientes ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro(ex.Number, ex.Message) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> preencher( out List<Cliente> clientes, UInt32 start, UInt32 limit, List<Filter> filters, List<Sorter> sorters ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
 				clientes = MySqlClientesDao.getClientes( start, limit, filters, sorters );
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche uma lista vazia
 				clientes = new List<Cliente>();
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> atualizar( ref List<Cliente> clientes ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlClientesDao.atualizar( ref clientes ) );
+				erros.AddRange( MySqlClientesDao.atualizar( ref clientes ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> excluir( List<Cliente> clientes ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlClientesDao.excluir( clientes ) );
+				erros.AddRange( MySqlClientesDao.excluir( clientes ) );
 			} catch( MySqlException ex ) {
-
-				if( ex.Number == 1451 ) {
-					listaDeErros.Add( new Erro( 1451, "N&atilde;o foi poss&iacute;vel excluir este registro, ele est&aacute; sendo usado por uma <i>Ordem de servi&ccedil;o</i>",
-						"Exclua ou altere todos as Ordens de Servi&ccedil;o que fazem uso deste <i>Cliente</i> para que ele possa ser exclu&iacute;do ou marque este registro como inativo" ) );
-				} else if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 	}
 }

@@ -18,10 +18,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 	public class UsuariosHandler : IHttpHandler, IRequiresSessionState {
 
 		private static SHA1 sha1 = new SHA1CryptoServiceProvider();
+		private HttpContext thisContext;
 
 		public void ProcessRequest( HttpContext context ) {
 			String action = String.Empty;// metodos CRUD
 			String response = String.Empty;
+
+			thisContext = context;
 
 			action = context.Request.QueryString["action"];
 
@@ -38,7 +41,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 
 					context.Session["readUsuarios_start"] = start;
 					context.Session["readUsuarios_limit"] = limit;
-					
+
 					response = readUsuarios( start, limit );
 					break;
 				case "update":
@@ -54,7 +57,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 		}
 
 		private String createUsuarios( String records ) {
-			
+
 			List<Usuario> usuarios = jsonToUsuarios( records );
 			StringBuilder jsonResposta = new StringBuilder();
 			List<Erro> erros = GerenciadorDeUsuarios.cadastrar( ref usuarios );
@@ -72,7 +75,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref jsonResposta, erros );
 			}
 
-			jsonResposta.AppendFormat( " \"data\": {0}", usuariosToJson(usuarios) );
+			jsonResposta.AppendFormat( " \"data\": {0}", usuariosToJson( usuarios ) );
 			// fim do json
 			jsonResposta.AppendLine( "}" );
 			#endregion
@@ -98,9 +101,9 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 				json.Append( " \"success\": false," );
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
-			json.AppendFormat( " \"data\": {0}", usuariosToJson(usuarios) );
+			json.AppendFormat( " \"data\": {0}", usuariosToJson( usuarios ) );
 			json.AppendLine( "}" );
-			
+
 			return json.ToString();
 		}
 
@@ -119,29 +122,42 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 				json.Append( " \"success\": false," );
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
-			json.AppendFormat( " \"data\": {0}", usuariosToJson(usuarios) );
+			json.AppendFormat( " \"data\": {0}", usuariosToJson( usuarios ) );
 			json.Append( "}" );
-			
+
 			return json.ToString();
 		}
 
 		private String destroyUsuarios( String records ) {
 			List<Usuario> usuarios = jsonToUsuarios( records );
-			StringBuilder json = new StringBuilder();
-			List<Erro> erros = GerenciadorDeUsuarios.excluir( usuarios );
+			List<Erro> erros = new List<Erro>();
 
+			Usuario usuarioLogado = (Usuario) thisContext.Session["usuario"];
+			foreach( Usuario usuTemp in usuarios ) {
+				if( usuTemp.codigo == usuarioLogado.codigo ) {
+					usuarioLogado = usuTemp;
+					erros.Add( new Erro( 0, "O usu&aacute;rio <b>" + usuTemp.nome + "</b> n&atilde;o pode ser exclu&iacute;do",
+						"Para excluir este usu&aacute;rio, &eacute; preciso estar logado com outro usu&aacute;rio." ) );
+				}
+			}
+			// retira o usuario logado da lista de usuarios para excluir
+			usuarios.Remove( usuarioLogado );
+
+			erros.AddRange( GerenciadorDeUsuarios.excluir( usuarios ) );
+
+			StringBuilder json = new StringBuilder();
 			formatarSaida( ref usuarios );
 			json.Append( "{" );
 			json.AppendFormat( " \"total\": {0}, ", usuarios.Count );
 			if( erros.Count == 0 ) {
 				json.Append( " \"success\": true," );
-				json.Append( " \"message\": [\"Dados excluidos com sucesso\"]," );
+				json.Append( " \"message\": [\"Dados exclu&iacute;dos com sucesso\"]," );
 			} else {
 				json.Append( " \"success\": false," );
 				Compartilhado.construirParteDoJsonMensagensDeErros( ref json, erros );
 			}
 			json.Append( " \"data\": [] }" );
-			
+
 			return json.ToString();
 		}
 
@@ -155,7 +171,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.usuario
 			return json.ToString();
 		}
 
-		public static String usuariosToJson(List<Usuario> usuarios ) {
+		public static String usuariosToJson( List<Usuario> usuarios ) {
 			StringBuilder json = new StringBuilder();
 
 			json.Append( "[" );

@@ -75,7 +75,6 @@ Ext.define('App.controller.enderecos.EstadosController', {
                     estadoView.grid.getStore().remove(sm.getSelection());
                     estadoView.grid.getStore().sync();
                     estadoView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O estado selecionado foi excluido');
                     if (estadoView.grid.getStore().getCount() > 0) {
                         sm.select(0);
                     }

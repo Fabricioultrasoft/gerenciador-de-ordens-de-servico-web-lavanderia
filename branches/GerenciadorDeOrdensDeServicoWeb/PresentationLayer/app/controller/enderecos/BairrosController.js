@@ -83,7 +83,6 @@ Ext.define('App.controller.enderecos.BairrosController', {
                     bairrosView.grid.getStore().remove(sm.getSelection());
                     bairrosView.grid.getStore().sync();
                     bairrosView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O Bairro selecionado foi excluido');
                     if (bairrosView.grid.getStore().getCount() > 0) {
                         sm.select(0);
                     }

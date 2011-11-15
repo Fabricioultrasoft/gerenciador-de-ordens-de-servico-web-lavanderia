@@ -13,7 +13,7 @@ Ext.define('App.view.usuarios.UsuariosAddView', {
             var usuariosPanel = this.createPanel(options);
             win = desktop.createWindow({
                 id: 'win-usuarios-add',
-                title: 'Adicionar Novo Usuario',
+                title: 'Adicionar Novo Usuário',
                 width: 300,
                 height: 170,
                 iconCls: 'user-add',
@@ -54,7 +54,7 @@ Ext.define('App.view.usuarios.UsuariosAddView', {
             layout: 'fit',
             items: [form],
             buttonAlign: 'center',
-            buttons: [{ text: 'Adicionar Usuario', itemId: 'btn-add-usuario', iconCls: 'user-add', padding: '10', scope: this}]
+            buttons: [{ text: 'Adicionar Usu&aacute;rio', itemId: 'btn-add-usuario', iconCls: 'user-add', padding: '10', scope: this}]
         });
         this.mainPanel = mainPanel;
 

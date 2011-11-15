@@ -141,11 +141,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach( Pais pais in paises ) {
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@cod_pais", MySqlDbType.UInt32 ).Value = pais.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir o país: " + pais.nome, "Tente excluí-lo novamente" ) );
+				try {
+					cmd.Parameters.Add( "@cod_pais", MySqlDbType.UInt32 ).Value = pais.codigo;
+					if( cmd.ExecuteNonQuery() <= 0 ) {
+						erros.Add( new Erro( 0, "Não foi possível excluir o país: " + pais.nome, "Tente excluí-lo novamente" ) );
+					}
+				} catch( MySqlException ex ) {
+					if( ex.Number == (int) MySqlErrorCode.RowIsReferenced2 ) {
+						erros.Add( new Erro( ex.Number, "N&atilde;o foi poss&iacute;vel excluir o pa&iacute;s: " + pais.nome +", ele est&aacute; sendo usado por um <i>Estado</i>",
+							"Exclua ou altere todos os Estados que fazem uso deste <i>Pa&iacute;s</i> para que ele possa ser exclu&iacute;do" ) );
+					}
+				} finally {
+					cmd.Dispose();
 				}
-				cmd.Dispose();
 			}
 			// fecha a conexao e libera recursos
 			conn.Close(); conn.Dispose();

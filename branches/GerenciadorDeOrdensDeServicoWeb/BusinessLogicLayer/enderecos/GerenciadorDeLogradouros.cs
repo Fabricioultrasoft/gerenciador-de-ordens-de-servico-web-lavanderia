@@ -19,73 +19,65 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.enderecos {
 		}
 
 		public static List<Erro> preencher( out List<Logradouro> logradouros, UInt32 start, UInt32 limit, UInt32 codigoBairro ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
 				logradouros = MySqlLogradourosDao.getLogradouros( start, limit, codigoBairro );
 			} catch( MySqlException ex ) {
 				// se houver um erro, preenche uma lista vazia
 				logradouros = new List<Logradouro>();
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> cadastrar( ref List<Logradouro> logradouros ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlLogradourosDao.inserir( ref logradouros ) );
+				erros.AddRange( MySqlLogradourosDao.inserir( ref logradouros ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> atualizar( List<Logradouro> logradouros ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlLogradourosDao.atualizar( logradouros ) );
+				erros.AddRange( MySqlLogradourosDao.atualizar( logradouros ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 
 		public static List<Erro> excluir( List<Logradouro> logradouros ) {
-			List<Erro> listaDeErros = new List<Erro>();
+			List<Erro> erros = new List<Erro>();
 			try {
-				listaDeErros.AddRange( MySqlLogradourosDao.excluir( logradouros ) );
+				erros.AddRange( MySqlLogradourosDao.excluir( logradouros ) );
 			} catch( MySqlException ex ) {
 
-				if( ex.Number == 1042 ) {
-					listaDeErros.Add( new Erro( 1042 ) );
+				if( ex.Number == (int) MySqlErrorCode.UnableToConnectToHost ) {
+					erros.Add( new Erro( ex.Number ) );
 				} else {
-					Erro erro = new Erro( 0 );
-					erro.mensagem = ex.Message;
-					listaDeErros.Add( erro );
+					erros.Add( new Erro( ex.Number, ex.Message ) );
 				}
 			}
-			return listaDeErros;
+			return erros;
 		}
 	}
 }

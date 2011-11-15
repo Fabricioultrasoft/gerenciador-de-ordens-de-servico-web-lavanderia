@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MySql.Data.MySqlClient;
 
 namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects {
 	public class Erro {
@@ -16,19 +17,13 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects {
 			_solucao = String.Empty;
 		}
 
-		public Erro(int number, String message, String solution){
-			numeroDoErro = number;
-			_mensagem = message;
-			_solucao = solution;
-		}
-
 		public Erro( int number ) {
 			numeroDoErro = number;
 
 			switch( number ) {
-				case 1042:
+				case (int) MySqlErrorCode.UnableToConnectToHost: //1042
 					_mensagem = "Não foi possivel estabelecer uma conexão com o banco de dados";
-					_solucao = "Verifique se o banco de dados encontra-se em execução" ;
+					_solucao = "Verifique se o banco de dados encontra-se em execução";
 					break;
 
 				case 0:
@@ -41,6 +36,18 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataTransferObjects {
 					_solucao = "Não definido";
 					break;
 			}
+		}
+
+		public Erro( int number, String message ) {
+			numeroDoErro = number;
+			_mensagem = message;
+			_solucao = "Contate o Fornecedor";
+		}
+
+		public Erro(int number, String message, String solution){
+			numeroDoErro = number;
+			_mensagem = message;
+			_solucao = solution;
 		}
 
 		public int numeroDoErro {

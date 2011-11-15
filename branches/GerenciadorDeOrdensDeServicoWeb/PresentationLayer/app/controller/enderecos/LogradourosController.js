@@ -89,7 +89,6 @@ Ext.define('App.controller.enderecos.LogradourosController', {
                     grid.getStore().remove(sm.getSelection());
                     grid.getStore().sync();
                     grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O Logradouro selecionado foi excluido');
                     if (grid.getStore().getCount() > 0) {
                         sm.select(0);
                     }

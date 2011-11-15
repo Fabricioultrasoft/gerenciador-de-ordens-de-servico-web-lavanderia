@@ -145,11 +145,19 @@ namespace GerenciadorDeOrdensDeServicoWeb.DataAccessLayer.DataAccessObjects.MySq
 
 			foreach( Bairro bairro in bairros ) {
 				MySqlCommand cmd = new MySqlCommand( sql, conn );
-				cmd.Parameters.Add( "@cod_bairro", MySqlDbType.UInt32 ).Value = bairro.codigo;
-				if( cmd.ExecuteNonQuery() <= 0 ) {
-					erros.Add( new Erro( 0, "Não foi possível excluir o bairro: " + bairro.nome, "Tente excluí-lo novamente" ) );
+				try {
+					cmd.Parameters.Add( "@cod_bairro", MySqlDbType.UInt32 ).Value = bairro.codigo;
+					if( cmd.ExecuteNonQuery() <= 0 ) {
+						erros.Add( new Erro( 0, "Não foi possível excluir o bairro: " + bairro.nome, "Tente excluí-lo novamente" ) );
+					}
+				} catch( MySqlException ex ) {
+					if( ex.Number == (int) MySqlErrorCode.RowIsReferenced2 ) {
+						erros.Add( new Erro( ex.Number, "N&atilde;o foi poss&iacute;vel excluir o bairro: " + bairro.nome + ", ele est&aacute; sendo usado por um <i>Logradouro</i>",
+							"Exclua ou altere todos os Logradouros que fazem uso deste <i>Bairro</i> para que ele possa ser exclu&iacute;do" ) );
+					}
+				} finally {
+					cmd.Dispose();
 				}
-				cmd.Dispose();
 			}
 			// fecha a conexao e libera recursos
 			conn.Close(); conn.Dispose();

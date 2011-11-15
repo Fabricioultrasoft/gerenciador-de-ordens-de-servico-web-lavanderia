@@ -80,7 +80,6 @@ Ext.define('App.controller.enderecos.CidadesController', {
                     cidadesView.grid.getStore().remove(sm.getSelection());
                     cidadesView.grid.getStore().sync();
                     cidadesView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'A cidade selecionada foi excluida');
                     if (cidadesView.grid.getStore().getCount() > 0) {
                         sm.select(0);
                     }

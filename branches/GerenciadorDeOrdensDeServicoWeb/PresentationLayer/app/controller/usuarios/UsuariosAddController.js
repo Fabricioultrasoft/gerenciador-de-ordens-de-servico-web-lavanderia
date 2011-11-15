@@ -51,7 +51,7 @@ Ext.define('App.controller.usuarios.UsuariosAddController', {
             r.save({
                 success: function(ed) {
                     btn.up('window').close();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Usuario cadastrado!');
+                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'Usu&aacute;rio cadastrado!');
                 },
                 failure: function(record, operation) {
                     btn.scope.mainPanel.setLoading( false, true );

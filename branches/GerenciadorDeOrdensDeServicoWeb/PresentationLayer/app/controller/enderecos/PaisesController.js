@@ -61,7 +61,6 @@ Ext.define('App.controller.enderecos.PaisesController', {
                     paisesView.grid.getStore().remove(sm.getSelection());
                     paisesView.grid.getStore().sync();
                     paisesView.grid.getDockedItems( 'pagingtoolbar' )[0].doRefresh();
-                    Ext.notification.msg('A&ccedil;&atilde;o Conclu&iacute;da', 'O pa&iacute;s selecionado foi excluido');
                     if (paisesView.grid.getStore().getCount() > 0) {
                         sm.select(0);
                     }

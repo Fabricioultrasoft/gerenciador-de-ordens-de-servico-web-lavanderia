@@ -81,7 +81,7 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.ordensD
 				}
 				erros.AddRange( GerenciadorDeOrdensDeServico.cadastrar( ref ordensDeServico ));
 			} catch {
-				erros.Add(new Erro(0,"Os dados do usuario não foram encontrados na sessão do servidor",
+				erros.Add( new Erro( 0, "Os dados do usu&aacute;rio não foram encontrados na sessão do servidor",
 					"Tente sair da aplicação e entrar novamente, se o erro persistir, contate o administrador do sistema."));
 			}
 
