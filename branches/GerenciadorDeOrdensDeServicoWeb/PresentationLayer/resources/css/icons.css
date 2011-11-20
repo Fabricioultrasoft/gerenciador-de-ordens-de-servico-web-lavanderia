@@ -73,6 +73,7 @@
 .itens-edit{ background-image:url("/PresentationLayer/resources/images/itens-edit.png") !important; }
 .report{ background-image:url("/PresentationLayer/resources/images/report.png") !important; }
 .picture{ background-image:url("/PresentationLayer/resources/images/picture.png") !important; }
+.help{ background-image:url("/PresentationLayer/resources/images/help.png") !important; }
 .txt{ background-image:url("/PresentationLayer/resources/images/txt.png") !important; height: 20px !important; width: 20px !important; }
 .xls{ background-image:url("/PresentationLayer/resources/images/xls.png") !important; height: 20px !important; width: 20px !important; }
 .pdf{ background-image:url("/PresentationLayer/resources/images/pdf.png") !important; height: 20px !important; width: 20px !important; }

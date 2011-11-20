@@ -32,7 +32,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
         'App.view.ordensDeServico.ItensView',
         'App.view.relatorios.RelatoriosView',
         'App.view.relatorios.Clientes',
-        'App.view.relatorios.OrdensDeServico'
+        'App.view.relatorios.OrdensDeServico',
+        'App.view.ajuda.AjudaView'
     ],
 
     init: function () {
@@ -69,7 +70,8 @@ Ext.define('App.webDesktop.MyAppWebDesktop', {
             new App.view.relatorios.Clientes(),
             new App.view.relatorios.OrdensDeServico(),
             new App.view.clientes.TiposDeClientesView(),
-            new App.view.tapetes.TapetesView()
+            new App.view.tapetes.TapetesView(),
+            new App.view.ajuda.AjudaView()
         ];
     },
 

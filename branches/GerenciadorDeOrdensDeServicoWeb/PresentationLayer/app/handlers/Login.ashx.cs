@@ -20,19 +20,24 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers {
 			usuario.nome = context.Request.Form["nome"];
 			usuario.senha = context.Request.Form["senha"];
 
-			if( GerenciadorDeUsuarios.autenticar( ref usuario ) ) {
-				FormsAuthentication.SetAuthCookie( usuario.nome, false );
-				
-				// adiciona o usuariologado na sessao do servidor
-				context.Session["usuario"] = usuario;
+			try {
+				if( GerenciadorDeUsuarios.autenticar( ref usuario ) ) {
+					FormsAuthentication.SetAuthCookie( usuario.nome, false );
 
-				HttpCookie nomeUsuarioCookie = new HttpCookie( "nomeUsuario", usuario.nome );
-				nomeUsuarioCookie.Expires = DateTime.MinValue;
-				context.Response.Cookies.Add( nomeUsuarioCookie );
+					// adiciona o usuariologado na sessao do servidor
+					context.Session["usuario"] = usuario;
 
-				response = "{ success:true, redirect:'/PresentationLayer/index.html' }";
-			} else {
-				response = "{ success:false, message:'nome e senha incorretos' }";
+					HttpCookie nomeUsuarioCookie = new HttpCookie( "nomeUsuario", usuario.nome );
+					nomeUsuarioCookie.Expires = DateTime.MinValue;
+					context.Response.Cookies.Add( nomeUsuarioCookie );
+
+					response = "{ success:true, redirect:'/PresentationLayer/index.html' }";
+				} else {
+					response = "{ success:false, message:'nome e senha incorretos' }";
+				}
+			} catch {
+				response = "{ success:false, message:'N&atilde;o foi poss&iacute;vel estabelecer a conex&atilde;o com o servidor de banco de dados,"
+					+" verifique se o servidor de banco de dados encontra-se em execu&ccedil;&atilde;o!' }";
 			}
 
 			context.Response.ContentType = "application/json";
