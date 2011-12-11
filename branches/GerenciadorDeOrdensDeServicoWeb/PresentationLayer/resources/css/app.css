@@ -75,6 +75,7 @@
 {
     border: none !important;
     font: inherit !important;
+    font-size: 10px !important;
 }
 
 #tdImg { width: 110px; }

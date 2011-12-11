@@ -101,7 +101,6 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			long qtdRegistros = GerenciadorDeClientes.count( filters );
 			StringBuilder json = new StringBuilder();
 
-			formatarSaida( ref clientes );
 			json.Append( "{" );
 			json.AppendFormat( " \"total\": {0}, ", qtdRegistros );
 			if( erros.Count == 0 ) {
@@ -163,6 +162,8 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 
 		public static String clienteToJson( Cliente cliente ) {
 			StringBuilder json = new StringBuilder();
+
+			formatarSaida( ref cliente );
 
 			json.Append( "{" );
 			construirParteDoJsonDadosPrimarios( ref json, cliente );
@@ -340,6 +341,10 @@ namespace GerenciadorDeOrdensDeServicoWeb.PresentationLayer.app.handlers.cliente
 			for( int i = 0; i < clientes.Count; i++ ) {
 				Compartilhado.tratarCaracteresEspeciais<Cliente>( clientes[i] );
 			}
+		}
+
+		public static void formatarSaida( ref Cliente cliente ) {
+			Compartilhado.tratarCaracteresEspeciais<Cliente>( cliente );
 		}
 
 		public bool IsReusable {
