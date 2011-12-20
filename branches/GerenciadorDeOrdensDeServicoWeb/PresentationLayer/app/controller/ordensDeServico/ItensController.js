@@ -183,8 +183,13 @@ Ext.define('App.controller.ordensDeServico.ItensController', {
 
         var values = btn.scope.formServicos.getValues();
         var store = btn.scope.servicosEspecificosStore;
-        var servico = store.getAt(store.find('codigo', values.codigoServico )).data;
-        
+
+        // essa instrução esta com erro na API do Ext4
+        //var servico = store.getAt(store.find('codigo', values.codigoServico )).data;
+        var servico = null;
+        store.each(function(el,index,total){
+            if( values.codigoServico == el.get('codigo')) { servico = el.data; }
+        }, store);
         
         if(btn.scope.optionsServicoPanel.edit) {
 

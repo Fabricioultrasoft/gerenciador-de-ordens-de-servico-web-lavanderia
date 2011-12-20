@@ -38,12 +38,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 					}
 
 					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero ) ) {
-						erros.Add( erros[1] );
+						erros.Add( getDicErros()[1] );
 					}
 						// SE Status diferente de "Aberto"
 						// ENTAO nao pode atualizar OS
 					else if( os.status.codigo != 1 ) {
-						erros.Add( erros[2] );
+						erros.Add( getDicErros()[2] );
 					}
 				}
 
@@ -136,12 +136,12 @@ namespace GerenciadorDeOrdensDeServicoWeb.BusinessLogicLayer.ordensDeServico {
 				foreach( OrdemDeServico os in ordensDeServico ) {
 
 					if( MySqlOrdensDeServicoDao.numeroJaExiste( os.numero, os.codigo ) ) {
-						erros.Add( erros[1] );
+						erros.Add( getDicErros()[1] );
 					}
 						// SE Status diferente de "Aberto"
 						// ENTAO nao pode atualizar OS
 					else if( MySqlOrdensDeServicoDao.getStatus( os.codigo ).codigo != 1 ) {
-						erros.Add( erros[2] );
+						erros.Add( getDicErros()[2] );
 					}
 				}
 
