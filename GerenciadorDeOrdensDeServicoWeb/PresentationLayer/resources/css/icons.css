@@ -1,0 +1,88 @@
+﻿
+.location-thumb { background-image: url("../images/location-thumb.png") !important; }
+.fav { background-image: url("../images/favicon.png") !important; }
+.cifrao-thumb {background-image: url("../images/cifrao-thumb.png") !important;}
+.user-silhouette { background-image: url("../images/user-silhouette.png") !important; }
+.user-add { background-image: url("../images/user-add.png") !important; }
+.user-del { background-image: url("../images/user-del.png") !important; }
+.user-edit { background-image: url("../images/user-edit.png") !important; }
+.user-search { background-image: url("../images/user-search.png") !important; }
+.btn-add {background-image: url("../images/btn-add.png") !important;}
+.btn-del {background-image: url("../images/btn-del.png") !important;}
+.add-thumb {background-image: url("../images/add-thumb.png") !important;}
+.del-thumb {background-image: url("../images/del-thumb.png") !important;}
+.logout {background-image: url("../images/logout.png") !important;}
+.settings {background-image: url("../images/settings.png") !important;}
+.btn-limpar {background-image: url("../images/btn-limpar.png") !important;}
+.btn-detalhes {background-image: url("../images/btn-detalhes.gif") !important;}
+.save {background-image: url("../images/save.png") !important;}
+.save-add {background-image: url("../images/save-add.png") !important;}
+.save-edit {background-image: url("../images/save-edit.png") !important;}
+.talk {background-image: url("../images/talk.png") !important;}
+.tapete {background-image: url("../images/tapete.png") !important;}
+.tapete-thumb {background-image: url("../images/tapete-thumb.png") !important;}
+.tapete-estrela-thumb {background-image: url("../images/tapete-estrela-thumb.png") !important;}
+.clientes-thumb {background-image: url("../images/clientes-thumb.png") !important;}
+.clientes {background-image: url("../images/clientes.png") !important;}
+.clientes-add {background-image: url("../images/clientes-add.png") !important;}
+.clientes-add-thumb {background-image: url("../images/clientes-add-thumb.png") !important;}
+.clientes-del-thumb {background-image: url("../images/clientes-del-thumb.png") !important;}
+.clientes-edit {background-image: url("../images/clientes-edit.png") !important;}
+.clientes-edit-thumb {background-image: url("../images/clientes-edit-thumb.png") !important;}
+.clientes-search {background-image: url("../images/clientes-search.png") !important;}
+.clientes-search-thumb {background-image: url("../images/clientes-search-thumb.png") !important;}
+.clientes-dados {background-image: url("../images/clientes-dados.png") !important;}
+.clientes-tipos {background-image: url("../images/clientes-tipos.png") !important;}
+.clientes-tipos-add {background-image: url("../images/clientes-tipos-add.png") !important;}
+.clientes-tipos-del {background-image: url("../images/clientes-tipos-del.png") !important;}
+.clientes-tipos-edit {background-image: url("../images/clientes-tipos-edit.png") !important;}
+.clientes-tipos-search {background-image: url("../images/clientes-tipos-search.png") !important;}
+.filtro {background-image: url("../images/filtro.png") !important;}
+.search {background-image: url("../images/search.png") !important;}
+.link-add {background-image: url("../images/link-add.png") !important;}
+.edit {background-image: url("../images/edit.png") !important;}
+.confirm {background-image: url("../images/confirm.png") !important;}
+.cancel {background-image: url("../images/cancel.png") !important;}
+.servicos {background-image: url("../images/servicos.png") !important;}
+.servicos-thumb {background-image: url("../images/servicos-thumb.png") !important;}
+.servicos-search {background-image: url("../images/servicos-search.png") !important;}
+.servicos-search-thumb {background-image: url("../images/servicos-search-thumb.png") !important;}
+.servicos-add {background-image: url("../images/servicos-add.png") !important;}
+.servicos-add-thumb {background-image: url("../images/servicos-add-thumb.png") !important;}
+.servicos-del-thumb {background-image: url("../images/servicos-del-thumb.png") !important;}
+.servicos-edit-thumb {background-image: url("../images/servicos-edit-thumb.png") !important;}
+.dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
+.dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}
+.favorite {background-image: url("../images/favorite.png") !important;}
+.favorite-add {background-image: url("../images/favorite-add.png") !important;}
+.favorite-del {background-image: url("../images/favorite-del.png") !important;}
+.toggle-expand {background-image: url("../images/toggle-expand.png") !important;}
+.toggle-collapse {background-image: url("../images/toggle-collapse.png") !important;}
+.lock{ background-image:url("/PresentationLayer/resources/images/lock.png") !important; }
+.app-go{ background-image:url("/PresentationLayer/resources/images/app-go.png") !important; }
+.lupa{ background-image:url("/PresentationLayer/resources/images/lupa.png") !important; }
+.concluido{ background-image:url("/PresentationLayer/resources/images/concluido.png") !important; }
+.ordens-de-servico{ background-image:url("/PresentationLayer/resources/images/ordens-de-servico.png") !important; }
+.os-thumb{ background-image:url("/PresentationLayer/resources/images/os-thumb.png") !important; }
+.os-add{ background-image:url("/PresentationLayer/resources/images/os-add.png") !important; }
+.os-del{ background-image:url("/PresentationLayer/resources/images/os-del.png") !important; }
+.os-search{ background-image:url("/PresentationLayer/resources/images/os-search.png") !important; }
+.itens{ background-image:url("/PresentationLayer/resources/images/itens.png") !important; }
+.itens-add{ background-image:url("/PresentationLayer/resources/images/itens-add.png") !important; }
+.itens-del{ background-image:url("/PresentationLayer/resources/images/itens-del.png") !important; }
+.itens-edit{ background-image:url("/PresentationLayer/resources/images/itens-edit.png") !important; }
+.report{ background-image:url("/PresentationLayer/resources/images/report.png") !important; }
+.picture{ background-image:url("/PresentationLayer/resources/images/picture.png") !important; }
+.help{ background-image:url("/PresentationLayer/resources/images/help.png") !important; }
+.txt{ background-image:url("/PresentationLayer/resources/images/txt.png") !important; height: 20px !important; width: 20px !important; }
+.xls{ background-image:url("/PresentationLayer/resources/images/xls.png") !important; height: 20px !important; width: 20px !important; }
+.pdf{ background-image:url("/PresentationLayer/resources/images/pdf.png") !important; height: 20px !important; width: 20px !important; }
+
+.x-action-col-cell img.act-dinheiro-add {background-image: url("../images/dinheiro-add.png") !important;}
+.x-action-col-cell img.act-dinheiro-del {background-image: url("../images/dinheiro-del.png") !important;}
+.x-action-col-cell img.act-edit {background-image: url("../images/edit.png") !important;}
+
+.x-ie6 .x-action-col-cell img.act-dinheiro-add { background-image: url("../images/dinheiro-add.png") !important; }
+.x-ie6.x-action-col-cell img.act-dinheiro-del { background-image: url("../images/dinheiro-del.png") !important; }
+.x-ie6.x-action-col-cell img.act-edit { background-image: url("../images/edit.png") !important; }
+

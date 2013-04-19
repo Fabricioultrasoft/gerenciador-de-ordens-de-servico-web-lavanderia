@@ -1,0 +1,205 @@
+<html>
+
+<head>
+<title>SISTEMA GERENCIADOR DE LAVAGEM E RESTAURA&Ccedil;&Atilde;O DE TAPETES</title>
+<style>
+/* fazendo a estilizacao visual via CSS */
+ li { list-style: square }
+ .aberto{ display:block; }
+ .paiaberto{ list-style: circle; list-style-image: url(folderopen.gif);  }
+ /* espacamento pro IE */
+ * html .paiaberto { padding-left: 5px; }
+
+ .fechado{ display:none; border: 1px solid  gray }
+ .paifechado{ list-style: disc; list-style-image: url(folderclosed.gif);  }
+ /* espacamento pro IE */
+ * html .paifechado { padding-left: 7px;}
+</style>
+<script>
+/* atalho para o getElementById */
+function ge(q){ return document.getElementById(q)}
+
+function Menu(evt,id) {  
+/* funcao que muda a classe CSS dos elementos da lista
+   de forma a abrir e fechar a arvore */
+    if(typeof(evt)=='undefined')var evt=window.event
+
+    //pegando o li pai do link
+    var lipai = id.parentNode;
+    //pegando o primeiro ul
+    var ulfilho = id.parentNode.getElementsByTagName ("ul")[0];
+    
+    if(ulfilho.className.indexOf('aberto')<0 && ulfilho.className.indexOf('fechado')<0){
+        //definindo um estado inicial caso nao haja
+        ulfilho.className = ulfilho.className + " aberto";
+    }
+    if(lipai.className.indexOf('paiaberto')<0 && lipai.className.indexOf('paifechado')<0){
+        //definindo um estado inicial caso nao haja
+        lipai.className = lipai.className + " paiaberto";
+    }
+    //fazendo a troca
+    if(ulfilho.className.indexOf('aberto')>-1){
+      ulfilho.className = ulfilho.className.replace("aberto","fechado");
+    }else{
+      ulfilho.className = ulfilho.className.replace("fechado","aberto");
+    }
+    //mudando a imagem do li pai
+    if(lipai.className.indexOf('paiaberto')>-1){
+      lipai.className = lipai.className.replace("paiaberto","paifechado");
+    }else{
+      lipai.className = lipai.className.replace("paifechado","paiaberto");
+    }
+    if(typeof(evt.preventDefault)=='undefined'){
+        evt.returnValue = false;
+    }else{ evt.preventDefault() }
+
+    return false;
+}
+function ativaMenus(ul_pai){
+/* funcao que ativa os menus */
+ if(ul_pai.constructor == String) ul_pai = ge(ul_pai)
+ //ativando os cliques
+ var links = ul_pai.getElementsByTagName("a");
+ for (var i=0; i < links.length ; i++){
+  //vendo se é link que est&aacute; dentro de um li com filhos
+  if(links[i].parentNode.getElementsByTagName("ul").length>0){
+   links[i].onclick = function(ev){ Menu(ev,this) }
+  }
+ } 
+ //fechando todos os li
+    var lis = ul_pai.getElementsByTagName("li");
+    for (var i=0; i < lis.length ; i++){ if(lis[i].getElementsByTagName("ul").length>0){
+  lis[i].className += " paifechado";  //fechando todos inicialmente     
+    }}
+    //fechando todos os ul inicialment
+    var uls = ul_pai.getElementsByTagName("ul");
+    for (var i=0; i < uls.length ; i++){
+        uls[i].className += " fechado";
+    }
+}
+//abaixo eu chamo a funcao pra ativar os menus, passando como parametro o ID do ul que é pai dos menus.
+window.onload = function() { ativaMenus('menuteste') }
+</script>
+<base target="principal">
+</head>
+<body><font size="2" face="Calibri" >
+
+<p style="text-align: center;"><b><font size="5">Menu</font></b></p>
+
+<ul id="menuteste">
+      <li><a href="#">Tela inicial do sistema</a>
+	  	<ul>
+	  		<li><a href="page002.html">Sobre</a></li>
+	  		<li><a href="page003.html">Organizar janelas do sistema</a></li>
+	  		<li><a href="page004.html">Funcionalidades padr&atilde;o do sistema</a></li>
+	  		<li><a href="page005.html">Alterar Caracter&iacute;sticas</a></li>
+	  		<li><a href="page006.html">Finalizando o sistema</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de usu&aacute;rios do sistema</a>
+	  	<ul>
+	  		<li><a href="page008.html">Sobre</a></li>
+	  		<li><a href="page009.html">Adicionar novo usu&aacute;rio</a></li>
+	  		<li><a href="page010.html">Editar usu&aacute;rio existente</a></li>
+	  		<li><a href="page011.html">Remover usu&aacute;rio</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de tipos de logradouros</a>
+	  	<ul>
+	  		<li><a href="page012.html">Sobre</a></li>
+	  		<li><a href="page013.html">Adicionar novo tipo de logradouro</a></li>
+	  		<li><a href="page014.html">Editar tipo de logradouro existente</a></li>
+	  		<li><a href="page015.html">Remover tipo de logradouros</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de pa&iacute;ses</a>
+	  	<ul>
+	  		<li><a href="page016.html">Sobre</a></li>
+	  		<li><a href="page017.html">Adicionar novo pa&iacute;s</a></li>
+	  		<li><a href="page018.html">Editar pa&iacute;s existente</a></li>
+	  		<li><a href="page019.html">Remover pa&iacute;s</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de estados</a>
+	  	<ul>
+	  		<li><a href="page020.html">Sobre</a></li>
+	  		<li><a href="page021.html">Adicionar novo estado</a></li>
+	  		<li><a href="page022.html">Editar estado existente</a></li>
+	  		<li><a href="page023.html">Remover estado</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de cidades</a>
+	  	<ul>
+	  		<li><a href="page024.html">Sobre</a></li>
+	  		<li><a href="page025.html">Adicionar nova cidade</a></li>
+	  		<li><a href="page026.html">Editar cidade existente</a></li>
+	  		<li><a href="page027.html">Remover cidade</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de bairros</a>
+	  	<ul>
+	  		<li><a href="page028.html">Sobre</a></li>
+	  		<li><a href="page029.html">Adicionar novo bairro</a></li>
+	  		<li><a href="page030.html">Editar bairro existente</a></li>
+	  		<li><a href="page031.html">Remover bairro</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de logradouros</a>
+	  	<ul>
+	  		<li><a href="page032.html">Sobre</a></li>
+	  		<li><a href="page033.html">Adicionar novo logradouro</a></li>
+	  		<li><a href="page034.html">Editar logradouro existente</a></li>
+	  		<li><a href="page035.html">Remover logradouro</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de tapetes</a>
+	  	<ul>
+	  		<li><a href="page036.html">Sobre</a></li>
+	  		<li><a href="page037.html">Adicionar novo tapete</a></li>
+	  		<li><a href="page038.html">Editar tapete existente</a></li>
+	  		<li><a href="page039.html">Remover tapete</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de cadastro de tipos de clientes</a>
+	  	<ul>
+	  		<li><a href="page040.html">Sobre</a></li>
+	  		<li><a href="page041.html">Adicionar novo tipo de cliente</a></li>
+	  		<li><a href="page042.html">Editar tipo de cliente existente</a></li>
+	  		<li><a href="page043.html">Remover tipo de cliente</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de consultar servi&ccedil;o</a>
+	  	<ul>
+	  		<li><a href="page044.html">Sobre</a></li>
+	  		<li><a href="page045.html">Adicionar servi&ccedil;o</a></li>
+	  		<li><a href="page046.html">Editar servi&ccedil;o</a></li>
+	  		<li><a href="page047.html">Remover servi&ccedil;o</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de consultar clientes</a>
+	  	<ul>
+	  		<li><a href="page048.html">Sobre</a></li>
+	  		<li><a href="page049.html">Filtro de cliente</a></li>
+	  		<li><a href="page050.html">Adicionar novo cliente</a></li>
+	  		<li><a href="page051.html">Editar clientes</a></li>
+	  		<li><a href="page052.html">Remover clientes</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="#">Tela de consultar ordem de servi&ccedil;o</a>
+	  	<ul>
+	  		<li><a href="page053.html">Sobre</a></li>
+	  		<li><a href="page054.html">Filtro de ordens de servi&ccedil;o</a></li>
+	  		<li><a href="page055.html">Adicionar nova ordem de servi&ccedil;o</a></li>
+	  		<li><a href="page056.html">Editar ordem de servi&ccedil;o</a></li>
+	  		<li><a href="page057.html">Remover ordem de servi&ccedil;o</a></li>
+	  		<li><a href="page058.html">Visualizar ordem de servi&ccedil;o</a></li>
+	  		<li><a href="page059.html">Finalizar ordem de servi&ccedil;o</a></li>
+	  		<li><a href="page060.html">Cancelar ordem de servi&ccedil;o</a></li>
+	  	</ul>
+	  </li>
+      <li><a href="page061.html">Tela de relat&oacute;rios</a></li>
+      <li><a href="page007.html">Configura&ccedil;&otilde;es m&iacute;nimas do sistema</a></li>
+    </ul>
+</body>
+
+</html>

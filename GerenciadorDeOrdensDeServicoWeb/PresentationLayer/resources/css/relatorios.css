@@ -1,0 +1,19 @@
+﻿* { font-family: Arial, Helvetica, sans-serif; margin: 0px; padding: 0px; }
+a{ color:#069; text-decoration: none;}
+body { }
+h1, h2, h3, p { margin-bottom: 2ex;  clear: both;}
+h1{ font-size: 20px; padding-top: 16px;}
+img{ float: left; padding: 0px 10px 0px 0px;}
+p{ margin-bottom: 16px;}
+p.dados_imobiliaria{ height: 60px;} 
+table, div, body, p, form {   font-size: 11px; clear: both;}
+form{ background: #DDD; border-bottom: 2px solid #666; padding: 10px; }
+form fieldset{ border: none; }
+form fieldset legend{ display: none; }
+form fieldset label{ float: left; height: 40px; padding-right: 10px;}
+table { border-collapse: collapse; width: 100%;  }
+table caption{ font-size: 10px; text-align:right;}
+
+table tr td, table tr th { border: 1px #CCCCCC solid; border-bottom: 1px solid #000; border-top: 1px solid #000; padding: 2px; color: #000000; font-size: 10px; }
+table tr th{ text-align: left; text-transform: uppercase; font-size: 11px;}
+table tr.alternate *{}
