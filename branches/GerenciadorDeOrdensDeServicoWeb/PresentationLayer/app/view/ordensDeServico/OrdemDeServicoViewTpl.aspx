@@ -69,10 +69,10 @@
                     <td id="tdImg"><img src="/PresentationLayer/resources/images/gabbeh.jpg" alt="Gabbeh" /></td>
                     <td>
                         <p id="infoContato" >
-                            Rua Cel. Francisco Andrade Coutinho, 132<br />
-                            Cambu&iacute; - Campinas - SP<br />
-                            e-mail: gabbeh@uol.com.br<br />
-                            <span class="bold">Fone (19) 3294-6711 / 3294-2495 - Fax: 3294-8786</span>    
+                            Rua Cel. Tal de tal E mais, XXX<br />
+                            Bairro - Cidade - SP<br />
+                            e-mail: lavanderia@uol.com.br<br />
+                            <span class="bold">Fone (19) 3294-XXXX / 3294-XXXX - Fax: 3294-XXXX</span>    
                         </p>
                     </td>
                 </tr></tbody></table>
