@@ -1,0 +1,1 @@
+Este projeto tem como finalidade a conclusão de um trabalho de curso onde o cliente base é uma lavanderia de tapetes e o software está adaptado para a suas regras de negócio, contudo, ele é uma grande fonte de aprendizado nas tecnologias DotNet-3.5 e ExtJS-4.0
